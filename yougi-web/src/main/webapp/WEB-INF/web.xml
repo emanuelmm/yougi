@@ -101,6 +101,14 @@
       <web-resource-name>admins</web-resource-name>
       <description></description>
       <url-pattern>/admin/*</url-pattern>
+      <url-pattern>/event/event_form.xhtml</url-pattern>
+      <url-pattern>/event/event_venue_form.xhtml</url-pattern>
+      <url-pattern>/event/room_form.xhtml</url-pattern>
+      <url-pattern>/event/session_form.xhtml</url-pattern>
+      <url-pattern>/event/speaker_form.xhtml</url-pattern>
+      <url-pattern>/event/sponsor_form.xhtml</url-pattern>
+      <url-pattern>/event/track_form.xhtml</url-pattern>
+      <url-pattern>/event/venue_form.xhtml</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -127,6 +135,8 @@
       <web-resource-name>members</web-resource-name>
       <description></description>
       <url-pattern>/profile/*</url-pattern>
+      <url-pattern>/event/attendee.xhtml</url-pattern>
+      <url-pattern>/event/attendee_cancel.xhtml</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

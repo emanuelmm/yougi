@@ -439,7 +439,7 @@ public class UserAccount implements Serializable, Identified {
      */
     public void defineNewConfirmationCode() {
         UUID uuid = UUID.randomUUID();
-        this.confirmationCode = uuid.toString().replaceAll("-", "");
+        this.confirmationCode = uuid.toString().replaceAll("-", "").toUpperCase();
     }
 
     /**

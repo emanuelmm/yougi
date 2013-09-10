@@ -492,17 +492,12 @@ public class UserAccountBean {
     public void requestConfirmationPasswordChange(String username, String serverAddress) {
         UserAccount userAccount = findUserAccountByUsername(username);
 
-        ApplicationProperty appProp = applicationPropertyBean.findApplicationProperty(Properties.SEND_EMAILS);
-
         if(userAccount != null) {
             userAccount.defineNewConfirmationCode();
-
-            if(appProp.sendEmailsEnabled()) {
-                sendConfirmationCode(userAccount, serverAddress);
-            }
+            sendConfirmationCode(userAccount, serverAddress);
         }
         else {
-            throw new PersistenceException("Usuário inexistente:"+ username);
+            throw new PersistenceException("Usuário inexistente: "+ username);
         }
     }
 
@@ -643,13 +638,13 @@ public class UserAccountBean {
         twoDaysAgo.add(Calendar.DAY_OF_YEAR, -2);
 
         Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        LOGGER.log(Level.INFO, "Non confirmed accounts older than {0} will be removed.", formatter.format(twoDaysAgo.getTime()));
+        LOGGER.log(Level.INFO, "Accounts that were now confirmed after {0} will be removed.", formatter.format(twoDaysAgo.getTime()));
 
         int i = em.createQuery("delete from UserAccount ua where ua.registrationDate <= :twoDaysAgo and ua.confirmationCode is not null")
                   .setParameter("twoDaysAgo", twoDaysAgo.getTime())
                   .executeUpdate();
 
-        LOGGER.log(Level.INFO, "Number of removed non confirmed accounts: {0}", i);
+        LOGGER.log(Level.INFO, "Number of removed accounts: {0}", i);
     }
 
     /**

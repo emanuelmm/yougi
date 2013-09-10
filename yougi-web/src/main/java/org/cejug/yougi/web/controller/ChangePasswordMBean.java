@@ -147,12 +147,13 @@ public class ChangePasswordMBean {
             ApplicationProperty url = applicationPropertyBean.findApplicationProperty(Properties.URL);
             String serverAddress = url.getPropertyValue();
             userAccountBean.requestConfirmationPasswordChange(username, serverAddress);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
+            return "change_password";
         }
         catch(EJBException ee) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ee.getCausedByException().getMessage()));
             return "request_password_change";
         }
-        return "change_password";
     }
 
     /**
@@ -162,20 +163,21 @@ public class ChangePasswordMBean {
      * @return returns the next step in the navigation flow.
      */
     public String changeForgottenPassword() {
-        UserAccount userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode);
+        UserAccount userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode.trim().toUpperCase());
 
         if(userAccount == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("The confirmation code does not match."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0012"), null));
             return "change_password";
         }
 
         try {
             userAccountBean.changePassword(userAccount, this.password);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
         } catch (BusinessLogicException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
         }
-        return "login?faces-redirect=true";
+        return "login";
     }
 
     /**

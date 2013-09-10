@@ -34,7 +34,7 @@
                     <h:form>
                         <h:panelGrid>
                             <h:outputLabel for="confirmationCode" value="#{bundle.confirmationCode} *" styleClass="fieldLabel"/>
-                            <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.currentEmail}" size="40" maxlength="100" required="true" onchange="formatEmail(this)"/>
+                            <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.currentEmail}" size="40" maxlength="100" required="true" onchange="formatEmail(this);"/>
                             <h:message for="confirmationCode" errorClass="errorMessage"/>
                         </h:panelGrid>
                         <p/>

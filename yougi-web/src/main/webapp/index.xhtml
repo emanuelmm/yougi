@@ -64,7 +64,7 @@
                                             </h:link>
                                             <h:outputText value=" | "/>
                                             <h:link value="#{bundle.attend}" outcome="event/attendee">
-                                                <f:param name="id" value="#{event.id}"/>
+                                                <f:param name="eventId" value="#{event.id}"/>
                                             </h:link>
                                         </h:panelGroup>
                                     </h:panelGrid>
@@ -107,6 +107,10 @@
                                         <input type="submit" name="submit" value="#{bundle.signIn}"/>
                                         <h:button outcome="index" value="#{bundle.cancel}"/>
                                     </h:panelGrid>
+                                    <p></p>
+                                    <h:link outcome="request_password_change" value="#{bundle.forgotPassword}"/>
+                                    <h:outputText value=" | "/>
+                                    <h:link outcome="registration" value="#{bundle.register}"/>
                                 </form>
                             </p:panel>
                         </h:panelGrid>
