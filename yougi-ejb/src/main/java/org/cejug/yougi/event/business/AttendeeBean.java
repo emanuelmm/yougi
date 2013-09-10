@@ -57,11 +57,16 @@ public class AttendeeBean {
     }
 
     public Attendee findAttendee(Event event, UserAccount person) {
-        try {
-            return (Attendee) em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
+        Attendee attendee = null;
+        List<Attendee> attendees = em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event")
+                                     .setParameter("person", person)
+                                     .setParameter("event", event)
+                                     .getResultList();
+        if(!attendees.isEmpty()) {
+            attendee = attendees.get(0);
         }
+            
+        return attendee;
     }
 
     public Long findNumberPeopleAttending(Event event) {

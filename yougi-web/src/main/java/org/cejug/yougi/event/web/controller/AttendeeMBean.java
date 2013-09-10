@@ -21,16 +21,19 @@
 package org.cejug.yougi.event.web.controller;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.AttendeeBean;
 import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
+import org.cejug.yougi.web.controller.UserProfileMBean;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -52,6 +55,9 @@ public class AttendeeMBean implements Serializable {
     
     @ManagedProperty(value = "#{param.eventId}")
     private String eventId;
+    
+    @ManagedProperty(value = "#{userProfileMBean}")
+    private UserProfileMBean userProfileMBean;
 
     private Attendee attendee;
     
@@ -73,6 +79,14 @@ public class AttendeeMBean implements Serializable {
         this.eventId = eventId;
     }
 
+    public UserProfileMBean getUserProfileMBean() {
+        return userProfileMBean;
+    }
+
+    public void setUserProfileMBean(UserProfileMBean userProfileMBean) {
+        this.userProfileMBean = userProfileMBean;
+    }
+
     public Attendee getAttendee() {
         return this.attendee;
     }
@@ -81,11 +95,32 @@ public class AttendeeMBean implements Serializable {
         this.attendee = attendee;
     }
     
+    public Boolean getIsAttending() {
+        if(this.attendee.getId() != null) {
+            return Boolean.TRUE;
+        }
+        else {
+            return Boolean.FALSE;
+        }
+    }
+    
     public List<Event> getAttendedEvents() {
         if(this.attendedEvents == null && this.attendee != null) {
             this.attendedEvents = attendeeBean.findAttendeedEvents(this.attendee.getUserAccount());
         }
         return this.attendedEvents;
+    }
+    
+    public String attendEvent() {
+        this.attendee.setRegistrationDate(Calendar.getInstance().getTime());
+        attendeeBean.save(this.attendee);
+        return "attendee?id="+ this.attendee.getId();
+    }
+    
+    public String cancelAttendance() {
+        attendeeBean.remove(this.attendee.getId());
+        this.attendee.setId(null);
+        return "attendee";
     }
 
     @PostConstruct
@@ -93,9 +128,16 @@ public class AttendeeMBean implements Serializable {
         if (this.id != null && !this.id.isEmpty()) {
             this.attendee = attendeeBean.findAttendee(id);
         }
-        else {
-            this.attendee = new Attendee();
-            this.attendee.setEvent(eventBean.findEvent(eventId));
+        else if(eventId != null && !eventId.isEmpty()) {
+            Event event = eventBean.findEvent(eventId);
+            UserAccount userAccount = userProfileMBean.getUserAccount();
+            this.attendee = attendeeBean.findAttendee(event, userAccount);
+            
+            if(this.attendee == null) {
+                this.attendee = new Attendee();
+                this.attendee.setEvent(event);
+                this.attendee.setUserAccount(userAccount);
+            }
         }
     }
 }
