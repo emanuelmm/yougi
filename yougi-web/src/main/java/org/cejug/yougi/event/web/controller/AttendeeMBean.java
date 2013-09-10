@@ -26,8 +26,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import org.cejug.yougi.event.business.AttendeeBean;
+import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
 
@@ -35,16 +36,22 @@ import org.cejug.yougi.event.entity.Event;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class AttendeeMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @EJB
     private AttendeeBean attendeeBean;
+    
+    @EJB
+    private EventBean eventBean;
 
     @ManagedProperty(value = "#{param.id}")
     private String id;
+    
+    @ManagedProperty(value = "#{param.eventId}")
+    private String eventId;
 
     private Attendee attendee;
     
@@ -57,6 +64,14 @@ public class AttendeeMBean implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+    
+    public String getEventId() {
+        return this.eventId;
+    }
+    
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
 
     public Attendee getAttendee() {
         return this.attendee;
@@ -67,7 +82,7 @@ public class AttendeeMBean implements Serializable {
     }
     
     public List<Event> getAttendedEvents() {
-        if(this.attendedEvents == null) {
+        if(this.attendedEvents == null && this.attendee != null) {
             this.attendedEvents = attendeeBean.findAttendeedEvents(this.attendee.getUserAccount());
         }
         return this.attendedEvents;
@@ -77,6 +92,10 @@ public class AttendeeMBean implements Serializable {
     public void load() {
         if (this.id != null && !this.id.isEmpty()) {
             this.attendee = attendeeBean.findAttendee(id);
+        }
+        else {
+            this.attendee = new Attendee();
+            this.attendee.setEvent(eventBean.findEvent(eventId));
         }
     }
 }
