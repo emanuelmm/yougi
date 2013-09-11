@@ -39,7 +39,7 @@ package org.cejug.yougi.util;
  * 2009-09-16: Additional license (BSD) added.<br>
  * 2010-01-27: Package name added.<br>
  */
-public class Base64Encoder {
+public final class Base64Encoder {
 
 // Mapping table from 6-bit nibbles to Base64 characters.
     private static char[] map1 = new char[64];
@@ -101,8 +101,10 @@ public class Base64Encoder {
      * @return A character array with the Base64 encoded data.
      */
     public static char[] encode(byte[] in, int iLen) {
-        int oDataLen = (iLen * 4 + 2) / 3;       // output length without padding
-        int oLen = ((iLen + 2) / 3) * 4;         // output length including padding
+        // output length without padding
+        int oDataLen = (iLen * 4 + 2) / 3;
+        // output length including padding
+        int oLen = ((iLen + 2) / 3) * 4;
         char[] out = new char[oLen];
         int ip = 0;
         int op = 0;

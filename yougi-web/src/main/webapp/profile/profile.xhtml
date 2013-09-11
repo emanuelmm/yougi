@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -34,6 +34,7 @@
                     <h:form>
                         <p:tabView dynamic="false" cache="true" activeIndex="#{param.tab}">
                             <p:tab title="#{bundle.personalData}">
+                                <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(userAccountMBean.userAccount.email)}"/>
                                 <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                                 <h:panelGrid columns="2" cellpadding="3">
                                     <h:outputText value="#{bundle.firstName}" styleClass="fieldLabel"/>
@@ -43,20 +44,18 @@
                                     <h:outputText value="#{userAccountMBean.userAccount.lastName}"/>
 
                                     <h:outputText value="#{bundle.gender}" styleClass="fieldLabel"/>
-                                    <h:outputText value="#{bundle.birthDate}" styleClass="fieldLabel"/>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{userAccountMBean.userAccount.gender}">
                                         <f:converter converterId="GenderToString"/>
                                     </h:outputText>
-                                    <h:outputText value="#{userAccountMBean.userAccount.birthDate}">
-                                        <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                    </h:outputText>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{bundle.email}" styleClass="fieldLabel"/>
-                                    <h:outputText value="#{bundle.age}" styleClass="fieldLabel"/>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{userAccountMBean.userAccount.email}"/>
-                                    <h:outputText value="#{userAccountMBean.userAccount.age}"/>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{bundle.website}" styleClass="fieldLabel"/>
                                     <h:outputText value="#{bundle.twitter}" styleClass="fieldLabel"/>
@@ -71,10 +70,10 @@
                                     <h:outputText value="#{userAccountMBean.userAccount.province}"/>
 
                                     <h:outputText value="#{bundle.city}" styleClass="fieldLabel"/>
-                                    <h:outputText value="#{bundle.postalCode}" styleClass="fieldLabel"/>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{userAccountMBean.userAccount.city}"/>
-                                    <h:outputText value="#{userAccountMBean.userAccount.postalCode}"/>
+                                    <h:outputText/>
                                 </h:panelGrid>
                                 <p></p>
                                 <h:panelGrid columns="2">

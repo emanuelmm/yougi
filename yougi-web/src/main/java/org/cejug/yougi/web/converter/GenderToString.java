@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -46,14 +46,13 @@ public class GenderToString implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         Gender gender = (Gender) value;
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
         String genderStr = null;
         switch(gender) {
             case FEMALE:
-                genderStr = bundle.getMessage("female");
+                genderStr = ResourceBundleHelper.INSTANCE.getMessage("female");
                 break;
             case MALE:
-                genderStr = bundle.getMessage("male");
+                genderStr = ResourceBundleHelper.INSTANCE.getMessage("male");
                 break;
         }
         return genderStr;

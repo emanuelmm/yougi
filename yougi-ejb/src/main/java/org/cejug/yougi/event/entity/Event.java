@@ -1,21 +1,21 @@
-/* Yougi is a web application conceived to manage user groups or 
- * communities focused on a certain domain of knowledge, whose members are 
- * constantly sharing information and participating in social and educational 
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
- * 
- * This application is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by the 
- * Free Software Foundation; either version 2.1 of the License, or (at your 
+/* Yougi is a web application conceived to manage user groups or
+ * communities focused on a certain domain of knowledge, whose members are
+ * constantly sharing information and participating in social and educational
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
+ *
+ * This application is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
- * This application is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
+ *
+ * This application is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
  * License for more details.
- * 
- * There is a full copy of the GNU Lesser General Public License along with 
+ *
+ * There is a full copy of the GNU Lesser General Public License along with
  * this library. Look for the file license.txt at the root level. If you do not
- * find it, write to the Free Software Foundation, Inc., 59 Temple Place, 
+ * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
 package org.cejug.yougi.event.entity;
@@ -24,11 +24,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import org.cejug.yougi.entity.City;
-import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Identified;
-import org.cejug.yougi.entity.Province;
-import org.cejug.yougi.partnership.entity.Partner;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -45,8 +41,8 @@ public class Event implements Serializable, Identified {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "venue")
-    private Partner venue;
+    @JoinColumn(name = "parent")
+    private Event parent;
 
     @Column(name = "start_date")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -63,40 +59,23 @@ public class Event implements Serializable, Identified {
     @Column(name = "end_time")
     @Temporal(javax.persistence.TemporalType.TIME)
     private Date endTime;
-    
-    @Transient
-    private int duration;
 
     private String description;
 
     @Column(name = "short_description")
     private String shortDescription;
 
-    private String address;
-
-    @ManyToOne
-    @JoinColumn(name = "country")
-    private Country country;
-
-    @ManyToOne
-    @JoinColumn(name = "province")
-    private Province province;
-
-    @ManyToOne
-    @JoinColumn(name = "city")
-    private City city;
-
-    private String latitude;
-
-    private String longitude;
-
-    private Boolean external;
-    
     @Column(name = "certificate_template")
     private String certificateTemplate;
-    
-    @OneToMany(mappedBy="event")
-    private List<EventSession> eventSessions;
+
+    @Transient
+    private List<Venue> venues;
+
+    public Event() {}
+
+    public Event(String id) {
+        this.id = id;
+    }
 
     @Override
     public String getId() {
@@ -116,12 +95,17 @@ public class Event implements Serializable, Identified {
         this.name = name;
     }
 
-    public Partner getVenue() {
-        return venue;
+    /**
+     * @return The parent event of the current event. It allows the breakdown of
+     * an event in several other smaller events. It is specially useful in case
+     * of big conferences.
+     */
+    public Event getParent() {
+        return parent;
     }
 
-    public void setVenue(Partner venue) {
-        this.venue = venue;
+    public void setParent(Event parent) {
+        this.parent = parent;
     }
 
     public Date getStartDate() {
@@ -156,18 +140,6 @@ public class Event implements Serializable, Identified {
         this.endTime = endTime;
     }
 
-    /**
-     * @return the difference in hours between start date and time and end date
-     * and time.
-     */
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -184,62 +156,6 @@ public class Event implements Serializable, Identified {
         this.shortDescription = shortDescription;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setProvince(Province province) {
-        this.province = province;
-    }
-
-    public Province getProvince() {
-        return province;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setExternal(Boolean external) {
-        this.external = external;
-    }
-
-    public Boolean getExternal() {
-        return external;
-    }
-
     /**
      * @return the name of the file containing the template to be used on the
      * certificate generation.
@@ -252,20 +168,12 @@ public class Event implements Serializable, Identified {
         this.certificateTemplate = certificateTemplate;
     }
 
-    /**
-     * @return the sessions in which the event is organized.
-     */
-    public List<EventSession> getEventSessions() {
-        return eventSessions;
+    public List<Venue> getVenues() {
+        return venues;
     }
 
-    public void setEventSessions(List<EventSession> eventSessions) {
-        this.eventSessions = eventSessions;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
+    public void setVenues(List<Venue> venues) {
+        this.venues = venues;
     }
 
     @Override
@@ -296,5 +204,10 @@ public class Event implements Serializable, Identified {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return (this.parent != null? this.parent.toString() + " - " : "") + this.name;
     }
 }

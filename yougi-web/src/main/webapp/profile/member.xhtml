@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -47,7 +47,7 @@
                             </h:panelGroup>
 
                             <h:outputLabel for="gender" value="#{bundle.gender} *" styleClass="fieldLabel"/>
-                            <h:outputLabel for="birthDate" value="#{bundle.birthDate}" styleClass="fieldLabel"/>
+                            <h:outputText/>
 
                             <h:panelGroup>
                                 <h:selectOneRadio id="gender" label="#{bundle.gender}" required="true" value="#{userAccountMBean.userAccount.gender}">
@@ -56,13 +56,7 @@
                                 </h:selectOneRadio>
                                 <h:message for="gender" errorClass="errorMessage"/>
                             </h:panelGroup>
-                            <h:panelGroup>
-                                <h:panelGrid columns="2">
-                                    <p:calendar value="#{userAccountMBean.userAccount.birthDate}" id="birthDate" pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                    <h:outputText value="#{bundle.formatDateLabel}" styleClass="fieldFormat"/>
-                                </h:panelGrid>
-                                <h:message for="birthDate" errorClass="errorMessage"/>
-                            </h:panelGroup>
+                            <h:outputText/>
 
                             <h:outputLabel for="website" value="#{bundle.website}" styleClass="fieldLabel"/>
                             <h:outputLabel for="twitter" value="#{bundle.twitter}" styleClass="fieldLabel"/>
@@ -91,13 +85,13 @@
                             </h:selectOneMenu>
 
                             <h:outputLabel for="city" value="#{bundle.city}" styleClass="fieldLabel"/>
-                            <h:outputLabel for="postalCode" value="#{bundle.postalCode}" styleClass="fieldLabel"/>
+                            <h:outputText/>
 
                             <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}">
                                 <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                 <f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
                             </h:selectOneMenu>
-                            <h:inputText id="postalCode" label="#{bundle.postalCode}" size="10" maxlength="10" value="#{userAccountMBean.userAccount.postalCode}"/>
+                            <h:outputText/>
                         </h:panelGrid>
 
                         <h:inputHidden id="id" value="#{userAccountMBean.userAccount.id}"/>

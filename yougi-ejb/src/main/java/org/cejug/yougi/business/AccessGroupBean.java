@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,19 +21,27 @@
 package org.cejug.yougi.business;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import org.cejug.yougi.entity.AccessGroup;
 import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.EmailMessage;
+import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.entity.UserGroup;
-import org.cejug.yougi.util.EntitySupport;
+import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.exception.BusinessLogicException;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -51,7 +59,15 @@ public class AccessGroupBean {
     @EJB
     private UserGroupBean userGroupBean;
 
-    public static final String ADMIN_GROUP = "leaders";
+    @EJB
+    private MessengerBean messengerBean;
+
+    @EJB
+    private MessageTemplateBean messageTemplateBean;
+
+    static final Logger LOGGER = Logger.getLogger(AccessGroupBean.class.getName());
+
+    public static final String ADMIN_GROUP = "admins";
     public static final String DEFAULT_GROUP = "members";
 
     public AccessGroup findAccessGroup(String groupId) {
@@ -84,7 +100,7 @@ public class AccessGroupBean {
                                         .getSingleResult();
         }
         catch(Exception nre) {
-            group = new AccessGroup(ADMIN_GROUP,"JUG Leaders Group");
+            group = new AccessGroup(ADMIN_GROUP,"Administrators Group");
             group.setId(EntitySupport.INSTANCE.generateEntityId());
             em.persist(group);
         }
@@ -102,6 +118,22 @@ public class AccessGroupBean {
                                .getSingleResult();
         } catch (NoResultException nre) {
             return null;
+        }
+    }
+
+    public void sendGroupAssignmentAlert(UserAccount userAccount, AccessGroup accessGroup) throws BusinessLogicException {
+        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("09JDIIE82O39IDIDOSJCHXUDJJXHCKP0");
+        Map<String, Object> values = new HashMap<>();
+        values.put("userAccount.firstName", userAccount.getFirstName());
+        values.put("accessGroup.name", accessGroup.getName());
+        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        emailMessage.setRecipient(userAccount);
+
+        try {
+            messengerBean.sendEmailMessage(emailMessage);
+        }
+        catch(MessagingException me) {
+            LOGGER.log(Level.WARNING, "Error when sending the group assignment alert to "+ userAccount.getFullName(), me);
         }
     }
 

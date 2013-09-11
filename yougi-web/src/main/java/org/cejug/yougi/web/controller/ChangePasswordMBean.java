@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -37,6 +37,7 @@ import org.cejug.yougi.entity.ApplicationProperty;
 import org.cejug.yougi.entity.Authentication;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
@@ -120,8 +121,7 @@ public class ChangePasswordMBean {
     public void validatePasswordConfirmation(FacesContext context, UIComponent component, Object value) {
         this.passwordConfirmation = (String) value;
         if(!this.passwordConfirmation.equals(this.password)) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getMessage("errorCode0005"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0005"), null));
         }
     }
     // End of password validation
@@ -147,12 +147,13 @@ public class ChangePasswordMBean {
             ApplicationProperty url = applicationPropertyBean.findApplicationProperty(Properties.URL);
             String serverAddress = url.getPropertyValue();
             userAccountBean.requestConfirmationPasswordChange(username, serverAddress);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
+            return "change_password";
         }
         catch(EJBException ee) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ee.getCausedByException().getMessage()));
             return "request_password_change";
         }
-        return "change_password";
     }
 
     /**
@@ -162,15 +163,21 @@ public class ChangePasswordMBean {
      * @return returns the next step in the navigation flow.
      */
     public String changeForgottenPassword() {
-        UserAccount userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode);
+        UserAccount userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode.trim().toUpperCase());
 
         if(userAccount == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("The confirmation code does not match."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0012"), null));
             return "change_password";
         }
 
-        userAccountBean.changePassword(userAccount, this.password);
-        return "login?faces-redirect=true";
+        try {
+            userAccountBean.changePassword(userAccount, this.password);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
+        } catch (BusinessLogicException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            return "change_password";
+        }
+        return "login";
     }
 
     /**
@@ -186,7 +193,12 @@ public class ChangePasswordMBean {
             return "change_password";
         }
 
-        userAccountBean.changePassword(userAccount, this.password);
+        try {
+            userAccountBean.changePassword(userAccount, this.password);
+        } catch (BusinessLogicException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            return "change_password";
+        }   
         return "profile?faces-redirect=true";
     }
 }

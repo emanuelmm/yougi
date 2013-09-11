@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.util;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -30,26 +31,36 @@ import javax.faces.context.FacesContext;
  * Actually, this is so complex that a better approach should be investigated,
  * or a solution presented to spec leaders.
  *
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @author Daniel Cunha - danielsoro@gmail.com
+ *         Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class ResourceBundleHelper {
+public enum ResourceBundleHelper {
+    INSTANCE;
 
-    private Locale locale;
-
-    public ResourceBundleHelper() {
-        this.locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-    }
-
-    public ResourceBundleHelper(Locale locale) {
-        this.locale = locale;
-    }
+    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     public String getMessage(String key) {
         return getMessageFromResourceBundle(key);
     }
 
+    public String getMessage(String key, Locale locale) {
+        this.locale = locale;
+        return getMessageFromResourceBundle(key);
+    }
+    
+    public String getMessage(String key, Object ... params) {
+        String message = getMessageFromResourceBundle(key);
+        return MessageFormat.format(message, params);
+    }
+    
+    public String getMessage(String key, Locale locale, Object ... params) {
+        this.locale = locale;
+        String message = getMessageFromResourceBundle(key);
+        return MessageFormat.format(message, params);
+    }
+
     private String getMessageFromResourceBundle(String key) {
-        ResourceBundle bundle = null;
+        ResourceBundle bundle;
         String bundleName = "org.cejug.yougi.web.bundles.Resources";
         String message = "";
 
@@ -68,7 +79,7 @@ public class ResourceBundleHelper {
         return message;
     }
 
-    private static ClassLoader getCurrentLoader(Object fallbackClass) {
+    private ClassLoader getCurrentLoader(Object fallbackClass) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader == null) {
             loader = fallbackClass.getClass().getClassLoader();

@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -43,7 +43,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.cejug.yougi.knowledge.entity.Article;
 import org.cejug.yougi.knowledge.entity.WebSource;
-import org.cejug.yougi.util.EntitySupport;
+import org.cejug.yougi.entity.EntitySupport;
 
 /**
  * Business logic dealing with articles from a web source.
@@ -61,6 +61,12 @@ public class ArticleBean {
 
     public Article findArticle(String id) {
         return em.find(Article.class, id);
+    }
+
+    public List<Article> findPublishedArticles() {
+            return em.createQuery("select a from Article a where a.published = :published order by a.publication desc")
+                     .setParameter("published", Boolean.TRUE)
+                     .getResultList();
     }
 
     public List<Article> findPublishedArticles(WebSource webSource) {
@@ -95,18 +101,21 @@ public class ArticleBean {
         }
     }
 
-    public List<Article> findUnpublishedArticles(WebSource webSource) {
-        List<Article> unpublishedArticles = null;
+    /**
+     * @param webSource a web source that contains details about a user website.
+     * @return a list of articles found in the informed web source.
+     * */
+    public WebSource loadWebSource(WebSource webSource) {
+        List<Article> unpublishedArticles;
 
-        String feedUrl = findWebsiteFeedURL(webSource);
+        String feedUrl = findWebsiteFeedURL(webSource.getProvider().getWebsite());
 
         try {
             URL url  = new URL(feedUrl);
             XmlReader reader = new XmlReader(url);
             SyndFeed feed = new SyndFeedInput().build(reader);
-            if(webSource != null) {
-                webSource.setTitle(feed.getTitle());
-            }
+            webSource.setTitle(feed.getTitle());
+            webSource.setFeed(feedUrl);
             unpublishedArticles = new ArrayList<>();
             Article article;
             for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {
@@ -137,16 +146,23 @@ public class ArticleBean {
             for(Article publishedArticle: publishedArticles) {
                 unpublishedArticles.remove(publishedArticle);
             }
+
+            webSource.setArticles(unpublishedArticles);
+
         } catch (IllegalArgumentException | FeedException | IOException iae) {
             LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
         }
 
-        return unpublishedArticles;
+        return webSource;
     }
 
-    private String findWebsiteFeedURL(WebSource webSource) {
+    /**
+     * @param urlWebsite url used to find the web content where there is probably a feed to be consumed.
+     * @return if a feed url is found in the web content, it is returned. Otherwise, the method returns null.
+     * */
+    public String findWebsiteFeedURL(String urlWebsite) {
         String feedUrl = null;
-        String websiteContent = retrieveWebsiteContent(webSource);
+        String websiteContent = retrieveWebsiteContent(urlWebsite);
 
         if(websiteContent == null) {
             return null;
@@ -158,10 +174,6 @@ public class ArticleBean {
         while (matcher.find()) {
             feedUrl = matcher.group();
             if(isFeedURL(feedUrl)) {
-                if(webSource != null) {
-                    webSource.setFeed(feedUrl);
-                    LOGGER.log(Level.INFO, "Feed: {0}", feedUrl);
-                }
                 break;
             }
         }
@@ -169,29 +181,33 @@ public class ArticleBean {
         return feedUrl;
     }
 
+    /**
+     * @param url candidate to be a feed url.
+     * @return true if the informed url is actually a feed, false otherwise.
+     * */
     private boolean isFeedURL(String url) {
-        if(url.contains("feed")) {
+        String lowerCaseUrl = url.toLowerCase();
+        if(lowerCaseUrl.contains("feed") || lowerCaseUrl.contains("rss")) {
             return true;
         }
         return false;
     }
 
-    private String retrieveWebsiteContent(WebSource webSource) {
-        if(webSource == null) {
-            return null;
-        }
-
-        String urlWebsite = webSource.getProvider().getWebsite();
-
+    /**
+     * @param urlWebsite url used to find the web content where there is probably a feed to be consumed.
+     * @return the entire content, which or without url feed.
+     * */
+    private String retrieveWebsiteContent(String url) {
         StringBuilder content = null;
-        if(!urlWebsite.contains("http")) {
-            urlWebsite = "http://" + urlWebsite;
+        String fullUrl = url;
+        if(!url.contains("http")) {
+            fullUrl = "http://" + url;
         }
 
-        if(urlWebsite != null) {
+        if(fullUrl != null) {
             try {
-                URL url = new URL(urlWebsite);
-                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                URL theUrl = new URL(fullUrl);
+                BufferedReader br = new BufferedReader(new InputStreamReader(theUrl.openStream()));
                 String line = "";
                 content = new StringBuilder();
                 while(null != (line = br.readLine())) {

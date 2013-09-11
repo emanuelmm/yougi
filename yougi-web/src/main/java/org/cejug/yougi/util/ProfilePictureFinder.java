@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or 
  * communities focused on a certain domain of knowledge, whose members are 
  * constantly sharing information and participating in social and educational 
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  * 
  * This application is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU Lesser General Public License as published by the 
@@ -20,6 +20,12 @@
  * */
 package org.cejug.yougi.util;
 
+import de.bripkens.gravatar.DefaultImage;
+import de.bripkens.gravatar.Gravatar;
+import de.bripkens.gravatar.Rating;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -30,4 +36,26 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class ProfilePictureFinder {
 
+    public String getPictureFromEmail(String email) throws IOException {
+        return this.validateUrl(new Gravatar()
+                .setSize(85)
+                .setHttps(true)
+                .setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+                .setStandardDefaultImage(DefaultImage.HTTP_404)
+                .getUrl(email));
+    }
+
+    private String validateUrl(String gravataUrl) throws IOException {
+        return isNotFound(new URL(gravataUrl)) ? this.getDefaultAvatar() : gravataUrl;
+    }
+    
+    private boolean isNotFound(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
+        return connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND;
+    }
+
+    private String getDefaultAvatar() {
+        return "/images/logo.png";
+    }
 }

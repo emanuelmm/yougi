@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -22,7 +22,6 @@ package org.cejug.yougi.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,10 +40,6 @@ import org.cejug.yougi.entity.MessageHistory;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.AttendeeBean;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.knowledge.business.MailingListBean;
-import org.cejug.yougi.knowledge.business.SubscriptionBean;
-import org.cejug.yougi.knowledge.entity.MailingList;
-import org.cejug.yougi.knowledge.entity.MailingListSubscription;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -59,13 +54,7 @@ public class MemberMBean implements Serializable {
     private UserAccountBean userAccountBean;
 
     @EJB
-    private MailingListBean mailingListBean;
-
-    @EJB
     private MessageHistoryBean messageHistoryBean;
-
-    @EJB
-    private SubscriptionBean subscriptionBean;
 
     @EJB
     private AttendeeBean attendeeBean;
@@ -76,8 +65,6 @@ public class MemberMBean implements Serializable {
     private List<UserAccount> userAccounts;
 
     private List<UserAccount> deactivatedUsers;
-
-    private List<MailingList> mailingLists;
 
     private List<MessageHistory> historicMessages;
 
@@ -92,8 +79,6 @@ public class MemberMBean implements Serializable {
     private String emailCriteria;
 
     private String firstLetterCriteria;
-
-    private MailingList[] selectedMailingLists;
 
     public MemberMBean() {
     }
@@ -140,14 +125,6 @@ public class MemberMBean implements Serializable {
         return this.userAccounts;
     }
 
-    public List<MailingList> getMailingLists() {
-        return mailingLists;
-    }
-
-    public void setMailingLists(List<MailingList> mailingLists) {
-        this.mailingLists = mailingLists;
-    }
-
     public List<Event> getAttendedEvents() {
         return this.attendedEvents;
     }
@@ -184,14 +161,6 @@ public class MemberMBean implements Serializable {
         }
 
         return "users?faces-redirect=true";
-    }
-
-    public MailingList[] getSelectedMailingLists() {
-        return selectedMailingLists;
-    }
-
-    public void setSelectedMailingLists(MailingList[] selectedMailingLists) {
-        this.selectedMailingLists = selectedMailingLists;
     }
 
     /**
@@ -233,7 +202,7 @@ public class MemberMBean implements Serializable {
 
     public void validateUserId(FacesContext context, UIComponent toValidate, Object value) throws ValidatorException {
         String usrId = (String) value;
-        if (-1 == usrId.indexOf("@")) {
+        if (-1 == usrId.indexOf('@')) {
             throw new ValidatorException(new FacesMessage("Invalid email address."));
         }
     }
@@ -247,7 +216,6 @@ public class MemberMBean implements Serializable {
         this.userId = userId;
         this.userAccount = userAccountBean.findUserAccount(this.userId);
         this.authentication = userAccountBean.findAuthenticationUser(this.userAccount);
-        this.mailingLists = mailingListBean.findMailingLists();
         this.historicMessages = messageHistoryBean.findHistoricalMessageByRecipient(this.userAccount);
         this.attendedEvents = attendeeBean.findAttendeedEvents(this.userAccount);
 
@@ -263,15 +231,6 @@ public class MemberMBean implements Serializable {
 
         if (this.userAccount.getCity() != null) {
             locationMBean.setSelectedCity(this.userAccount.getCity().getId());
-        }
-
-        List<MailingListSubscription> mailingListSubscriptions = subscriptionBean.findMailingListSubscriptions(this.userAccount);
-        if (mailingListSubscriptions != null) {
-            this.selectedMailingLists = new MailingList[mailingListSubscriptions.size()];
-            int i = 0;
-            for (MailingListSubscription mailingListSubscription : mailingListSubscriptions) {
-                this.selectedMailingLists[i++] = mailingListSubscription.getMailingList();
-            }
         }
 
         return "user?faces-redirect=true";
@@ -291,12 +250,11 @@ public class MemberMBean implements Serializable {
         existingUserAccount.setCountry(this.locationMBean.getCountry());
         existingUserAccount.setProvince(this.locationMBean.getProvince());
         existingUserAccount.setCity(this.locationMBean.getCity());
-
         existingUserAccount.setFirstName(userAccount.getFirstName());
         existingUserAccount.setLastName(userAccount.getLastName());
         existingUserAccount.setGender(userAccount.getGender());
-        existingUserAccount.setBirthDate(userAccount.getBirthDate());
-
+        existingUserAccount.setWebsite(userAccount.getWebsite());
+        existingUserAccount.setTwitter(userAccount.getTwitter());
         existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
         existingUserAccount.setMailingList(userAccount.getMailingList());
         existingUserAccount.setNews(userAccount.getNews());
@@ -309,10 +267,6 @@ public class MemberMBean implements Serializable {
         if (verified != null) {
             existingUserAccount.setVerified(verified);
         }
-
-        List<MailingList> mailingListsToSubscribe = new ArrayList<MailingList>();
-        mailingListsToSubscribe.addAll(Arrays.asList(this.selectedMailingLists));
-        subscriptionBean.subscribe(mailingListsToSubscribe, existingUserAccount);
 
         userAccountBean.save(existingUserAccount);
     }

@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -36,19 +36,19 @@
                         <h:panelGrid>
                             <h:outputLabel for="currentEmail" value="#{bundle.currentEmail} *" styleClass="fieldLabel"/>
                             <h:inputText id="currentEmail" value="#{changeEmailMBean.currentEmail}" label="#{bundle.currentEmail}" size="40" maxlength="100" required="true"  onchange="formatEmail(this)">
-                                <f:validateRegex pattern="^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"/>
+                                <f:validateRegex pattern="#{bundle.emailPattern}"/>
                             </h:inputText>
                             <h:message for="currentEmail" errorClass="errorMessage"/>
 
                             <h:outputLabel for="newEmail" value="#{bundle.newEmail} *" styleClass="fieldLabel"/>
                             <h:inputText id="newEmail" label="#{bundle.newEmail}" required="true" size="40" maxlength="100" value="#{changeEmailMBean.newEmail}" onchange="formatEmail(this)">
-                                <f:validateRegex pattern="^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"/>
+                                <f:validateRegex pattern="#{bundle.emailPattern}"/>
                             </h:inputText>
                             <h:message for="newEmail" errorClass="errorMessage"/>
 
                             <h:outputLabel for="newEmailConfirmation" value="#{bundle.confirmEmail} *" styleClass="fieldLabel"/>
                             <h:inputText id="newEmailConfirmation" autocomplete="off" label="#{bundle.confirmEmail}" required="true" size="40" maxlength="100" value="#{changeEmailMBean.newEmailConfirmation}" onchange="formatEmail(this)">
-                                <f:validateRegex pattern="^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"/>
+                                <f:validateRegex pattern="#{bundle.emailPattern}"/>
                             </h:inputText>
                             <h:message for="newEmailConfirmation" errorClass="errorMessage"/>
                         </h:panelGrid>

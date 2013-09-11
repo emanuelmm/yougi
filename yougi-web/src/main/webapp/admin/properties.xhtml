@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -67,10 +67,10 @@
 
                             <p:fieldset legend="#{bundle.internationalization}">
                                 <h:panelGrid>
-                                    <h:outputLabel for="timeZone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
-                                    <h:selectOneMenu id="timeZone" label="#{bundle.timeZone}" value="#{applicationPropertiesMBean.applicationProperties['timezone']}">
+                                    <h:outputLabel for="timezone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
+                                    <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{applicationPropertiesMBean.applicationProperties['timezone']}">
                                         <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                        <f:selectItems value="#{applicationPropertiesMBean.timeZones}" var="tz" itemLabel="#{tz}" itemValue="#{tz}"/>
+                                        <f:selectItems value="#{applicationPropertiesMBean.timezones}" var="tz" itemLabel="#{tz.label}" itemValue="#{tz.id}"/>
                                     </h:selectOneMenu>
 
                                     <h:outputLabel for="language" value="#{bundle.language}" styleClass="fieldLabel"/>

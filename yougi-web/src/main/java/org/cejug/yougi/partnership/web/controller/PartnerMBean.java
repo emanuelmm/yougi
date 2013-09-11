@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -144,21 +144,20 @@ public class PartnerMBean implements Serializable {
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
         	List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
-            List<UserAccount> reps = new ArrayList<UserAccount>();
+            List<UserAccount> reps = new ArrayList<>();
             reps.addAll(representativeBean.findRepresentativePersons(this.partner));
             usersGroup.removeAll(reps);
-            this.candidates = new DualListModel<UserAccount>(usersGroup, reps);
+            this.candidates = new DualListModel<>(usersGroup, reps);
         } else {
             this.partner = new Partner();
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
         	List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
-            List<UserAccount> reps = new ArrayList<UserAccount>();
-            this.candidates = new DualListModel<UserAccount>(usersGroup, reps);
+            List<UserAccount> reps = new ArrayList<>();
+            this.candidates = new DualListModel<>(usersGroup, reps);
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public String save() {
         Country country = this.locationMBean.getCountry();
         if (country != null) {
@@ -175,7 +174,7 @@ public class PartnerMBean implements Serializable {
             this.partner.setCity(city);
         }
 
-        List<UserAccount> reps = new ArrayList<UserAccount>();
+        List<UserAccount> reps = new ArrayList<>();
         List selectedCandidates = this.candidates.getTarget();
         UserAccount userAccount;
         for(int i = 0;i < selectedCandidates.size();i++) {

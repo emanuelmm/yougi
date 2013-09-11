@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -62,7 +62,6 @@ public class UserAccountMBean implements Serializable {
     private String passwordConfirmation;
 
     private String validationEmail;
-    private String validationEmailConfirmation;
 
     private Boolean validationPrivacy = false;
 
@@ -116,16 +115,14 @@ public class UserAccountMBean implements Serializable {
         this.validationEmail = (String) value;
 
         if(userAccountBean.existingAccount(this.validationEmail)) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,bundle.getMessage("errorCode0004"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,ResourceBundleHelper.INSTANCE.getMessage("errorCode0004"), null));
         }
     }
 
     public void validateEmailConfirmation(FacesContext context, UIComponent component, Object value) {
-        this.validationEmailConfirmation = (String) value;
-        if(!this.validationEmailConfirmation.equals(this.validationEmail)) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getMessage("errorCode0003"), null));
+        String validationEmailConfirmation = (String) value;
+        if(!validationEmailConfirmation.equals(this.validationEmail)) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0003"), null));
         }
     }
     // End of email validation
@@ -138,8 +135,7 @@ public class UserAccountMBean implements Serializable {
     public void validatePasswordConfirmation(FacesContext context, UIComponent component, Object value) {
         this.passwordConfirmation = (String) value;
         if(!this.passwordConfirmation.equals(this.password)) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getMessage("errorCode0005"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0005"), null));
         }
     }
     // End of password validation
@@ -154,8 +150,7 @@ public class UserAccountMBean implements Serializable {
     public void validatePrivacy(FacesContext context, UIComponent component, Object value) {
         if(!this.validationPrivacy) {
             this.validationPrivacy = (Boolean) value;
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getMessage("errorCode0007"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0007"), null));
         }
     }
     // End of privacy composite validation
@@ -181,7 +176,7 @@ public class UserAccountMBean implements Serializable {
 
     public void validateUserId(FacesContext context, UIComponent toValidate, Object value) throws ValidatorException {
         String usrId = (String) value;
-        if(-1 == usrId.indexOf("@")) {
+        if(-1 == usrId.indexOf('@')) {
             throw new ValidatorException(new FacesMessage("Invalid email address."));
         }
     }
@@ -221,31 +216,19 @@ public class UserAccountMBean implements Serializable {
 
     public String register() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
 
         boolean isFirstUser = userAccountBean.thereIsNoAccount();
-
-        if(!isFirstUser && this.locationMBean.getCity() == null && (this.locationMBean.getCityNotListed() == null || this.locationMBean.getCityNotListed().isEmpty())) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getMessage("errorCode0006"),""));
-            context.validationFailed();
-        }
 
         if(context.isValidationFailed()) {
             return "registration";
         }
-
-        this.userAccount.setCountry(this.locationMBean.getCountry());
-    	this.userAccount.setProvince(this.locationMBean.getProvince());
-    	this.userAccount.setCity(this.locationMBean.getCity());
-
-        City newCity = locationMBean.getNotListedCity();
 
         Authentication authentication = new Authentication();
         try {
             authentication.setUserAccount(this.userAccount);
             authentication.setUsername(userAccount.getUnverifiedEmail());
             authentication.setPassword(this.password);
-            userAccountBean.register(userAccount, authentication, newCity);
+            userAccountBean.register(userAccount, authentication);
         }
         catch(Exception e) {
             context.addMessage(userId, new FacesMessage(e.getCause().getMessage()));
@@ -253,11 +236,11 @@ public class UserAccountMBean implements Serializable {
         }
 
         if(isFirstUser) {
-            context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoSuccessfulRegistration"), ""));
+            context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoSuccessfulRegistration"), ""));
             return "login";
         }
         else {
-            context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoRegistrationConfirmationRequest"), ""));
+            context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoRegistrationConfirmationRequest"), ""));
             return "registration_confirmation";
         }
     }
@@ -269,11 +252,11 @@ public class UserAccountMBean implements Serializable {
             existingUserAccount.setCountry(this.locationMBean.getCountry());
             existingUserAccount.setProvince(this.locationMBean.getProvince());
             existingUserAccount.setCity(this.locationMBean.getCity());
-
             existingUserAccount.setFirstName(userAccount.getFirstName());
             existingUserAccount.setLastName(userAccount.getLastName());
             existingUserAccount.setGender(userAccount.getGender());
-            existingUserAccount.setBirthDate(userAccount.getBirthDate());
+            existingUserAccount.setWebsite(userAccount.getWebsite());
+            existingUserAccount.setTwitter(userAccount.getTwitter());
             userAccountBean.save(existingUserAccount);
 
             FacesContext context = FacesContext.getCurrentInstance();

@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,15 +21,26 @@
 package org.cejug.yougi.event.business;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import org.cejug.yougi.business.MessageTemplateBean;
+import org.cejug.yougi.business.MessengerBean;
+import org.cejug.yougi.entity.EmailMessage;
+import org.cejug.yougi.entity.MessageTemplate;
+import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.util.EntitySupport;
+import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.util.TextUtils;
 
 /**
  * Manages events organized by the user group.
@@ -43,39 +54,76 @@ public class EventBean {
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private VenueBean venueBean;
+
+    @EJB
+    private MessengerBean messengerBean;
+
+    @EJB
+    private MessageTemplateBean messageTemplateBean;
+
+    static final Logger LOGGER = Logger.getLogger(EventBean.class.getName());
+
     public Event findEvent(String id) {
-        if(id != null) {
-            return em.find(Event.class, id);
-        }
-        else {
-            return null;
-        }
+        Event event = em.find(Event.class, id);
+        event.setVenues(venueBean.findEventVenues(event));
+        return event;
     }
 
-    public List<Event> findEvents() {
-    	List<Event> events = em.createQuery("select e from Event e order by e.endDate desc")
-        		       .getResultList();
-        return events;
+    public List<Event> findParentEvents() {
+    	List<Event> events =  em.createQuery("select e from Event e where e.parent is null order by e.endDate desc")
+        		        .getResultList();
+
+        return loadVenues(events);
     }
 
-    public List<Event> findCommingEvents() {
+    public List<Event> findEvents(Event parent) {
+        List<Event> events = em.createQuery("select e from Event e where e.parent = :parent order by e.startDate asc")
+                               .setParameter("parent", parent)
+                               .getResultList();
+        return loadVenues(events);
+    }
+
+    public List<Event> findUpCommingEvents() {
     	Calendar today = Calendar.getInstance();
-        List<Event> events = em.createQuery("select e from Event e where e.endDate >= :today order by e.endDate desc")
+        List<Event> events = em.createQuery("select e from Event e where e.endDate >= :today and e.parent is null order by e.startDate asc")
         		       .setParameter("today", today.getTime())
                                .getResultList();
+        return loadVenues(events);
+    }
+
+    private List<Event> loadVenues(List<Event> events) {
+        if(events != null) {
+            for(Event event: events) {
+                event.setVenues(venueBean.findEventVenues(event));
+            }
+        }
         return events;
     }
 
-    public void consolidateEventPeriod(Event event, Date date, Date startDate, Date endDate) {
-        if(event == null) {
-            return;
-        }
+    public void sendConfirmationEventAttendance(UserAccount userAccount, Event event, String dateFormat, String timeFormat, String timezone) {
+        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("KJDIEJKHFHSDJDUWJHAJSNFNFJHDJSLE");
+        Map<String, Object> values = new HashMap<>();
+        values.put("userAccount.firstName", userAccount.getFirstName());
+        values.put("event.name", event.getName());
+        values.put("event.venue", "");
+        values.put("event.startDate", TextUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
+        values.put("event.startTime", TextUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
+        values.put("event.endTime", TextUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
+        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        emailMessage.setRecipient(userAccount);
 
-        Query query = em.createQuery("");
+        try {
+            messengerBean.sendEmailMessage(emailMessage);
+        }
+        catch(MessagingException e) {
+            LOGGER.log(Level.WARNING, "Error when sending the confirmation of event attendance to user "+ userAccount.getPostingEmail(), e);
+        }
     }
 
     public void save(Event event) {
-    	if(EntitySupport.INSTANCE.isIdNotValid(event)) {
+        if(EntitySupport.INSTANCE.isIdNotValid(event)) {
             event.setId(EntitySupport.INSTANCE.generateEntityId());
             em.persist(event);
         }

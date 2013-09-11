@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -51,12 +51,11 @@ public class DeactivationTypeEnumToString implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         DeactivationType deactivationType = (DeactivationType) value;
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
         switch (deactivationType) {
             case OWNWILL:
-                return bundle.getMessage("ownwill");
+                return ResourceBundleHelper.INSTANCE.getMessage("ownwill");
             case ADMINISTRATIVE:
-                return bundle.getMessage("administrative");
+                return ResourceBundleHelper.INSTANCE.getMessage("administrative");
             default:
                 return null;
         }

@@ -1,7 +1,7 @@
  /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,150 +20,124 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.AttendeeBean;
 import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.web.report.EventAttendeeReport;
+import org.cejug.yougi.web.controller.UserProfileMBean;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class AttendeeMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    static final Logger logger = Logger.getLogger(AttendeeMBean.class.getName());
-
+    @EJB
+    private AttendeeBean attendeeBean;
+    
     @EJB
     private EventBean eventBean;
 
-    @EJB
-    private AttendeeBean attendeeBean;
+    @ManagedProperty(value = "#{param.id}")
+    private String id;
+    
+    @ManagedProperty(value = "#{param.eventId}")
+    private String eventId;
+    
+    @ManagedProperty(value = "#{userProfileMBean}")
+    private UserProfileMBean userProfileMBean;
 
-    private Event event;
+    private Attendee attendee;
+    
+    private List<Event> attendedEvents;
 
-    private List<Attendee> attendees;
-
-    private Attendee[] selectedAttendees;
-
-    private Long numberPeopleAttending;
-
-    private Long numberPeopleAttended;
-
-    public AttendeeMBean() {
+    public String getId() {
+        return id;
     }
 
-    public Event getEvent() {
-        return event;
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public String getEventId() {
+        return this.eventId;
+    }
+    
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public UserProfileMBean getUserProfileMBean() {
+        return userProfileMBean;
     }
 
-    public List<Attendee> getAttendees() {
-        return attendees;
+    public void setUserProfileMBean(UserProfileMBean userProfileMBean) {
+        this.userProfileMBean = userProfileMBean;
     }
 
-    public Attendee[] getSelectedAttendees() {
-        return selectedAttendees;
+    public Attendee getAttendee() {
+        return this.attendee;
     }
 
-    public void setSelectedAttendees(Attendee[] selectedAttendees) {
-        this.selectedAttendees = selectedAttendees;
+    public void setAttendee(Attendee attendee) {
+        this.attendee = attendee;
     }
-
-    public Long getNumberPeopleAttending() {
-        return numberPeopleAttending;
-    }
-
-    public void setNumberPeopleAttending(Long numberPeopleAttending) {
-        this.numberPeopleAttending = numberPeopleAttending;
-    }
-
-    public void setNumberPeopleAttended(Long numberPeopleAttended) {
-        this.numberPeopleAttended = numberPeopleAttended;
-    }
-
-    public Long getNumberPeopleAttended() {
-        return numberPeopleAttended;
-    }
-
-    public String load(String eventId) {
-        this.event = eventBean.findEvent(eventId);
-
-        this.attendees = attendeeBean.findAttendees(this.event);
-        List<Attendee> confirmedAttendees = attendeeBean.findConfirmedAttendees(event);
-        if (confirmedAttendees != null) {
-            this.selectedAttendees = new Attendee[confirmedAttendees.size()];
-            int i = 0;
-            for (Attendee atd : confirmedAttendees) {
-                this.selectedAttendees[i++] = atd;
-            }
+    
+    public Boolean getIsAttending() {
+        if(this.attendee.getId() != null) {
+            return Boolean.TRUE;
         }
-
-        this.numberPeopleAttending = attendeeBean.findNumberPeopleAttending(this.event);
-        this.numberPeopleAttended = attendeeBean.findNumberPeopleAttended(this.event);
-
-        return "attendees?faces-redirect=true";
+        else {
+            return Boolean.FALSE;
+        }
+    }
+    
+    public List<Event> getAttendedEvents() {
+        if(this.attendedEvents == null && this.attendee != null) {
+            this.attendedEvents = attendeeBean.findAttendeedEvents(this.attendee.getUserAccount());
+        }
+        return this.attendedEvents;
+    }
+    
+    public String attendEvent() {
+        this.attendee.setRegistrationDate(Calendar.getInstance().getTime());
+        attendeeBean.save(this.attendee);
+        return "attendee?id="+ this.attendee.getId();
+    }
+    
+    public String cancelAttendance() {
+        attendeeBean.remove(this.attendee.getId());
+        this.attendee.setId(null);
+        return "attendee";
     }
 
-    public String confirmMembersAttended() {
-        attendeeBean.confirmMembersAttendance(this.event, this.selectedAttendees);
-        removeSessionScoped();
-        return "events?faces-redirect=true";
-    }
-
-    private void removeSessionScoped() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().remove("partnerBean");
-    }
-
-    /**
-     * Generates a PDF with the list of registered members in the event.
-     */
-    public void print() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-        try {
-            Document document = new Document();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PdfWriter.getInstance(document, baos);
-            document.open();
-
-            EventAttendeeReport eventAttendeeReport = new EventAttendeeReport(document);
-            eventAttendeeReport.printReport(this.attendees);
-
-            document.close();
-
-            response.getOutputStream().write(baos.toByteArray());
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-            context.responseComplete();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
-        } catch (DocumentException de) {
-            logger.log(Level.SEVERE, de.getMessage(), de);
+    @PostConstruct
+    public void load() {
+        if (this.id != null && !this.id.isEmpty()) {
+            this.attendee = attendeeBean.findAttendee(id);
+        }
+        else if(eventId != null && !eventId.isEmpty()) {
+            Event event = eventBean.findEvent(eventId);
+            UserAccount userAccount = userProfileMBean.getUserAccount();
+            this.attendee = attendeeBean.findAttendee(event, userAccount);
+            
+            if(this.attendee == null) {
+                this.attendee = new Attendee();
+                this.attendee.setEvent(event);
+                this.attendee.setUserAccount(userAccount);
+            }
         }
     }
 }

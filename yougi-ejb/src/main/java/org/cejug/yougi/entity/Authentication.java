@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -85,7 +85,7 @@ public class Authentication implements Serializable {
     }
 
     /**
-     * Hash a raw password using the MD5 algorithm.
+     * Hash a raw password using the SHA-256 algorithm.
      * @param rawPassword non-hashed password informed by the user.
      * @return the hashed password.
      */
@@ -93,7 +93,7 @@ public class Authentication implements Serializable {
         MessageDigest md;
         byte stringBytes[];
         try {
-            md = MessageDigest.getInstance("MD5");
+            md = MessageDigest.getInstance("SHA-256");
             stringBytes = rawPassword.getBytes("UTF8");
 
             byte stringCriptBytes[] = md.digest(stringBytes);

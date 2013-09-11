@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -38,7 +38,7 @@ import org.cejug.yougi.exception.BusinessLogicException;
 public class ApplicationPropertyBean {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     public Map<String, String> findApplicationProperties() {
         Map<String, String> propertiesMap = new HashMap<>();
@@ -67,7 +67,9 @@ public class ApplicationPropertyBean {
         }
         // If there is more persisted properties than in the enumeration, then exceding properties are removed.
         else if(Properties.values().length < propertiesMap.size()) {
-            Set<Map.Entry<String, String>> propEntries = propertiesMap.entrySet(); // from database
+            // entries from database
+            Set<Map.Entry<String, String>> propEntries = propertiesMap.entrySet();
+            
             Iterator<Map.Entry<String, String>> iProps = propEntries.iterator();
             Map.Entry<String, String> entry;
             Properties[] props = Properties.values();
@@ -99,9 +101,6 @@ public class ApplicationPropertyBean {
             Map<String, String> applicationProperties = findApplicationProperties();
             String key = properties.getKey();
             applicationProperty = new ApplicationProperty(key, (String)applicationProperties.get(key));
-        }
-        catch(Exception e) {
-            throw new BusinessLogicException(e.getMessage());
         }
         return applicationProperty;
     }

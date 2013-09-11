@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -20,9 +20,9 @@
  * */
 package org.cejug.yougi.web.controller;
 
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -30,6 +30,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -40,13 +42,10 @@ public class ChangeEmailMBean {
 
     @EJB
     private UserAccountBean userAccountBean;
-
-    @ManagedProperty(value="#{id}")
+    @ManagedProperty(value = "#{id}")
     private String id;
-
-    @ManagedProperty(value="#{param.cc}")
+    @ManagedProperty(value = "#{param.cc}")
     private String confirmationCode;
-
     private UserAccount userAccount;
     private String currentEmail;
     private String newEmail;
@@ -109,7 +108,8 @@ public class ChangeEmailMBean {
     }
 
     /**
-     * @return the newEmailConfirmation to minimize the risk of typos in the address.
+     * @return the newEmailConfirmation to minimize the risk of typos in the
+     * address.
      */
     public String getNewEmailConfirmation() {
         return newEmailConfirmation;
@@ -121,16 +121,16 @@ public class ChangeEmailMBean {
 
     @PostConstruct
     public void load() {
-        if(id != null && !id.isEmpty()) {
+        if (id != null && !id.isEmpty()) {
             this.userAccount = userAccountBean.findUserAccountByConfirmationCode(id);
-        }
-        else if(confirmationCode != null && !confirmationCode.isEmpty()) {
+        } else if (confirmationCode != null && !confirmationCode.isEmpty()) {
             this.userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode);
         }
     }
 
     /**
      * Compares the informed email with its respective confirmation.
+     *
      * @return true if the email matches with its confirmation.
      */
     private boolean isEmailConfirmed() {
@@ -139,17 +139,23 @@ public class ChangeEmailMBean {
 
     /**
      * It changes the user's email.
+     *
      * @return returns the next step in the navigation flow.
      */
     public String changeEmail() {
 
         // If password doesn't match its confirmation.
-        if(!isEmailConfirmed()) {
+        if (!isEmailConfirmed()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("The email confirmation does not match."));
             return "change_password";
         }
 
-        userAccountBean.changeEmail(userAccount, this.newEmail);
+        try {
+            userAccountBean.changeEmail(userAccount, this.newEmail);
+        } catch (BusinessLogicException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
+            return "change_email";
+        }
         return "profile?faces-redirect=true";
     }
 

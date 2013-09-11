@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -37,7 +37,7 @@ import org.cejug.yougi.util.ResourceBundleHelper;
 @RequestScoped
 public class CertificateMBean {
 
-    static final Logger logger = Logger.getLogger("org.cejug.event.web.controller.EventBean");
+    static final Logger LOGGER = Logger.getLogger("org.cejug.event.web.controller.EventBean");
 
     @EJB
     private AttendeeBean attendeeBean;
@@ -57,13 +57,12 @@ public class CertificateMBean {
     }
 
     public String verifyAuthenticity() {
-        boolean verified = attendeeBean.verifyAuthenticityCertificate(this.certificate);
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
+        boolean verified = attendeeBean.verifyCertificateAuthenticity(this.certificate);
         if(verified) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoCode0001"), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0001"), ""));
         }
         else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getMessage("warnCode0001"), bundle.getMessage("warnCode0002")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0001"), ResourceBundleHelper.INSTANCE.getMessage("warnCode0002")));
         }
         return "certificate_validation";
     }

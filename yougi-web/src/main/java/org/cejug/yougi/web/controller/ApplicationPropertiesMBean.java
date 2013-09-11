@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -32,9 +32,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
-import org.cejug.yougi.business.LocationBean;
+import org.cejug.yougi.business.TimezoneBean;
 import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
+import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
@@ -45,16 +46,21 @@ import org.cejug.yougi.util.ResourceBundleHelper;
 public class ApplicationPropertiesMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
     @EJB
-    private LocationBean locationBean;
+    private TimezoneBean timezoneBean;
+
     @EJB
     private LanguageBean languageBean;
+
     private Map<String, String> applicationProperties;
     private Boolean sendEmails;
     private Boolean captchaEnabled;
     private List<Language> languages;
+    private List<Timezone> timezones;
 
     public Map<String, String> getApplicationProperties() {
         return applicationProperties;
@@ -80,8 +86,11 @@ public class ApplicationPropertiesMBean implements Serializable {
         this.captchaEnabled = captchaEnabled;
     }
 
-    public List<String> getTimeZones() {
-        return locationBean.getTimeZones();
+    public List<Timezone> getTimezones() {
+        if(this.timezones == null) {
+            this.timezones = timezoneBean.findTimezones();
+        }
+        return this.timezones;
     }
 
     public List<Language> getLanguages() {
@@ -96,8 +105,7 @@ public class ApplicationPropertiesMBean implements Serializable {
         this.applicationProperties.put(Properties.CAPTCHA_ENABLED.getKey(), captchaEnabled.toString());
         applicationPropertyBean.save(this.applicationProperties);
 
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoPropertiesSaved"), ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoPropertiesSaved"), ""));
 
         return "properties";
     }
@@ -124,7 +132,6 @@ public class ApplicationPropertiesMBean implements Serializable {
         String serverName = request.getServerName();
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();
-        String serverAddress = serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath);
-        return serverAddress;
+        return serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath);
     }
 }

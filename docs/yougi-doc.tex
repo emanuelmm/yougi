@@ -1,4 +1,4 @@
-\documentclass[envcountsame,envcountchap,letterpaper]{svmono}
+\documentclass[envcountsame,envcountchap]{svmono}
 \usepackage{makeidx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -39,11 +39,11 @@ Notice: copies of this document may be made for your own use and for distributio
 
 \chapter{Introduction}
 
-\section{What is a User Group?}
+\section{What is a Community?}
 
-\section{Case Study}
+\section{Case Study: Java User Groups}
 
-The chosen case study is based on the personal experience of the team who is developing You. Most of contributions come from the Cear\'{a} Java User Group, which is a technical user group located in the Northeast cost of Brazil. Despite being part of a specific domain, we believe that the proposed model is generic enough to cover the management's needs of most user groups out there.
+The chosen case study is based on the personal experience of the team who is developing You. Most of contributions come from the Cear\'{a} Java User Group, which is a technical user group located in the North-east cost of Brazil. Despite being part of a specific domain, we believe that the proposed model is generic enough to cover the management's needs of most user groups out there.
 
 \subsection{The Java User Group Scenario}
 
@@ -57,13 +57,21 @@ Their independence from the industry is particularly interesting because, in gen
 
 \section{Yougi Mission and Vision}
 
-Yougi is developed by passionate people that are used to do, in a daily basis for several years, what the application does today and what it is planned to do tomorrow for online communities out there. After two years of continuos development, Yougi has consolidated its mission of managing, promoting and spreading knowledge produced by a community of members sharing the same interests and passions.
+Yougi is developed by passionate people that are used to do, in a daily basis for several years, what the application does today and what it is planned to do tomorrow for on-line communities out there. After two years of continuous development, Yougi has consolidated its mission of managing, promoting and spreading knowledge produced by a community of members sharing the same interests and passions.
 
-The project goes beyond services for communities and extends its impact to other areas such as education, economical competitivity and generation of opportunities. Since the application is made available as free and open software, several technical questions from CEJUG's mailing list are actually addressed by examples extracted from Yougi's source code. Beginners and professionals learn how to program and use the platform by studing how the application was developed.
+The project goes beyond services for communities and extends its impact to other areas such as education, economical competitiveness and generation of opportunities. Since the application is made available as free and open software, several technical questions from CEJUG's mailing list are actually addressed by examples extracted from Yougi's source code. Beginners and professionals learn how to program and use the platform by studying how the application was developed.
 
 \section{Overview}
 
 \section{Conventions Used in this Book}
+
+Within codes and scripts, when a word is surrounded by '[' it means that word should be replaced by a context-specific value when applied to a particular environment. For example:
+
+\begin{verbatim}
+password = [password]
+\end{verbatim}
+
+In this case, [password] should be replaced by the real password.
 
 \part{User Guide}
 
@@ -71,9 +79,29 @@ The project goes beyond services for communities and extends its impact to other
 
 \section{Registration}
 
-The decision to register in the user group always come from the interested person. That is why the only way to add a new member is filling out the initial registration form, accessible through a link in the application header when there is no member logged in. JUG leaders do not have any feature that allow them to add new members manually.
+The decision to register in the user group always come from the interested person. That is why the only way to add a new member is filling out the initial registration form, accessible through a link in the application header when there is no member logged in. Leaders or administrators do not have any feature that allows them to add new members manually.
 
-Besides the basic personal data, the registration form also asks the interested person to select one or more of the following options:
+Right after installing the application for the first time, while the database is still empty, the application asks the user to register the first person, who will be considered as administrator. This person will have full access to all functionalities. All other people registered after the administrator will have rights of a regular member by default.
+
+The form asks for personal, identification, and location data, as well as some personal preferences. The only restriction is the email address, which should be unique for each member. So the application won't allow the user to register twice with the same email address. There is also a particularity when informing the location, since it is not practical to register all existing provinces and cities in the world, we made the province optional and we added a text field besides the list of cities to be used in case the user does not find its city in the list.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.9]{figures/registration-location}
+\caption{Location data in the registration form}
+\label{fig:registration-location}
+\end{figure}
+
+The city informed in the text field is not immediately taken into consideration by the application. It means that the new city will not appear to other users in subsequent registrations. Behind the scene, the administrator must confirm the existence of the city by performing a search on Google Maps\footnote{https://maps.google.com} and adding in the new city's registration its geographic coordinates. Once confirmed, the city is made available in the registration form for other users.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.9]{figures/location-city-validation}
+\caption{Validation of a city informed by the user during its registration}
+\label{fig:location-city-validation}
+\end{figure}
+
+The following preferences are available in the registration form:
 
 \begin{itemize}
 \item ``I want to be aware of all events organized and supported by the UG in a local, national and international level'' - as a member, the person will receive information about events organized by the UG (see Chapter \ref{chp:event-management}) and other supported events promoted by partners and sponsors.
@@ -89,7 +117,7 @@ Besides the basic personal data, the registration form also asks the interested 
 \item ``Other UG members will be able to see my profile and contact me directly through the application. The application will carefully protect the email address, not showing it for others'' - only members who checked this option will be able to use the social features of the application.
 \end{itemize}
 
-When the interested person submits the registration form, we have to make sure that his/her email address is correct before considering him/her as a member. We send an email message to the email address informed in the form, asking the interested person to confirm their email address by clicking on the confirmation link. This link contains a unique code that guarantees that the link cannot be reused after its first use, confirming the email address only once. The interested person is considered as a member as soon as his/her email address is confirmed. The new member receives a welcome email message and JUG Leaders are informed by email about the successful member registration.
+When the interested person submits the registration form, we have to make sure that his/her email address is correct before considering him/her as a member. We send an email message to the email address informed in the form, asking the interested person to confirm their email address by clicking on the confirmation link. This link contains a unique code that guarantees that the link cannot be reused after its first use, confirming the email address only once. The interested person is considered as a member as soon as his/her email address is confirmed. The new member receives a welcome email message and leaders are informed by email about the successful member registration.
 
 \section{Member Profile}
 
@@ -100,6 +128,20 @@ The member has the right to read and modify any data published on its own profil
 The deactivation of a member means that he/she will not participate in the activities of the group  starting from the date of the deactivation. No email message, invitation, offer, or any other kind of information will be sent to the deactivated member any longer. Therefore, he/she is not considered as a regular member.
 
 At the same time, all data input by the ancient member in the database will not be removed. Comments, email messages, articles and other information will be kept unchanged indefinitely. Therefore, any modification on these data is not responsibility of the application.
+
+\chapter{Partnership Management}
+
+\section{Registration of Partners}
+
+\section{Sponsorship}
+
+\section{Exclusive Services for Partners}
+
+\subsection{Dissemination of Job Offers}
+
+\subsection{Offers of Products and Services}
+
+\subsection{Search for Talent People}
 
 \chapter{Event Management}
 \label{chp:event-management}
@@ -128,27 +170,13 @@ At the entrance of the event, a member of the UG staff checks the inscription of
 
 \section{After the Event}
 
-When the event has passed, no information about the event can be changed anymore. It will be available only in a read-only mode from the day after. Speakers will not be able to update their profiles either until being allocated to another event. However, UG Leaders are able to publish additional resources related to the event, such as pictures, documents, presentations, etc.
-
-\chapter{Partnership Management}
-
-\section{Registration of Partners}
-
-\section{Sponsorship}
-
-\section{Exclusive Services for Partners}
-
-\subsection{Dissemination of Job Offers}
-
-\subsection{Offers of Products and Services}
-
-\subsection{Search for Talent People}
+When the event has passed, information about the event can no longer be changed. It will be available only in a read-only mode from the day after. Speakers will not be able to update their profiles either until being allocated to another event. However, UG Leaders are able to publish additional resources related to the event, such as pictures, documents, presentations, etc.
 
 \chapter{Knowledge Management}
 
-\section{Topics in the Scope of the User Group}
+\section{Topics}
 
-\section{Mailing Lists Management}
+\section{Mailing Lists from Chaos to Meaningful Content}
 
 \section{Web Content Agregation}
 
@@ -156,7 +184,7 @@ When the event has passed, no information about the event can be changed anymore
 
 \chapter{Architecture}
 
-Yougi should be deployed in an Application Server (AS). This platform is responsible for the system execution, the connectivity to several resources available in the environment and the availability for several users and systems. For the moment, Glassfish 3.1.2 is the standard AS for this application. This JEE Server has gained lots of attention for constantly run towards the state-of-the-art of the Java server side technology. It has an aggressive roadmap, being always the first product on the market to fully implement the last version of the JEE specification.
+Yougi should be deployed in an Application Server (AS). This platform is responsible for the system execution, the connectivity to several resources available in the environment and the availability for several users and systems. For the moment, Glassfish is the standard AS for this application. This JavaEE 6 Server has gained lots of attention for constantly run towards the state-of-the-art of the Java server side technology. It has an aggressive roadmap, being always the first product on the market to fully implement the last version of the JEE specification.
 
 One of the main advantages of using an application server like Glassfish is to keep the application free of complex code, such as a) manual control of database transactions; b) database access configuration; c) security authentication and authorization; e) sending and receiving e-mail messages, among many other complexities that are non-functional requirements, consuming the time we would be spending on functional requirements.
 
@@ -261,18 +289,29 @@ Going into details about the chosen technologies, we describe each one of them, 
 
 \section{Database Model}
 
-\begin{figure}
-\centering
-\includegraphics[height=10cm, angle=90]{figures/relational-model}
-\caption{Database relational model}
-\label{fig:relational-model}
-\end{figure}
-
 \subsection{Liquibase}
 
 To keep the database model up-to-date, Yougi uses the Framework Liquibase\footnote{Liquibase. Database Change Management.  http://www.liquibase.org.}. This framework empowers the application to update the database during deployment time. It simplies the upgrade of the application, reducing it to a simple deployment.
 
 During development time, if the database needs to change, the developer should add change sets to one or several xml files located in the module yougi-web, at src/main/resources/org/cejug/yougi/db/changelog.
+
+\subsection{Security Model}
+
+\begin{figure}
+\centering
+\includegraphics{figures/security-db-model}
+\caption{Security database model}
+\label{fig:security-db-model}
+\end{figure}
+
+\subsection{Event Model}
+
+\begin{figure}
+\centering
+\includegraphics{figures/event-db-model}
+\caption{Event database model}
+\label{fig:event-db-model}
+\end{figure}
 
 \chapter{Installation}
 \label{chp:installation}
@@ -287,17 +326,19 @@ To install Yougi we need:
 \item Access to a SMTP and POP 3 server to send and receive email messages.
 \end{itemize}
 
-The initial installation takes some time, but it will guarantee easy updates when new releases come out. Because the installation of Java SE JDK, Glassfish and MySQL are dependent of platform, we consider that they were already performed by the administrator, who knows details about the hosting system. We would not be complete and up-to-date enough here, thus the best source of information is their respective websites. The steps to install the application are:
+The initial installation takes some time, but it will guarantee easy updates when new releases come out. Because the installation of Java SE JDK, Glassfish and MySQL are dependent on the target platform, we consider that they were already performed by the administrator, who knows details about the hosting system. We would not be complete and up-to-date enough to cover all the possibilities, thus the best source of information is their respective websites. 
+
+The steps to install the application are:
 
 \begin{enumerate}
 \item Create a MySQL database: run SQL scripts to create a database and its structure dedicated for the application. The last available version of the database script is mysql-create.sql.
 \item Install the JDBC Driver on Glassfish: make the MySQL ConnectorJ JDBC Driver available in the application server classpath to be used by the connection pool to create new MySQL database connections.
 \item Create a database connection pool on Glassfish: the connection pool manages connections to the database using the JDBC Driver.
-\item Create a datasource for the connection pool on Glassfish: the datasource links the connection pool to the application. In other words, the connection pool is a resource and the datasource is a name for this resource. This name is used in the application to locate and use the resource.
-\item Create a Security Realm: the security realm allows the declarative implementation of the application's security, significantly reducing the application complexity by delegating this responsibility to the container.
+\item Create a datasource for the connection pool on Glassfish: the datasource links the connection pool to the application. In other words, the connection pool is a resource and the datasource is a name for this resource. This name is used in the application to locate and use that resource.
 \item Create a JavaMail session: since this application deals with people, it has to send emails very often. Therefore, the availability of a JavaMail session, managed by the container, is essential to support the high demand for sending and receiving emails without dealing with the complexity of managing email server connections.
+\item Create a Security Realm: the security realm allows the declarative implementation of the application's security, significantly reducing the application complexity by delegating this responsibility to the container.
 \item Deploy the application package: finally, we deploy the application package that makes use of all configurations above.
-\item Configure the application according to specific needs of the JUG: after the initial deployment the application will run normally using default configuration. However, the application will be fully operational only when specific configurations for the JUG are defined.
+\item Configure the application according to specific needs of the community: after the initial deployment the application will run normally using default configuration. However, the application will be fully operational only when specific configurations for the community are defined. For instance: there will not be no location registered at the beginning and they have to be created to allow the registration of new members.
 \end{enumerate}
 
 \section{Creating the MySQL Database}
@@ -314,9 +355,9 @@ Usually, an administrative user is needed to create a new database. The user \te
 
 \begin{verbatim}
 mysql> create database ug;
-mysql> create user ug_user identified by '[password]';
+mysql> create user 'ug_user'@'localhost' identified by '[password]';
 mysql> use ug;
-mysql> grant all privileges on ug.* to ug_user@'%';
+mysql> grant all privileges on ug.* to 'ug_user'@'localhost';
 mysql> flush privileges;
 \end{verbatim}
 
@@ -326,30 +367,36 @@ The database \textit{ug} and the user \textit{ug\_user} are created, and all pri
 mysql> show databases;
 \end{verbatim}
 
-Check if the database \textit{ug} is in the list. Then we have to sign out from this root's session and open a new session for the new user to create the database structure. Follow the sequence of commands below:
+Check if the database \textit{ug} is in the list. If necessary, you can drop the user to create it again:
 
 \begin{verbatim}
-mysql> quit;
+mysql> drop 'ug_user'@'localhost';
+\end{verbatim}
 
-# mysql -u ug_user -p
+Or you can reset the password:
 
-mysql> use ug;
-mysql> source [path of the database script]/mysql-create.sql;
+\begin{verbatim}
+mysql> set password for 'ug_user'@'localhost' = password('[password]');
+\end{verbatim}
+
+To leave the MySQL command prompt, use the command \textit{quit}.
+
+\begin{verbatim}
 mysql> quit;
 \end{verbatim}
 
 The user \textit{ug\_user} and its password should be used in the configuration of the connection pool. Do not use the \textit{root} user for application purposes.
 
-The file \textit{mysql-create.sql} is available within the source code. It is located in the folder /yougi-ejb/src/main/resources/META-INF/. To get the source code, follow the instructions described in the section \ref{ssec:obtaining-source-code} or get it from the web at: https://github.com/htmfilho/yougi.
-
 \section{Installing the JDBC Driver on Glassfish}
 
-The driver installation consists on saving the driver file in a specific AS lib directory. For this step instructions consider that Glassfish AS, version 3.1.2 or superior, is already installed and configured. The driver is available to download at MySQL's website (http://www.mysql.com). The downloaded file contains the driver and its documentation. Copy  the driver file mysql-connector-java-[version]-bin.jar to the directory /glassfish/domains/domain1/lib/. The server needs to be restarted to make the driver available.
+The driver installation consists on saving the driver file in a specific AS library directory. The driver is available to download at MySQL's website (http://www.mysql.com). The downloaded file contains the driver and its documentation. Copy  the driver file mysql-connector-java-[version]-bin.jar to the directory /glassfish/domains/domain1/lib/. The server needs to be restarted to make the driver available.
 
 \section{Creating a Database Connection Pool}
 \label{sec:creating-database-connection-pool}
 
-The database connection pool is managed by the AS. There are many ways to create a connection pool. We are going to show two possibilities: changing configuration files directly and using the Administrative Console.
+The database connection pool is managed by the AS. There are many ways to create a connection pool. We are going to show three possibilities: changing the configuration file directly, using the Administrative Console, and using the asadmin command line.
+
+\subsection{Changing the Configuration File}
 
 To create the database connection pool through the configuration file, open the file [glassfish\_home]/glassfish/domains/domain1/config/domain.xml. Go to the element \textless resources\textgreater \ and add the following connection pool and jdbc resource under the last closing \textless /jdbc-connection-pool\textgreater \ element.
 
@@ -361,14 +408,14 @@ To create the database connection pool through the configuration file, open the 
        "com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource"
        res-type="javax.sql.ConnectionPoolDataSource" description="" 
        name="UGPool" ping="true">
-         <property name="User" value="ug_user"></property>
-         <property name="DatabaseName" value="ug"></property>
-         <property name="Password" value="password_here"></property>
-         <property name="ServerName" value="localhost"></property>
-         <property name="PortNumber" value="3306"></property>
+         <property name="User" value="ug_user"/>
+         <property name="DatabaseName" value="ug"/>
+         <property name="Password" value="[password]"/>
+         <property name="ServerName" value="localhost"/>
+         <property name="PortNumber" value="3306"/>
    </jdbc-connection-pool>
    <jdbc-resource pool-name="UGPool" description="" 
-                  jndi-name="jdbc/ug"></jdbc-resource>
+                  jndi-name="jdbc/ug"/>
 </resources>
 \end{verbatim}
 
@@ -377,9 +424,11 @@ Now, find the element \textless server name=''server'' config-ref=''server-confi
 \begin{verbatim}
 <server name="server" config-ref="server-config">
    ...
-   <resource-ref ref="jdbc/ug"></resource-ref>
+   <resource-ref ref="jdbc/ug"/>
 </server>
 \end{verbatim}
+
+\subsection{Using the Administrative Console}
 
 If you prefer to do it in the Administrative Console, you can go through the following steps:
 
@@ -390,7 +439,7 @@ If you prefer to do it in the Administrative Console, you can go through the fol
    \begin{enumerate}
    \item DatabaseName=ug
    \item User=ug\_user
-   \item Password=put\_the\_password\_here
+   \item Password=[password]
    \item PortNumber=3306 (this is the default port but make sure
    that you are using the correct one)
    \item ServerName=[server-name or ip address]
@@ -411,9 +460,40 @@ Now, we create a JNDI name for it at \textit{Resources/JDBC/JDBC Resources}.
 
 The only information the application knows about the database is the jdbc resource jndi name, which is ''jdbc/ug''. This is important because the application should not contain any security related data, such as database's username and password. We should let the server administrator define these configuration on the server, according to his security principles.
 
+\subsection{Using the Command Line}
+
+It is also possible to configure Glassfish using the asadmin utility, a command line tool to perform administrative tasks. In the terminal, navigate to [glassfish-home]/bin and execute the command:
+
+\begin{verbatim}
+# ./asadmin
+\end{verbatim}
+
+The asadmin prompt becomes available to accept commands. Check the server version to make sure it is working properly:
+
+\begin{verbatim}
+asadmin> version
+\end{verbatim}
+
+You can now proceed with the commands to create the connection pool:
+
+\begin{verbatim}
+asadmin> create-jdbc-connection-pool 
+--datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource 
+--restype javax.sql.ConnectionPoolDataSource
+--property user=ug_user:password=[password]:databaseName=ug:port=3306 UGPool
+\end{verbatim}
+
+and the jdbc resource:
+
+\begin{verbatim}
+asadmin> create-jdbc-resource --connectionpoolid UGPool jdbc/ug
+\end{verbatim}
+
 \section{Creating a JavaMail Session}
 
 Besides managing the connections to the email server, the JavaMail session stores security parameters, such as user name, password, SSL, the kind of server available and so on. These parameters are defined in a case by case basis, thus the JavaMail service provided by the application server is essential for the distribution of this application.
+
+\subsection{Changing the Configuration File}
 
 You can configure JavaMail directly in the domain.xml file, by copying and pasting the xml below after the element \textless jdbc-resource\textgreater, and then change the values according to your email server.
 
@@ -422,15 +502,14 @@ You can configure JavaMail directly in the domain.xml file, by copying and pasti
    ...
    </jdbc-connection-pool>
    <jdbc-resource pool-name="UGPool" description="" 
-                  jndi-name="jdbc/ug"></jdbc-resource>
+                  jndi-name="jdbc/ug"/>
 
-   <mail-resource host="send.one.com" description="" 
-                  jndi-name="mail/ug" from="your@emailaddress"
-                  user="smtp_user">
-      <property name="mail.smtp.port" value="2525"></property>
-      <property name="mail.smtp.auth" value="true"></property>
-      <property name="mail.smtp.password" value="your_password">
-      </property>
+   <mail-resource host="[smtp_server_name]" description="" 
+                  jndi-name="mail/ug" from="[your@emailaddress]"
+                  user="[smtp_user]">
+      <property name="mail.smtp.port" value="[port_number]"/>
+      <property name="mail.smtp.auth" value="true"/>
+      <property name="mail.smtp.password" value="[password]"/>
    </mail-resource>
 </resources>
 \end{verbatim}
@@ -440,10 +519,12 @@ Add the element \textless resource-ref\textgreater \ of this new resource after 
 \begin{verbatim}
 <server name="server" config-ref="server-config">
    ...
-   <resource-ref ref="jdbc/ug"></resource-ref>
-   <resource-ref ref="mail/ug"></resource-ref>
+   <resource-ref ref="jdbc/ug"/>
+   <resource-ref ref="mail/ug"/>
 </server>
 \end{verbatim}
+
+\subsection{Using the Administrative Console}
 
 To configure JavaMail using the Administrative Console, follow the steps below:
 
@@ -453,7 +534,7 @@ To configure JavaMail using the Administrative Console, follow the steps below:
 \item create a new JavaMail session and set the following properties:
    \begin{enumerate}
    \item JNDI Name: mail/ug
-   \item Mail Host: [smtp-server-address]
+   \item Mail Host: [smtp-server-name]
    \item Default User: the username to authenticate on the smtp
     server
    \item Default Return Address: the address used by recipients to
@@ -477,11 +558,15 @@ If the server doesn't request secure authentication, then the three steps above 
 
 More supported JavaMail properties can be found on Table \ref{tab:javamail-properties} in the Appendix.
 
+\subsection{Using the Command Line}
+
 \section{Creating a Security Realm}
 
 A realm is a security policy domain available on Glassfish to provide authentication and authorization services for web applications. A realm contains a collection of users and their assignements to groups and roles.
 
 As the connection pool and the JavaMail session, the security realm is also a configuration entirely made in the application server. Since Yougi's users are stored in the database, we have to use a realm based on JDBC. The JDBC Realm uses the data source created in section \ref{sec:creating-database-connection-pool} to access users' data on Yougi's database.
+
+\subsection{Changing the Configuration File}
 
 As usual, we start with the fastest configuration option, by directly changing the domain.xml file. Copy and paste the xml below within the element \textless security-service\textgreater .
 
@@ -490,21 +575,22 @@ As usual, we start with the fastest configuration option, by directly changing t
    ...
    <auth-realm name="ug-realm"
        classname="com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm">
-       <property name="jaas-context" value="jdbcRealm"></property>
-       <property name="encoding" value="Base64"></property>
-       <property name="user-table" value="authentication"></property>          
-       <property name="password-column" value="password"></property>
-       <property name="datasource-jndi" value="jdbc/ug"></property>
-       <property name="group-table" value="user_group"></property>
-       <property name="group-name-column" value="group_name"></property>
-       <property name="group-table-user-name-column" 
-           value="username"></property>
-       <property name="digest-algorithm" value="MD5"></property>
-       <property name="user-name-column" value="username"></property>
+       <property name="jaas-context" value="jdbcRealm"/>
+       <property name="encoding" value="Base64"/>
+       <property name="user-table" value="authentication"/>          
+       <property name="password-column" value="password"/>
+       <property name="datasource-jndi" value="jdbc/ug"/>
+       <property name="group-table" value="user_group"/>
+       <property name="group-name-column" value="group_name"/>
+       <property name="group-table-user-name-column" value="username"/>
+       <property name="digest-algorithm" value="SHA-256"/>
+       <property name="user-name-column" value="username"/>
    </auth-realm>
    ...
 </security-service>
 \end{verbatim}
+
+\subsection{Using the Administrative Console}
 
 If you prefer, you can always use the Adminstrative Console to configure the JDBC Realm. Just follow the steps below:
 
@@ -522,11 +608,13 @@ If you prefer, you can always use the Adminstrative Console to configure the JDB
    \item Group Table: user\_group
    \item Group Table User Name Column: username
    \item Group Name Column: group\_name
-   \item Digest Algorithm: MD5
+   \item Digest Algorithm: SHA-256
    \item Encoding: Base64
    \end{enumerate}
 \item Restart the application server to activate the realm.
 \end{enumerate}
+
+\subsection{Using the Command Line}
 
 \section{Deploying the Application Package}
 
@@ -535,10 +623,10 @@ The installation process takes some time, but all these steps are executed only 
 \begin{enumerate}
 \item enter in the Administrative Console (http://[server-name]:4848).
 \item Go to \textit{Applications} and press \textit{Deploy...}.
-\item Inform the package \textit{jug.ear} to be uploaded to the server.
+\item Inform the package \textit{yougi.ear} to be uploaded to the server.
 \item Select type \textit{Enterprise Application}.
 \item Click \textit{Ok} to deploy.
-\item Check if everything went well accessing http://localhost:8080/jug if deploying on your own computer or http://[servername]:8080/jug if deploying on the server.
+\item Check if everything went well accessing http://localhost:8080/ug if deploying on your own computer or http://[servername]:8080/ug if deploying on the server.
 \end{enumerate}
 
 Yougi will appear in the list of applications. In case of updating an application already deployed, the process is very simplified because of the initial configuration:
@@ -546,10 +634,10 @@ Yougi will appear in the list of applications. In case of updating an applicatio
 \begin{enumerate}
 \item enter in the Administrative Console (http://[server-name]:4848).
 \item Go to \textit{Applications}.
-\item click on the action \textit{Redeploy} in the row of the jug application;
-\item inform the package “jug.ear” to be uploaded to the server; and
+\item click on the action \textit{Redeploy} in the row of the yougi application;
+\item inform the package “yougi.ear” to be uploaded to the server; and
 \item click \textit{Ok} to redeploy.
-\item Check if everything went well accessing http://[server-name]:8080/jug.
+\item Check if everything went well accessing http://[server-name]:8080/ug.
 \end{enumerate}
 
 \section{Configuring the Application}
@@ -564,23 +652,90 @@ Before using the application, the database should be initialized with some initi
 
 \chapter{Development}
 
-This chapter explains how to contribute to the source code of the project. It goes from the checkout of the source code to the development of an entire feature.
+As explained in the previous chapter, it is not necessary to start from the source code to install and use Yougi. The binary package is available at http://yougi.org/downloads. On the other hand, if the intention is to contribute to the project, a set of other actions are necessary. A potential contributor may:
+
+\begin{itemize}
+\item Be passionate about open source initiatives and technologies.
+\item Be interested in learning Enterprise Java technologies.
+\item Be excited about implementing a solution to manage communities.
+\item Learn JavaEE, Maven, Arquillian, JUnit, and other technologies used in the project.
+\end{itemize}
+
+If you fell comfortable with these principals, this chapter will help you to get started, explaining how to contribute to the source code of the project.
 
 \section{Preparing the Development Environment}
+
+Before starting, make sure you have everything it takes to develop Yougi. Basically, you have to:
+
+\begin{itemize}
+\item Install and configure Git, a version control system used to manage the source code and its distribution.
+\item Create an account on Github and learn the social aspect of it.
+\item Install and configure a Java IDE, preferably Netbeans because it is one of the best IDEs available to work with JavaEE applications.
+\item Install and configure an application server, preferably Glassfish, which is probably the more mature Java EE implementation available.
+\item Install and configure a relational database,  
+\end{itemize}
 
 \subsection{Obtaining the Source Code}
 \label{ssec:obtaining-source-code}
 
-Git is the version control system (VCS) used to control Yougi source code. For being a distributed VCS, Git is not trivial. Its foundations are a bit different from traditional VCSs, such as CVS and SVN. There is a master repository located at http://github.com/htmfilho/yougi, where the main trunk (master) is centralized, but every client is also a full featured VCS, where is possible perform commits off line, create branches and merge with other clients without acknowledging the master.
+Git is the version control system (VCS) used to control Yougi's source code. For being a distributed VCS, Git is not that trivial. Its foundations are a bit different from traditional VCSs, such as CVS and SVN. So, you have to rethink some concepts while working with Git. We will explore the necessary here, but it is always good to master it later through books, training and other means.
 
-To install and use Yougi is not necessary to start from the source code. The binary package is available at http://yougi.org/downloads. Just follow the instructions described on Chapter \ref{chp:installation}. On the other hand, if the intention is to contribute to the project, the use of Git to retrieve the source code is necessary. The potential contributor should:
+The master repository is located at http://github.com/htmfilho/yougi, where the main trunk (master) is centralized, but every client is also a full featured VCS, where is possible to perform commits off line, create branches and merge with other clients without acknowledging the master.
+
+fork the main repository
+
+clone your own fork to your computer.
+
+\begin{verbatim}
+#git config --global user.name "John Smith"
+#git config --global user.email "john.smith@gmail.com"
+
+# mkdir yougi
+# cd yougi
+# git clone https://github.com/[your-github-username]/yougi.git .
+\end{verbatim}
+
+\subsection{Building the Project for the First Time}
+
+Start Netbeans
+
+Open Maven project: yougi
+
+Clean and Build: yougi
+
+\begin{verbatim}
+-------------------------------------------------------------
+Reactor Summary:
+
+yougi ..................................... SUCCESS [6.170s]
+yougi-ejb  ................................ SUCCESS [37.864s]
+yougi-web  ................................ SUCCESS [34.020s]
+yougi-ear  ................................ SUCCESS [5.009s]
+-------------------------------------------------------------
+BUILD SUCCESS
+-------------------------------------------------------------
+Total time: 1:23.555s
+Finished at: Sun May 05 17.45.48 CEST 2013
+Final Memory: 28M/369M
+-------------------------------------------------------------
+\end{verbatim}
+
+Freely change the files in your local clone, trying to solve one of the issues reported at: https://github.com/htmfilho/yougi/issues.
+
+Add the changed files to the stage for commit
+
+\begin{verbatim}
+git add [file]
+\end{verbatim}
+
+Only add files that should be committed.
 
 \begin{enumerate}
 \item install Git in the development machine: the installation is dependent of platform, thus the instructions for the target platform are only available on the Git website: http://git-scm.com.
 \item configure Git to access the master repository: Yougi's Git accepts only secure SSH (Security Shell protocol) connection, making the initial steps more complicated than expected. After this initial configuration, the access to the master becomes transparent and secure.
 \item register at github.com.
 \item copy and paste the public key in your Github personal profile.
-\item register yourself as a member of the CEJUG Community at \\ http://cejug.org/jug/registration.xhtml. You will have access to the repository only if you are a CEJUG member.
+\item register yourself as a member of the CEJUG Community at \\ http://cejug.org/ug/registration.xhtml. You will have access to the repository only if you are a CEJUG member.
 \end{enumerate}
 
 To make sure that the code in the server branch is perfectly working, we have to update the local copy with the latest changes available on the server, test the system locally with those changes and if everything is working well, the local commits can finally be pushed to its respective branch. Before updating the local, make sure that there is no pending commit using:
@@ -621,6 +776,33 @@ To push local commit to the server, use:
 \begin{verbatim}
 #git push origin master
 \end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics[scale=.34]{figures/github-fork}
+\caption{Forking the main repository}
+\label{fig:github-fork}
+\end{figure}
+
+It is a good practice to refresh your fork before creating a pull request. It will substantially reduce the effort of the committers while trying to merge your contributions. The main trunk might have been under intense changes, made by different people in parallel, and refreshing your fork is also a way to also distribute the effort of having the application more stable and complete.
+
+Go to your own fork page and you will see the possibility of creating a pull request to the original repository. The commits you have done to your own repository will be in the scope of the pull request. There are some fields available to allow you to explain in details what you have done. This is very important because in a distributed team we don't have the chance to talk in person and things turn to be more difficult to understand. Figure \ref{fig:github-pull-request-example} shows an example of a pull request that is about to be sent.
+
+\begin{figure}
+\centering
+\includegraphics[scale=.46]{figures/github-pull-request-example}
+\caption{Example of pull request}
+\label{fig:github-pull-request-example}
+\end{figure}
+
+The pull request appears in the main repository and any of the existing committers can take the initiative to review and approve/desaprove it, as illustrated in Figure \ref{fig:github-pull-request-merged-closed}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=.46]{figures/github-pull-request-merged-closed}
+\caption{Review and approval of the received pull request}
+\label{fig:github-pull-request-merged-closed}
+\end{figure}
 
 \subsection{Configuring the Eclipse IDE}
 

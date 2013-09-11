@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,12 +31,12 @@
             <ui:define name="content">
                 <div class="content">
                     <h1>#{bundle.sessions}</h1>
-                    <h:outputText value="#{eventSessionMBean.event.name}" style="font-size: 18px; font-weight: bold;"/>
+                    <h:outputText value="#{sessionMBean.event.name}" style="font-size: 18px; font-weight: bold;"/>
                     <p><h:link outcome="session" value="#{bundle.newSession}" rendered="#{securityBackingMBean.isUserLeader}">
-                           <f:param name="eventId" value="#{eventSessionMBean.event.id}"/>
+                           <f:param name="eventId" value="#{sessionMBean.event.id}"/>
                        </h:link></p>
                     <h:form>
-                        <p:dataTable value="#{eventSessionMBean.eventSessions}" var="sess">
+                        <p:dataTable value="#{sessionMBean.eventSessions}" var="sess">
                             <p:column>
                                 <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                 <h:link outcome="session" value="#{sess}">

@@ -1,21 +1,21 @@
-/* Yougi is a web application conceived to manage user groups or 
- * communities focused on a certain domain of knowledge, whose members are 
- * constantly sharing information and participating in social and educational 
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
- * 
- * This application is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by the 
- * Free Software Foundation; either version 2.1 of the License, or (at your 
+/* Yougi is a web application conceived to manage user groups or
+ * communities focused on a certain domain of knowledge, whose members are
+ * constantly sharing information and participating in social and educational
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
+ *
+ * This application is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
- * This application is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
+ *
+ * This application is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
  * License for more details.
- * 
- * There is a full copy of the GNU Lesser General Public License along with 
+ *
+ * There is a full copy of the GNU Lesser General Public License along with
  * this library. Look for the file license.txt at the root level. If you do not
- * find it, write to the Free Software Foundation, Inc., 59 Temple Place, 
+ * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
 package org.cejug.yougi.event.entity;
@@ -45,27 +45,27 @@ public class Attendee implements Serializable, Identified {
 
     @ManyToOne
     @JoinColumn(name = "attendee")
-    private UserAccount attendee;
+    private UserAccount userAccount;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name = "registration_date")
     private Date registrationDate;
 
     private Boolean attended;
-    
+
     @Column(name="certificate_fullname")
     private String certificateFullname;
-    
+
     @Column(name="certificate_event")
     private String certificateEvent;
-    
+
     @Column(name="certificate_venue")
     private String certificateVenue;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name="certificate_date")
     private Date certificateDate;
-    
+
     @Column(name="certificate_code")
     private String certificateCode;
 
@@ -78,6 +78,10 @@ public class Attendee implements Serializable, Identified {
     public void setId(String id) {
         this.id = id;
     }
+    
+    public String getFullName() {
+        return this.userAccount.getFullName();
+    }
 
     public Event getEvent() {
         return event;
@@ -87,12 +91,12 @@ public class Attendee implements Serializable, Identified {
         this.event = event;
     }
 
-    public UserAccount getAttendee() {
-        return attendee;
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
-    public void setAttendee(UserAccount attendee) {
-        this.attendee = attendee;
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 
     public Date getRegistrationDate() {
@@ -123,8 +127,8 @@ public class Attendee implements Serializable, Identified {
     }
 
     /**
-     * @return the name of the event. If the name of the member changes in its 
-     * records, this field is not updated automatically. The intention is to 
+     * @return the name of the event. If the name of the member changes in its
+     * records, this field is not updated automatically. The intention is to
      * avoid generating certificates of an event with different data over time.
      * This field is also used to verify the autenticity of a certificate.
      */
@@ -133,9 +137,9 @@ public class Attendee implements Serializable, Identified {
     }
 
     /**
-     * @return the name of the venue where the event took place. If the name of 
-     * the venue changes in its records, this field is not updated automatically. 
-     * The intention is to avoid generating certificates of an event with 
+     * @return the name of the venue where the event took place. If the name of
+     * the venue changes in its records, this field is not updated automatically.
+     * The intention is to avoid generating certificates of an event with
      * different data over time.
      */
     public String getCertificateVenue() {
@@ -144,9 +148,9 @@ public class Attendee implements Serializable, Identified {
 
     /**
      * @return the date in which the event happened. If the date of the event
-     * changes in its records, this field is not updated automatically. The 
-     * intention is to avoid generating certificates of an event with different 
-     * data over time.  This field is also used to verify the autenticity of a 
+     * changes in its records, this field is not updated automatically. The
+     * intention is to avoid generating certificates of an event with different
+     * data over time.  This field is also used to verify the autenticity of a
      * certificate.
      */
     public Date getCertificateDate() {
@@ -167,16 +171,15 @@ public class Attendee implements Serializable, Identified {
      */
     public void generateCertificateData() {
         if(this.certificateCode == null && attended) {
-            this.certificateFullname = this.attendee.getFullName();
+            this.certificateFullname = this.userAccount.getFullName();
             this.certificateEvent = this.event.getName();
-            this.certificateVenue = this.event.getVenue().getName();
             this.certificateDate = this.event.getStartDate();
             this.certificateCode = UUID.randomUUID().toString().toUpperCase();
         }
     }
-    
+
     /**
-     * It sets the certificate code to its default value if the member did not 
+     * It sets the certificate code to its default value if the member did not
      * attended. The default value is not valid for certificate validation.
      */
     public void resetCertificateCode() {
@@ -217,5 +220,10 @@ public class Attendee implements Serializable, Identified {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.userAccount.getFullName();
     }
 }

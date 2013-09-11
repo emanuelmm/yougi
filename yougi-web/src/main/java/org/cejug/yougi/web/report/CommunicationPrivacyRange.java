@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -97,30 +97,29 @@ public class CommunicationPrivacyRange implements Serializable {
             }
         }
 
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
         ChartSeries communicarionPrivacyActive = new ChartSeries();
-        communicarionPrivacyActive.setLabel(bundle.getMessage("active"));
-        communicarionPrivacyActive.set(bundle.getMessage("publicProfile"), totalPublicProfile);
-        communicarionPrivacyActive.set(bundle.getMessage("mailingList"), totalMailingList);
-        communicarionPrivacyActive.set(bundle.getMessage("news"), totalNews);
-        communicarionPrivacyActive.set(bundle.getMessage("generalOffer"), totalGeneralOffer);
-        communicarionPrivacyActive.set(bundle.getMessage("jobOffer"), totalJobOffer);
-        communicarionPrivacyActive.set(bundle.getMessage("event"), totalEvent);
-        communicarionPrivacyActive.set(bundle.getMessage("sponsor"), totalSponsor);
-        communicarionPrivacyActive.set(bundle.getMessage("speaker"), totalSpeaker);
+        communicarionPrivacyActive.setLabel(ResourceBundleHelper.INSTANCE.getMessage("active"));
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("publicProfile"), totalPublicProfile);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("mailingList"), totalMailingList);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("news"), totalNews);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("generalOffer"), totalGeneralOffer);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("jobOffer"), totalJobOffer);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("event"), totalEvent);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("sponsor"), totalSponsor);
+        communicarionPrivacyActive.set(ResourceBundleHelper.INSTANCE.getMessage("speaker"), totalSpeaker);
         this.communicationPrivacyModel.addSeries(communicarionPrivacyActive);
 
         Integer ttl = userAccounts.size();
         ChartSeries communicarionPrivacyInactive = new ChartSeries();
-        communicarionPrivacyInactive.setLabel(bundle.getMessage("inactive"));
-        communicarionPrivacyInactive.set(bundle.getMessage("publicProfile"), ttl - totalPublicProfile);
-        communicarionPrivacyInactive.set(bundle.getMessage("mailingList"), ttl - totalMailingList);
-        communicarionPrivacyInactive.set(bundle.getMessage("news"), ttl - totalNews);
-        communicarionPrivacyInactive.set(bundle.getMessage("generalOffer"), ttl - totalGeneralOffer);
-        communicarionPrivacyInactive.set(bundle.getMessage("jobOffer"), ttl - totalJobOffer);
-        communicarionPrivacyInactive.set(bundle.getMessage("event"), ttl - totalEvent);
-        communicarionPrivacyInactive.set(bundle.getMessage("sponsor"), ttl - totalSponsor);
-        communicarionPrivacyInactive.set(bundle.getMessage("speaker"), ttl - totalSpeaker);
+        communicarionPrivacyInactive.setLabel(ResourceBundleHelper.INSTANCE.getMessage("inactive"));
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("publicProfile"), ttl - totalPublicProfile);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("mailingList"), ttl - totalMailingList);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("news"), ttl - totalNews);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("generalOffer"), ttl - totalGeneralOffer);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("jobOffer"), ttl - totalJobOffer);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("event"), ttl - totalEvent);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("sponsor"), ttl - totalSponsor);
+        communicarionPrivacyInactive.set(ResourceBundleHelper.INSTANCE.getMessage("speaker"), ttl - totalSpeaker);
         this.communicationPrivacyModel.addSeries(communicarionPrivacyInactive);
     }
 }

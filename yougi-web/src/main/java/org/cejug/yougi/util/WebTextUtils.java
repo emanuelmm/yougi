@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -29,7 +29,9 @@ import org.cejug.yougi.entity.Province;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public final class WebTextUtils extends TextUtils {
+public enum WebTextUtils {
+
+    INSTANCE;
 
     /**
      * This method replaces every line break in the text by a html paragraph.
@@ -61,8 +63,7 @@ public final class WebTextUtils extends TextUtils {
             return "";
         }
 
-        ResourceBundleHelper rb = new ResourceBundleHelper();
-        return getFormattedDate(date, rb.getMessage("formatDate"));
+        return TextUtils.INSTANCE.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
     }
 
     public static String getFormattedTime(Date time, String timeZone) {
@@ -70,8 +71,7 @@ public final class WebTextUtils extends TextUtils {
             return "";
         }
 
-        ResourceBundleHelper rb = new ResourceBundleHelper();
-        return getFormattedTime(time, rb.getMessage("formatTime"), timeZone);
+        return TextUtils.INSTANCE.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
     }
 
     public static String getFormattedDateTime(Date dateTime, String timeZone) {
@@ -79,8 +79,7 @@ public final class WebTextUtils extends TextUtils {
             return "";
         }
 
-        ResourceBundleHelper rb = new ResourceBundleHelper();
-        return getFormattedDateTime(dateTime, rb.getMessage("formatDateTime"), timeZone);
+        return TextUtils.INSTANCE.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
     }
 
     public static String printAddress(String address, Country country, Province province, City city, String postalCode) {
@@ -118,9 +117,8 @@ public final class WebTextUtils extends TextUtils {
             if (!fullAddress.toString().isEmpty()) {
                 fullAddress.append(".");
             }
-            ResourceBundleHelper rb = new ResourceBundleHelper();
             fullAddress.append(" ");
-            fullAddress.append(rb.getMessage("postalCode"));
+            fullAddress.append(ResourceBundleHelper.INSTANCE.getMessage("postalCode"));
             if (country != null) {
                 fullAddress.append(": ");
                 fullAddress.append(country.getName());

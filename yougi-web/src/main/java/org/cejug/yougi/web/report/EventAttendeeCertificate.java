@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -61,7 +61,7 @@ public class EventAttendeeCertificate extends PdfPageEventHelper {
         contentLine[3] = attendee.getCertificateEvent();
         contentLine[4] = "realizado na";
         contentLine[5] = attendee.getCertificateVenue();
-        contentLine[6] = "no dia " + TextUtils.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
+        contentLine[6] = "no dia " + TextUtils.INSTANCE.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
 
         Font normalFont = new Font(Font.FontFamily.HELVETICA, 24);
         Font largeFont = new Font(Font.FontFamily.HELVETICA, 28, Font.FontStyle.BOLD.ordinal());
@@ -78,7 +78,7 @@ public class EventAttendeeCertificate extends PdfPageEventHelper {
             p.setAlignment(Element.ALIGN_CENTER);
             this.document.add(p);
 
-            currentFont = (currentFont == normalFont) ? largeFont : normalFont;
+            currentFont = currentFont.equals(normalFont) ? largeFont : normalFont;
         }
     }
 

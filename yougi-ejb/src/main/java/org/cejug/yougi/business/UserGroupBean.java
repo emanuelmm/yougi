@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,7 +21,6 @@
 package org.cejug.yougi.business;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,10 +39,7 @@ import org.cejug.yougi.entity.UserGroup;
 public class UserGroupBean {
 
     @PersistenceContext
-    EntityManager em;
-
-    @EJB
-    AccessGroupBean accessGroupBean;
+    private EntityManager em;
 
     public List<UserAccount> findUsersGroup(AccessGroup accessGroup) {
         return em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :accessGroup order by ug.userAccount.firstName")

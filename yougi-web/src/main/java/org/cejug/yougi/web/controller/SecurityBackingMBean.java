@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
@@ -63,23 +64,21 @@ public class SecurityBackingMBean {
 
     public String login() {
         if(userAccountBean.thereIsNoAccount()) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoFirstUser"), ""));
-            return "registration";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            return "/registration";
         }
         else {
-            return "login?faces-redirect=true";
+            return "/login?faces-redirect=true";
         }
     }
 
     public String register() {
         if(userAccountBean.thereIsNoAccount()) {
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getMessage("infoFirstUser"), ""));
-            return "registration";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            return "/registration";
         }
         else {
-            return "registration?faces-redirect=true";
+            return "/registration?faces-redirect=true";
         }
     }
 
@@ -101,24 +100,35 @@ public class SecurityBackingMBean {
         return "/index?faces-redirect=true";
     }
 
+    public Boolean getIsUserAdministrator() {
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole("admin");
+    }
+
     public Boolean getIsUserLeader() {
-        Boolean result = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Object request = context.getExternalContext().getRequest();
-        if(request instanceof HttpServletRequest) {
-            result = ((HttpServletRequest)request).isUserInRole("leader");
-        }
-        return result;
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole("leader");
+    }
+
+    public Boolean getIsUserHelper() {
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole("helper");
     }
 
     public Boolean getIsUserPartner() {
-        Boolean result = false;
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole("partner");
+    }
+
+    private HttpServletRequest getHttpRequest() {
         FacesContext context = FacesContext.getCurrentInstance();
         Object request = context.getExternalContext().getRequest();
         if(request instanceof HttpServletRequest) {
-            result = ((HttpServletRequest)request).isUserInRole("partner");
+            return (HttpServletRequest) request;
         }
-        return result;
+        else {
+            throw new EnvironmentResourceException("errorCode0011");
+        }
     }
 
     public Map<String, Object> getSessionMap() {

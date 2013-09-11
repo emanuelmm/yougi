@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -45,7 +45,7 @@ import org.cejug.yougi.entity.Province;
 @SessionScoped
 public class LocationMBean {
 
-    static final Logger logger = Logger.getLogger("org.cejug.web.controller.LocationBean");
+    static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
 
     @EJB
     private org.cejug.yougi.business.LocationBean locationBean;
@@ -65,10 +65,6 @@ public class LocationMBean {
     private String cityNotListed;
 
     private boolean initialized;
-
-    public LocationMBean() {
-        logger.info("A new locationBean created.");
-    }
 
     public List<Country> getCountries() {
         this.countries = locationBean.findCountries();
@@ -98,7 +94,7 @@ public class LocationMBean {
 
     public List<String> findCitiesStartingWith(String initials) {
         List<City> cits = locationBean.findCitiesStartingWith(initials);
-        List<String> citiesStartingWith = new ArrayList<String>();
+        List<String> citiesStartingWith = new ArrayList<>();
         for (City city : cits) {
             citiesStartingWith.add(city.getName());
         }
@@ -190,7 +186,7 @@ public class LocationMBean {
 
         this.initialized = true;
 
-        logger.info("LocationBean initialized for a new use.");
+        LOGGER.info("LocationBean initialized for a new use.");
     }
 
     public boolean isInitialized() {

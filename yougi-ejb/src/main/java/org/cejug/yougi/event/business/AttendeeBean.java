@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,6 +21,7 @@
 package org.cejug.yougi.event.business;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,7 +31,7 @@ import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Certificate;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.util.EntitySupport;
+import org.cejug.yougi.entity.EntitySupport;
 
 /**
  * Manages attendees of events organized by the user group.
@@ -44,6 +45,9 @@ public class AttendeeBean {
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private EventBean eventBean;
+
     public Attendee findAttendee(String id) {
         if (id != null) {
             return em.find(Attendee.class, id);
@@ -53,11 +57,16 @@ public class AttendeeBean {
     }
 
     public Attendee findAttendee(Event event, UserAccount person) {
-        try {
-            return (Attendee) em.createQuery("select a from Attendee a where a.attendee = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
+        Attendee attendee = null;
+        List<Attendee> attendees = em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event")
+                                     .setParameter("person", person)
+                                     .setParameter("event", event)
+                                     .getResultList();
+        if(!attendees.isEmpty()) {
+            attendee = attendees.get(0);
         }
+            
+        return attendee;
     }
 
     public Long findNumberPeopleAttending(Event event) {
@@ -70,32 +79,49 @@ public class AttendeeBean {
 
     public Boolean isAttending(Event event, UserAccount person) {
         try {
-            Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.attendee = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
-
-            if (attendee != null) {
-                return true;
-            } else {
-                return false;
-            }
+            Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
+            return attendee != null;
         } catch (NoResultException nre) {
             return false;
         }
     }
 
+    /**
+     * Find the attendees of a specific event only.
+     * @param event the event on which attendees are registered.
+     * @return a list of found attendees.
+     */
     public List<Attendee> findAttendees(Event event) {
-        return em.createQuery("select a from Attendee a where a.event = :event order by a.attendee.firstName asc").setParameter("event", event).getResultList();
+        return em.createQuery("select a from Attendee a where a.event = :event order by a.userAccount.firstName asc").setParameter("event", event).getResultList();
     }
 
-    public List<Attendee> findConfirmedAttendees(Event event) {
-        return em.createQuery("select a from Attendee a where a.event = :event and a.attended = :attended order by a.attendee.firstName asc").setParameter("event", event).setParameter("attended", true).getResultList();
+    /**
+     * Find the attendees from the informed event and from all its sub-events.
+     * @param event the event on which attendees are registered. Also considered
+     * as the parent of other events.
+     * @return a list of found attendees.
+     */
+    public List<Attendee> findAllAttendees(Event event) {
+        List<Attendee> attendees = findAttendees(event);
+        List<Event> subEvents = eventBean.findEvents(event);
+        if(subEvents != null && !subEvents.isEmpty()) {
+            for(Event subEvent: subEvents) {
+                attendees.addAll(findAllAttendees(subEvent));
+            }
+        }
+        return attendees;
+    }
+
+    public List<Attendee> findAttendeesWhoAttended(Event event) {
+        return em.createQuery("select a from Attendee a where a.event = :event and a.attended = :attended order by a.userAccount.firstName asc").setParameter("event", event).setParameter("attended", true).getResultList();
     }
 
     /**
      * Returns a list of events in which the presence of the user was confirmed.
      */
     public List<Event> findAttendeedEvents(UserAccount userAccount) {
-        return em.createQuery("select a.event from Attendee a where a.attendee = :attendee and a.attended = :attended order by a.event.startDate desc")
-                 .setParameter("attendee", userAccount)
+        return em.createQuery("select a.event from Attendee a where a.userAccount = :userAccount and a.attended = :attended order by a.event.startDate desc")
+                 .setParameter("userAccount", userAccount)
                  .setParameter("attended", true)
                  .getResultList();
     }
@@ -116,11 +142,6 @@ public class AttendeeBean {
      * Confirm the attendance of a list of members in a event.
      */
     public void confirmMembersAttendance(Event event, Attendee[] confirmedAttendees) {
-        // If the received list is empty then nobody attended the event.
-        if (confirmedAttendees == null) {
-            confirmedAttendees = new Attendee[0];
-        }
-
         /* Compares the existing list of attendees with the list of confirmed
          * attendees.*/
         List<Attendee> attendees = findAttendees(event);
@@ -131,13 +152,15 @@ public class AttendeeBean {
 
             /* Check whether the attendee is in the list of confirmed
              * attendees. If yes, then his(er) attendance is confirmed. */
-            for (Attendee confirmedAttendee : confirmedAttendees) {
-                if (attendee.equals(confirmedAttendee)) {
-                    attendee.setAttended(true);
-                    attendee.generateCertificateData();
-                    em.merge(attendee);
-                    confirmed = true;
-                    break;
+            if(confirmedAttendees != null) {
+                for (Attendee confirmedAttendee : confirmedAttendees) {
+                    if (attendee.equals(confirmedAttendee)) {
+                        attendee.setAttended(true);
+                        attendee.generateCertificateData();
+                        em.merge(attendee);
+                        confirmed = true;
+                        break;
+                    }
                 }
             }
 
@@ -155,7 +178,7 @@ public class AttendeeBean {
      * @return true if the data of the certificate match exactly the record of
      * the related attendee.
      */
-    public Boolean verifyAuthenticityCertificate(Certificate certificate) {
+    public Boolean verifyCertificateAuthenticity(Certificate certificate) {
         try {
             Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.certificateCode = :certificateCode and a.certificateFullname = :certificateFullname and a.certificateEvent = :certificateEvent and a.certificateVenue = :certificateVenue")
                                             .setParameter("certificateCode", certificate.getCertificateCode())
@@ -164,10 +187,7 @@ public class AttendeeBean {
                                             .setParameter("certificateVenue", certificate.getCertificateVenue())
                                             .getSingleResult();
 
-            if(attendee != null)
-                return true;
-            else
-                return false;
+            return attendee != null;
         }
         catch(NoResultException nre) {
             return false;

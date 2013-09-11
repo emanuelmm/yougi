@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -31,48 +31,41 @@
             <ui:define name="content">
                 <div class="content">
                     <h1>#{bundle.events}</h1>
-                    <p><h:link outcome="event" value="#{bundle.newEvent}" rendered="#{securityBackingMBean.isUserLeader}"/></p>
                     <h:form>
-	                    <p:dataGrid var="event" value="#{eventMBean.events}" columns="1" rows="3" paginator="true">
-	                        <p:column>
-	                            <p:panel>
-	                                <h:panelGrid>
-	                                    <h:link value="#{event.name}" outcome="event_view" style="font-size: 18px; font-weight: bold;">
+                        <p><h:link outcome="event_form" value="#{bundle.newEvent}" rendered="#{securityBackingMBean.isUserLeader}"/></p>
+                        <p:dataGrid var="event" value="#{eventMBean.events}" columns="1" rows="3" paginator="true">
+                            <p:column>
+                                <p:panel>
+                                    <h:panelGrid>
+                                        <h:link value="#{event.name}" outcome="event" style="font-size: 18px; font-weight: bold;">
                                             <f:param name="id" value="#{event.id}"/>
                                         </h:link>
-	                                    <h:outputText value="#{event.shortDescription}"/>
-	                                    <h:panelGrid columns="2">
-	                                       <h:outputText value="#{bundle.venue}: "/>
-	                                       <h:outputText value="#{event.venue}"/>
-	                                    </h:panelGrid>
-	                                    <h:outputFormat value="#{bundle.eventAppointmentShort}">
-	                                        <f:param value="#{eventMBean.getFormattedStartDate(event.startDate)}"/>
-	                                        <f:param value="#{eventMBean.getFormattedStartTime(event.startTime)}"/>
-	                                        <f:param value="#{eventMBean.getFormattedEndTime(event.endTime)}"/>
-	                                    </h:outputFormat>
-	                                    <h:panelGrid columns="9">
-		                                <h:link value="#{bundle.edit}" outcome="event" rendered="#{securityBackingMBean.isUserLeader}">
-	                                            <f:param name="id" value="#{event.id}"/>
-	                                        </h:link>
-                                                <h:outputText value=" | " rendered="#{securityBackingMBean.isUserLeader}"/>
-                                                <h:link value="#{bundle.sessions}" outcome="sessions" rendered="#{securityBackingMBean.isUserLeader}">
-                                                    <f:param name="eventId" value="#{event.id}"/>
-                                                </h:link>
-                                                <h:outputText value=" | " rendered="#{securityBackingMBean.isUserLeader}"/>
-                                                <h:link value="#{bundle.speakers}" outcome="speakers" rendered="#{securityBackingMBean.isUserLeader}">
-                                                    <f:param name="eventId" value="#{event.id}"/>
-                                                </h:link>
-                                                <h:outputText value=" | " rendered="#{securityBackingMBean.isUserLeader and !event.external}"/>
-                                                <h:commandLink value="#{bundle.attendees}" action="#{attendeeMBean.load(event.id)}" rendered="#{securityBackingMBean.isUserLeader and !event.external}"/>
-                                                <h:outputText value=" | " rendered="#{securityBackingMBean.isUserLeader and !event.external}"/>
-                                                <h:link value="#{bundle.sponsors}" outcome="sponsors" rendered="#{securityBackingMBean.isUserLeader and !event.external}">
-                                                    <f:param name="eventId" value="#{event.id}"/>
-                                                </h:link>
-                                            </h:panelGrid>
-	                                </h:panelGrid>
-	                            </p:panel>
-	                        </p:column>
-	                    </p:dataGrid>
+                                        <h:outputText value="#{event.shortDescription}"/>
+                                        <h:panelGroup>
+                                            <h:outputText value="#{bundle.from} "/>
+                                            <h:outputText value="#{event.startDate}">
+                                                <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
+                                            </h:outputText>
+                                            <h:outputText value=" at " rendered="#{! empty event.startTime}"/>
+                                            <h:outputText value="#{event.startTime}" rendered="#{! empty event.startTime}">
+                                                <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                            </h:outputText>
+                                            <h:outputText value=" #{bundle.to} "/>
+                                            <h:outputText value="#{event.endDate}" rendered="#{event.startDate != event.endDate}">
+                                                <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
+                                            </h:outputText>
+                                            <h:outputText value=" at " rendered="#{! empty event.endTime and event.startDate != event.endDate}"/>
+                                            <h:outputText value="#{event.endTime}" rendered="#{! empty event.startTime}">
+                                                <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                            </h:outputText>
+                                        </h:panelGroup>
+                                        <h:outputText value="#{event}" escape="false">
+                                            <f:converter converterId="EventVenuesConverter"/>
+                                        </h:outputText>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:column>
+                        </p:dataGrid>
                     </h:form>
                 </div>
             </ui:define>

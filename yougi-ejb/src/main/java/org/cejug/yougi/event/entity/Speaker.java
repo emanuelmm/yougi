@@ -1,21 +1,21 @@
-/* Yougi is a web application conceived to manage user groups or 
- * communities focused on a certain domain of knowledge, whose members are 
- * constantly sharing information and participating in social and educational 
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
- * 
- * This application is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by the 
- * Free Software Foundation; either version 2.1 of the License, or (at your 
+/* Yougi is a web application conceived to manage user groups or
+ * communities focused on a certain domain of knowledge, whose members are
+ * constantly sharing information and participating in social and educational
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
+ *
+ * This application is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
  * option) any later version.
- * 
- * This application is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
+ *
+ * This application is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
  * License for more details.
- * 
- * There is a full copy of the GNU Lesser General Public License along with 
+ *
+ * There is a full copy of the GNU Lesser General Public License along with
  * this library. Look for the file license.txt at the root level. If you do not
- * find it, write to the Free Software Foundation, Inc., 59 Temple Place, 
+ * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
 package org.cejug.yougi.event.entity;
@@ -27,8 +27,8 @@ import org.cejug.yougi.entity.UserAccount;
 
 /**
  * Person with knowledge and experience to give a speech in an event, respecting
- * the scope of subjects in the domain explored by the user group.
- * 
+ * the scope of subjects in the domain explored by the user group event.
+ *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
@@ -41,19 +41,15 @@ public class Speaker implements Serializable, Identified {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "event", nullable=false)
-    private Event event;
-    
-    @ManyToOne
-    @JoinColumn(name = "session", nullable=false)
-    private EventSession session;
-    
-    @ManyToOne
     @JoinColumn(name = "user_account", nullable=false)
     private UserAccount userAccount;
 
     @Column(name = "short_cv")
-    private String shortCv;   
+    private String shortCv;
+
+    private String experience;
+
+    private String organization;
 
     public Speaker() {
     }
@@ -70,6 +66,13 @@ public class Speaker implements Serializable, Identified {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public String getFullName() {
+        if(this.userAccount != null) {
+            return this.userAccount.getFullName();
+        }
+        return null;
     }
 
     public UserAccount getUserAccount() {
@@ -89,25 +92,30 @@ public class Speaker implements Serializable, Identified {
     }
 
     /**
-     * @return The event that the speaker is giving a speech.
+     * @return The person previous experience on speeches in other events.
      */
-    public Event getEvent() {
-        return event;
+    public String getExperience() {
+        return experience;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
 
     /**
-     * @return The session in which the speaker is scheduled to speak.
+     * @return The name of the company or institution where the speaker works or
+     * school or university where the user studies.
      */
-    public EventSession getSession() {
-        return session;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setSession(EventSession session) {
-        this.session = session;
+    /**
+     * @param organization The name of the company or institution where the
+     * speaker works or school or university where the user studies.
+     */
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     @Override
@@ -131,6 +139,6 @@ public class Speaker implements Serializable, Identified {
 
     @Override
     public String toString() {
-        return this.userAccount.getFullName();
+        return this.getFullName();
     }
 }

@@ -11,8 +11,10 @@ Contact
                 Member of: CEJUG (Ceara Java User Group) http://www.cejug.org
             Email Address: me at hildeberto.com
    
-          Project Website: https://yougi.org
-Application used by CEJUG: http://www.cejug.org/ug
+          Project Website: http://www.yougi.org
+     Existing Deployments: http://www.cejug.org/ug
+                           http://www.yougi.net
+                  Twitter: https://twitter.com/youginet (Follow @youginet)
 
 Technologies In Use
 -------------------
@@ -29,9 +31,13 @@ EJB 3.1: Enterprise JavaBeans implements the business and service layer.
 
 JSF 2.1: JavaServer Faces
 
-Primefaces 3.3: Primefaces is a rich visual components library running on top of JSF (http://www.primefaces.org/).
+Primefaces 3.4: Primefaces is a rich visual components library running on top of JSF (http://www.primefaces.org/).
 
 iText 5.1: Library to generate PDF files.
 
-------------------------------
-Copyright 2011-2013, Cejug.org
+JUnit 4.11: Unit test framework.
+
+Arquillian 1.0.3: Integration test framework.
+
+--------------------------------------------
+Copyright (C) 2011-2013, Hildeberto Mendonça

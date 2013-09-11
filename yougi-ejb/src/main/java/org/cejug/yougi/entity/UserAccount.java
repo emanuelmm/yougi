@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,14 +21,13 @@
 package org.cejug.yougi.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
 import org.cejug.yougi.util.TextUtils;
 
 /**
- * Represents the user account of jug members.
+ * Represents the user account.
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
@@ -57,10 +56,6 @@ public class UserAccount implements Serializable, Identified {
 
     @Column(name="unverified_email")
     private String unverifiedEmail;
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name="birth_date",nullable=false)
-    private Date birthDate;
 
     @Column(name="confirmation_code")
     private String confirmationCode;
@@ -101,9 +96,6 @@ public class UserAccount implements Serializable, Identified {
     @ManyToOne
     @JoinColumn(name="city")
     private City city;
-
-    @Column(name="postal_code")
-    private String postalCode;
 
     @Column(name="timezone")
     private String timeZone;
@@ -157,8 +149,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setFirstName(String firstName) {
-        firstName = TextUtils.capitalizeFirstCharWords(firstName);
-        this.firstName = firstName;
+        this.firstName = TextUtils.INSTANCE.capitalizeFirstCharWords(firstName);
     }
 
     public String getLastName() {
@@ -166,8 +157,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setLastName(String lastName) {
-        lastName = TextUtils.capitalizeFirstCharWords(lastName);
-        this.lastName = lastName;
+        this.lastName = TextUtils.INSTANCE.capitalizeFirstCharWords(lastName);
     }
 
     public String getFullName() {
@@ -186,26 +176,6 @@ public class UserAccount implements Serializable, Identified {
         this.gender = gender;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    /**
-     * @return the age of the user based on the informed date of birth. The value
-     * is calculated in runtime.
-     */
-    public int getAge() {
-        if(this.birthDate != null) {
-            Date today = Calendar.getInstance().getTime();
-            return (int)(((((today.getTime() - birthDate.getTime()) / 1000) / 60) / 60) / 24) / 365;
-        }
-        return 0;
-    }
-
     /**
      * @return the email address of the user. Despite its validity, do not use
      * the returned value to send email messages to the user. Use getPostingEmail() instead.
@@ -213,10 +183,6 @@ public class UserAccount implements Serializable, Identified {
      */
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email.toLowerCase();
     }
 
     /**
@@ -234,6 +200,11 @@ public class UserAccount implements Serializable, Identified {
         else {
             this.unverifiedEmail = null;
         }
+    }
+
+    public void setEmailAsVerified() {
+        this.email = this.unverifiedEmail;
+        this.unverifiedEmail = null;
     }
 
     /**
@@ -311,10 +282,18 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setWebsite(String website) {
-        if(website != null && website.trim().isEmpty()) {
+        if(website == null || website.trim().isEmpty()) {
             this.website = null;
         }
-        this.website = website;
+        else if(website.contains("http://")) {
+            this.website = website.replace("http://", "");
+        }
+        else if(website.contains("https://")) {
+            this.website = website.replace("https://", "");
+        }
+        else {
+            this.website = website;
+        }
     }
 
     public String getTwitter() {
@@ -322,7 +301,15 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setTwitter(String twitter) {
-        this.twitter = twitter;
+        if(twitter == null || twitter.trim().isEmpty()) {
+            this.twitter = null;
+        }
+        else if(twitter.contains("@")) {
+            this.twitter = twitter.replace("@", "");
+        }
+        else {
+            this.twitter = twitter;
+        }
     }
 
     public Country getCountry() {
@@ -347,14 +334,6 @@ public class UserAccount implements Serializable, Identified {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     /**
@@ -446,30 +425,33 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setEmailConfirmation(String emailConfirmation) {
-        emailConfirmation = emailConfirmation.toLowerCase();
-        this.emailConfirmation = emailConfirmation;
+        this.emailConfirmation = emailConfirmation.toLowerCase();
     }
 
     public String getConfirmationCode() {
         return confirmationCode;
     }
 
+    /**
+     * Defines a confirmation code to the user. It usually happens when the user
+     * fill in the registration form and the email address needs to be confirmed
+     * or when (s)he needs to change the password.
+     */
     public void defineNewConfirmationCode() {
         UUID uuid = UUID.randomUUID();
-        this.confirmationCode = uuid.toString().replaceAll("-", "");
+        this.confirmationCode = uuid.toString().replaceAll("-", "").toUpperCase();
     }
 
+    /**
+     * Set the confirmation code as null. Should be called when the confirmation
+     * code is confirmed and can be discarded.
+     */
     public void resetConfirmationCode() {
         this.confirmationCode = null;
     }
 
     public boolean getConfirmed() {
-        if(confirmationCode != null) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return confirmationCode == null;
     }
 
     @Override

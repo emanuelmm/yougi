@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -28,6 +28,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.cejug.yougi.exception.EnvironmentResourceException;
 
 /**
  * Adapts a mime email message to the application domain, considering a
@@ -91,7 +92,7 @@ public class EmailMessage {
         try {
             MimeMessage msg = new MimeMessage(mailSession);
             msg.setSubject(this.getSubject(), "UTF-8");
-            Address[] jRecipients; // JavaMail recipients.
+            Address[] jRecipients;
 
             if(recipients != null) {
                 jRecipients = new Address[recipients.length];
@@ -106,7 +107,7 @@ public class EmailMessage {
 
             return msg;
         } catch (MessagingException | UnsupportedEncodingException me) {
-            throw new RuntimeException("Error when sending the mail confirmation.",me);
+            throw new EnvironmentResourceException("Error when sending the mail confirmation.", me);
         }
     }
 }

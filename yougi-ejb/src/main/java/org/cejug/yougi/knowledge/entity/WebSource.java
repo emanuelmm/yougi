@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -21,11 +21,10 @@
 package org.cejug.yougi.knowledge.entity;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.UserAccount;
 
@@ -49,6 +48,9 @@ public class WebSource implements Serializable, Identified {
     @ManyToOne
     @JoinColumn(name="provider")
     private UserAccount provider;
+
+    @Transient
+    private List<Article> articles;
 
     public WebSource() {}
 
@@ -88,6 +90,27 @@ public class WebSource implements Serializable, Identified {
 
     public void setProvider(UserAccount provider) {
         this.provider = provider;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    public void addArticle(Article article) {
+        if(this.articles == null) {
+            this.articles = new ArrayList<>();
+        }
+        this.articles.add(article);
+    }
+
+    public void removeArticle(Article article) {
+        if(article != null && this.articles != null) {
+            this.articles.remove(article);
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,13 +30,15 @@ import java.util.TimeZone;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class TextUtils {
+public enum TextUtils {
+
+    INSTANCE;
 
     /**
      * Receives a sentence and converts the first letter of each word to a
      * capital letter and the rest of each word to lowercase.
      */
-    public static String capitalizeFirstCharWords(String sentence) {
+    public String capitalizeFirstCharWords(String sentence) {
         final StringBuilder result = new StringBuilder(sentence.length());
         String[] words = sentence.split("\\s");
         for (int i = 0, length = words.length; i < length; ++i) {
@@ -49,7 +51,7 @@ public class TextUtils {
         return result.toString();
     }
 
-    public static String getFormattedDate(Date date, String formatDate) {
+    public String getFormattedDate(Date date, String formatDate) {
         if (date == null) {
             return "";
         }
@@ -58,7 +60,7 @@ public class TextUtils {
         return sdf.format(date);
     }
 
-    public static String getFormattedTime(Date time, String formatTime, String timezone) {
+    public String getFormattedTime(Date time, String formatTime, String timezone) {
         if (time == null) {
             return "";
         }
@@ -69,7 +71,7 @@ public class TextUtils {
         return sdf.format(time);
     }
 
-    public static String getFormattedDateTime(Date dateTime, String formatDateTime, String timezone) {
+    public String getFormattedDateTime(Date dateTime, String formatDateTime, String timezone) {
         if (dateTime == null) {
             return "";
         }

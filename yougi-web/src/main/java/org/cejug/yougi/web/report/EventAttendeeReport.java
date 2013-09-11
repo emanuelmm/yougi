@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -47,7 +47,7 @@ public class EventAttendeeReport {
     }
 
     public void printReport(List<Attendee> attendees) throws DocumentException {
-        float[] columnSizes = {20, 220, 220, 60}; // 520
+        float[] columnSizes = {20, 220, 220, 60};
         PdfPTable table = new PdfPTable(columnSizes.length);
         table.setLockedWidth(true);
         table.setTotalWidth(columnSizes);
@@ -89,9 +89,9 @@ public class EventAttendeeReport {
         for (Attendee attendee : attendees) {
             table.addCell(new Phrase(String.valueOf(seq++), font));
 
-            table.addCell(new Phrase(attendee.getAttendee().getFullName(), font));
+            table.addCell(new Phrase(attendee.getUserAccount().getFullName(), font));
 
-            table.addCell(new Phrase(attendee.getAttendee().getEmail(), font));
+            table.addCell(new Phrase(attendee.getUserAccount().getEmail(), font));
 
             table.addCell(" ");
         }

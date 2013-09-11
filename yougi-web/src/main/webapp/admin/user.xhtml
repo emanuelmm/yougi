@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -37,8 +37,8 @@
                             <p:tab title="#{bundle.profile}">
                                 <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="firstName" value="#{bundle.firstName} *" styleClass="fieldLabel"/>
-                                    <h:outputLabel for="lastName" value="#{bundle.lastName} *" styleClass="fieldLabel"/>
+                                    <h:outputLabel for="firstName" value="#{bundle.firstName}" styleClass="requiredFieldLabel"/>
+                                    <h:outputLabel for="lastName" value="#{bundle.lastName}" styleClass="requiredFieldLabel"/>
 
                                     <h:panelGroup>
                                         <h:inputText id="firstName" label="#{bundle.firstName}" required="true" size="35" maxlength="50" value="#{memberMBean.userAccount.firstName}"/>
@@ -49,32 +49,25 @@
                                         <h:message for="lastName" errorClass="errorMessage"/>
                                     </h:panelGroup>
 
-                                    <h:outputText value="#{bundle.email} *" styleClass="fieldLabel"/>
-                                    <h:outputText value="#{bundle.username} *" styleClass="fieldLabel"/>
+                                    <h:outputText value="#{bundle.email}" styleClass="requiredFieldLabel"/>
+                                    <h:outputText value="#{bundle.username} *" styleClass="requiredFieldLabel"/>
 
                                     <h:outputLink value="mailto:#{memberMBean.userAccount.postingEmail}">
                                         <f:verbatim>#{memberMBean.userAccount.postingEmail}</f:verbatim>
                                     </h:outputLink>
                                     <h:outputText value="#{memberMBean.authentication.username}"/>
 
-                                    <h:outputLabel for="gender" value="#{bundle.gender} *" styleClass="fieldLabel"/>
-                                    <h:outputLabel for="birthDate" value="#{bundle.birthDate}" styleClass="fieldLabel"/>
+                                    <h:outputLabel for="gender" value="#{bundle.gender}" styleClass="fieldLabel"/>
+                                    <h:outputText/>
 
                                     <h:panelGroup>
-                                        <h:selectOneRadio id="gender" label="#{bundle.gender}" required="true" value="#{memberMBean.userAccount.gender}">
+                                        <h:selectOneRadio id="gender" label="#{bundle.gender}" value="#{memberMBean.userAccount.gender}">
                                             <f:selectItem itemLabel="#{bundle.male}" itemValue="MALE"/>
                                             <f:selectItem itemLabel="#{bundle.female}" itemValue="FEMALE"/>
                                         </h:selectOneRadio>
                                         <h:message for="gender" errorClass="errorMessage"/>
                                     </h:panelGroup>
-
-                                    <h:panelGroup>
-                                        <p:inputMask value="#{memberMBean.userAccount.birthDate}" id="birthDate" mask="99/99/9999" size="10">
-                                            <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </p:inputMask>
-                                        <h:outputText value="#{bundle.dateFormat}" styleClass="fieldFormat"/>
-                                        <br/><h:message for="birthDate" errorClass="errorMessage"/>
-                                    </h:panelGroup>
+                                    <h:outputText/>
 
                                     <h:outputText value="#{bundle.registrationDate}" styleClass="fieldLabel"/>
                                     <h:outputText value="#{bundle.lastUpdate}" styleClass="fieldLabel"/>
@@ -117,13 +110,13 @@
                                     </h:selectOneMenu>
 
                                     <h:outputLabel for="city" value="#{bundle.city}" styleClass="fieldLabel"/>
-                                    <h:outputLabel for="postalCode" value="#{bundle.postalCode}" styleClass="fieldLabel"/>
+                                    <h:outputText/>
 
                                     <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}">
                                         <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                         <f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
                                     </h:selectOneMenu>
-                                    <h:inputText id="postalCode" label="#{bundle.postalCode}" size="10" maxlength="10" value="#{memberMBean.userAccount.postalCode}"/>
+                                    <h:outputText/>
                                 </h:panelGrid>
                                 <p><h:outputText value="#{bundle.privacy}" styleClass="fieldLabel"/></p>
                                 <h:panelGrid columns="2" columnClasses="panelGridColumn, panelGridColumn">
@@ -133,23 +126,6 @@
                                                 <h:selectBooleanCheckbox id="mailingListCheck" label="#{bundle.mailingList}" value="#{memberMBean.userAccount.mailingList}"/>
                                                 <h:outputLabel for="mailingListCheck" value="#{bundle.activated}"/>
                                             </h:panelGrid>
-
-                                            <p:dataTable var="mailingList" value="#{memberMBean.mailingLists}" selection="#{memberMBean.selectedMailingLists}" rowKey="#{mailingList.id}">
-                                                <f:facet name="header"><h:outputText value="#{bundle.mailingLists}"/></f:facet>
-                                                <p:column selectionMode="multiple"/>
-                                                <p:column>
-                                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
-                                                    <h:outputText value="#{mailingList.name}"/>
-                                                </p:column>
-                                                <p:column>
-                                                    <f:facet name="header"><h:outputText value="#{bundle.description}"/></f:facet>
-                                                    <h:outputText value="#{mailingList.description}"/>
-                                                </p:column>
-                                                <p:column>
-                                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
-                                                    <h:outputText value="#{mailingList.email}" />
-                                                </p:column>
-                                            </p:dataTable>
                                         </p:tab>
                                         <p:tab title="#{bundle.publicProfile}" rendered="#{memberMBean.userAccount.publicProfile}">
                                             <h:selectBooleanCheckbox id="publicProfile" label="#{bundle.publicProfile}" value="#{memberMBean.userAccount.publicProfile}"/>
@@ -166,10 +142,6 @@
                                                 <p:column>
                                                     <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                                     <h:outputText value="#{evt.name}"/>
-                                                </p:column>
-                                                <p:column>
-                                                    <f:facet name="header"><h:outputText value="#{bundle.venue}"/></f:facet>
-                                                    <h:outputText value="#{evt.venue}"/>
                                                 </p:column>
                                                 <p:column>
                                                     <f:facet name="header"><h:outputText value="#{bundle.date}"/></f:facet>
@@ -202,36 +174,34 @@
                                     </p:tabView>
                                     <p:fieldset legend="#{bundle.availablePrivacyOptions}">
                                         <h:panelGrid columns="2">
-                                            <h:selectBooleanCheckbox id="mailingListCheck2" label="#{bundle.mailingList2}" value="#{memberMBean.userAccount.mailingList}" rendered="#{!memberMBean.userAccount.mailingList}"/>
+                                            <h:selectBooleanCheckbox id="mailingListCheck2" label="#{bundle.mailingList}" value="#{memberMBean.userAccount.mailingList}" rendered="#{!memberMBean.userAccount.mailingList}"/>
                                             <h:outputLabel for="mailingListCheck2" value="#{bundle.mailingList}" rendered="#{!memberMBean.userAccount.mailingList}"/>
 
-                                            <h:selectBooleanCheckbox id="publicProfile2" label="#{bundle.publicProfile2}" value="#{memberMBean.userAccount.publicProfile}" rendered="#{!memberMBean.userAccount.publicProfile}"/>
+                                            <h:selectBooleanCheckbox id="publicProfile2" label="#{bundle.publicProfile}" value="#{memberMBean.userAccount.publicProfile}" rendered="#{!memberMBean.userAccount.publicProfile}"/>
                                             <h:outputLabel for="publicProfile2" value="#{bundle.publicProfile}" rendered="#{!memberMBean.userAccount.publicProfile}"/>
 
-                                            <h:selectBooleanCheckbox id="event2" label="#{bundle.event2}" value="#{memberMBean.userAccount.event}" rendered="#{!memberMBean.userAccount.event}"/>
+                                            <h:selectBooleanCheckbox id="event2" label="#{bundle.event}" value="#{memberMBean.userAccount.event}" rendered="#{!memberMBean.userAccount.event}"/>
                                             <h:outputLabel for="event2" value="#{bundle.event}" rendered="#{!memberMBean.userAccount.event}"/>
 
-                                            <h:selectBooleanCheckbox id="news2" label="#{bundle.news2}" value="#{memberMBean.userAccount.news}" rendered="#{!memberMBean.userAccount.news}"/>
+                                            <h:selectBooleanCheckbox id="news2" label="#{bundle.news}" value="#{memberMBean.userAccount.news}" rendered="#{!memberMBean.userAccount.news}"/>
                                             <h:outputLabel for="news2" value="#{bundle.news}" rendered="#{!memberMBean.userAccount.news}"/>
 
-                                            <h:selectBooleanCheckbox id="generalOffer2" label="#{bundle.generalOffer2}" value="#{memberMBean.userAccount.generalOffer}" rendered="#{!memberMBean.userAccount.generalOffer}"/>
+                                            <h:selectBooleanCheckbox id="generalOffer2" label="#{bundle.generalOffer}" value="#{memberMBean.userAccount.generalOffer}" rendered="#{!memberMBean.userAccount.generalOffer}"/>
                                             <h:outputLabel for="generalOffer2" value="#{bundle.generalOffer}" rendered="#{!memberMBean.userAccount.generalOffer}"/>
 
-                                            <h:selectBooleanCheckbox id="jobOffer2" label="#{bundle.jobOffer2}" value="#{memberMBean.userAccount.jobOffer}" rendered="#{!memberMBean.userAccount.jobOffer}"/>
+                                            <h:selectBooleanCheckbox id="jobOffer2" label="#{bundle.jobOffer}" value="#{memberMBean.userAccount.jobOffer}" rendered="#{!memberMBean.userAccount.jobOffer}"/>
                                             <h:outputLabel for="jobOffer2" value="#{bundle.jobOffer}" rendered="#{!memberMBean.userAccount.jobOffer}"/>
 
-                                            <h:selectBooleanCheckbox id="sponsor2" label="#{bundle.sponsor2}" value="#{memberMBean.userAccount.sponsor}" rendered="#{!memberMBean.userAccount.sponsor}"/>
+                                            <h:selectBooleanCheckbox id="sponsor2" label="#{bundle.sponsor}" value="#{memberMBean.userAccount.sponsor}" rendered="#{!memberMBean.userAccount.sponsor}"/>
                                             <h:outputLabel for="sponsor2" value="#{bundle.sponsor}" rendered="#{!memberMBean.userAccount.sponsor}"/>
 
-                                            <h:selectBooleanCheckbox id="speaker2" label="#{bundle.speaker2}" value="#{memberMBean.userAccount.speaker}" rendered="#{!memberMBean.userAccount.speaker}"/>
+                                            <h:selectBooleanCheckbox id="speaker2" label="#{bundle.speaker}" value="#{memberMBean.userAccount.speaker}" rendered="#{!memberMBean.userAccount.speaker}"/>
                                             <h:outputLabel for="speaker2" value="#{bundle.speaker}" rendered="#{!memberMBean.userAccount.speaker}"/>
                                         </h:panelGrid>
                                     </p:fieldset>
                                 </h:panelGrid>
 
                                 <h:inputHidden id="id" value="#{memberMBean.userAccount.id}"/>
-                                <h:inputHidden id="email" value="#{memberMBean.userAccount.email}"/>
-                                <h:inputHidden id="unverifiedEmail" value="#{memberMBean.userAccount.unverifiedEmail}"/>
                             </p:tab>
                             <p:tab title="#{bundle.messages}">
                                 <p:dataTable var="historicMessage" value="#{memberMBean.historicMessages}">

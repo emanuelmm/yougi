@@ -1,4 +1,4 @@
-\documentclass[envcountsame,envcountchap,letterpaper]{svmono}
+\documentclass[envcountsame,envcountchap]{svmono}
 \usepackage{makeidx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -40,9 +40,9 @@ Aviso: cópias deste documento pode ser feita para o seu uso próprio e para dis
 
 \chapter{Introdução}
 
-\section{O que é um User Group?}
+\section{O que é uma comunidade?}
 
-\section{Caso de Estudo}
+\section{Caso de Estudo: Java User Groups}
 
 O estudo de caso escolhido é baseado na experiência pessoal da equipe que Você está desenvolvendo. A maioria das contribuições são provenientes do Cear\'{a} Java User Group, que é um grupo de usuários técnicos localizados na costa Nordeste do Brasil. Apesar de ser parte de um domínio específico, acreditamos que o modelo proposto é genérico o suficiente para cobrir as necessidades da administração da maioria dos user groups lá fora.
 
@@ -65,6 +65,15 @@ O projeto vai além de serviços para as comunidades e estende o seu impacto em 
 \section{Visão Geral}
 
 \section{Convenções usadas neste livro}
+
+Nos códigos e scripts, quando uma palavra é cercada por '[' isso significa que a palavra deve ser substituída por um valor específico do contexto, quando aplicado a um ambiente particular. Por exemplo:
+
+
+\begin{verbatim}
+password = [senha]
+\end{verbatim}
+
+Nesse caso, [senha] deve ser substituída pela senha real.
 
 \part{Guia do Usuário}
 
@@ -102,6 +111,20 @@ A desativação de um membro significa que ele não vai participar das atividade
 
 Ao mesmo tempo, toda a entrada de dados por parte do membro antigo na base de dados não serão removidas. Comentários, e-mails, artigos e outras informações será mantida inalterada indefinidamente. Portanto, qualquer modificação sobre esses dados não é responsabilidade da aplicação.
 
+\chapter{Gestão de Parceiros}
+
+\section{Inscrição de Parceiros}
+
+\section{Patrocinadores}
+
+\section{Serviços exclusivos para Parceiros}
+
+\subsection{Divulgação de Ofertas de trabalho}
+
+\subsection{Ofertas de Produtos e Serviços}
+
+\subsection{Pesquisa para Pessoas Talentosas}
+
 \chapter{Gerenciamento de Eventos}
 \label{chp:event-management}
 
@@ -131,25 +154,13 @@ Na entrada do evento, um membro do pessoal do UG verifica a inscrição de cada 
 
 Quando o evento já passou, não há informações sobre o evento que podem ser alteradas. Ele estará disponível apenas em modo de somente leitura a partir do dia seguinte. Os Palestrantes não serão capazes de atualizar seus perfis até serem alocados para outro evento. No entanto, os líderes do UG são capazes de publicar recursos adicionais relacionados ao evento, como fotos, documentos, apresentações, etc.
 
-\chapter{Gestão de Parceiros}
-
-\section{Inscrição de Parceiros}
-
-\section{Patrocinadores}
-
-\section{Serviços exclusivos para Parceiros}
-
-\subsection{Divulgação de Ofertas de trabalho}
-
-\subsection{Ofertas de Produtos e Serviços}
-
-\subsection{Pesquisa para Pessoas Talentosas}
-
 \chapter{Gestão do Conhecimento}
 
-\section{Tópicos no Âmbito do User Group}
+\section{Tópicos}
 
-\section{Gestão da listas de discussão}
+\section{Gestão da listas de discussão o caos à conteúdo significativo}
+
+\section{Agregação de Conteúdo Web}
 
 \part{Guia Técnico}
 
@@ -255,9 +266,15 @@ Entraremos em detalhes sobre as tecnologias escolhidas, descrevemos cada uma del
 \begin{figure}
 \centering
 \includegraphics[height=10cm, angle=90]{figures/relational-model}
-\caption{Please write your figure caption here}
-\label{fig:1}
+\caption{Database relational model}
+\label{fig:relational-model}
 \end{figure}
+
+\subsection{Liquibase}
+
+Para manter o modelo de banco de dados atualizado, Yougi utiliza o Framework Liquibase\footnote{Liquibase. Gerenciador de alterações no banco de dados.  http://www.liquibase.org.}. Esse framework habilita a aplicação para atualizar o banco de dados durante o tempo de implantação. Isso simplifica a atualização da aplicação, reduzindo-a a uma simples implantação.
+
+Durante o tempo de desenvolvimento, Se o banco de dados precisar ser alterado, o desenvolvedor deve adicionar conjuntos de alterações para um ou vários arquivos xml localizado no módulo yougi-web, em src/main/resources/org/cejug/yougi/db/changelog.
 
 \chapter{Instalação}
 
@@ -271,17 +288,20 @@ Para instalar o Yougi nós precisamos de:
 \item acesso para um servidor SMTP e POP 3 para enviar e receber 			  mensagens de e-mail.
 \end{itemize}
 
-A instalação inicial leva algum tempo, mas vai garantir atualizações fáceis quando novas versões que sair. Como a instalação do Java SE JDK, Glassfish e MySQL são dependentes de plataforma, nós consideramos que eles já eram desempenhadas pelo administrador, que sabe detalhes sobre o sistema da hospedagem. Não seria completa e atualizada o suficiente aqui, portanto, a melhor fonte de informação é seus respectivos sites. Os passos para instalar a aplicação são:
+A instalação inicial leva algum tempo, mas vai garantir atualizações fáceis quando novas versões que sair. Como a instalação do Java SE JDK, Glassfish e MySQL são dependentes de plataforma, nós consideramos que eles já eram desempenhadas pelo administrador, que sabe detalhes sobre o sistema da hospedagem. Não seria completa e atualizada o suficiente para cobrir todas as possibilidades, portanto, a melhor fonte de informação é seus respectivos websites.
+
+Os passos para instalar a aplicação são:
 
 \begin{enumerate}
 \item Crie um banco de dados MySQL: rode os scripts SQL para criar um banco de dados e sua estrutura dedicada para a aplicação. A última versão disponível do script de banco de dados é mysql-create.sql.
 \item Instale o Driver JDBC no Glassfish: faça o MySQL ConnectorJ JDBC Driver disponível no classpath do servidor de aplicação para ser usado pelo o pool de conexões para criar novas conexões no banco de dados MySQL.
 \item Criar um pool de conexões de banco de dados no Glassfish: ele gerencia o pool de conexão ao banco de dados usando o JDBC Driver.
 \item Crie uma fonte de dados para o pool de conexão no GlassFish: a fonte de dados liga o pool de conexão a aplicação. Em outras palavras, o pool de conexão é o recurso e a fonte de dados é um nome para o recurso. Esse nome é usado pela a aplicação para localizar e usar o recurso.
-\item Crie um Security Realm: o security realm permite a implementação declarativa de segurança do aplicativo, reduzindo significativamente a complexidade da aplicação, delegando essa responsabilidade para o container.
+
 \item Crie um JavaMail session: pois esse aplicativo lida com as pessoas, tem que enviar e-mails com muita frequência. Portanto, a disponibilidade de um JavaMail session, gerenciado pelo contêiner, é essencial para apoiar a alta demanda de envio e recebimento de e-mails sem lidar com a complexidade de gerenciar as conexões do servidor de e-mail.
+\item Crie um Security Realm: o security realm permite a implementação declarativa de segurança do aplicativo, reduzindo significativamente a complexidade da aplicação, delegando essa responsabilidade para o container.
 \item Implantar o pacote de aplicativos: finalmente, implantar o pacote de aplicativo que faz uso de todas as configurações acima.
-\item Configurar a aplicação de acordo com as necessidades específicas do UG: após a implantação inicial do aplicativo será executado normalmente usando a configuração padrão. No entanto, a aplicação estará totalmente operacional apenas quando as configurações específicas para o UG são definidos.
+\item Configurar a aplicação de acordo com as necessidades específicas da comunidade: após a implantação inicial do aplicativo será executado normalmente usando a configuração padrão. No entanto, a aplicação estará totalmente operacional apenas quando as configurações específicas para a comunidade são definidos.
 \end{enumerate}
 
 \section{Criando um banco de dados MySQL}
@@ -298,37 +318,41 @@ Geralmente, um usuário administrativo é necessário para criar um novo banco d
 
 \begin{verbatim}
 mysql> create database ug;
-mysql> create user ug_user identified by '[password]';
+mysql> create user 'ug_user'@'localhost' identified by '[senha]';
 mysql> use ug;
-mysql> grant all privileges on ug.* to ug_user@'%';
+mysql> grant all privileges on ug.* to 'ug_user'@'localhost';
 mysql> flush privileges;
 \end{verbatim}
 
-O banco de dados \textit{ug} e o usuário \textit{ug\_user} são criados, e todos os privilégios sobre o banco de dados \textit{jug} são concedida ao \textit{ug\_user}. Para verificar se o banco de dados foi criado, execute o seguinte comando:
+O banco de dados \textit{ug} e o usuário \textit{ug\_user} são criados, e todos os privilégios sobre o banco de dados \textit{ug} são concedida ao \textit{ug\_user}. Para verificar se o banco de dados foi criado, execute o seguinte comando:
 
 \begin{verbatim}
 mysql> show databases;
 \end{verbatim}
 
-Verifique se o banco de dados \textit{jug} se encontra na lista. Então nós temos que sair da sessão root e abrir uma nova sessão para o novo usuário para criar a estrutura de banco de dados. Siga a sequência de comandos abaixo:
+Verifique se o banco de dados \textit{ug} se encontra na lista. Se necessário, você pode deletar o usuário para criá-lo novamente:
 
 \begin{verbatim}
-mysql> quit;
+mysql> drop 'ug_user'@'localhost';
+\end{verbatim}
 
-# mysql -u ug_user -p
+Ou você pode redefinir a senha
 
-mysql> use ug;
-mysql> source [caminho para o script do banco de dados]/mysql_create.sql;
+\begin{verbatim}
+mysql> set password for 'ug_user'@'localhost' = password('[senha]');
+\end{verbatim}
+
+Para sair do prompt de comando do MySQL, use o comando \textit{quit}.
+
+\begin{verbatim} 
 mysql> quit;
 \end{verbatim}
 
 O usuário \textit{ug\_user} e a sua senha deve ser usado na configuração do pool de conexão. Não use o usuário \textit{root} para fins de aplicação.
 
-O arquivo \textit{mysql\_create.sql} está disponível dentro do código fonte. Ele está localizado na pasta /yougi-ejb/src/main/resources/META-INF/. Para obter o código-fonte, siga as instruções descritas na seção \ref{ssec:obtaining-source-code} ou obtê-lo na internet no: https://github.com/htmfilho/yougi.
-
 \section{Instalando o Driver JDBC no Glassfish}
 
-A instalação do driver consiste em salvar o arquivo do driver em uma determinada pasta de libs do SA. Para este passo as instruções considerar que o SA Glassfish, é a versão 3.1 ou superior, já está instalado e configurado. O driver está disponível para download no site do MySQL (http://www.mysql.com). O arquivo baixado contém o driver e sua documentação. copie o arquivo do driver, mysql-connector-java-[version]-bin.jar, para a pasta [glassfish\_home]/glassfish/domains/domain1/lib/. Reinicie o SA para tornar o driver disponível.
+A instalação do driver consiste em salvar o arquivo do driver em uma determinada pasta de libs do SA. Para este passo as nós consideramos que o SA Glassfish, é a versão 3.1 ou superior, já está instalado e configurado. O driver está disponível para download no site do MySQL (http://www.mysql.com). O arquivo baixado contém o driver e sua documentação. copie o arquivo do driver, mysql-connector-java-[version]-bin.jar, para a pasta [glassfish\_home]/glassfish/domains/domain1/lib/. Reinicie o SA para tornar o driver disponível.
 
 \section{Crie um Pool de Conexão para o banco de dados}
 \label{sec:creating-database-connection-pool}
@@ -345,14 +369,14 @@ Para criar o pool de conexão com o banco através do arquivo de configuração,
        "com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource"
        res-type="javax.sql.ConnectionPoolDataSource" description="" 
        name="UGPool" ping="true">
-         <property name="User" value="ug_user"></property>
-         <property name="DatabaseName" value="ug"></property>
-         <property name="Password" value="password_here"></property>
-         <property name="ServerName" value="localhost"></property>
-         <property name="PortNumber" value="3306"></property>
+         <property name="User" value="ug_user"/>
+         <property name="DatabaseName" value="ug"/>
+         <property name="Password" value="[senha]"/>
+         <property name="ServerName" value="localhost"/>
+         <property name="PortNumber" value="3306"/>
    </jdbc-connection-pool>
    <jdbc-resource pool-name="UGPool" description="" 
-                  jndi-name="jdbc/ug"></jdbc-resource>
+                  jndi-name="jdbc/ug"/>
 </resources>
 \end{verbatim}
 
@@ -362,7 +386,7 @@ Agora, encontre o elemento \textless server name=''server'' config-ref=''server-
 <server name="server" config-ref="server-config">
 
 ...
-<resource-ref ref="jdbc/ug"></resource-ref>
+<resource-ref ref="jdbc/ug"/>
 </server>
 \end{verbatim}
 
@@ -375,7 +399,7 @@ Se preferir fazê-lo no console administrativo, você pode seguir os passos a se
    \begin{enumerate}
    \item DatabaseName=ug
    \item User=ug\_user
-   \item Password=put\_the\_password\_here
+   \item Password=[senha]
    \item PortNumber=3306 (esta é a porta padrão, mas certifique-se
     que você está usando a correta)
    \item ServerName=[nome do servidor ou endereço de IP]
@@ -407,14 +431,14 @@ Você pode configurar JavaMail diretamente no arquivo domain.xml, copiando e col
    ...
    </jdbc-connection-pool>
    <jdbc-resource pool-name="UGPool" description=""
-                  jndi-name="jdbc/ug"></jdbc-resource>
+                  jndi-name="jdbc/ug">
 
-   <mail-resource host="send.one.com" description=""
-                  jndi-name="mail/ug" from="your@emailaddress"
+   <mail-resource host="[smtp_server_name]" description="" 
+                  jndi-name="mail/ug" from="[seu@endereçodeemail]"
                   user="smtp_user">
-      <property name="mail.smtp.port" value="2525"></property>
-      <property name="mail.smtp.auth" value="true"></property>
-      <property name="mail.smtp.password" value="your_password">
+      <property name="mail.smtp.port" value="[número_senha]"/>
+      <property name="mail.smtp.auth" value="true"/>
+      <property name="mail.smtp.password" value="[senha]"/>
       </property>
    </mail-resource>
 </resources>
@@ -438,7 +462,7 @@ Para configurar o JavaMail usando o console administrativo, siga os passos abaix
 \item criar um novo JavaMail session e defina as seguintes propriedades:
    \begin{enumerate}
    \item JNDI Name: authentication
-   \item Mail Host: [endereço-do-servidor-smtp]
+   \item Mail Host: [nome-do-servidor-smtp]
    \item Default User: o nome de usuário para autenticar no servidor smtp
    \item Default Return Address: O endereço usado pelos destinatários para responder a mensagem. Alguns servidores exigem que este endereço deve ser o utilizado pelo usuário autenticado para acessar sua caixa de correio.
    \end{enumerate}
@@ -464,6 +488,30 @@ Um realm é uma politica de segurança de dominio que está disponível no Glass
 
 Assim como pool de conexão e o JavaMail session, o security realm é também uma configuração inteiramente feito no servidor da aplicação. Desde então os usuários Yougi's são armazenadas no base de dados, é necessário usar um realm baseado em JDBC. O JDBC Realm usa a fonte de dados criado na seção \ref{sec:creating-database-connection-pool} para acessar os dados dos usuários no banco de dados do Yougi's. Siga os passos abaixo para configurar o JDBC Realm:
 
+Como de costume, vamos começar com a opção de configuração mais rápida, alterando diretamente o arquivo domain.xml. Copie e cole o xml abaixo dentro do elemento \textless security-service\textgreater .
+
+\begin{verbatim}
+<security-service>
+   ...
+   <auth-realm name="ug-realm"
+       classname="com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm">
+       <property name="jaas-context" value="jdbcRealm"/>
+       <property name="encoding" value="Base64"/>
+       <property name="user-table" value="authentication"/>
+       <property name="password-column" value="password"/>
+       <property name="datasource-jndi" value="jdbc/ug"/>
+       <property name="group-table" value="user_group"/>
+       <property name="group-name-column" value="group_name"/>
+       <property name="group-table-user-name-column" value="username"/>
+       <property name="digest-algorithm" value="SHA-256"/>
+       <property name="user-name-column" value="username"/>
+   </auth-realm>
+   ...
+</security-service>
+\end{verbatim}
+
+Se preferir, você sempre pode usar o Console Administrativo para configurar o JDBC Realm. Basta seguir os passos abaixo:
+
 \begin{enumerate}
 \item Digite no console administrativo (http://[nome-do-servidor]:4848).
 \item Vá para \textit{Configuration/server-config/Security/Realms}, pressione \textit{New...} e informe os seguintes valores:
@@ -472,14 +520,14 @@ Assim como pool de conexão e o JavaMail session, o security realm é também um
    \item Class Name: com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm
    \item JAAS Context: jdbcRealm
    \item JNDI: jdbc/ug - o nome JNDI do data source apontando para o pool de conexão, onde os dados do usuário estão disponíveis
-   \item User Table: user\_account
+   \item User Table: authentication
    \item User Name Column: username
    \item Password Column: password
    \item Group Table: user\_group
    \item Group Table User Name Column: username
    \item Group Name Column: group\_name
    \item Digest Algorithm: MD5
-   \item Encoding: Base64
+   \item Encoding: SHA-256
    \end{enumerate}
 \item Reinicie o servidor de aplicativo para ativar o realm.
 \end{enumerate}
@@ -491,10 +539,10 @@ O processo de instalação leva algum tempo, mas todos esses passos são executa
 \begin{enumerate}
 \item entrar no console administrativo (http://[nome-do-servidor]:4848).
 \item Ir para \textit{Applications} e pressione \textit{Deploy...}.
-\item Informe o pacote \textit{jug.ear} a ser enviado para o servidor.
+\item Informe o pacote \textit{yougi.ear} a ser enviado para o servidor.
 \item Selecione o tipo \textit{Enterprise Application}.
 \item Clique em \textit{Ok} para o deploy.
-\item Verifique se tudo correu bem acessando http://localhost:8080/jug se fizer o deploy em seu próprio computador ou http://[nome-do-servidor]:8080/jug se fizer o deploy no servidor.
+\item Verifique se tudo correu bem acessando http://localhost:8080/ug se fizer o deploy em seu próprio computador ou http://[nome-do-servidor]:8080/ug se fizer o deploy no servidor.
 \end{enumerate}
 
 Yougi aparecerá na lista de aplicativos. No caso de atualização de um aplicativo já feito o deploy, o processo é muito mais simplificado por causa da configuração inicial:
@@ -502,10 +550,10 @@ Yougi aparecerá na lista de aplicativos. No caso de atualização de um aplicat
 \begin{enumerate}
 \item entrar no console administrativo (http://[nome-do-servidor]:4848).
 \item Ir para \textit{Applications}.
-\item clique sobre a ação \textit{Redeploy} na linha da aplicação jug;
-\item informar o pacote “jug.ear” a ser enviado para o servidor, e
+\item clique sobre a ação \textit{Redeploy} na linha da aplicação yougi;
+\item informar o pacote “yougi.ear” a ser enviado para o servidor, e
 \item clique \textit{Ok} para redeploy.
-\item Verifique se tudo ocorreu bem acessando http://[nome-do-servidor]:8080/jug.
+\item Verifique se tudo ocorreu bem acessando http://[nome-do-servidor]:8080/ug.
 \end{enumerate}
 
 \section{Configurando a Aplicação}

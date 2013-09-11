@@ -2,7 +2,7 @@
 <!-- Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -60,7 +60,7 @@
                                 <p:dataTable id="unpublishedArticles" value="#{webSourceMBean.unpublishedArticles}" var="article">
                                     <p:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
-                                        <h:link outcome="article" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
+                                        <h:link outcome="article_form" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
                                             <f:param name="pl" value="#{article.permanentLink}"/>
                                         </h:link>
                                         <h:outputText value="#{article.title}" rendered="#{empty webSourceMBean.webSource.id}"/>
@@ -84,7 +84,7 @@
                                 <p:dataTable id="publishedArticles" value="#{webSourceMBean.publishedArticles}" var="article">
                                     <p:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
-                                        <h:link outcome="article" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
+                                        <h:link outcome="article_form" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
                                             <f:param name="id" value="#{article.id}"/>
                                         </h:link>
                                         <h:outputText value="#{article.title}" rendered="#{empty webSourceMBean.webSource.id}"/>

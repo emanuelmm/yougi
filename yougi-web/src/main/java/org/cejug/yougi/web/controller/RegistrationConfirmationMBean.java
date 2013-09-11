@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -100,14 +100,13 @@ public class RegistrationConfirmationMBean {
     public void load() {
         if(this.code != null && !this.code.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
             this.userAccount = userAccountBean.confirmUser(this.code);
             if(this.userAccount != null) {
                 this.validated = Boolean.TRUE;
             }
             else {
                 this.validated = Boolean.FALSE;
-                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getMessage("warnCode0003"), ""));
+                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
             }
         }
     }
@@ -127,9 +126,8 @@ public class RegistrationConfirmationMBean {
             }
 
             FacesContext context = FacesContext.getCurrentInstance();
-            ResourceBundleHelper bundle = new ResourceBundleHelper();
             if(!this.validated) {
-                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getMessage("warnCode0003"), ""));
+                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
             }
         }
         return "registration_confirmation";

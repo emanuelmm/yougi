@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -30,10 +30,10 @@ import javax.faces.bean.RequestScoped;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.EventBean;
-import org.cejug.yougi.event.business.EventSessionBean;
+import org.cejug.yougi.event.business.SessionBean;
 import org.cejug.yougi.event.business.SpeakerBean;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.event.entity.EventSession;
+import org.cejug.yougi.event.entity.Session;
 import org.cejug.yougi.event.entity.Speaker;
 
 /**
@@ -52,7 +52,7 @@ public class SpeakerMBean implements Serializable {
     private EventBean eventBean;
 
     @EJB
-    private EventSessionBean eventSessionBean;
+    private SessionBean sessionBean;
 
     @EJB
     private UserAccountBean userAccountBean;
@@ -69,15 +69,11 @@ public class SpeakerMBean implements Serializable {
 
     private List<Event> events;
 
-    private List<EventSession> eventSessions;
+    private List<Session> sessions;
 
     private List<UserAccount> userAccounts;
 
     private List<Speaker> speakers;
-
-    private String selectedEvent;
-
-    private String selectedEventSession;
 
     private String selectedUserAccount;
 
@@ -119,31 +115,14 @@ public class SpeakerMBean implements Serializable {
 
     public List<Speaker> getSpeakers() {
         if (this.speakers == null) {
-            this.speakers = speakerBean.findSpeakers(this.event);
+            if(this.event != null) {
+                this.speakers = speakerBean.findSpeakers(this.event);
+            }
+            else {
+                this.speakers = speakerBean.findSpeakers();
+            }
         }
         return this.speakers;
-    }
-
-    public String getSelectedEvent() {
-        return this.selectedEvent;
-    }
-
-    public void setSelectedEvent(String selectedEvent) {
-        this.selectedEvent = selectedEvent;
-    }
-
-    /**
-     * @return the selectedEventSession
-     */
-    public String getSelectedEventSession() {
-        return selectedEventSession;
-    }
-
-    /**
-     * @param selectedEventSession the selectedEventSession to set
-     */
-    public void setSelectedEventSession(String selectedEventSession) {
-        this.selectedEventSession = selectedEventSession;
     }
 
     /**
@@ -162,22 +141,35 @@ public class SpeakerMBean implements Serializable {
 
     public List<Event> getEvents() {
         if (this.events == null) {
-            this.events = eventBean.findEvents();
+            if(this.speaker != null) {
+                this.events = sessionBean.findEventsSpeaker(this.speaker);
+            }
         }
         return this.events;
     }
 
     /**
-     * @return the eventSessions
+     * @return the sessions
      */
-    public List<EventSession> getEventSessions() {
-        return eventSessions;
+    public List<Session> getSessions() {
+        if(this.sessions == null) {
+            if(this.event != null) {
+                this.sessions = sessionBean.findSessions(this.event);
+            }
+            else if (this.speaker != null) {
+                this.sessions = sessionBean.findSessionsSpeaker(this.speaker);
+            }
+        }
+        return sessions;
     }
 
     /**
      * @return the userAccounts
      */
     public List<UserAccount> getUserAccounts() {
+        if(this.userAccounts == null) {
+            this.userAccounts = speakerBean.findSpeakerCandidates(this.speaker.getUserAccount());
+        }
         return userAccounts;
     }
 
@@ -189,48 +181,39 @@ public class SpeakerMBean implements Serializable {
     }
 
     /**
-     * @param eventSessions the eventSessions to set
+     * @param sessions the sessions to set
      */
-    public void setEventSessions(List<EventSession> eventSessions) {
-        this.eventSessions = eventSessions;
+    public void setSessions(List<Session> sessions) {
+        this.sessions = sessions;
     }
 
     @PostConstruct
     public void load() {
-        if (this.eventId != null && !this.eventId.isEmpty()) {
-            this.event = eventBean.findEvent(eventId);
-            this.speaker.setEvent(this.event);
-            this.selectedEvent = this.event.getId();
-        }
-
         if (this.id != null && !this.id.isEmpty()) {
             this.speaker = speakerBean.findSpeaker(id);
-            this.selectedEvent = this.speaker.getEvent().getId();
-            this.selectedEventSession = this.speaker.getSession().getId();
             this.selectedUserAccount = this.speaker.getUserAccount().getId();
         }
-
-        this.events = eventBean.findEvents();
-        this.eventSessions = eventSessionBean.findEventSessions(this.event);
-        this.userAccounts = userAccountBean.findUserAccounts();
     }
 
     public String save() {
-        Event evt = eventBean.findEvent(selectedEvent);
-        this.speaker.setEvent(evt);
-
-        EventSession evtSes = eventSessionBean.findEventSession(selectedEventSession);
-        this.speaker.setSession(evtSes);
-
         UserAccount usrAcc = userAccountBean.findUserAccount(selectedUserAccount);
         this.speaker.setUserAccount(usrAcc);
 
         speakerBean.save(this.speaker);
-        return "speakers?faces-redirect=true&eventId=" + evt.getId();
+        return getNextPage();
     }
 
     public String remove() {
         speakerBean.remove(this.speaker.getId());
-        return "speakers?faces-redirect=true&eventId=" + this.event.getId();
+        return getNextPage();
+    }
+    
+    private String getNextPage() {
+        if (this.eventId != null && !this.eventId.isEmpty()) {
+            return "event?faces-redirect=true&tab=3&id="+ this.eventId;
+        }
+        else {
+            return "speakers?faces-redirect=true&eventId="+ this.eventId;
+        }
     }
 }

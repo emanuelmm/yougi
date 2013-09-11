@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -45,6 +45,8 @@ public class TopicMBean {
 
     @ManagedProperty(value="#{param.topic}")
     private String topicName;
+    
+    private Boolean topicExistent = Boolean.FALSE;
 
     public TopicMBean() {
         this.topic = new Topic();
@@ -72,11 +74,18 @@ public class TopicMBean {
         }
         return this.topics;
     }
+    
+    public Boolean getExistent() {
+        return this.topicExistent;
+    }
 
     @PostConstruct
     public void load() {
         if(this.topicName != null && !this.topicName.isEmpty()) {
             this.topic = topicBean.findTopic(topicName);
+            if(this.topic != null) {
+                this.topicExistent = true;
+            }
         }
     }
 

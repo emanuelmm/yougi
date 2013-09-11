@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -25,11 +25,15 @@ package org.cejug.yougi.exception;
  */
 public class EnvironmentResourceException extends RuntimeException {
 
-    public EnvironmentResourceException(String string, Throwable thrwbl) {
-        super(string, thrwbl);
-    }
-
     public EnvironmentResourceException(Throwable thrwbl) {
         super(thrwbl);
+    }
+
+    public EnvironmentResourceException(String message) {
+        super(message);
+    }
+
+    public EnvironmentResourceException(String message, Throwable thrwbl) {
+        super(message, thrwbl);
     }
 }

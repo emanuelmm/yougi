@@ -1,7 +1,7 @@
 /* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
- * events. Copyright (C) 2011 Ceara Java User Group - CEJUG.
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
  *
  * This application is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
@@ -45,7 +45,7 @@ import org.cejug.yougi.util.ResourceBundleHelper;
 @RequestScoped
 public class SubscriptionMBean {
 
-    static final Logger logger = Logger.getLogger("org.cejug.knowledge.web.controller.SubscriptionBean");
+    static final Logger LOGGER = Logger.getLogger("org.cejug.knowledge.web.controller.SubscriptionBean");
 
     @EJB
     private MailingListBean mailingListBean;
@@ -219,10 +219,9 @@ public class SubscriptionMBean {
 
     public String subscribe() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
 
         if(this.subscriptionDate == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,bundle.getMessage("errorCode0008"),""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,ResourceBundleHelper.INSTANCE.getMessage("errorCode0008"),""));
             context.validationFailed();
         }
         else {
@@ -247,10 +246,9 @@ public class SubscriptionMBean {
 
     public String unsubscribe() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundleHelper bundle = new ResourceBundleHelper();
 
         if(this.unsubscriptionDate == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,bundle.getMessage("errorCode0009"),""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,ResourceBundleHelper.INSTANCE.getMessage("errorCode0009"),""));
             context.validationFailed();
         }
         else {
