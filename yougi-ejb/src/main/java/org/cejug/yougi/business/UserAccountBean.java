@@ -284,9 +284,9 @@ public class UserAccountBean {
         }
 
         if(!noAccount) {
-            ApplicationProperty timeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
+            ApplicationProperty timezone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
 
-            userAccount.setTimeZone(timeZone.getPropertyValue());
+            userAccount.setTimeZone(timezone.getPropertyValue());
             userAccount.defineNewConfirmationCode();
         }
 

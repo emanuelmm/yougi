@@ -25,6 +25,7 @@ import java.util.TimeZone;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Due to the user-unfriendly Java TimeZone implementation, this class was
@@ -35,6 +36,7 @@ import javax.persistence.Id;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
+@Table(name = "timezone")
 public class Timezone implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Integer INTERVAL_RAW_OFFSET = 3600000;

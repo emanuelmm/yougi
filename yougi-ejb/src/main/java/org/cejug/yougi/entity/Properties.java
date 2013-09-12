@@ -32,7 +32,7 @@ public enum Properties {
     FILE_REPOSITORY_PATH("fileRepositoryPath", ""                        ),
     GROUP_NAME          ("groupName",          "Yougi UG"                ),
     SEND_EMAILS         ("sendEmails",         "false"                   ),
-    TIMEZONE            ("timezone",           "UTC 0:00"                ),
+    TIMEZONE            ("timezone",           ""                        ),
     URL                 ("url",                "http://localhost:8080/ug");
 
     private String key;

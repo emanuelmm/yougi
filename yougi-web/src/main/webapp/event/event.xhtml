@@ -36,6 +36,9 @@
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:outputText value="#{eventMBean.event}" style="font-size: 26px; font-weight: bold;"/>
                             <h:panelGroup>
+                                <p:button value="#{bundle.attend}" outcome="attendee">
+                                    <f:param name="eventId" value="#{eventMBean.event.id}"/>
+                                </p:button>
                                 <p:button value="#{bundle.edit}" outcome="event_form" rendered="#{securityBackingMBean.isUserLeader}">
                                     <f:param name="id" value="#{eventMBean.event.id}"/>
                                 </p:button>
