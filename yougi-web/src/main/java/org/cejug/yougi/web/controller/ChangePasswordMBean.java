@@ -61,7 +61,7 @@ public class ChangePasswordMBean {
     private String password;
     private String passwordConfirmation;
 
-    private Boolean invalid;
+    private Boolean invalid = Boolean.FALSE;
 
     public ChangePasswordMBean() {}
 
@@ -198,7 +198,7 @@ public class ChangePasswordMBean {
         } catch (BusinessLogicException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
-        }   
+        }
         return "profile?faces-redirect=true";
     }
 }

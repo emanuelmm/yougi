@@ -356,6 +356,14 @@ public class UserAccount implements Serializable, Identified {
         this.speaker = speaker;
     }
 
+    /**
+     * A new user, who had his/er email confirmed, is by default unverified.
+     * @return this method returns false by default. An administrator may check
+     * whether the data of the new user does not sound strange, something that
+     * might be consider as a tester or a spammer. But, if all data seem ok,
+     * then administrator can mark the user as verified. In this case, this
+     * method returns true.
+     */
     public Boolean getVerified() {
         return verified;
     }

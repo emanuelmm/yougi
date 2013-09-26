@@ -244,7 +244,7 @@ public class UserAccountBean {
     }
 
     /** <p>Register new user accounts. For the moment, this is the only way an
-     * user account can be created.  This contact record is related to the new user 
+     * user account can be created.  This contact record is related to the new user
      * and it is set as his/her main contact. The server address is
      * informed just because it can only be detected automatically on the web
      * container.</p>
@@ -296,7 +296,7 @@ public class UserAccountBean {
             userAccount.setId(EntitySupport.INSTANCE.generateEntityId());
             em.persist(userAccount);
         }
-        
+
         authentication.setUserAccount(userAccount);
         em.persist(authentication);
 
@@ -630,6 +630,11 @@ public class UserAccountBean {
         save(userAccount);
     }
 
+    /**
+     * Remove all users whose registration date is older than two days ago, the
+     * confirmation code is not null and the user was not verified by an
+     * administrator. This method is scheduled to execute every 12 hours.
+     */
     @Schedules({ @Schedule(hour="*/12") })
     public void removeNonConfirmedAccounts(Timer timer) {
         LOGGER.log(Level.INFO, "Timer to remove non confirmed accounts started.");
@@ -640,7 +645,7 @@ public class UserAccountBean {
         Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         LOGGER.log(Level.INFO, "Accounts that were now confirmed after {0} will be removed.", formatter.format(twoDaysAgo.getTime()));
 
-        int i = em.createQuery("delete from UserAccount ua where ua.registrationDate <= :twoDaysAgo and ua.confirmationCode is not null")
+        int i = em.createQuery("delete from UserAccount ua where ua.registrationDate <= :twoDaysAgo and ua.confirmationCode is not null and ua.verified = false")
                   .setParameter("twoDaysAgo", twoDaysAgo.getTime())
                   .executeUpdate();
 
