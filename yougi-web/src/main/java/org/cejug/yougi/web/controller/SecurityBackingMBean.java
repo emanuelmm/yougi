@@ -33,6 +33,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.Role;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.cejug.yougi.util.ResourceBundleHelper;
@@ -125,22 +126,27 @@ public class SecurityBackingMBean {
 
     public Boolean getIsUserAdministrator() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("admin");
+        return request.isUserInRole(Role.ADMIN.toString());
     }
 
     public Boolean getIsUserLeader() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("leader");
+        return request.isUserInRole(Role.LEADER.toString());
     }
 
     public Boolean getIsUserHelper() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("helper");
+        return request.isUserInRole(Role.HELPER.toString());
     }
 
     public Boolean getIsUserPartner() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("partner");
+        return request.isUserInRole(Role.PARTNER.toString());
+    }
+
+    public Boolean getIsUserSpeaker() {
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole(Role.SPEAKER.toString());
     }
 
     private HttpServletRequest getHttpRequest() {

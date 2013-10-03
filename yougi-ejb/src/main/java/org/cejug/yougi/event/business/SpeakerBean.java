@@ -21,10 +21,13 @@
 package org.cejug.yougi.event.business;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.cejug.yougi.business.AccessGroupBean;
+import org.cejug.yougi.entity.AccessGroup;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.Session;
 import org.cejug.yougi.event.entity.Speaker;
@@ -41,6 +44,9 @@ public class SpeakerBean {
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private AccessGroupBean accessGroupBean;
+
     public Speaker findSpeaker(String id) {
         if (id != null) {
             return em.find(Speaker.class, id);
@@ -49,24 +55,27 @@ public class SpeakerBean {
     }
 
     /**
-     * Returns the list of users who are not speakers yet. If a user is passed 
+     * Returns the list of users who are not speakers yet. If a user is passed
      * by parameter he/she is included in the list even if he/she is already a
      * speaker.
      */
     public List<UserAccount> findSpeakerCandidates(UserAccount except) {
         List<UserAccount> candidates;
+        AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("speakers");
         if(except != null) {
-            candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s where s.userAccount != :except) order by ua.firstName, ua.lastName asc")
+            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s where s.userAccount != :except) order by ug.userAccount.firstName, ug.userAccount.lastName asc")
                            .setParameter("except", except)
+                           .setParameter("group", accessGroup)
                            .getResultList();
         }
         else {
-            candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s) order by ua.firstName, ua.lastName asc")
+            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s) order by ug.userAccount.firstName, ug.userAccount.lastName asc")
+                           .setParameter("group", accessGroup)
                            .getResultList();
         }
         return candidates;
     }
-    
+
     /**
      * Returns the entire list of speakers from all registered events.
      */
@@ -91,7 +100,7 @@ public class SpeakerBean {
                  .setParameter("session", session)
                  .getResultList();
     }
-    
+
     public void save(Speaker speaker) {
         if (EntitySupport.INSTANCE.isIdNotValid(speaker)) {
             speaker.setId(EntitySupport.INSTANCE.generateEntityId());

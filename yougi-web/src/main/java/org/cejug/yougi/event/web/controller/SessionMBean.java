@@ -28,8 +28,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import org.cejug.yougi.event.business.EventBean;
-import org.cejug.yougi.event.business.EventVenueBean;
-import org.cejug.yougi.event.business.RoomBean;
 import org.cejug.yougi.event.business.SessionBean;
 import org.cejug.yougi.event.business.TrackBean;
 import org.cejug.yougi.event.entity.Event;
@@ -50,12 +48,6 @@ public class SessionMBean implements Serializable {
 
     @EJB
     private EventBean eventBean;
-
-    @EJB
-    private EventVenueBean eventVenueBean;
-
-    @EJB
-    private RoomBean roomBean;
 
     @EJB
     private TrackBean trackBean;

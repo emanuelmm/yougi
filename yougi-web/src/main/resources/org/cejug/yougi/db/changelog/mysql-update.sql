@@ -343,5 +343,9 @@ update city set timezone = 'Asia/Kamchatka'      where timezone = 'UTC +12:00';
 update city set timezone = 'Pacific/Apia'        where timezone = 'UTC +13:00';
 update city set timezone = 'Pacific/Kiritimati'  where timezone = 'UTC +14:00';
 
---changeset htmfilho:11
-ALTER TABLE  `user_account` CHANGE  `gender`  `gender` TINYINT( 1 ) NULL
+--changeset joewong:11
+alter table user_account change gender gender tinyint(1) null;
+
+--changeset htmfilho:12
+insert into access_group (id, name, description, user_default) values
+    ('PQOWKSIFUSLEOSJFNMDKKIJGEJDKNWJE', 'speakers', 'Speakers', 0);

@@ -176,4 +176,8 @@
     <description></description>
     <role-name>partner</role-name>
   </security-role>
+  <security-role>
+    <description></description>
+    <role-name>speaker</role-name>
+  </security-role>
 </web-app>

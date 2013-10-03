@@ -20,39 +20,16 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.util.UUID;
-
 /**
+ * Lists all roles of the application as configured in the deployment descriptors.
+ *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum EntitySupport {
+public enum Role {
 
-    INSTANCE;
+    ADMIN, LEADER, HELPER, MEMBER, PARTNER, SPEAKER;
 
-    /**
-     * @return Returns a 32 characteres string to be used as id of entities that
-     * implements the interface org.cejug.persistence.Identified.
-     */
-    public String generateEntityId() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().replaceAll("-", "").toUpperCase();
-    }
-
-    /**
-     * Verifies whether the id of an identified entity is not valid to persist
-     * in the database.
-     * @param identified entity class that implements the interface
-     * org.cejug.persistence.Identified.
-     * @return true if the id is not valid.
-     */
-    public boolean isIdNotValid(Identified identified) {
-        if(identified == null) {
-            throw new IllegalArgumentException("Identified entity is null");
-        }
-        // TODO: lançar uma excessão se o parâmetro for nulo.
-        if(identified.getId() == null || identified.getId().isEmpty()) {
-            return true;
-        }
-        return false;
+    public String toString() {
+        return this.name().toLowerCase();
     }
 }

@@ -358,7 +358,7 @@ public class UserAccountBean {
             	userAccount.setRegistrationDate(Calendar.getInstance().getTime());
 
                 // This step effectively allows the user to access the application.
-                AccessGroup defaultGroup = accessGroupBean.findUserDefaultGroup();
+                AccessGroup defaultGroup = accessGroupBean.findDefaultAccessGroup();
                 Authentication authentication = findAuthenticationUser(userAccount);
                 UserGroup userGroup = new UserGroup(defaultGroup, authentication);
                 userGroupBean.add(userGroup);

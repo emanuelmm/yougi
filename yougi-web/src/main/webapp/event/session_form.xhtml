@@ -33,7 +33,7 @@
                     <h1>#{bundle.session}</h1>
                     <h:form id="sessionForm">
                         <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                        <h:panelGrid columns="2" columnClasses="panelGridColumn">
+                        <h:panelGrid>
                             <h:panelGrid>
                                 <h:outputText value="#{bundle.event}" styleClass="fieldLabel"/>
                                 <h:outputText value="#{sessionMBean.session.event}"/>
@@ -113,10 +113,6 @@
                                 <h:outputLabel for="detailedDescription" value="#{bundle.detailedDescription}" styleClass="fieldLabel"/>
                                 <h:inputTextarea id="detailedDescription" value="#{sessionMBean.session.detailedDescription}" label="#{bundle.detailedDescription}" rows="6" cols="60" class="ui-inputfield ui-state-default ui-corner-all"/>
                                 <h:message for="detailedDescription" errorClass="errorMessage"/>
-                            </h:panelGrid>
-
-                            <h:panelGrid>
-                                <p:pickList id="speakers" value="#{sessionMBean.speakers}" var="speaker" itemLabel="#{speaker.fullName}" itemValue="#{speaker.id}" converter="SpeakerSessionPickListConverter"/>
                             </h:panelGrid>
                         </h:panelGrid>
 
