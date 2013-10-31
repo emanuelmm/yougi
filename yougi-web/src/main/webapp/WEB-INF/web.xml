@@ -67,15 +67,6 @@
     <url-pattern>/EmailConfirmation</url-pattern>
   </servlet-mapping>
 
-  <filter>
-    <filter-name>PrimeFaces FileUpload Filter</filter-name>
-    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>PrimeFaces FileUpload Filter</filter-name>
-    <servlet-name>Faces Servlet</servlet-name>
-  </filter-mapping>
-
   <listener>
     <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
   </listener>
@@ -162,7 +153,7 @@
     <realm-name>ug-realm</realm-name>
     <form-login-config>
       <form-login-page>/login.xhtml</form-login-page>
-      <form-error-page>/login_error.xhtml</form-error-page>
+      <form-error-page>/login.xhtml</form-error-page>
     </form-login-config>
   </login-config>
   <security-role>
@@ -184,5 +175,9 @@
   <security-role>
     <description></description>
     <role-name>partner</role-name>
+  </security-role>
+  <security-role>
+    <description></description>
+    <role-name>speaker</role-name>
   </security-role>
 </web-app>

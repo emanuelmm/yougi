@@ -21,6 +21,8 @@
 package org.cejug.yougi.web.controller;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -31,6 +33,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.Role;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.cejug.yougi.util.ResourceBundleHelper;
@@ -41,8 +44,14 @@ import org.cejug.yougi.util.ResourceBundleHelper;
 @ManagedBean
 @RequestScoped
 public class SecurityBackingMBean {
+
+    private static final Logger LOGGER = Logger.getLogger(SecurityBackingMBean.class.getName());
+
     @EJB
     private UserAccountBean userAccountBean;
+
+    private String username;
+    private String password;
 
     @ManagedProperty(value="#{sessionScope}")
     private Map<String, Object> sessionMap;
@@ -70,6 +79,21 @@ public class SecurityBackingMBean {
         else {
             return "/login?faces-redirect=true";
         }
+    }
+
+    public String authenticate() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            if(!isUserSignedIn()) {
+                request.login(this.username, this.password);
+            }
+            return "/index";
+        } catch (ServletException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0013"), null));
+        }
+        return "/login";
     }
 
     public String register() {
@@ -102,22 +126,27 @@ public class SecurityBackingMBean {
 
     public Boolean getIsUserAdministrator() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("admin");
+        return request.isUserInRole(Role.ADMIN.toString());
     }
 
     public Boolean getIsUserLeader() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("leader");
+        return request.isUserInRole(Role.LEADER.toString());
     }
 
     public Boolean getIsUserHelper() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("helper");
+        return request.isUserInRole(Role.HELPER.toString());
     }
 
     public Boolean getIsUserPartner() {
         HttpServletRequest request = getHttpRequest();
-        return request.isUserInRole("partner");
+        return request.isUserInRole(Role.PARTNER.toString());
+    }
+
+    public Boolean getIsUserSpeaker() {
+        HttpServletRequest request = getHttpRequest();
+        return request.isUserInRole(Role.SPEAKER.toString());
     }
 
     private HttpServletRequest getHttpRequest() {
@@ -137,5 +166,21 @@ public class SecurityBackingMBean {
 
     public void setSessionMap(Map<String, Object> sessionMap) {
         this.sessionMap = sessionMap;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

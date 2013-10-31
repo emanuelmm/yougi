@@ -114,7 +114,7 @@ public class ApplicationPropertiesMBean implements Serializable {
     public void load() {
         applicationProperties = applicationPropertyBean.findApplicationProperties();
 
-        if (applicationProperties.get(Properties.URL.getKey()).toString().equals("")) {
+        if ("".equals(applicationProperties.get(Properties.URL.getKey()))) {
             applicationProperties.put(Properties.URL.getKey(), getUrl());
         }
 
@@ -124,6 +124,12 @@ public class ApplicationPropertiesMBean implements Serializable {
 
         if (applicationProperties.get(Properties.CAPTCHA_ENABLED.getKey()).equals("true")) {
             captchaEnabled = true;
+        }
+        
+        String timezoneValue = applicationProperties.get(Properties.TIMEZONE.getKey());
+        if(timezoneValue == null || "".equals(timezoneValue)) {
+            Timezone timezone = timezoneBean.findDefaultTimezone();
+            applicationProperties.put(Properties.TIMEZONE.getKey(), timezone.getId());
         }
     }
 

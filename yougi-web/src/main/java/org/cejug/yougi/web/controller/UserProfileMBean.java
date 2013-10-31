@@ -20,8 +20,9 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -30,10 +31,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
+import org.cejug.yougi.business.TimezoneBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.ApplicationProperty;
 import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
+import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.entity.UserAccount;
 
 /**
@@ -45,6 +48,9 @@ public class UserProfileMBean {
 
     @EJB
     private LanguageBean languageBean;
+    
+    @EJB
+    private TimezoneBean timezoneBean;
 
     @EJB
     private UserAccountBean userAccountBean;
@@ -109,12 +115,16 @@ public class UserProfileMBean {
         else {
             ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
             if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
-                TimeZone tz = TimeZone.getDefault();
-                return tz.getID();
+                Timezone tz = timezoneBean.findDefaultTimezone();
+                return tz.getId();
             }
             else {
                 return appPropTimeZone.getPropertyValue();
             }
         }
+    }
+    
+    public Date getWhatTimeIsIt() {
+        return Calendar.getInstance().getTime();
     }
 }

@@ -39,13 +39,13 @@
                                 <f:selectItems value="#{speakerMBean.userAccounts}" var="usr" itemLabel="#{usr.fullName}" itemValue="#{usr.id}"/>
                             </h:selectOneMenu>
                             <h:message for="userAccount" errorClass="errorMessage"/>
-                            
+
                             <h:outputLabel for="organization" value="#{bundle.organization}" styleClass="fieldLabel"/>
                             <h:inputText id="organization" label="#{bundle.organization}" size="60" maxlength="100" value="#{speakerMBean.speaker.organization}"/>
-                            
+
                             <h:outputLabel for="shortCv" value="#{bundle.shortCv}" styleClass="fieldLabel"/>
                             <h:inputTextarea id="shortCv" label="#{bundle.shortCv}" cols="60" rows="4" value="#{speakerMBean.speaker.shortCv}"/>
-                            
+
                             <h:outputLabel for="experience" value="#{bundle.experience}" styleClass="fieldLabel"/>
                             <h:inputTextarea id="experience" label="#{bundle.experience}" cols="60" rows="6" value="#{speakerMBean.speaker.experience}"/>
                         </h:panelGrid>
@@ -61,8 +61,9 @@
                                 <f:param name="eventId" value="#{speakerMBean.eventId}"/>
                                 <f:param name="id" value="#{speakerMBean.speaker.id}"/>
                             </h:commandButton>
-                            <h:button value="#{bundle.cancel}" outcome="speakers">
-                                <f:param name="eventId" value="#{speakerMBean.eventId}"/>
+                            <h:button value="#{bundle.cancel}" outcome="event">
+                                <f:param name="id" value="#{speakerMBean.eventId}"/>
+                                <f:param name="tab" value="3"/>
                             </h:button>
                         </h:panelGrid>
                     </h:form>

@@ -74,7 +74,18 @@ public class AccessGroupBean {
         return em.find(AccessGroup.class, groupId);
     }
 
-    public AccessGroup findUserDefaultGroup() {
+    public AccessGroup findAccessGroupByName(String name) {
+        try {
+            return em.createQuery("select ag from AccessGroup ag where ag.name = :name", AccessGroup.class)
+                     .setParameter("name", name)
+                     .getSingleResult();
+        }
+        catch(NoResultException nre) {
+            return null;
+        }
+    }
+
+    public AccessGroup findDefaultAccessGroup() {
         AccessGroup defaultUserGroup;
         try {
             defaultUserGroup = (AccessGroup) em.createQuery("select ag from AccessGroup ag where ag.userDefault = :default")
@@ -111,16 +122,6 @@ public class AccessGroupBean {
         return em.createQuery("select ag from AccessGroup ag order by ag.name").getResultList();
     }
 
-    public AccessGroup findAccessGroupByName(String name) {
-        try {
-            return (AccessGroup) em.createQuery("select ag from AccessGroup ag where ag.name = :name")
-                               .setParameter("name", name)
-                               .getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
     public void sendGroupAssignmentAlert(UserAccount userAccount, AccessGroup accessGroup) throws BusinessLogicException {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("09JDIIE82O39IDIDOSJCHXUDJJXHCKP0");
         Map<String, Object> values = new HashMap<>();
@@ -139,7 +140,7 @@ public class AccessGroupBean {
 
     public void save(AccessGroup accessGroup, List<UserAccount> members) {
         if(accessGroup.getUserDefault()) {
-            AccessGroup defaultGroup = findUserDefaultGroup();
+            AccessGroup defaultGroup = findDefaultAccessGroup();
             defaultGroup.setUserDefault(false);
         }
 
