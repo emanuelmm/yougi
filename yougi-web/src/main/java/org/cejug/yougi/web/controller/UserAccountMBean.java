@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.DeactivationType;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.util.ResourceBundleHelper;

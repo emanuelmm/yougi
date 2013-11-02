@@ -127,7 +127,6 @@
       <description></description>
       <url-pattern>/profile/*</url-pattern>
       <url-pattern>/event/attendee.xhtml</url-pattern>
-      <url-pattern>/event/attendee_cancel.xhtml</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

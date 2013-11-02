@@ -39,6 +39,9 @@
                                 <p:button value="#{bundle.attend}" outcome="attendee">
                                     <f:param name="eventId" value="#{eventMBean.event.id}"/>
                                 </p:button>
+                                <p:commandButton value="#{bundle.getCertificate}" action="#{eventMBean.getCertificate}" rendered="#{eventMBean.attended and eventMBean.happened}">
+                                    <f:param name="id" value="#{eventMBean.event.id}"/>
+                                </p:commandButton>
                                 <p:button value="#{bundle.edit}" outcome="event_form" rendered="#{securityBackingMBean.isUserLeader}">
                                     <f:param name="id" value="#{eventMBean.event.id}"/>
                                 </p:button>
@@ -338,18 +341,6 @@
                                 </h:panelGrid>
                             </p:tab>
                         </p:tabView>
-
-                        <h:panelGrid columns="9" rendered="false">
-                            <h:button value="#{bundle.attend}" outcome="attendee" rendered="#{! eventMBean.isAttending and ! eventMBean.happened}">
-                                <f:param name="id" value="#{eventMBean.event.id}"/>
-                            </h:button>
-                            <h:button value="#{bundle.notAttending}" outcome="attendee_cancel" rendered="#{eventMBean.isAttending and ! eventMBean.happened}">
-                                <f:param name="id" value="#{eventMBean.event.id}"/>
-                            </h:button>
-                            <h:commandButton value="#{bundle.getCertificate}" action="#{eventMBean.getCertificate}" rendered="#{eventMBean.attended and eventMBean.happened}">
-                                <f:param name="id" value="#{eventMBean.event.id}"/>
-                            </h:commandButton>
-                        </h:panelGrid>
                     </h:form>
                 </div>
             </ui:define>

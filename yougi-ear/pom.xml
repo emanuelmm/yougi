@@ -34,7 +34,7 @@
                         <webModule>
                             <groupId>org.cejug.yougi</groupId>
                             <artifactId>yougi-web</artifactId>
-                            <contextRoot>/</contextRoot>
+                            <contextRoot>/ug</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
