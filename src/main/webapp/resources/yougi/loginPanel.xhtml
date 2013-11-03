@@ -30,19 +30,19 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h:form id="loginForm">
-            <h:panelGrid>
+        <h:form id="loginForm" styleClass="form">
+            <div class="form-group">
                 <h:outputLabel for="username" value="#{bundle.email}" styleClass="fieldLabel"/>
-                <h:inputText id="username" value="#{securityBackingMBean.username}" required="true" onchange="formatEmail(this);"/>
+                <h:inputText id="username" value="#{securityBackingMBean.username}" required="true" onchange="formatEmail(this);" styleClass="form-control"/>
+            </div>
 
+            <div class="form-group">
                 <h:outputLabel for="password" value="#{bundle.password}" styleClass="fieldLabel"/>
-                <h:inputSecret id="password" value="#{securityBackingMBean.password}" required="true"/>
-            </h:panelGrid>
+                <h:inputSecret id="password" value="#{securityBackingMBean.password}" required="true" styleClass="form-control"/>
+            </div>
 
-            <h:panelGrid columns="2">
-                <h:commandButton value="#{bundle.signIn}" action="#{securityBackingMBean.authenticate()}"/>
-                <h:button outcome="index" value="#{bundle.cancel}"/>
-            </h:panelGrid>
+            <h:commandButton value="#{bundle.signIn}" class="btn btn-primary" action="#{securityBackingMBean.authenticate()}"/>
+                
             <p/>
             <h:link outcome="request_password_change" value="#{bundle.forgotPassword}"/>
             <h:outputText value=" | "/>

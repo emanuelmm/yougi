@@ -31,75 +31,96 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="title">#{bundle.home}</ui:define>
             <ui:define name="content">
-                <div class="content">
-                    <h:panelGrid columns="2" columnClasses="panelGridColumn,panelGridColumn" cellpadding="0" cellspacing="0" width="100%">
-                        <h:panelGrid width="100%">
-                            <p:panel rendered="#{! empty eventMBean.commingEvents}" header="#{bundle.events}">
-                                <c:forEach items="#{eventMBean.commingEvents}" var="event">
-                                    <h:panelGrid width="100%">
-                                        <h:link value="#{event.name}" outcome="event/event" style="font-size: 18px; font-weight: bold;">
+                <div class="row">
+                    <c:if test="#{empty request.remoteUser}">
+                        <div class="col-md-8">
+                            <div class="jumbotron">
+                                <h1>Hello, world!</h1>
+                                <p>...</p>
+                                <p><a class="btn btn-default btn-lg" role="button">Learn more</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Login</div>
+                                <div class="panel-body">
+                                    <ug:loginPanel/>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="#{! empty request.remoteUser}">
+                        <div class="col-md-12">
+                            <div class="jumbotron">
+                                <h1>Hello, world!</h1>
+                                <p>...</p>
+                                <p><a class="btn btn-default btn-lg" role="button">Learn more</a></p>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+
+                <h:panelGrid columns="2" columnClasses="panelGridColumn,panelGridColumn" cellpadding="0" cellspacing="0" width="100%">
+                    <h:panelGrid width="100%">
+                        <p:panel rendered="#{! empty eventMBean.commingEvents}" header="#{bundle.events}">
+                            <c:forEach items="#{eventMBean.commingEvents}" var="event">
+                                <h:panelGrid width="100%">
+                                    <h:link value="#{event.name}" outcome="event/event" style="font-size: 18px; font-weight: bold;">
+                                        <f:param name="id" value="#{event.id}"/>
+                                    </h:link>
+                                    <h:outputText value="#{event.shortDescription}"/>
+                                    <h:panelGroup>
+                                        <h:outputText value="#{bundle.from} "/>
+                                        <h:outputText value="#{event.startDate}">
+                                            <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
+                                        </h:outputText>
+                                        <h:outputText value=" at " rendered="#{! empty event.startTime}"/>
+                                        <h:outputText value="#{event.startTime}" rendered="#{! empty event.startTime}">
+                                            <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                        </h:outputText>
+                                        <h:outputText value=" #{bundle.to} "/>
+                                        <h:outputText value="#{event.endDate}" rendered="#{event.startDate != event.endDate}">
+                                            <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
+                                        </h:outputText>
+                                        <h:outputText value=" at " rendered="#{! empty event.endTime and event.startDate != event.endDate}"/>
+                                        <h:outputText value="#{event.endTime}" rendered="#{! empty event.startTime}">
+                                            <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                        </h:outputText>
+                                    </h:panelGroup>
+                                    <h:panelGroup>
+                                        <h:link value="#{bundle.moreInformation}" outcome="event/event">
                                             <f:param name="id" value="#{event.id}"/>
                                         </h:link>
-                                        <h:outputText value="#{event.shortDescription}"/>
-                                        <h:panelGroup>
-                                            <h:outputText value="#{bundle.from} "/>
-                                            <h:outputText value="#{event.startDate}">
-                                                <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                            </h:outputText>
-                                            <h:outputText value=" at " rendered="#{! empty event.startTime}"/>
-                                            <h:outputText value="#{event.startTime}" rendered="#{! empty event.startTime}">
-                                                <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                            </h:outputText>
-                                            <h:outputText value=" #{bundle.to} "/>
-                                            <h:outputText value="#{event.endDate}" rendered="#{event.startDate != event.endDate}">
-                                                <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                            </h:outputText>
-                                            <h:outputText value=" at " rendered="#{! empty event.endTime and event.startDate != event.endDate}"/>
-                                            <h:outputText value="#{event.endTime}" rendered="#{! empty event.startTime}">
-                                                <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                            </h:outputText>
-                                        </h:panelGroup>
-                                        <h:panelGroup>
-                                            <h:link value="#{bundle.moreInformation}" outcome="event/event">
-                                                <f:param name="id" value="#{event.id}"/>
-                                            </h:link>
-                                            <h:outputText value=" | "/>
-                                            <h:link value="#{bundle.attend}" outcome="event/attendee">
-                                                <f:param name="eventId" value="#{event.id}"/>
-                                            </h:link>
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </c:forEach>
-                            </p:panel>
-                            <p:panel header="#{bundle.news}" rendered="#{! empty webSourceMBean.allPublishedArticles}">
-                                <c:forEach items="#{webSourceMBean.allPublishedArticles}" var="article">
-                                    <h:panelGrid>
-                                        <h:link value="#{article.title}" outcome="knowledge/article" style="font-size: 18px; font-weight: bold;">
+                                        <h:outputText value=" | "/>
+                                        <h:link value="#{bundle.attend}" outcome="event/attendee">
+                                            <f:param name="eventId" value="#{event.id}"/>
+                                        </h:link>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </c:forEach>
+                        </p:panel>
+                        <p:panel header="#{bundle.news}" rendered="#{! empty webSourceMBean.allPublishedArticles}">
+                            <c:forEach items="#{webSourceMBean.allPublishedArticles}" var="article">
+                                <h:panelGrid>
+                                    <h:link value="#{article.title}" outcome="knowledge/article" style="font-size: 18px; font-weight: bold;">
+                                        <f:param name="id" value="#{article.id}"/>
+                                    </h:link>
+                                    <h:panelGroup>
+                                        <h:outputText value="#{bundle.by} "/>
+                                        <h:outputText value="#{article.author}" style="font-size: 16px; font-style: italic;" escape="false"/>
+                                    </h:panelGroup>
+                                    <p:spacer height="10"/>
+                                    <h:panelGroup>
+                                        <h:outputText value="#{article.summary}" style="font-size: 14px;"/>
+                                        <h:link value=" #{bundle.readMore}..." outcome="knowledge/article">
                                             <f:param name="id" value="#{article.id}"/>
                                         </h:link>
-                                        <h:panelGroup>
-                                            <h:outputText value="#{bundle.by} "/>
-                                            <h:outputText value="#{article.author}" style="font-size: 16px; font-style: italic;" escape="false"/>
-                                        </h:panelGroup>
-                                        <p:spacer height="10"/>
-                                        <h:panelGroup>
-                                            <h:outputText value="#{article.summary}" style="font-size: 14px;"/>
-                                            <h:link value=" #{bundle.readMore}..." outcome="knowledge/article">
-                                                <f:param name="id" value="#{article.id}"/>
-                                            </h:link>
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </c:forEach>
-                            </p:panel>
-                        </h:panelGrid>
-                        
-                        <h:panelGrid>
-                            <p:panel header="Login" style="width: 300px" rendered="#{empty request.remoteUser}">
-                                <ug:loginPanel/>
-                            </p:panel>
-                        </h:panelGrid>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </c:forEach>
+                        </p:panel>
                     </h:panelGrid>
-                </div>
+                </h:panelGrid>
             </ui:define>
         </ui:composition>
     </h:body>

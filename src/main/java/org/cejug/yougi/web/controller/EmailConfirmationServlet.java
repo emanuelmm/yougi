@@ -37,7 +37,7 @@ import org.cejug.yougi.entity.UserAccount;
 public class EmailConfirmationServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    
+
     @EJB
     private UserAccountBean userAccountBean;
 
@@ -45,13 +45,13 @@ public class EmailConfirmationServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Builds the header of message.
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");
         sb.append("<title>UG - Email Confirmation Failure</title>");
-        sb.append("<link href=\"/ug/resources/theme/css/default_theme.css\" rel=\"stylesheet\" type=\"text/css\"/>");
+        sb.append("<link href=\"/ug/resources/css/default_theme.css\" rel=\"stylesheet\" type=\"text/css\"/>");
         sb.append("</head>");
         sb.append("<body>");
         sb.append("<h1>Email Confirmation Failure</h1>");
@@ -61,7 +61,7 @@ public class EmailConfirmationServlet extends HttpServlet {
         String serverName = request.getServerName();
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();
-        
+
         String confirmationCode = request.getParameter("code");
 
         if (confirmationCode == null || confirmationCode.equals("")) {
