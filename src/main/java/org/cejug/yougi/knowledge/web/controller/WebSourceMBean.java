@@ -103,13 +103,6 @@ public class WebSourceMBean {
         return this.publishedArticles;
     }
 
-    public List<Article> getAllPublishedArticles() {
-        if(publishedArticles == null) {
-            this.publishedArticles = articleBean.findPublishedArticles();
-        }
-        return this.publishedArticles;
-    }
-
     @PostConstruct
     public void load() {
         if(this.userId != null && !this.userId.isEmpty()) {

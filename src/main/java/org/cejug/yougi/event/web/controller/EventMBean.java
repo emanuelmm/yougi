@@ -114,7 +114,6 @@ public class EventMBean {
     private List<Event> subEvents;
     private List<Event> parentEvents;
     private List<Venue> venues;
-    private List<Event> commingEvents;
     private List<Session> sessions;
     private List<Track> tracks;
     private List<Speaker> speakers;
@@ -213,13 +212,6 @@ public class EventMBean {
             subEvents = eventBean.findEvents(this.event);
         }
         return subEvents;
-    }
-
-    public List<Event> getCommingEvents() {
-        if (commingEvents == null) {
-            commingEvents = eventBean.findUpCommingEvents();
-        }
-        return commingEvents;
     }
 
     public List<Session> getSessions() {

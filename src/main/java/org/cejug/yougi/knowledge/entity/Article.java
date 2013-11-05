@@ -30,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.cejug.yougi.entity.Identified;
+import org.cejug.yougi.entity.PublicContent;
 
 /**
  * Entity class representing an extracted article from a web source, making it
@@ -39,7 +40,7 @@ import org.cejug.yougi.entity.Identified;
  */
 @Entity
 @Table(name = "article")
-public class Article implements Serializable, Identified {
+public class Article implements Serializable, Identified, PublicContent {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -85,6 +86,7 @@ public class Article implements Serializable, Identified {
         this.id = id;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -109,6 +111,7 @@ public class Article implements Serializable, Identified {
         this.webSource = webSource;
     }
 
+    @Override
     public String getContent() {
         return content;
     }
@@ -123,6 +126,11 @@ public class Article implements Serializable, Identified {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    @Override
+    public String getUrl() {
+        return "knowledge/article";
     }
 
     /**

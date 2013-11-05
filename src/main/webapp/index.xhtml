@@ -23,7 +23,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ug="http://java.sun.com/jsf/composite/yougi">
@@ -60,67 +59,23 @@
                     </c:if>
                 </div>
 
-                <h:panelGrid columns="2" columnClasses="panelGridColumn,panelGridColumn" cellpadding="0" cellspacing="0" width="100%">
-                    <h:panelGrid width="100%">
-                        <p:panel rendered="#{! empty eventMBean.commingEvents}" header="#{bundle.events}">
-                            <c:forEach items="#{eventMBean.commingEvents}" var="event">
-                                <h:panelGrid width="100%">
-                                    <h:link value="#{event.name}" outcome="event/event" style="font-size: 18px; font-weight: bold;">
-                                        <f:param name="id" value="#{event.id}"/>
-                                    </h:link>
-                                    <h:outputText value="#{event.shortDescription}"/>
-                                    <h:panelGroup>
-                                        <h:outputText value="#{bundle.from} "/>
-                                        <h:outputText value="#{event.startDate}">
-                                            <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                        <h:outputText value=" at " rendered="#{! empty event.startTime}"/>
-                                        <h:outputText value="#{event.startTime}" rendered="#{! empty event.startTime}">
-                                            <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                        <h:outputText value=" #{bundle.to} "/>
-                                        <h:outputText value="#{event.endDate}" rendered="#{event.startDate != event.endDate}">
-                                            <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                        <h:outputText value=" at " rendered="#{! empty event.endTime and event.startDate != event.endDate}"/>
-                                        <h:outputText value="#{event.endTime}" rendered="#{! empty event.startTime}">
-                                            <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                    </h:panelGroup>
-                                    <h:panelGroup>
-                                        <h:link value="#{bundle.moreInformation}" outcome="event/event">
-                                            <f:param name="id" value="#{event.id}"/>
+                <div class="row">
+                    <c:forEach items="#{frontPageMBean.publicContents}" var="publicContent">
+                        <div class="col-sm-#{frontPageMBean.smallDeviceCellsRow} col-md-#{frontPageMBean.middleDeviceCellsRow}">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h3>#{publicContent.title}</h3>
+                                    <p>#{publicContent.content}</p>
+                                    <p>
+                                        <h:link value="#{bundle.readMore}" outcome="#{publicContent.url}">
+                                            <f:param name="id" value="#{publicContent.id}"/>
                                         </h:link>
-                                        <h:outputText value=" | "/>
-                                        <h:link value="#{bundle.attend}" outcome="event/attendee">
-                                            <f:param name="eventId" value="#{event.id}"/>
-                                        </h:link>
-                                    </h:panelGroup>
-                                </h:panelGrid>
-                            </c:forEach>
-                        </p:panel>
-                        <p:panel header="#{bundle.news}" rendered="#{! empty webSourceMBean.allPublishedArticles}">
-                            <c:forEach items="#{webSourceMBean.allPublishedArticles}" var="article">
-                                <h:panelGrid>
-                                    <h:link value="#{article.title}" outcome="knowledge/article" style="font-size: 18px; font-weight: bold;">
-                                        <f:param name="id" value="#{article.id}"/>
-                                    </h:link>
-                                    <h:panelGroup>
-                                        <h:outputText value="#{bundle.by} "/>
-                                        <h:outputText value="#{article.author}" style="font-size: 16px; font-style: italic;" escape="false"/>
-                                    </h:panelGroup>
-                                    <p:spacer height="10"/>
-                                    <h:panelGroup>
-                                        <h:outputText value="#{article.summary}" style="font-size: 14px;"/>
-                                        <h:link value=" #{bundle.readMore}..." outcome="knowledge/article">
-                                            <f:param name="id" value="#{article.id}"/>
-                                        </h:link>
-                                    </h:panelGroup>
-                                </h:panelGrid>
-                            </c:forEach>
-                        </p:panel>
-                    </h:panelGrid>
-                </h:panelGrid>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>

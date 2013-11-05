@@ -25,13 +25,14 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import org.cejug.yougi.entity.Identified;
+import org.cejug.yougi.entity.PublicContent;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
 @Table(name = "event")
-public class Event implements Serializable, Identified {
+public class Event implements Serializable, Identified, PublicContent {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,6 +90,10 @@ public class Event implements Serializable, Identified {
 
     public String getName() {
         return name;
+    }
+
+    public String getTitle() {
+        return getName();
     }
 
     public void setName(String name) {
@@ -156,6 +161,10 @@ public class Event implements Serializable, Identified {
         this.shortDescription = shortDescription;
     }
 
+    public String getContent() {
+        return this.shortDescription;
+    }
+
     /**
      * @return the name of the file containing the template to be used on the
      * certificate generation.
@@ -174,6 +183,10 @@ public class Event implements Serializable, Identified {
 
     public void setVenues(List<Venue> venues) {
         this.venues = venues;
+    }
+
+    public String getUrl() {
+        return "event/event";
     }
 
     @Override
