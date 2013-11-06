@@ -46,6 +46,7 @@ public class FrontPageMBean {
     private ArticleBean articleBean;
 
     private final List<PublicContent> publicContents;
+    private PublicContent mainPublicContent;
 
     public FrontPageMBean() {
         publicContents = new ArrayList<>();
@@ -55,29 +56,8 @@ public class FrontPageMBean {
         return publicContents;
     }
 
-    public Integer getSmallDeviceCellsRow() {
-        int size = publicContents.size();
-        int cells = 12;
-
-        if(size > 1) {
-            cells = cells / 2;
-        }
-
-        return cells;
-    }
-
-    public Integer getMiddleDeviceCellsRow() {
-        int size = publicContents.size();
-        int cells = 12;
-
-        if(size == 2) {
-            cells = cells / 2;
-        }
-        else if(size > 2) {
-            cells = cells / 3;
-        }
-
-        return cells;
+    public PublicContent getMainPublicContent() {
+        return mainPublicContent;
     }
 
     @PostConstruct
@@ -86,5 +66,9 @@ public class FrontPageMBean {
         List<Article> publishedArticles = articleBean.findPublishedArticles();
         publicContents.addAll(commingEvents);
         publicContents.addAll(publishedArticles);
+
+        if(!publicContents.isEmpty()) {
+            mainPublicContent = this.publicContents.remove(0);
+        }
     }
 }
