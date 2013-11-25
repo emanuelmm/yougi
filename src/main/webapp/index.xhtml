@@ -30,8 +30,6 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="title">#{bundle.home}</ui:define>
             <ui:define name="content">
-                <script src="#{request.contextPath}/resources/js/masonry.pkgd.min.js"></script>
-
                 <div class="row">
                     <c:if test="#{empty request.remoteUser}">
                         <div class="col-md-8">
@@ -74,19 +72,29 @@
                     <c:forEach items="#{frontPageMBean.publicContents}" var="publicContent">
                         <div class="item">
                             <div class="panel panel-default">
-                                <div class="panel-heading"><h4 class="text-info">#{publicContent.title}</h4></div>
+                                <div class="panel-heading">
+                                    <h4 class="text-info">
+                                        <h:link value="#{publicContent.title}" outcome="#{publicContent.url}">
+                                            <f:param name="id" value="#{publicContent.id}"/>
+                                        </h:link>
+                                    </h4>
+                                </div>
                                 <div class="panel-body">
                                     <p><h:outputText value="#{publicContent.content}" escape="false"/></p>
                                 </div>
                                 <div class="panel-footer">
-                                    <p class="text-right"><h:link value="#{bundle.readMore}..." outcome="#{publicContent.url}">
-                                        <f:param name="id" value="#{publicContent.id}"/>
-                                    </h:link></p>
+                                    <p class="text-right">
+                                        <h:link value="#{bundle.readMore}..." outcome="#{publicContent.url}">
+                                            <f:param name="id" value="#{publicContent.id}"/>
+                                        </h:link>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
+                <script src="#{request.contextPath}/resources/js/jquery-1.10.2.min.js"></script>
+                <script src="#{request.contextPath}/resources/js/masonry.pkgd.min.js"></script>
             </ui:define>
         </ui:composition>
     </h:body>
