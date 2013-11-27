@@ -20,32 +20,26 @@
  * */
 package org.cejug.yougi.knowledge.web.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import org.cejug.yougi.knowledge.entity.Article;
+import javax.faces.bean.ViewScoped;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @ManagedBean
-@SessionScoped
-public class ArticleStateMBean {
+@ViewScoped
+public class ArticleStateMBean implements Serializable {
 
-    private Map<Article, Boolean> articlesState;
+    private Boolean articleState;
 
-    public void setState(Article article, Boolean newState) {
-        if(articlesState == null) {
-            articlesState = new HashMap<>();
+    public void setState(Boolean state) {
+        if(articleState == null) {
+            articleState = state;
         }
-        articlesState.put(article, newState);
     }
 
-    public Boolean getState(Article article) {
-        if(articlesState == null || article == null) {
-            return null;
-        }
-        return articlesState.get(article);
+    public Boolean getState() {
+        return articleState;
     }
 }

@@ -32,5 +32,7 @@ public interface PublicContent {
 
     public String getContent();
 
+    public String getSummary();
+
     public String getUrl();
 }

@@ -92,6 +92,7 @@ public class Event implements Serializable, Identified, PublicContent {
         return name;
     }
 
+    @Override
     public String getTitle() {
         return getName();
     }
@@ -157,10 +158,21 @@ public class Event implements Serializable, Identified, PublicContent {
         return shortDescription;
     }
 
+    @Override
+    public String getSummary() {
+        if(shortDescription != null) {
+            return shortDescription;
+        }
+        else {
+            return description;
+        }
+    }
+
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
 
+    @Override
     public String getContent() {
         return this.shortDescription;
     }
@@ -185,6 +197,7 @@ public class Event implements Serializable, Identified, PublicContent {
         this.venues = venues;
     }
 
+    @Override
     public String getUrl() {
         return "event/event";
     }

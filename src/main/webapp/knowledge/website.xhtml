@@ -81,25 +81,25 @@
                                 </h:dataTable>
                             </p:tab>
                             <p:tab id="tabPublishedArticles" title="#{bundle.publishedContent}">
-                                <p:dataTable id="publishedArticles" value="#{webSourceMBean.publishedArticles}" var="article">
-                                    <p:column>
+                                <h:dataTable id="publishedArticles" value="#{webSourceMBean.publishedArticles}" var="article" styleClass="table">
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
                                         <h:link outcome="article_form" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
                                             <f:param name="id" value="#{article.id}"/>
                                         </h:link>
                                         <h:outputText value="#{article.title}" rendered="#{empty webSourceMBean.webSource.id}"/>
-                                    </p:column>
-                                    <p:column>
+                                    </h:column>
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.author}"/></f:facet>
                                         <h:outputText value="#{article.author}"/>
-                                    </p:column>
-                                    <p:column>
+                                    </h:column>
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.publication}"/></f:facet>
                                         <h:outputText value="#{article.publication}">
                                             <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                         </h:outputText>
-                                    </p:column>
-                                </p:dataTable>
+                                    </h:column>
+                                </h:dataTable>
                             </p:tab>
                         </p:tabView>
                     </h:form>

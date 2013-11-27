@@ -120,6 +120,7 @@ public class Article implements Serializable, Identified, PublicContent {
         this.content = content;
     }
 
+    @Override
     public String getSummary() {
         return summary;
     }

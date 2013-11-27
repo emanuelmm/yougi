@@ -76,10 +76,6 @@ public class ArticleMBean {
         this.unpublishedContentMBean = unpublishedContentMBean;
     }
 
-    public ArticleStateMBean getArticleStateMBean() {
-        return articleStateMBean;
-    }
-
     public void setArticleStateMBean(ArticleStateMBean articleStateMBean) {
         this.articleStateMBean = articleStateMBean;
     }
@@ -93,18 +89,18 @@ public class ArticleMBean {
     }
 
     public Boolean getPublished() {
-        return this.articleStateMBean.getState(this.article);
+        return this.articleStateMBean.getState();
     }
 
     @PostConstruct
     public void load() {
         if(id != null && !id.isEmpty()) {
             this.article = articleBean.findArticle(id);
-            this.articleStateMBean.setState(this.article, Boolean.TRUE);
+            this.articleStateMBean.setState(this.article.getPublished());
         }
         else if(permanentLink != null && !permanentLink.isEmpty()) {
             this.article = this.unpublishedContentMBean.getArticle(this.permanentLink);
-            this.articleStateMBean.setState(this.article, Boolean.FALSE);
+            this.articleStateMBean.setState(this.article.getPublished());
         }
         else {
             this.article = new Article();
@@ -125,6 +121,11 @@ public class ArticleMBean {
 
     public String save() {
         articleBean.save(this.article);
+        return "websites?faces-redirect=true";
+    }
+
+    public String remove() {
+        articleBean.remove(this.article.getId());
         return "websites?faces-redirect=true";
     }
 }
