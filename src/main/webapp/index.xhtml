@@ -34,8 +34,12 @@
                     <c:if test="#{empty request.remoteUser}">
                         <div class="col-md-8">
                             <div class="jumbotron">
-                                <h2 class="text-primary">#{frontPageMBean.mainPublicContent.title}</h2>
-                                <p>#{frontPageMBean.mainPublicContent.content}</p>
+                                <h2 class="text-primary">
+                                    <h:link value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}">
+                                        <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
+                                    </h:link>
+                                </h2>
+                                <p><h:outputText value="#{frontPageMBean.mainPublicContent.summary}" escape="false"/></p>
                                 <p class="text-right">
                                     <h:link value="#{bundle.readMore}..." outcome="#{frontPageMBean.mainPublicContent.url}">
                                         <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
@@ -55,8 +59,12 @@
                     <c:if test="#{! empty request.remoteUser}">
                         <div class="col-md-12">
                             <div class="jumbotron">
-                                <h2 class="text-primary">#{frontPageMBean.mainPublicContent.title}</h2>
-                                <p>#{frontPageMBean.mainPublicContent.content}</p>
+                                <h2 class="text-primary">
+                                    <h:link value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}">
+                                        <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
+                                    </h:link>
+                                </h2>
+                                <p><h:outputText value="#{frontPageMBean.mainPublicContent.summary}" escape="false"/></p>
                                 <p class="text-right">
                                     <h:link value="#{bundle.readMore}..." outcome="#{frontPageMBean.mainPublicContent.url}">
                                         <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
