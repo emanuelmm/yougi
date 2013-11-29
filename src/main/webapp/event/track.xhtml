@@ -34,12 +34,24 @@
                     <h1>#{bundle.track}</h1>
                     <h:form>
                         <h:panelGrid width="100%">
-                            <h:link outcome="event" value="#{trackMBean.track.event}" style="font-size: 18px;">
-                                <f:param name="id" value="#{trackMBean.track.event.id}"/>
-                            </h:link>
+                            <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
+                                <h:panelGroup>
+                                    <h:link outcome="event" value="#{trackMBean.track.event}" style="font-size: 18px;">
+                                        <f:param name="id" value="#{trackMBean.track.event.id}"/>
+                                    </h:link><br/>
+                                    <h:outputText value="#{trackMBean.track.name}" style="font-size: 24px; font-weight: bold;"/>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <p:button value="#{bundle.edit}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}">
+                                        <f:param name="id" value="#{trackMBean.track.id}"/>
+                                    </p:button>
+                                    <p:button value="#{bundle.back}" outcome="event">
+                                        <f:param name="id" value="#{trackMBean.track.event.id}"/>
+                                        <f:param name="tab" value="1"/>
+                                    </p:button>
+                                </h:panelGroup>
+                            </h:panelGrid>
 
-                            <h:outputText value="#{trackMBean.track.name}" style="font-size: 24px; font-weight: bold;"/>
-                            
                             <p:spacer height="10"/>
 
                             <h:outputText value="#{trackMBean.track.description}" escape="false" style="font-size: 14px; font-style: italic;"/>

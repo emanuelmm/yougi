@@ -128,6 +128,7 @@ public class TrackMBean implements Serializable {
     public void load() {
         if (this.id != null && !this.id.isEmpty()) {
             this.track = trackBean.findTrack(id);
+            this.selectedEvent = this.track.getEvent().getId();
         }
 
         if (this.eventId != null && !this.eventId.isEmpty()) {
