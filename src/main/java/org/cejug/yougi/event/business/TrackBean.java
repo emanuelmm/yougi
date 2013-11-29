@@ -46,10 +46,22 @@ public class TrackBean {
         return null;
     }
 
+    /**
+     * It finds all tracks available in a event, including tracks from 
+     * its parent event. If you don't want higher level tracks, just set the
+     * parent event as null.
+     * @param event event instance.
+     * @return a list of found tracks.
+     */
     public List<Track> findTracks(Event event) {
-        return em.createQuery("select t from Track t where t.event = :event order by t.name asc")
-                 .setParameter("event", event)
-                 .getResultList();
+        List<Track> tracks = null;
+        if(event != null) {
+            tracks = em.createQuery("select t from Track t where t.event = :event order by t.name asc")
+                               .setParameter("event", event)
+                               .getResultList();
+            tracks.addAll(findTracks(event.getParent()));
+        }
+        return tracks;
     }
 
     public void save(Track track) {

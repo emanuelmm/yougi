@@ -48,3 +48,4 @@ nbactions.xml
 /yougi-web/yougi-web.iml
 /.project
 yougi-ear/nb-configuration.xml
+/target/
