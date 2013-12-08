@@ -21,9 +21,7 @@
 package org.cejug.yougi.event.business;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -39,7 +37,6 @@ import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.entity.EntitySupport;
-import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.TextUtils;
 
 /**
@@ -104,14 +101,13 @@ public class EventBean {
 
     public void sendConfirmationEventAttendance(UserAccount userAccount, Event event, String dateFormat, String timeFormat, String timezone) {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("KJDIEJKHFHSDJDUWJHAJSNFNFJHDJSLE");
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("event.name", event.getName());
-        values.put("event.venue", "");
-        values.put("event.startDate", TextUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
-        values.put("event.startTime", TextUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
-        values.put("event.endTime", TextUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("event.name", event.getName());
+        messageTemplate.setVariable("event.venue", "");
+        messageTemplate.setVariable("event.startDate", TextUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
+        messageTemplate.setVariable("event.startTime", TextUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
+        messageTemplate.setVariable("event.endTime", TextUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {

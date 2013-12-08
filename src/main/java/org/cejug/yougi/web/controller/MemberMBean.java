@@ -32,6 +32,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.cejug.yougi.business.AuthenticationBean;
 import org.cejug.yougi.business.MessageHistoryBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Authentication;
@@ -52,6 +53,9 @@ public class MemberMBean implements Serializable {
 
     @EJB
     private UserAccountBean userAccountBean;
+
+    @EJB
+    private AuthenticationBean authenticationBean;
 
     @EJB
     private MessageHistoryBean messageHistoryBean;
@@ -171,7 +175,7 @@ public class MemberMBean implements Serializable {
     }
 
     /**
-     * @param messageHistoryItens the messageHistoryItens to set
+     * @param historicMessages the messageHistoryItens to set
      */
     public void setHistoricMessages(List<MessageHistory> historicMessages) {
         this.historicMessages = historicMessages;
@@ -215,7 +219,7 @@ public class MemberMBean implements Serializable {
     public String load(String userId) {
         this.userId = userId;
         this.userAccount = userAccountBean.findUserAccount(this.userId);
-        this.authentication = userAccountBean.findAuthenticationUser(this.userAccount);
+        this.authentication = authenticationBean.findByUserAccount(this.userAccount);
         this.historicMessages = messageHistoryBean.findHistoricalMessageByRecipient(this.userAccount);
         this.attendedEvents = attendeeBean.findAttendeedEvents(this.userAccount);
 

@@ -42,6 +42,8 @@ public class EmailMessage {
     private String subject;
     private String body;
 
+    EmailMessage() {}
+
     public UserAccount[] getRecipients() {
         return recipients;
     }

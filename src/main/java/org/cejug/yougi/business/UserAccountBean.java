@@ -32,9 +32,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.*;
@@ -69,6 +67,9 @@ public class UserAccountBean {
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @EJB
+    private AuthenticationBean authenticationBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -213,36 +214,6 @@ public class UserAccountBean {
                 .getResultList();
     }
 
-    /**
-     * @param userAccount the user who has authentication credentials registered.
-     * @return the user's authentication data.
-     */
-    public Authentication findAuthenticationUser(UserAccount userAccount) {
-        try {
-            return (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount")
-                                   .setParameter("userAccount", userAccount)
-                                   .getSingleResult();
-        }
-        catch(NoResultException nre) {
-            return null;
-        }
-    }
-
-    /**
-     * @param userAccount the id of the user who has authentication credentials registered.
-     * @return the user's authentication data.
-     */
-    public Authentication findAuthenticationUser(String userAccount) {
-        try {
-            return (Authentication) em.createQuery("select a from Authentication a where a.userAccount.id = :userAccount")
-                                   .setParameter("userAccount", userAccount)
-                                   .getSingleResult();
-        }
-        catch(NoResultException nre) {
-            return null;
-        }
-    }
-
     /** <p>Register new user accounts. For the moment, this is the only way an
      * user account can be created.  This contact record is related to the new user
      * and it is set as his/her main contact. The server address is
@@ -298,7 +269,7 @@ public class UserAccountBean {
         }
 
         authentication.setUserAccount(userAccount);
-        em.persist(authentication);
+        authenticationBean.save(authentication);
 
         /* In case there is no account, the user is added to the administrative
          * group straight away. There is no need to send a confirmation email.*/
@@ -320,12 +291,10 @@ public class UserAccountBean {
 
     public void sendEmailConfirmationRequest(UserAccount userAccount, String serverAddress) throws BusinessLogicException {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("E3F122DCC87D42248872878412B34CEE");
-        Map<String, Object> values = new HashMap<>();
-        values.put("serverAddress", serverAddress);
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("userAccount.confirmationCode", userAccount.getConfirmationCode());
-
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("serverAddress", serverAddress);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {
@@ -359,7 +328,7 @@ public class UserAccountBean {
 
                 // This step effectively allows the user to access the application.
                 AccessGroup defaultGroup = accessGroupBean.findDefaultAccessGroup();
-                Authentication authentication = findAuthenticationUser(userAccount);
+                Authentication authentication = authenticationBean.findByUserAccount(userAccount);
                 UserGroup userGroup = new UserGroup(defaultGroup, authentication);
                 userGroupBean.add(userGroup);
 
@@ -382,9 +351,8 @@ public class UserAccountBean {
 
     public void sendWelcomeMessage(UserAccount userAccount) {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("47DEE5C2E0E14F8BA4605F3126FBFAF4");
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {
@@ -397,10 +365,9 @@ public class UserAccountBean {
 
     public void sendNewMemberAlertMessage(UserAccount userAccount, List<UserAccount> admins) {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("0D6F96382D91454F8155A720F3326F1B");
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.fullName", userAccount.getFullName());
-        values.put("userAccount.registrationDate", userAccount.getRegistrationDate());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.fullName", userAccount.getFullName());
+        messageTemplate.setVariable("userAccount.registrationDate", userAccount.getRegistrationDate());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipients(admins);
 
         try {
@@ -428,7 +395,7 @@ public class UserAccountBean {
 
         userGroupBean.removeUserFromAllGroups(existingUserAccount);
 
-        removeUserAuthentication(existingUserAccount);
+        authenticationBean.remove(existingUserAccount);
 
         ApplicationProperty appProp = applicationPropertyBean.findApplicationProperty(Properties.SEND_EMAILS);
 
@@ -452,11 +419,9 @@ public class UserAccountBean {
         else {
             messageTemplate = messageTemplateBean.findMessageTemplate("IKWMAJSNDOE3F122DCC87D4224887287");
         }
-        em.detach(messageTemplate);
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("userAccount.deactivationReason", userAccount.getDeactivationReason());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("userAccount.deactivationReason", userAccount.getDeactivationReason());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {
@@ -469,10 +434,9 @@ public class UserAccountBean {
 
     public void sendDeactivationAlertMessage(UserAccount userAccount, List<UserAccount> admins) {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("0D6F96382IKEJSUIWOK5A720F3326F1B");
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.fullName", userAccount.getFullName());
-        values.put("userAccount.deactivationReason", userAccount.getDeactivationReason());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.fullName", userAccount.getFullName());
+        messageTemplate.setVariable("userAccount.deactivationReason", userAccount.getDeactivationReason());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipients(admins);
 
         try {
@@ -481,12 +445,6 @@ public class UserAccountBean {
         catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the deactivation reason from "+ userAccount.getPostingEmail() +" to administrators.", me);
         }
-    }
-
-    public void removeUserAuthentication(UserAccount userAccount) {
-        em.createQuery("delete from Authentication a where a.userAccount = :userAccount")
-                .setParameter("userAccount", userAccount)
-                .executeUpdate();
     }
 
     public void requestConfirmationPasswordChange(String username, String serverAddress) {
@@ -503,11 +461,10 @@ public class UserAccountBean {
 
     public void sendConfirmationCode(UserAccount userAccount, String serverAddress) {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("67BE6BEBE45945D29109A8D6CD878344");
-        Map<String, Object> values = new HashMap<>();
-        values.put("serverAddress", serverAddress);
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("userAccount.confirmationCode", userAccount.getConfirmationCode());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("serverAddress", serverAddress);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {
@@ -515,51 +472,6 @@ public class UserAccountBean {
         }
         catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the mail confirmation. The registration was not finalized.", me);
-        }
-    }
-
-    /**
-     * Compares the informed password with the one stored in the database.
-     * @param userAccount the user account that has authentication credentials.
-     * @param passwordToCheck the password to be compared with the one in the database.
-     * @return true if the password matches.
-     */
-    public Boolean passwordMatches(UserAccount userAccount, String passwordToCheck) {
-        try {
-            Authentication authentication = new Authentication();
-            authentication = (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount and a.password = :password")
-                                                .setParameter("userAccount", userAccount)
-                                                .setParameter("password", authentication.hashPassword(passwordToCheck))
-                                                .getSingleResult();
-            if(authentication != null) {
-                return Boolean.TRUE;
-            }
-        }
-        catch(NoResultException nre) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.FALSE;
-    }
-
-    /**
-     * @param userAccount account of the user who wants to change his password.
-     * @param newPassword the new password of the user.
-     */
-    public void changePassword(UserAccount userAccount, String newPassword) throws BusinessLogicException {
-        try {
-            // Retrieve the user authentication where the password is saved.
-            Authentication authentication = (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount")
-                                            .setParameter("userAccount", userAccount)
-                                            .getSingleResult();
-            if(authentication != null) {
-                authentication.setPassword(newPassword);
-                userAccount.resetConfirmationCode();
-                save(userAccount);
-            }
-        }
-        catch(NoResultException nre) {
-            throw new BusinessLogicException("User account not found. It is not possible to change the password.", nre);
         }
     }
 
@@ -578,16 +490,16 @@ public class UserAccountBean {
             throw new BusinessLogicException("errorCode0001");
         }
 
-        // Change the email address in the UserAccount
-        userAccount.setUnverifiedEmail(newEmail);
-        em.merge(userAccount);
+        existingUserAccount = findUserAccount(userAccount.getId());
 
-        // Since the email address is also the username, change the username in the Authentication and in the UserGroup
-        userGroupBean.changeUsername(userAccount, newEmail);
+        existingUserAccount.defineNewConfirmationCode();
+
+        // Change the email address in the UserAccount
+        existingUserAccount.setUnverifiedEmail(newEmail);
 
         // Send an email to the user to confirm the new email address
         ApplicationProperty url = applicationPropertyBean.findApplicationProperty(Properties.URL);
-        sendEmailVerificationRequest(userAccount, url.getPropertyValue());
+        sendEmailVerificationRequest(existingUserAccount, url.getPropertyValue());
     }
 
     /**
@@ -602,15 +514,14 @@ public class UserAccountBean {
      */
     public void sendEmailVerificationRequest(UserAccount userAccount, String serverAddress) throws BusinessLogicException {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("KJZISKQBE45945D29109A8D6C92IZJ89");
-        Map<String, Object> values = new HashMap<>();
-        values.put("serverAddress", serverAddress);
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("userAccount.email", userAccount.getEmail());
-        values.put("userAccount.unverifiedEmail", userAccount.getUnverifiedEmail());
-        values.put("userAccount.confirmationCode", userAccount.getConfirmationCode());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("serverAddress", serverAddress);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("userAccount.email", userAccount.getEmail());
+        messageTemplate.setVariable("userAccount.unverifiedEmail", userAccount.getUnverifiedEmail());
+        messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
-
+       
         try {
             messengerBean.sendEmailMessage(emailMessage);
         }
@@ -619,14 +530,25 @@ public class UserAccountBean {
         }
     }
 
-    public void confirmEmailChange(UserAccount userAccount) throws BusinessLogicException {
-        if(userAccount.getUnverifiedEmail() == null) {
+    public void confirmEmailChange(String confirmationCode) throws BusinessLogicException {
+        UserAccount userAccount = findUserAccountByConfirmationCode(confirmationCode);
+        if(userAccount.getUnverifiedEmail() == null || userAccount.getUnverifiedEmail().isEmpty()) {
             throw new BusinessLogicException("errorCode0002");
         }
 
         userAccount.resetConfirmationCode();
         userAccount.setEmailAsVerified();
 
+        /* Since the email address is also the username, change the username in
+         * the Authentication and in the UserGroup */
+        userGroupBean.changeUsername(userAccount);
+
+        authenticationBean.changeUsername(userAccount);
+    }
+
+    public void changePassword(UserAccount userAccount, String password) throws BusinessLogicException {
+        authenticationBean.changePassword(userAccount, password);
+        userAccount.resetConfirmationCode();
         save(userAccount);
     }
 

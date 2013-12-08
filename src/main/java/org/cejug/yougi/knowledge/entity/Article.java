@@ -95,6 +95,7 @@ public class Article implements Serializable, Identified, PublicContent {
         this.title = title;
     }
 
+    @Override
     public String getAuthor() {
         return author;
     }

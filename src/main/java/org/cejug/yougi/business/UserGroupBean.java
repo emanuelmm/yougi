@@ -105,12 +105,11 @@ public class UserGroupBean {
     /**
      * Change the username of the user in all groups that it is part of.
      * @param userAccount the user account whose username is going to change.
-     * @param newUsername the new username of the user account.
      */
-    public void changeUsername(UserAccount userAccount, String newUsername) {
+    public void changeUsername(UserAccount userAccount) {
         List<UserGroup> usersGroups = findUsersGroups(userAccount);
         for(UserGroup userGroup: usersGroups) {
-            userGroup.setUsername(newUsername);
+            userGroup.setUsername(userAccount.getEmail());
         }
     }
 }

@@ -38,6 +38,8 @@
                                     <h:link value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}">
                                         <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
                                     </h:link>
+                                    <small><h:outputText value="#{bundle.by} " rendered="#{! empty frontPageMBean.mainPublicContent.author}"/>
+                                    <h:outputText value="#{frontPageMBean.mainPublicContent.author}" rendered="#{! empty frontPageMBean.mainPublicContent.author}"/></small>
                                 </h2>
                                 <p><h:outputText value="#{frontPageMBean.mainPublicContent.summary}" escape="false"/></p>
                                 <p class="text-right">
@@ -63,6 +65,8 @@
                                     <h:link value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}">
                                         <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
                                     </h:link>
+                                    <small><h:outputText value="#{bundle.by} " rendered="#{! empty frontPageMBean.mainPublicContent.author}"/>
+                                    <h:outputText value="#{frontPageMBean.mainPublicContent.author}" rendered="#{! empty frontPageMBean.mainPublicContent.author}"/></small>
                                 </h2>
                                 <p><h:outputText value="#{frontPageMBean.mainPublicContent.summary}" escape="false"/></p>
                                 <p class="text-right">
@@ -85,6 +89,8 @@
                                         <h:link value="#{publicContent.title}" outcome="#{publicContent.url}">
                                             <f:param name="id" value="#{publicContent.id}"/>
                                         </h:link>
+                                        <small><i><h:outputText value="#{bundle.by} " rendered="#{! empty publicContent.author}"/>
+                                                <h:outputText value="#{publicContent.author}" rendered="#{! empty publicContent.author}"/></i></small>
                                     </h4>
                                 </div>
                                 <div class="panel-body">

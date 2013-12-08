@@ -22,6 +22,7 @@ package org.cejug.yougi.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -50,7 +51,11 @@ public class MessageTemplate implements Serializable, Identified {
     @Column(nullable = false)
     private String body;
 
+    @Transient
+    private Map<String, Object> variablesValues;
+
     public MessageTemplate() {
+        this.variablesValues = new HashMap<>();
     }
 
     public MessageTemplate(String id) {
@@ -91,7 +96,11 @@ public class MessageTemplate implements Serializable, Identified {
         }
     }
 
-    public EmailMessage replaceVariablesByValues(Map<String, Object> values) {
+    public void setVariable(String variable, Object value) {
+        this.variablesValues.put(variable, value);
+    }
+
+    public EmailMessage buildEmailMessage() {
         EmailMessage emailMessage = new EmailMessage();
         String subject = this.title;
         String message = this.body;
@@ -102,9 +111,9 @@ public class MessageTemplate implements Serializable, Identified {
         Object value;
         for(String variable: variables) {
             variable = variable.substring(2, variable.length() - 1);
-            value = values.get(variable);
+            value = this.variablesValues.get(variable);
             if(value != null) {
-                subject = subject.replace("#{" + variable + "}", values.get(variable).toString());
+                subject = subject.replace("#{" + variable + "}", this.variablesValues.get(variable).toString());
             }
         }
         emailMessage.setSubject(subject);
@@ -112,9 +121,9 @@ public class MessageTemplate implements Serializable, Identified {
         variables = findVariables(pattern, this.getBody());
         for(String variable: variables) {
             variable = variable.substring(2, variable.length() - 1);
-            value = values.get(variable);
+            value = this.variablesValues.get(variable);
             if(value != null) {
-                message = message.replace("#{" + variable + "}", values.get(variable).toString());
+                message = message.replace("#{" + variable + "}", this.variablesValues.get(variable).toString());
             }
         }
         emailMessage.setBody(message);

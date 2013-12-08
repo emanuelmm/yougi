@@ -21,9 +21,7 @@
 package org.cejug.yougi.business;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -55,6 +53,9 @@ public class AccessGroupBean {
 
     @EJB
     private UserAccountBean userAccountBean;
+
+    @EJB
+    private AuthenticationBean authenticationBean;
 
     @EJB
     private UserGroupBean userGroupBean;
@@ -124,10 +125,9 @@ public class AccessGroupBean {
 
     public void sendGroupAssignmentAlert(UserAccount userAccount, AccessGroup accessGroup) throws BusinessLogicException {
         MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("09JDIIE82O39IDIDOSJCHXUDJJXHCKP0");
-        Map<String, Object> values = new HashMap<>();
-        values.put("userAccount.firstName", userAccount.getFirstName());
-        values.put("accessGroup.name", accessGroup.getName());
-        EmailMessage emailMessage = messageTemplate.replaceVariablesByValues(values);
+        messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
+        messageTemplate.setVariable("accessGroup.name", accessGroup.getName());
+        EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 
         try {
@@ -164,7 +164,7 @@ public class AccessGroupBean {
             Authentication auth;
             List<UserGroup> usersGroup = new ArrayList<>();
             for(UserAccount member: members) {
-                auth = userAccountBean.findAuthenticationUser(member.getId());
+                auth = authenticationBean.findByUserId(member.getId());
                 usersGroup.add(new UserGroup(accessGroup, auth));
             }
             userGroupBean.update(accessGroup, usersGroup);

@@ -30,6 +30,8 @@ public interface PublicContent {
 
     public String getTitle();
 
+    public String getAuthor();
+
     public String getContent();
 
     public String getSummary();

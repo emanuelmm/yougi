@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Role;
-import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
@@ -55,17 +54,6 @@ public class SecurityBackingMBean {
 
     @ManagedProperty(value="#{sessionScope}")
     private Map<String, Object> sessionMap;
-
-    public UserAccount getSignedUser() {
-        return (UserAccount) sessionMap.get("signedUser");
-    }
-
-    public void setSignedUser(UserAccount signedUser) {
-        sessionMap.remove("signedUser");
-        if(null != signedUser) {
-            sessionMap.put("signedUser", signedUser);
-        }
-    }
 
     public boolean isUserSignedIn() {
         return sessionMap.containsKey("signedUser");

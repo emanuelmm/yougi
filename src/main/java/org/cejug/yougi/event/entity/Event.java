@@ -202,6 +202,10 @@ public class Event implements Serializable, Identified, PublicContent {
         return "event/event";
     }
 
+    public String getAuthor() {
+        return null;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

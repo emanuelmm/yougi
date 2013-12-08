@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.event.business;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -47,14 +48,14 @@ public class TrackBean {
     }
 
     /**
-     * It finds all tracks available in a event, including tracks from 
+     * It finds all tracks available in a event, including tracks from
      * its parent event. If you don't want higher level tracks, just set the
      * parent event as null.
      * @param event event instance.
      * @return a list of found tracks.
      */
     public List<Track> findTracks(Event event) {
-        List<Track> tracks = null;
+        List<Track> tracks = new ArrayList<>();
         if(event != null) {
             tracks = em.createQuery("select t from Track t where t.event = :event order by t.name asc")
                                .setParameter("event", event)

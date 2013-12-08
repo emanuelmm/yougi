@@ -24,26 +24,22 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:body>
-        <ui:composition template="../layout.xhtml">
+        <ui:composition template="/layout.xhtml">
             <ui:define name="title">#{bundle.changeEmailConfirmation}</ui:define>
             <ui:define name="content">
-                <div class="content">
-                    <h1>#{bundle.changeEmailConfirmation}</h1>
-                    <p><h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/></p>
+                <h1>#{bundle.changeEmailConfirmation}</h1>
+                <p><h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/></p>
 
-                    <h:form>
-                        <h:panelGrid>
-                            <h:outputLabel for="confirmationCode" value="#{bundle.confirmationCode} *" styleClass="fieldLabel"/>
-                            <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.currentEmail}" size="40" maxlength="100" required="true" onchange="formatEmail(this);"/>
-                            <h:message for="confirmationCode" errorClass="errorMessage"/>
-                        </h:panelGrid>
-                        <p/>
-                        <h:panelGrid columns="2">
-                            <h:commandButton value="#{bundle.changeEmail}" action="#{changeEmailMBean.changeEmail}"/>
-                            <h:button outcome="profile" value="#{bundle.cancel}"/>
-                        </h:panelGrid>
-                    </h:form>
-                </div>
+                <h:form>
+                    <div class="form-group">
+                        <h:outputLabel for="confirmationCode" value="#{bundle.confirmationCode} *" styleClass="control-label"/>
+                        <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.currentEmail}" maxlength="32" required="true" onchange="formatEmail(this);" styleClass="form-control"/>
+                        <h:message for="confirmationCode" errorClass="errorMessage"/>
+                    </div>
+                    <p/>
+                    <h:commandButton value="#{bundle.confirmEmailChange}" action="#{changeEmailMBean.confirmEmailChange}" styleClass="btn btn-primary"/>
+                    <h:button outcome="index" value="#{bundle.cancel}" styleClass="btn btn-default" style="margin-left: 5px;"/>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

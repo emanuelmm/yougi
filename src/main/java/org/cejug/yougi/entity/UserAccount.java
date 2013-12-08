@@ -202,6 +202,10 @@ public class UserAccount implements Serializable, Identified {
         }
     }
 
+    /**
+     * Update the email with the value of the unverified email and clean the
+     * unverifiedEmail.
+     */
     public void setEmailAsVerified() {
         this.email = this.unverifiedEmail;
         this.unverifiedEmail = null;

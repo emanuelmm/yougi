@@ -31,23 +31,21 @@
                 <div class="content">
                     <h1>#{bundle.article}</h1>
                     <h:form>
-                        <h:panelGrid width="100%">
-                            <h:outputLink value="http://#{articleMBean.article.webSource.provider.website}" target="_blank" style="font-size: 18px;">
-                                <h:outputText value="#{articleMBean.article.webSource.title}"/>
-                            </h:outputLink>
+                        <h:panelGrid columns="2">
+                            <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(articleMBean.article.webSource.provider.email)}" style="margin-right: 10px;"/>
+                            <h:panelGroup>
+                                <h:outputText value="#{articleMBean.article}" style="font-size: 26px; font-weight: bold; color: steelblue;"/><br/>
+                                <h:outputLink value="http://#{articleMBean.article.webSource.provider.website}" target="_blank" style="font-size: 18px;">
+                                    <h:outputText value="#{bundle.by} "/>
+                                    <h:outputText value="#{articleMBean.article.author}"/>
+                                </h:outputLink>
+                            </h:panelGroup>
 
-                            <h:outputText value="#{articleMBean.article}" style="font-size: 26px; font-weight: bold; color: steelblue;"/>
-
-                            <h:outputText value="#{articleMBean.article.author}" style="font-size: 16px; font-style: italic;" escape="false"/>
-
-                            <p:separator/>
-
+                            <h:outputText value="" style="font-size: 16px; font-style: italic;" escape="false"/>
                             <h:outputText value="#{articleMBean.article.summary}" escape="false" styleClass="lead"/>
-
-                            <p:spacer height="10"/>
-
-                            <h:outputText value="#{articleMBean.article.text}" escape="false" style="font-size: 14px;"/>
                         </h:panelGrid>
+                        <p:separator/>
+                        <h:outputText value="#{articleMBean.article.text}" escape="false" style="font-size: 14px;"/>
                     </h:form>
                 </div>
             </ui:define>

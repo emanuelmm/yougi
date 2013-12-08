@@ -22,7 +22,6 @@ package org.cejug.yougi.web.controller;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -42,10 +41,13 @@ public class ChangeEmailMBean {
 
     @EJB
     private UserAccountBean userAccountBean;
-    @ManagedProperty(value = "#{id}")
-    private String id;
+
     @ManagedProperty(value = "#{param.cc}")
     private String confirmationCode;
+
+    @ManagedProperty(value = "#{userProfileMBean}")
+    private UserProfileMBean userProfileMBean;
+
     private UserAccount userAccount;
     private String currentEmail;
     private String newEmail;
@@ -55,23 +57,16 @@ public class ChangeEmailMBean {
         userAccount = new UserAccount();
     }
 
-    /**
-     * @return the user account's id.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getConfirmationCode() {
         return confirmationCode;
     }
 
     public void setConfirmationCode(String confirmationCode) {
         this.confirmationCode = confirmationCode;
+    }
+
+    public void setUserProfileMBean(UserProfileMBean userProfileMBean) {
+        this.userProfileMBean = userProfileMBean;
     }
 
     /**
@@ -121,10 +116,8 @@ public class ChangeEmailMBean {
 
     @PostConstruct
     public void load() {
-        if (id != null && !id.isEmpty()) {
-            this.userAccount = userAccountBean.findUserAccountByConfirmationCode(id);
-        } else if (confirmationCode != null && !confirmationCode.isEmpty()) {
-            this.userAccount = userAccountBean.findUserAccountByConfirmationCode(confirmationCode);
+        if (confirmationCode == null || confirmationCode.isEmpty()) {
+            this.userAccount = userProfileMBean.getUserAccount();
         }
     }
 
@@ -160,8 +153,13 @@ public class ChangeEmailMBean {
     }
 
     public String confirmEmailChange() {
-        this.userAccount.resetConfirmationCode();
-        userAccountBean.save(this.userAccount);
+        try {
+            userAccountBean.confirmEmailChange(confirmationCode);
+        }
+        catch(BusinessLogicException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
+            return "change_email_confirmation";
+        }
         return "index?faces-redirect=true";
     }
 }
