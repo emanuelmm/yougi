@@ -57,7 +57,7 @@ public abstract class AbstractBean<T extends Identified> {
     }
 
     public void remove(String id) {
-        getEntityManager().remove(getEntityManager().find(this.entityClass, id));
+        getEntityManager().remove(find(id));
     }
 
     public T find(String id) {
