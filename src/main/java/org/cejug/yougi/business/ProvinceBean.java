@@ -24,29 +24,36 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.MessageTemplate;
+import org.cejug.yougi.entity.Country;
+import org.cejug.yougi.entity.Province;
 
 /**
- * Business logic related to MessageTemplate entity class.
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-public class MessageTemplateBean extends AbstractBean<MessageTemplate> {
+public class ProvinceBean extends AbstractBean<Province> {
 
     @PersistenceContext
     private EntityManager em;
 
-    public MessageTemplateBean() {
-        super(MessageTemplate.class);
+    public ProvinceBean() {
+        super(Province.class);
     }
 
     @Override
-    protected EntityManager getEntityManager() {
+    protected final EntityManager getEntityManager() {
         return em;
     }
 
-    public List<MessageTemplate> findAll() {
-        return em.createQuery("select mt from MessageTemplate mt order by mt.title").getResultList();
+    public List<Province> findAll() {
+        return em.createQuery("select p from Province p order by p.country.name, p.name asc")
+                 .getResultList();
+    }
+
+    public List<Province> findByCountry(Country country) {
+        return em.createQuery("select p from Province p where p.country = :country order by p.name asc")
+                 .setParameter("country", country)
+                 .getResultList();
     }
 }

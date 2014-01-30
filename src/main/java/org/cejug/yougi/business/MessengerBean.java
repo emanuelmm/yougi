@@ -26,7 +26,6 @@ import org.cejug.yougi.entity.MessageHistory;
 import java.util.*;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -41,7 +40,6 @@ import org.cejug.yougi.entity.Properties;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-@LocalBean
 public class MessengerBean {
 
     @Resource(name = "mail/ug")
@@ -85,7 +83,7 @@ public class MessengerBean {
             else {
                 messageHistory.setMessageSent(Boolean.FALSE);
             }
-            messageHistoryBean.saveHistoricalMessage(messageHistory);
+            messageHistoryBean.save(messageHistory);
         }
 
         if(messagingException != null) {

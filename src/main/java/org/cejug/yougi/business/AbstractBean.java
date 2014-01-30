@@ -20,33 +20,47 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.MessageTemplate;
+import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.entity.Identified;
 
 /**
- * Business logic related to MessageTemplate entity class.
- *
+ * Implements basic operations
  * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @param <T> Any entity class that implements Identified.
  */
-@Stateless
-public class MessageTemplateBean extends AbstractBean<MessageTemplate> {
+public abstract class AbstractBean<T extends Identified> {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final Class<T> entityClass;
 
-    public MessageTemplateBean() {
-        super(MessageTemplate.class);
+    public AbstractBean(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    protected abstract EntityManager getEntityManager();
+
+    /**
+     * Save an entity instance on the database. The Id of the entity should
+     * support a UUID string because this method will set the id as a UUID
+     * string if the id is not defined yet.
+     * @param entity Any entity class that implements Identified.
+     */
+    public T save(T entity) {
+        if(EntitySupport.INSTANCE.isIdNotValid(entity)) {
+            entity.setId(EntitySupport.INSTANCE.generateEntityId());
+            getEntityManager().persist(entity);
+        }
+        else {
+            entity = getEntityManager().merge(entity);
+        }
+        return entity;
     }
 
-    public List<MessageTemplate> findAll() {
-        return em.createQuery("select mt from MessageTemplate mt order by mt.title").getResultList();
+    public void remove(String id) {
+        getEntityManager().remove(getEntityManager().find(this.entityClass, id));
+    }
+
+    public T find(String id) {
+        return getEntityManager().find(entityClass, id);
     }
 }

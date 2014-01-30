@@ -50,8 +50,7 @@ import org.cejug.yougi.entity.EntitySupport;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-@LocalBean
-public class UserAccountBean {
+public class UserAccountBean extends AbstractBean<UserAccount> {
 
     @EJB
     private AccessGroupBean accessGroupBean;
@@ -76,13 +75,22 @@ public class UserAccountBean {
 
     static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getName());
 
+    public UserAccountBean() {
+        super(UserAccount.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
     /**
      * Checks whether an user account exists.
-     * @param username the username that unically identify users.
+     * @param username the username that uniquely identify users.
      * @return true if the account already exists.
      */
     public boolean existingAccount(String username) {
-        UserAccount existing = findUserAccountByUsername(username);
+        UserAccount existing = findByUsername(username);
         return existing != null;
     }
 
@@ -94,16 +102,12 @@ public class UserAccountBean {
         return totalUserAccounts == 0;
     }
 
-    public UserAccount findUserAccount(String id) {
-        return em.find(UserAccount.class, id);
-    }
-
     /**
      * Check if the username has authentication data related to it. If there is
      * no authentication data, then the user is considered as non-existing, even
      * if an user account exists.
      */
-    public UserAccount findUserAccountByUsername(String username) {
+    public UserAccount findByUsername(String username) {
         try {
             return (UserAccount) em.createQuery("select a.userAccount from Authentication a where a.username = :username")
                                    .setParameter("username", username)
@@ -114,7 +118,7 @@ public class UserAccountBean {
         }
     }
 
-    public UserAccount findUserAccountByEmail(String email) {
+    public UserAccount findByEmail(String email) {
         try {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.email = :email")
                                    .setParameter("email", email)
@@ -125,7 +129,7 @@ public class UserAccountBean {
         }
     }
 
-    public UserAccount findUserAccountByConfirmationCode(String confirmationCode) {
+    public UserAccount findByConfirmationCode(String confirmationCode) {
         try {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :confirmationCode")
                                    .setParameter("confirmationCode", confirmationCode)
@@ -139,7 +143,7 @@ public class UserAccountBean {
     /**
      * @return All activated user accounts ordered by name.
      */
-    public List<UserAccount> findUserAccounts() {
+    public List<UserAccount> findAllActiveAccounts() {
         return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.confirmationCode is null order by ua.firstName")
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
@@ -148,7 +152,7 @@ public class UserAccountBean {
     /**
      * @return All users that informed their websites.
      */
-    public List<UserAccount> findUserAccountsWithWebsite() {
+    public List<UserAccount> findAllWithWebsite() {
         return em.createQuery("select ua from UserAccount ua where ua.deactivated = false and ua.confirmationCode is null and ua.website is not null and ua.website <> '' order by ua.firstName")
                  .getResultList();
     }
@@ -157,21 +161,21 @@ public class UserAccountBean {
      * Returns user accounts ordered by registration date and in which the
      * registration date is between the informed period of time.
      */
-    public List<UserAccount> findConfirmedUserAccounts(Date from, Date to) {
+    public List<UserAccount> findConfirmedAccounts(Date from, Date to) {
         return em.createQuery("select ua from UserAccount ua where ua.confirmationCode is null and ua.registrationDate >= :from and ua.registrationDate <= :to order by ua.registrationDate asc")
                  .setParameter("from", from)
                  .setParameter("to", to)
                  .getResultList();
     }
 
-    public List<UserAccount> findNotVerifiedUsers() {
+    public List<UserAccount> findAllNotVerifiedAccounts() {
         return em.createQuery("select ua from UserAccount ua where ua.verified = :verified and ua.deactivated = :deactivated order by ua.registrationDate desc")
                  .setParameter("verified", Boolean.FALSE)
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
     }
 
-    public List<UserAccount> findUserAccountsStartingWith(String firstLetter) {
+    public List<UserAccount> findAllStartingWith(String firstLetter) {
         return em.createQuery("select ua from UserAccount ua where ua.firstName like '"+ firstLetter +"%' and ua.deactivated = :deactivated order by ua.firstName")
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
@@ -181,7 +185,7 @@ public class UserAccountBean {
      * @return the list of deactivated user accounts that were deactivated by
      * their own will or administratively.
      */
-    public List<UserAccount> findDeactivatedUserAccounts() {
+    public List<UserAccount> findAllDeactivatedUserAccounts() {
         return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.deactivationType <> :type order by ua.deactivationDate desc")
                  .setParameter("deactivated", Boolean.TRUE)
                  .setParameter("type", DeactivationType.UNREGISTERED)
@@ -290,7 +294,7 @@ public class UserAccountBean {
     }
 
     public void sendEmailConfirmationRequest(UserAccount userAccount, String serverAddress) throws BusinessLogicException {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("E3F122DCC87D42248872878412B34CEE");
+        MessageTemplate messageTemplate = messageTemplateBean.find("E3F122DCC87D42248872878412B34CEE");
         messageTemplate.setVariable("serverAddress", serverAddress);
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
@@ -350,7 +354,7 @@ public class UserAccountBean {
     }
 
     public void sendWelcomeMessage(UserAccount userAccount) {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("47DEE5C2E0E14F8BA4605F3126FBFAF4");
+        MessageTemplate messageTemplate = messageTemplateBean.find("47DEE5C2E0E14F8BA4605F3126FBFAF4");
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
@@ -364,7 +368,7 @@ public class UserAccountBean {
     }
 
     public void sendNewMemberAlertMessage(UserAccount userAccount, List<UserAccount> admins) {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("0D6F96382D91454F8155A720F3326F1B");
+        MessageTemplate messageTemplate = messageTemplateBean.find("0D6F96382D91454F8155A720F3326F1B");
         messageTemplate.setVariable("userAccount.fullName", userAccount.getFullName());
         messageTemplate.setVariable("userAccount.registrationDate", userAccount.getRegistrationDate());
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
@@ -378,13 +382,13 @@ public class UserAccountBean {
         }
     }
 
-    public void save(UserAccount userAccount) {
+    public UserAccount save(UserAccount userAccount) {
         userAccount.setLastUpdate(Calendar.getInstance().getTime());
-        em.merge(userAccount);
+        return super.save(userAccount);
     }
 
     public void deactivateMembership(UserAccount userAccount, DeactivationType deactivationType) {
-        UserAccount existingUserAccount = findUserAccount(userAccount.getId());
+        UserAccount existingUserAccount = find(userAccount.getId());
 
         existingUserAccount.setDeactivated(Boolean.TRUE);
         existingUserAccount.setDeactivationDate(Calendar.getInstance().getTime());
@@ -414,10 +418,10 @@ public class UserAccountBean {
     public void sendDeactivationReason(UserAccount userAccount) {
         MessageTemplate messageTemplate;
         if(userAccount.getDeactivationType() == DeactivationType.ADMINISTRATIVE) {
-            messageTemplate = messageTemplateBean.findMessageTemplate("03BD6F3ACE4C48BD8660411FC8673DB4");
+            messageTemplate = messageTemplateBean.find("03BD6F3ACE4C48BD8660411FC8673DB4");
         }
         else {
-            messageTemplate = messageTemplateBean.findMessageTemplate("IKWMAJSNDOE3F122DCC87D4224887287");
+            messageTemplate = messageTemplateBean.find("IKWMAJSNDOE3F122DCC87D4224887287");
         }
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("userAccount.deactivationReason", userAccount.getDeactivationReason());
@@ -433,7 +437,7 @@ public class UserAccountBean {
     }
 
     public void sendDeactivationAlertMessage(UserAccount userAccount, List<UserAccount> admins) {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("0D6F96382IKEJSUIWOK5A720F3326F1B");
+        MessageTemplate messageTemplate = messageTemplateBean.find("0D6F96382IKEJSUIWOK5A720F3326F1B");
         messageTemplate.setVariable("userAccount.fullName", userAccount.getFullName());
         messageTemplate.setVariable("userAccount.deactivationReason", userAccount.getDeactivationReason());
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
@@ -448,7 +452,7 @@ public class UserAccountBean {
     }
 
     public void requestConfirmationPasswordChange(String username, String serverAddress) {
-        UserAccount userAccount = findUserAccountByUsername(username);
+        UserAccount userAccount = findByUsername(username);
 
         if(userAccount != null) {
             userAccount.defineNewConfirmationCode();
@@ -460,7 +464,7 @@ public class UserAccountBean {
     }
 
     public void sendConfirmationCode(UserAccount userAccount, String serverAddress) {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("67BE6BEBE45945D29109A8D6CD878344");
+        MessageTemplate messageTemplate = messageTemplateBean.find("67BE6BEBE45945D29109A8D6CD878344");
         messageTemplate.setVariable("serverAddress", serverAddress);
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
@@ -484,13 +488,13 @@ public class UserAccountBean {
      */
     public void changeEmail(UserAccount userAccount, String newEmail) throws BusinessLogicException {
         // Check if the new email already exists in the UserAccounts
-        UserAccount existingUserAccount = findUserAccountByEmail(newEmail);
+        UserAccount existingUserAccount = findByEmail(newEmail);
 
         if(existingUserAccount != null) {
             throw new BusinessLogicException("errorCode0001");
         }
 
-        existingUserAccount = findUserAccount(userAccount.getId());
+        existingUserAccount = find(userAccount.getId());
 
         existingUserAccount.defineNewConfirmationCode();
 
@@ -513,7 +517,7 @@ public class UserAccountBean {
      * email address.
      */
     public void sendEmailVerificationRequest(UserAccount userAccount, String serverAddress) throws BusinessLogicException {
-        MessageTemplate messageTemplate = messageTemplateBean.findMessageTemplate("KJZISKQBE45945D29109A8D6C92IZJ89");
+        MessageTemplate messageTemplate = messageTemplateBean.find("KJZISKQBE45945D29109A8D6C92IZJ89");
         messageTemplate.setVariable("serverAddress", serverAddress);
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("userAccount.email", userAccount.getEmail());
@@ -521,7 +525,7 @@ public class UserAccountBean {
         messageTemplate.setVariable("userAccount.confirmationCode", userAccount.getConfirmationCode());
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
-       
+
         try {
             messengerBean.sendEmailMessage(emailMessage);
         }
@@ -531,7 +535,7 @@ public class UserAccountBean {
     }
 
     public void confirmEmailChange(String confirmationCode) throws BusinessLogicException {
-        UserAccount userAccount = findUserAccountByConfirmationCode(confirmationCode);
+        UserAccount userAccount = findByConfirmationCode(confirmationCode);
         if(userAccount.getUnverifiedEmail() == null || userAccount.getUnverifiedEmail().isEmpty()) {
             throw new BusinessLogicException("errorCode0002");
         }
@@ -584,10 +588,5 @@ public class UserAccountBean {
                 user.setTimeZone(city.getTimeZone());
             }
         }
-    }
-
-    public void remove(String userId) {
-        UserAccount userAccount = em.find(UserAccount.class, userId);
-        em.remove(userAccount);
     }
 }

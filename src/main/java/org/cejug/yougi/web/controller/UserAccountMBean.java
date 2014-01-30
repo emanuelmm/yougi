@@ -185,7 +185,7 @@ public class UserAccountMBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String username = request.getRemoteUser();
         if(username != null) {
-            this.userAccount = userAccountBean.findUserAccountByUsername(username);
+            this.userAccount = userAccountBean.findByUsername(username);
 
             if(this.userAccount.getCountry() != null) {
                 locationMBean.setSelectedCountry(this.userAccount.getCountry().getAcronym());
@@ -246,7 +246,7 @@ public class UserAccountMBean implements Serializable {
 
     public String savePersonalData() {
         if(userAccount != null) {
-            UserAccount existingUserAccount = userAccountBean.findUserAccount(userAccount.getId());
+            UserAccount existingUserAccount = userAccountBean.find(userAccount.getId());
 
             existingUserAccount.setCountry(this.locationMBean.getCountry());
             existingUserAccount.setProvince(this.locationMBean.getProvince());
@@ -266,7 +266,7 @@ public class UserAccountMBean implements Serializable {
 
     public String savePrivacy() {
         if(userAccount != null) {
-            UserAccount existingUserAccount = userAccountBean.findUserAccount(userAccount.getId());
+            UserAccount existingUserAccount = userAccountBean.find(userAccount.getId());
             existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
             existingUserAccount.setMailingList(userAccount.getMailingList());
             existingUserAccount.setNews(userAccount.getNews());

@@ -48,7 +48,7 @@ public class UserProfileMBean {
 
     @EJB
     private LanguageBean languageBean;
-    
+
     @EJB
     private TimezoneBean timezoneBean;
 
@@ -94,7 +94,7 @@ public class UserProfileMBean {
             FacesContext fc = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest)fc.getExternalContext().getRequest();
             String username = request.getRemoteUser();
-            this.userAccount = userAccountBean.findUserAccountByUsername(username);
+            this.userAccount = userAccountBean.findByUsername(username);
     	}
     	return userAccount;
     }
@@ -123,7 +123,7 @@ public class UserProfileMBean {
             }
         }
     }
-    
+
     public Date getWhatTimeIsIt() {
         return Calendar.getInstance().getTime();
     }

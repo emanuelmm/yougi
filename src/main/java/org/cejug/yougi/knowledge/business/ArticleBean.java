@@ -37,13 +37,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.knowledge.entity.Article;
 import org.cejug.yougi.knowledge.entity.WebSource;
-import org.cejug.yougi.entity.EntitySupport;
 
 /**
  * Business logic dealing with articles from a web source.
@@ -51,16 +50,20 @@ import org.cejug.yougi.entity.EntitySupport;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-@LocalBean
-public class ArticleBean {
+public class ArticleBean extends AbstractBean<Article> {
 
     private static final Logger LOGGER = Logger.getLogger(ArticleBean.class.getName());
 
     @PersistenceContext
     private EntityManager em;
 
-    public Article findArticle(String id) {
-        return em.find(Article.class, id);
+    public ArticleBean() {
+        super(Article.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
     public List<Article> findPublishedArticles() {
@@ -82,23 +85,6 @@ public class ArticleBean {
 
     public void unpublish(Article article) {
         remove(article.getId());
-    }
-
-    public void save(Article article) {
-        if(EntitySupport.INSTANCE.isIdNotValid(article)) {
-            article.setId(EntitySupport.INSTANCE.generateEntityId());
-            em.persist(article);
-        }
-        else {
-            em.merge(article);
-        }
-    }
-
-    public void remove(String id) {
-        Article article = em.find(Article.class, id);
-        if(article != null) {
-            em.remove(article);
-        }
     }
 
     /**

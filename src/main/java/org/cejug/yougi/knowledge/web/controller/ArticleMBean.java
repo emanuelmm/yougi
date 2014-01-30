@@ -95,7 +95,7 @@ public class ArticleMBean {
     @PostConstruct
     public void load() {
         if(id != null && !id.isEmpty()) {
-            this.article = articleBean.findArticle(id);
+            this.article = articleBean.find(id);
             this.articleStateMBean.setState(this.article.getPublished());
         }
         else if(permanentLink != null && !permanentLink.isEmpty()) {

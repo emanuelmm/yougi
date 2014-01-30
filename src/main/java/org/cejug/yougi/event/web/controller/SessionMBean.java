@@ -175,7 +175,7 @@ public class SessionMBean implements Serializable {
     @PostConstruct
     public void load() {
         if (this.eventId != null && !this.eventId.isEmpty()) {
-            Event event = eventBean.findEvent(eventId);
+            Event event = eventBean.find(eventId);
             this.session = new Session();
             this.session.setEvent(event);
             this.selectedEvent = event.getId();
@@ -200,7 +200,7 @@ public class SessionMBean implements Serializable {
     }
 
     public String save() {
-        Event evt = eventBean.findEvent(selectedEvent);
+        Event evt = eventBean.find(selectedEvent);
         this.session.setEvent(evt);
 
         this.session.setRoom(this.venueSelectionMBean.getRoom());

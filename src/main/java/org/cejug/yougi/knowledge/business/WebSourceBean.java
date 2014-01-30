@@ -20,14 +20,13 @@
  * */
 package org.cejug.yougi.knowledge.business;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.knowledge.entity.WebSource;
-import org.cejug.yougi.entity.EntitySupport;
 
 /**
  * Business logic dealing with web sources entities.
@@ -35,14 +34,18 @@ import org.cejug.yougi.entity.EntitySupport;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-@LocalBean
-public class WebSourceBean {
+public class WebSourceBean extends AbstractBean<WebSource> {
 
     @PersistenceContext
     private EntityManager em;
 
-    public WebSource findWebSource(String id) {
-        return em.find(WebSource.class, id);
+    public WebSourceBean() {
+        super(WebSource.class);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
     public WebSource findWebSourceByProvider(UserAccount provider) {
@@ -53,24 +56,6 @@ public class WebSourceBean {
         }
         catch(NoResultException nre) {
             return null;
-        }
-    }
-
-    public void save(WebSource webSource) {
-
-        if(EntitySupport.INSTANCE.isIdNotValid(webSource)) {
-            webSource.setId(EntitySupport.INSTANCE.generateEntityId());
-            em.persist(webSource);
-        }
-        else {
-            em.merge(webSource);
-        }
-    }
-
-    public void remove(String id) {
-        WebSource webSource = em.find(WebSource.class, id);
-        if(webSource != null) {
-            em.remove(webSource);
         }
     }
 }

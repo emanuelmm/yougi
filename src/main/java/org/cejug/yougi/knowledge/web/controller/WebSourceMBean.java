@@ -79,7 +79,7 @@ public class WebSourceMBean {
 
     public List<UserAccount> getUsersWithWebsite() {
         if(this.usersWithWebsite == null) {
-            this.usersWithWebsite = userAccountBean.findUserAccountsWithWebsite();
+            this.usersWithWebsite = userAccountBean.findAllWithWebsite();
         }
         return this.usersWithWebsite;
     }
@@ -106,7 +106,7 @@ public class WebSourceMBean {
     @PostConstruct
     public void load() {
         if(this.userId != null && !this.userId.isEmpty()) {
-            this.provider = userAccountBean.findUserAccount(this.userId);
+            this.provider = userAccountBean.find(this.userId);
             this.webSource = webSourceBean.findWebSourceByProvider(this.provider);
             if(this.webSource == null) {
                 this.webSource = new WebSource();

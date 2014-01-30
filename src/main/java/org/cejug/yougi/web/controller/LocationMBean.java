@@ -26,6 +26,9 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.cejug.yougi.business.CityBean;
+import org.cejug.yougi.business.CountryBean;
+import org.cejug.yougi.business.ProvinceBean;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
@@ -48,7 +51,13 @@ public class LocationMBean {
     static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
 
     @EJB
-    private org.cejug.yougi.business.LocationBean locationBean;
+    private CountryBean countryBean;
+
+    @EJB
+    private ProvinceBean provinceBean;
+
+    @EJB
+    private CityBean cityBean;
 
     private List<Country> countries;
 
@@ -67,14 +76,14 @@ public class LocationMBean {
     private boolean initialized;
 
     public List<Country> getCountries() {
-        this.countries = locationBean.findCountries();
+        this.countries = countryBean.findCountries();
         return this.countries;
     }
 
     public List<Province> getProvinces() {
         if (this.selectedCountry != null) {
             Country country = new Country(selectedCountry);
-            this.provinces = locationBean.findProvinces(country);
+            this.provinces = provinceBean.findByCountry(country);
             return this.provinces;
         } else {
             return null;
@@ -84,16 +93,16 @@ public class LocationMBean {
     public List<City> getCities() {
         if (selectedCountry != null && selectedProvince == null) {
             Country country = new Country(selectedCountry);
-            this.cities = locationBean.findCities(country, false);
+            this.cities = cityBean.findByCountry(country, false);
         } else if (selectedProvince != null) {
             Province province = new Province(selectedProvince);
-            this.cities = locationBean.findCities(province, false);
+            this.cities = cityBean.findByProvince(province, false);
         }
         return this.cities;
     }
 
     public List<String> findCitiesStartingWith(String initials) {
-        List<City> cits = locationBean.findCitiesStartingWith(initials);
+        List<City> cits = cityBean.findStartingWith(initials);
         List<String> citiesStartingWith = new ArrayList<>();
         for (City city : cits) {
             citiesStartingWith.add(city.getName());
@@ -126,7 +135,7 @@ public class LocationMBean {
 
     public Country getCountry() {
         if (this.selectedCountry != null) {
-            return locationBean.findCountry(this.selectedCountry);
+            return countryBean.findCountry(this.selectedCountry);
         } else {
             return null;
         }
@@ -134,7 +143,7 @@ public class LocationMBean {
 
     public Province getProvince() {
         if (this.selectedProvince != null && !this.selectedProvince.isEmpty()) {
-            return locationBean.findProvince(this.selectedProvince);
+            return provinceBean.find(this.selectedProvince);
         } else {
             return null;
         }
@@ -142,7 +151,7 @@ public class LocationMBean {
 
     public City getCity() {
         if (this.selectedCity != null && !this.selectedCity.isEmpty()) {
-            return locationBean.findCity(this.selectedCity);
+            return cityBean.find(this.selectedCity);
         } else {
             return null;
         }
