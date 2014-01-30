@@ -72,7 +72,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
     }
 
     @Override
-    protected final EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return em;
     }
 
