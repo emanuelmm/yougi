@@ -60,6 +60,7 @@ public class UserProfileMBean {
 
     private Language language;
     private UserAccount userAccount;
+    private String timezone;
 
     static final Logger LOGGER = Logger.getLogger(UserProfileMBean.class.getName());
 
@@ -105,23 +106,26 @@ public class UserProfileMBean {
      * properties. If the time zone was not defined in the application
      * properties yet, then it returns the default time zone where the system is
      * running.
+     * @return The time zone of the authenticated user.
      */
     public String getTimeZone() {
-        // It gives priority to the user preference.
-        UserAccount userAcc = getUserAccount();
-        if(userAcc != null && userAcc.getTimeZone() != null && !userAcc.getTimeZone().isEmpty()) {
-            return userAcc.getTimeZone();
-        }
-        else {
-            ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
-            if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
-                Timezone tz = timezoneBean.findDefaultTimezone();
-                return tz.getId();
+        if(timezone == null) {
+            // It gives priority to the user preference.
+            if(userAccount != null && userAccount.getTimeZone() != null && !userAccount.getTimeZone().isEmpty()) {
+                timezone = userAccount.getTimeZone();
             }
             else {
-                return appPropTimeZone.getPropertyValue();
+                ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
+                if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
+                    Timezone tz = timezoneBean.findDefaultTimezone();
+                    timezone = tz.getId();
+                }
+                else {
+                    timezone = appPropTimeZone.getPropertyValue();
+                }
             }
         }
+        return timezone;
     }
 
     public Date getWhatTimeIsIt() {

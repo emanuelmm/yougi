@@ -190,8 +190,10 @@ public class SessionMBean implements Serializable {
                 this.selectedTrack = this.session.getTrack().getId();
             }
             this.venueSelectionMBean.setSelectedEvent(this.selectedEvent);
-            this.venueSelectionMBean.setSelectedVenue(this.session.getRoom().getVenue().getId());
-            this.venueSelectionMBean.setSelectedRoom(this.session.getRoom().getId());
+            if(this.session.getRoom() != null) {
+                this.venueSelectionMBean.setSelectedVenue(this.session.getRoom().getVenue().getId());
+                this.venueSelectionMBean.setSelectedRoom(this.session.getRoom().getId());
+            }
         }
 
         if(this.session == null) {
