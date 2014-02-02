@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -44,7 +45,7 @@ import org.cejug.yougi.entity.UserAccount;
  */
 @ManagedBean
 @SessionScoped
-public class UserProfileMBean {
+public class UserProfileMBean implements Serializable {
 
     @EJB
     private LanguageBean languageBean;
