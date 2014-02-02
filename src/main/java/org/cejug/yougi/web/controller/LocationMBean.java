@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ import org.cejug.yougi.entity.Province;
  */
 @ManagedBean
 @SessionScoped
-public class LocationMBean {
+public class LocationMBean implements Serializable {
 
     static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
 
