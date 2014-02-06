@@ -50,24 +50,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <h:outputLabel for="gender" value="#{bundle.gender} *" styleClass="control-label"/>
-                            <h:selectOneRadio id="gender" label="#{bundle.gender}" required="true" value="#{userAccountMBean.userAccount.gender}">
-                                <f:selectItem itemLabel="#{bundle.male}" itemValue="MALE"/>
-                                <f:selectItem itemLabel="#{bundle.female}" itemValue="FEMALE"/>
-                            </h:selectOneRadio>
-                            <h:message for="gender" errorClass="errorMessage"/>
-                        </div>
-
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <h:outputLabel for="gender" value="#{bundle.gender} *" styleClass="control-label"/>
+                                    <h:selectOneRadio id="gender" label="#{bundle.gender}" required="true" value="#{userAccountMBean.userAccount.gender}" layout="pageDirection">
+                                        <f:selectItem itemLabel="&nbsp;#{bundle.male}" itemValue="MALE"/>
+                                        <f:selectItem itemLabel="&nbsp;#{bundle.female}" itemValue="FEMALE"/>
+                                    </h:selectOneRadio>
+                                    <h:message for="gender" errorClass="errorMessage"/>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <h:outputLabel for="website" value="#{bundle.website}" styleClass="control-label"/>
                                     <h:inputText id="website" label="#{bundle.website}" size="30" maxlength="100" value="#{userAccountMBean.userAccount.website}" styleClass="form-control"/>
                                     <h:message for="website" errorClass="errorMessage"/>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <h:outputLabel for="twitter" value="#{bundle.twitter}" styleClass="control-label"/>
                                     <h:inputText id="twitter" label="#{bundle.twitter}" size="15" maxlength="30" value="#{userAccountMBean.userAccount.twitter}" styleClass="form-control"/>
@@ -77,7 +78,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <h:outputLabel for="country" value="#{bundle.country}" styleClass="control-label"/>
                                     <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" styleClass="form-control">
@@ -87,7 +88,7 @@
                                     </h:selectOneMenu>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <h:outputLabel for="province" value="#{bundle.province}" styleClass="control-label"/>
                                     <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
@@ -97,12 +98,21 @@
                                     </h:selectOneMenu>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <h:outputLabel for="city" value="#{bundle.city}" styleClass="control-label"/>
                                     <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}" styleClass="form-control">
                                         <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                         <f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h:outputLabel for="timezone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
+                                    <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{locationMBean.selectedTimezone}" styleClass="form-control">
+                                        <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
+                                        <f:selectItems value="#{locationMBean.timezones}" var="tz" itemLabel="#{tz.label}" itemValue="#{tz.id}"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
