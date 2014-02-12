@@ -42,7 +42,7 @@ import org.cejug.yougi.entity.Properties;
 @Stateless
 public class MessengerBean {
 
-    @Resource(name = "mail/ug")
+    @Resource(name = "java:/mail/yougi")
     private Session mailSession;
 
     @EJB

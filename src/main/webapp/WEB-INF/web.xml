@@ -42,7 +42,7 @@
   </context-param>
   <context-param>
     <param-name>liquibase.datasource</param-name>
-    <param-value>jdbc/ug</param-value>
+    <param-value>java:/jdbc/UgDS</param-value>
   </context-param>
   <context-param>
     <param-name>liquibase.onerror.fail</param-name>
