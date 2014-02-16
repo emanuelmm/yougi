@@ -150,14 +150,6 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
     }
 
     /**
-     * @return All users that informed their websites.
-     */
-    public List<UserAccount> findAllWithWebsite() {
-        return em.createQuery("select ua from UserAccount ua where ua.deactivated = false and ua.confirmationCode is null and ua.website is not null and ua.website <> '' order by ua.firstName")
-                 .getResultList();
-    }
-
-    /**
      * Returns user accounts ordered by registration date and in which the
      * registration date is between the informed period of time.
      */
