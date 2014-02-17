@@ -32,6 +32,7 @@ import org.cejug.yougi.knowledge.business.ArticleBean;
 import org.cejug.yougi.knowledge.business.WebSourceBean;
 import org.cejug.yougi.knowledge.entity.Article;
 import org.cejug.yougi.knowledge.entity.WebSource;
+import org.cejug.yougi.util.UrlUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -99,9 +100,13 @@ public class WebSourceMBean {
         if(this.selectedMember != null && !this.selectedMember.isEmpty() && this.website == null) {
             this.webSource.setProvider(userAccountBean.find(this.selectedMember));
             this.website = this.webSource.getProvider().getWebsite();
-            this.website = webSourceBean.setProtocol(this.website);
+            this.website = UrlUtils.INSTANCE.setProtocol(this.website);
         }
         return this.website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public String getTitle() {
@@ -124,6 +129,14 @@ public class WebSourceMBean {
 
     public void setFeed(String feed) {
         this.webSource.setFeed(feed);
+    }
+
+    public void updateWebSource() {
+        this.webSource = webSourceBean.loadWebSource(this.website);
+        UserAccount userAccount = userAccountBean.findByWebsite(this.website);
+        if(userAccount != null) {
+            this.selectedMember = userAccount.getId();
+        }
     }
 
     public List<Article> getPublishedArticles() {

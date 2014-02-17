@@ -45,6 +45,7 @@ import org.cejug.yougi.entity.EmailMessage;
 import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.util.UrlUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -129,6 +130,18 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
         }
     }
 
+    public UserAccount findByWebsite(String website) {
+        try {
+            website = UrlUtils.INSTANCE.removeProtocol(website);
+            return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.website like :website")
+                    .setParameter("website", "%" + website + "%")
+                    .getSingleResult();
+        }
+        catch(NoResultException nre) {
+            return null;
+        }
+    }
+
     public UserAccount findByConfirmationCode(String confirmationCode) {
         try {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :confirmationCode")
@@ -144,7 +157,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * @return All activated user accounts ordered by name.
      */
     public List<UserAccount> findAllActiveAccounts() {
-        return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.confirmationCode is null order by ua.firstName")
+        return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.confirmationCode is null order by ua.firstName", UserAccount.class)
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
     }
@@ -154,21 +167,21 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * registration date is between the informed period of time.
      */
     public List<UserAccount> findConfirmedAccounts(Date from, Date to) {
-        return em.createQuery("select ua from UserAccount ua where ua.confirmationCode is null and ua.registrationDate >= :from and ua.registrationDate <= :to order by ua.registrationDate asc")
+        return em.createQuery("select ua from UserAccount ua where ua.confirmationCode is null and ua.registrationDate >= :from and ua.registrationDate <= :to order by ua.registrationDate asc", UserAccount.class)
                  .setParameter("from", from)
                  .setParameter("to", to)
                  .getResultList();
     }
 
     public List<UserAccount> findAllNotVerifiedAccounts() {
-        return em.createQuery("select ua from UserAccount ua where ua.verified = :verified and ua.deactivated = :deactivated order by ua.registrationDate desc")
+        return em.createQuery("select ua from UserAccount ua where ua.verified = :verified and ua.deactivated = :deactivated order by ua.registrationDate desc", UserAccount.class)
                  .setParameter("verified", Boolean.FALSE)
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
     }
 
     public List<UserAccount> findAllStartingWith(String firstLetter) {
-        return em.createQuery("select ua from UserAccount ua where ua.firstName like '"+ firstLetter +"%' and ua.deactivated = :deactivated order by ua.firstName")
+        return em.createQuery("select ua from UserAccount ua where ua.firstName like '"+ firstLetter +"%' and ua.deactivated = :deactivated order by ua.firstName", UserAccount.class)
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
     }
@@ -178,7 +191,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * their own will or administratively.
      */
     public List<UserAccount> findAllDeactivatedUserAccounts() {
-        return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.deactivationType <> :type order by ua.deactivationDate desc")
+        return em.createQuery("select ua from UserAccount ua where ua.deactivated = :deactivated and ua.deactivationType <> :type order by ua.deactivationDate desc", UserAccount.class)
                  .setParameter("deactivated", Boolean.TRUE)
                  .setParameter("type", DeactivationType.UNREGISTERED)
                  .getResultList();
@@ -205,7 +218,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * confirmation, validation or deactivation status.
      */
     public List<UserAccount> findInhabitantsFrom(City city) {
-        return em.createQuery("select u from UserAccount u where u.city = :city order by u.firstName")
+        return em.createQuery("select u from UserAccount u where u.city = :city order by u.firstName", UserAccount.class)
                 .setParameter("city", city)
                 .getResultList();
     }
@@ -314,7 +327,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
         }
 
         try {
-            UserAccount userAccount = (UserAccount)em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :code")
+            UserAccount userAccount = (UserAccount)em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :code", UserAccount.class)
                                                      .setParameter("code", confirmationCode)
                                                      .getSingleResult();
             if(userAccount != null) {

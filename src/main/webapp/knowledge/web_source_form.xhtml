@@ -34,19 +34,19 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="website">#{bundle.website}</label><br/>
-                        <h:outputLink id="website" value="#{webSourceMBean.website}" target="_blank">
-                            <h:outputText value="#{webSourceMBean.website}"/>
-                        </h:outputLink>
+                        <h:inputText id="website" value="#{webSourceMBean.website}" styleClass="form-control">
+                            <f:ajax listener="#{webSourceMBean.updateWebSource}" render="member title feed"/>
+                        </h:inputText>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="title">#{bundle.title}</label>
-                <h:inputText id="title" class="form-control" value="#{webSourceMBean.title}"/>
+                <h:inputText id="title" styleClass="form-control" value="#{webSourceMBean.title}"/>
             </div>
             <div class="form-group">
                 <label for="feed">#{bundle.feed}</label>
-                <h:inputText id="feed" class="form-control" value="#{webSourceMBean.feed}"/>
+                <h:inputText id="feed" styleClass="form-control" value="#{webSourceMBean.feed}"/>
             </div>
             <h:inputHidden value="#{webSourceMBean.webSource.id}"/>
 

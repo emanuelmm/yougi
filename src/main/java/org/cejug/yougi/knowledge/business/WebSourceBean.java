@@ -46,6 +46,7 @@ import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.knowledge.entity.WebSource;
 import org.cejug.yougi.knowledge.entity.Article;
+import org.cejug.yougi.util.UrlUtils;
 
 /**
  * Business logic dealing with web sources entities.
@@ -155,27 +156,44 @@ public class WebSourceBean extends AbstractBean<WebSource> {
 
         return feedArticles;
     }
-    
+
     /**
      * @param webSource a web source that contains details about a user website.
      * @return the webSource loaded with feed values.
      * */
     public WebSource loadWebSource(WebSource webSource) {
-        String feedUrl = findWebsiteFeedURL(webSource.getProvider().getWebsite());
-        LOGGER.log(Level.INFO, "feedUrl: {0}", feedUrl);
-        if(feedUrl == null) {
+        String id = webSource.getId();
+        UserAccount provider = webSource.getProvider();
+        WebSource newWebSource = loadWebSource(provider.getWebsite());
+        if(newWebSource != null) {
+            newWebSource.setId(id);
+            newWebSource.setProvider(provider);
+            return newWebSource;
+        }
+        else {
             return webSource;
         }
-        try {
-            URL url  = new URL(feedUrl);
-            XmlReader reader = new XmlReader(url);
-            SyndFeed feed = new SyndFeedInput().build(reader);
-            webSource.setTitle(feed.getTitle());
-            webSource.setFeed(feedUrl);
-        } catch (IllegalArgumentException | FeedException | IOException iae) {
-            LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
-        }
+    }
 
+    /**
+     * @param websiteUrl a website url where we can find a feed url.
+     * @return a new webSource filled with feed url and title only. Null if a feed url is not found in the content of
+     * the informed website url.
+     * */
+    public WebSource loadWebSource(String websiteUrl) {
+        WebSource webSource = null;
+        String feedUrl = findWebsiteFeedURL(websiteUrl);
+        LOGGER.log(Level.INFO, "feedUrl: {0}", feedUrl);
+        if(feedUrl != null) {
+            try {
+                URL url  = new URL(feedUrl);
+                XmlReader reader = new XmlReader(url);
+                SyndFeed feed = new SyndFeedInput().build(reader);
+                webSource = new WebSource(feed.getTitle(), feedUrl);
+            } catch (IllegalArgumentException | FeedException | IOException iae) {
+                LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
+            }
+        }
         return webSource;
     }
 
@@ -206,9 +224,9 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 continue;
             }
             if(isFeedURL(feedUrl)) {
-                if(isRelative(feedUrl)) {
-                    urlWebsite = setProtocol(urlWebsite);
-                    feedUrl = concatUrlFragment(urlWebsite, feedUrl);
+                if(UrlUtils.INSTANCE.isRelative(feedUrl)) {
+                    urlWebsite = UrlUtils.INSTANCE.setProtocol(urlWebsite);
+                    feedUrl = UrlUtils.INSTANCE.concatUrlFragment(urlWebsite, feedUrl);
                 }
                 break;
             }
@@ -234,7 +252,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
      * */
     private String retrieveWebsiteContent(String url) {
         StringBuilder content = null;
-        String fullUrl = setProtocol(url);
+        String fullUrl = UrlUtils.INSTANCE.setProtocol(url);
         
         if(fullUrl != null) {
             try {
@@ -251,33 +269,5 @@ public class WebSourceBean extends AbstractBean<WebSource> {
             }
         }
         return content != null ? content.toString() : null;
-    }
-    
-    public String setProtocol(String url) {
-        if(url != null && !(url.contains("http://") || url.contains("https://"))) {
-            url = "http://" + url;
-        }
-        return url;
-    }
-    
-    private String concatUrlFragment(String url, String fragment) {
-        if(url.endsWith("/") && fragment.startsWith("/")) {
-            url = url + fragment.substring(1);
-        }
-        else if((url.endsWith("/") && !fragment.startsWith("/")) ||
-                (!url.endsWith("/") && fragment.startsWith("/"))) {
-            url = url + fragment;
-        }
-        else {
-            url = url + "/" + fragment;
-        }
-        return url;
-    }
-    
-    private boolean isRelative(String url) {
-        if(url.contains("http")) {
-            return false;
-        }
-        return true;
     }
 }
