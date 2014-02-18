@@ -54,6 +54,7 @@ public class WebSourceMBean {
 
     private List<WebSource> webSources;
     private List<Article> publishedArticles;
+    private List<Article> unpublishedArticles;
 
     private List<UserAccount> membersWithWebsite;
     private String selectedMember;
@@ -144,6 +145,13 @@ public class WebSourceMBean {
             this.publishedArticles = articleBean.findPublishedArticles(this.webSource);
         }
         return this.publishedArticles;
+    }
+
+    public List<Article> getUnpublishedArticles() {
+        if(unpublishedArticles == null) {
+            this.unpublishedArticles = webSourceBean.loadUnpublishedArticles(this.webSource);
+        }
+        return this.unpublishedArticles;
     }
 
     @PostConstruct

@@ -50,7 +50,8 @@
             </div>
             <h:inputHidden value="#{webSourceMBean.webSource.id}"/>
 
-            <h:commandButton class="btn btn-primary" value="#{bundle.save}" action="#{webSourceMBean.save}"/>
+            <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{webSourceMBean.save}"/>&nbsp;
+            <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
         </h:form>
     </ui:define>
 </ui:composition>

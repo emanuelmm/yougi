@@ -23,87 +23,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <body>
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.website}</ui:define>
             <ui:define name="content">
-                <div class="content">
-                    <h1>#{bundle.website}</h1>
-                    <h:form>
-                        <h:panelGrid columns="5" cellpadding="4">
-                            <h:outputText value="#{bundle.member}" styleClass="fieldLabel"/>
-                            <h:outputText value="#{bundle.website}" styleClass="fieldLabel"/>
-                            <h:outputText value="#{bundle.title}" styleClass="fieldLabel"/>
-                            <h:outputText value="#{bundle.feed}" styleClass="fieldLabel"/>
-                            <h:outputText/>
-
-                            <h:outputText value="#{webSourceMBean.webSource.provider.fullName}"/>
-                            <h:outputText value="#{webSourceMBean.webSource.provider.website}"/>
-                            <h:outputText value="#{webSourceMBean.webSource.title}"/>
-                            <h:outputLink value="#{webSourceMBean.webSource.feed}" target="_blank">#{webSourceMBean.webSource.feed}</h:outputLink>
-                            <h:commandButton value="#{bundle.reference}" action="#{webSourceMBean.reference}" rendered="#{empty webSourceMBean.webSource.id}">
-                                <f:param name="user" value="#{webSourceMBean.webSource.provider.id}"/>
-                            </h:commandButton>
-                            <h:commandButton value="#{bundle.undoReference}" action="#{webSourceMBean.undoReference}" rendered="#{! empty webSourceMBean.webSource.id}">
-                                <f:param name="user" value="#{webSourceMBean.webSource.provider.id}"/>
-                            </h:commandButton>
-                        </h:panelGrid>
-
-                        <p:tabView id="content">
-                            <p:tab id="tabUnpublishedArticles" title="#{bundle.unpublishedContent}">
-                                <h:commandButton value="#{bundle.refresh}" action="#{webSourceMBean.refreshUnpublishedContent}" styleClass="btn btn-default">
-                                    <f:param name="user" value="#{webSourceMBean.webSource.provider.id}"/>
-                                </h:commandButton>
-                                <p/>
-                                <h:dataTable id="unpublishedArticles" value="#{webSourceMBean.unpublishedArticles}" var="article" styleClass="table">
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
-                                        <h:link outcome="article_form" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
-                                            <f:param name="pl" value="#{article.permanentLink}"/>
-                                        </h:link>
-                                        <h:outputText value="#{article.title}" rendered="#{empty webSourceMBean.webSource.id}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.author}"/></f:facet>
-                                        <h:outputText value="#{article.author}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.publication}"/></f:facet>
-                                        <h:outputText value="#{article.publication}">
-                                            <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                    </h:column>
-                                    <h:column>
-                                        <h:outputLink value="#{article.permanentLink}" target="_blank"><h:graphicImage url="/images/external_link.png"/></h:outputLink>
-                                    </h:column>
-                                </h:dataTable>
-                            </p:tab>
-                            <p:tab id="tabPublishedArticles" title="#{bundle.publishedContent}">
-                                <h:dataTable id="publishedArticles" value="#{webSourceMBean.publishedArticles}" var="article" styleClass="table">
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
-                                        <h:link outcome="article_form" value="#{article.title}" rendered="#{! empty webSourceMBean.webSource.id}">
-                                            <f:param name="id" value="#{article.id}"/>
-                                        </h:link>
-                                        <h:outputText value="#{article.title}" rendered="#{empty webSourceMBean.webSource.id}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.author}"/></f:facet>
-                                        <h:outputText value="#{article.author}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header"><h:outputText value="#{bundle.publication}"/></f:facet>
-                                        <h:outputText value="#{article.publication}">
-                                            <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
-                                        </h:outputText>
-                                    </h:column>
-                                </h:dataTable>
-                            </p:tab>
-                        </p:tabView>
-                    </h:form>
+                <div class="page-header">
+                    <h1>#{bundle.webSource}: #{webSourceMBean.webSource.title}</h1>
                 </div>
+                <h:form>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt>#{bundle.feed}</dt>
+                                <dd><a href="#{webSourceMBean.webSource.feed}" target="_blank">#{webSourceMBean.webSource.feed}</a></dd>
+                                <dt>#{bundle.member}</dt>
+                                <dd>#{webSourceMBean.webSource.provider}</dd>
+                                <dt>#{bundle.website}</dt>
+                                <dd><a href="#{webSourceMBean.webSource.provider.website}" target="_blank">#{webSourceMBean.webSource.provider.website}</a></dd>
+                            </dl>
+
+                            <h:button outcome="web_source_form" value="#{bundle.edit}" class="btn btn-default pull-right">
+                                <f:param name="id" value="#{webSourceMBean.webSource.id}"/>
+                            </h:button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">#{bundle.publishedArticles} <span class="badge">#{webSourceMBean.publishedArticles.size()}</span></div>
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <c:forEach var="article" items="#{webSourceMBean.publishedArticles}">
+                                            <h:link outcome="article" value="#{article.title}" class="list-group-item">
+                                                <f:param name="id" value="#{article.id}"/>
+                                            </h:link>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">#{bundle.unpublishedArticles} <span class="badge">#{webSourceMBean.unpublishedArticles.size()}</span></div>
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <c:forEach var="article" items="#{webSourceMBean.unpublishedArticles}">
+                                            <h:link outcome="article_form" value="#{article.title}" class="list-group-item">
+                                                <f:param name="permLink" value="#{article.permanentLink}"/>
+                                            </h:link>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
             </ui:define>
         </ui:composition>
     </body>
