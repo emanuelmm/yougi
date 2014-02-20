@@ -44,8 +44,8 @@ public class ArticleMBean {
     @ManagedProperty(value="#{param.pl}")
     private String permanentLink;
 
-    @ManagedProperty(value="#{unpublishedContentMBean}")
-    private UnpublishedContentMBean unpublishedContentMBean;
+    @ManagedProperty(value="#{unpublishedArticlesMBean}")
+    private UnpublishedArticlesMBean unpublishedArticlesMBean;
 
     @ManagedProperty(value="#{articleStateMBean}")
     private ArticleStateMBean articleStateMBean;
@@ -60,20 +60,12 @@ public class ArticleMBean {
         this.id = id;
     }
 
-    public String getPermanentLink() {
-        return permanentLink;
-    }
-
     public void setPermanentLink(String permanentLink) {
         this.permanentLink = permanentLink;
     }
 
-    public UnpublishedContentMBean getUnpublishedContentMBean() {
-        return unpublishedContentMBean;
-    }
-
-    public void setUnpublishedContentMBean(UnpublishedContentMBean unpublishedContentMBean) {
-        this.unpublishedContentMBean = unpublishedContentMBean;
+    public void setUnpublishedArticlesMBean(UnpublishedArticlesMBean unpublishedArticlesMBean) {
+        this.unpublishedArticlesMBean = unpublishedArticlesMBean;
     }
 
     public void setArticleStateMBean(ArticleStateMBean articleStateMBean) {
@@ -99,7 +91,7 @@ public class ArticleMBean {
             this.articleStateMBean.setState(this.article.getPublished());
         }
         else if(permanentLink != null && !permanentLink.isEmpty()) {
-            this.article = this.unpublishedContentMBean.getArticle(this.permanentLink);
+            this.article = this.unpublishedArticlesMBean.getArticle(this.permanentLink);
             this.articleStateMBean.setState(this.article.getPublished());
         }
         else {
@@ -108,13 +100,13 @@ public class ArticleMBean {
     }
 
     public String publish() {
-        this.unpublishedContentMBean.removeArticle(this.article);
+        this.unpublishedArticlesMBean.removeArticle(this.article);
         articleBean.publish(this.article);
         return "websites?faces-redirect=true";
     }
 
     public String unpublish() {
-        this.unpublishedContentMBean.addArticle(this.article);
+        this.unpublishedArticlesMBean.addArticle(this.article);
         articleBean.unpublish(this.article);
         return "websites?faces-redirect=true";
     }

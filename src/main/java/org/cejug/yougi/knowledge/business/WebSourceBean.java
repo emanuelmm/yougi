@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -151,7 +152,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 feedArticles.add(article);
             }
         } catch (IllegalArgumentException | FeedException | IOException iae) {
-            LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
+            LOGGER.log(Level.WARNING, iae.getMessage(), iae);
         }
 
         return feedArticles;

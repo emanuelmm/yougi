@@ -72,7 +72,7 @@
                                     <ul class="list-group">
                                         <c:forEach var="article" items="#{webSourceMBean.unpublishedArticles}">
                                             <h:link outcome="article_form" value="#{article.title}" class="list-group-item">
-                                                <f:param name="permLink" value="#{article.permanentLink}"/>
+                                                <f:param name="pl" value="#{article.permanentLink}"/>
                                             </h:link>
                                         </c:forEach>
                                     </ul>
