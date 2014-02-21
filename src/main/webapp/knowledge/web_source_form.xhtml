@@ -16,11 +16,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="member">#{bundle.member}</label>
-                        <h:selectOneMenu id="member" label="#{bundle.member}" value="#{webSourceMBean.selectedMember}" class="form-control">
+                        <h:selectOneMenu id="member" label="#{bundle.member}" value="#{webSourceMBean.selectedMember}" class="form-control" required="true">
                             <f:selectItem itemLabel="#{bundle.select}" itemValue=""/>
                             <f:selectItems value="#{webSourceMBean.membersWithWebsite}" var="member" itemLabel="#{member.fullName}" itemValue="#{member.id}"/>
                             <f:ajax render="website title feed"/>
                         </h:selectOneMenu>
+                        <h:message for="member" errorClass="errorMessage"/>
+                        
                         <p:ajaxStatus style="width: 16px; height: 16px; vertical-align: bottom;" id="ajaxStatusPanel">
                             <f:facet name="start">
                                 <h:graphicImage name="ajax-loader.gif" library="images" alt="Loading ..."/>
