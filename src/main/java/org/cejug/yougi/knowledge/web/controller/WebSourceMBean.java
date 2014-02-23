@@ -54,7 +54,6 @@ public class WebSourceMBean {
 
     private List<WebSource> webSources;
     private List<Article> publishedArticles;
-    private List<Article> unpublishedArticles;
 
     private List<UserAccount> membersWithWebsite;
     private String selectedMember;
@@ -62,6 +61,9 @@ public class WebSourceMBean {
 
     @ManagedProperty(value="#{param.id}")
     private String id;
+
+    @ManagedProperty(value="#{unpublishedArticlesMBean}")
+    private UnpublishedArticlesMBean unpublishedArticlesMBean;
 
     public WebSource getWebSource() {
         return this.webSource;
@@ -147,18 +149,24 @@ public class WebSourceMBean {
         return this.publishedArticles;
     }
 
+    public void setUnpublishedArticlesMBean(UnpublishedArticlesMBean unpublishedArticlesMBean) {
+        this.unpublishedArticlesMBean = unpublishedArticlesMBean;
+    }
+
     public List<Article> getUnpublishedArticles() {
-        if(unpublishedArticles == null) {
-            this.unpublishedArticles = webSourceBean.loadUnpublishedArticles(this.webSource);
+        if(unpublishedArticlesMBean.getUnpublishedArticles() == null) {
+            unpublishedArticlesMBean.setUnpublishedArticles(webSourceBean.loadUnpublishedArticles(this.webSource));
         }
-        return this.unpublishedArticles;
+        return this.unpublishedArticlesMBean.getUnpublishedArticles();
     }
 
     @PostConstruct
     public void load() {
         if(this.id != null && !this.id.isEmpty()) {
             this.webSource = webSourceBean.find(this.id);
-            this.selectedMember = this.webSource.getProvider().getId();
+            if(this.webSource.getProvider() != null) {
+                this.selectedMember = this.webSource.getProvider().getId();
+            }
         }
         else {
             this.webSource = new WebSource();
@@ -176,10 +184,6 @@ public class WebSourceMBean {
     public String undoReference() {
         webSourceBean.remove(this.webSource.getId());
         this.webSource.setId(null);
-        return "website";
-    }
-
-    public String refreshUnpublishedContent() {
-        return "website";
+        return "web_sources";
     }
 }
