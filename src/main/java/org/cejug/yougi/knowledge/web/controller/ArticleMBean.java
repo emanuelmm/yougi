@@ -102,7 +102,7 @@ public class ArticleMBean {
     public String publish() {
         this.unpublishedArticlesMBean.removeArticle(this.article);
         articleBean.publish(this.article);
-        return "websites?faces-redirect=true";
+        return "web_source?faces-redirect=true";
     }
 
     public String unpublish() {
