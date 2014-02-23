@@ -40,4 +40,4 @@ JUnit 4.11: Unit test framework.
 Arquillian 1.0.3: Integration test framework.
 
 --------------------------------------------
-Copyright (C) 2011-2013, Hildeberto Mendonça
+Copyright (C) 2011-2013, Hildeberto Mendonï¿½
