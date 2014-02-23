@@ -44,9 +44,10 @@
                                 <dd><a href="#{webSourceMBean.webSource.provider.website}" target="_blank">#{webSourceMBean.webSource.provider.website}</a></dd>
                             </dl>
 
-                            <h:button outcome="web_source_form" value="#{bundle.edit}" class="btn btn-default pull-right">
+                            <h:button outcome="web_source_form" value="#{bundle.edit}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{webSourceMBean.webSource.id}"/>
                             </h:button>
+                            <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
                         </div>
                     </div>
 
@@ -57,7 +58,7 @@
                                 <div class="panel-body">
                                     <ul class="list-group">
                                         <c:forEach var="article" items="#{webSourceMBean.publishedArticles}">
-                                            <h:link outcome="article" value="#{article.title}" class="list-group-item">
+                                            <h:link outcome="article_form" value="#{article.title}" class="list-group-item">
                                                 <f:param name="id" value="#{article.id}"/>
                                             </h:link>
                                         </c:forEach>

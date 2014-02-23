@@ -21,6 +21,7 @@
 package org.cejug.yougi.knowledge.web.controller;
 
 import org.cejug.yougi.knowledge.entity.Article;
+import org.cejug.yougi.knowledge.entity.WebSource;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -33,6 +34,8 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class UnpublishedArticlesMBean {
+
+    private WebSource webSource;
     private List<Article> unpublishedArticles;
 
     public List<Article> getUnpublishedArticles() {
@@ -41,6 +44,15 @@ public class UnpublishedArticlesMBean {
 
     public void setUnpublishedArticles(List<Article> unpublishedArticles) {
         this.unpublishedArticles = unpublishedArticles;
+    }
+
+    public WebSource getWebSource() {
+        return webSource;
+    }
+
+    public void setWebSource(WebSource webSource) {
+        this.unpublishedArticles = null;
+        this.webSource = webSource;
     }
 
     public Article getArticle(String permanentLink) {

@@ -22,7 +22,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
     <body>
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.article}</ui:define>
@@ -45,7 +47,19 @@
                             <h:outputText value="#{articleMBean.article.text}" escape="false" style="font-size: 14px;"/>
                         </div>
                         <div class="col-md-4">
+                            <h4 class="text-info">
+                                <h:outputText value="#{bundle.articlesSameSource}"/>
+                            </h4>
 
+                            <ul class="list-group">
+                                <c:forEach var="article" items="#{articleMBean.articlesFromSameSource}">
+                                    <li class="list-group-item">
+                                        <h:link outcome="article" value="#{article.title}">
+                                            <f:param name="id" value="#{article.id}"/>
+                                        </h:link>
+                                    </li>
+                                </c:forEach>
+                            </ul>
                         </div>
                     </div>
                 </div>

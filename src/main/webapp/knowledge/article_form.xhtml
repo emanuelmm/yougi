@@ -103,13 +103,26 @@
 
                     <p/>
 
-                    <h:commandButton value="#{bundle.publish}" action="#{articleMBean.publish}" rendered="#{!articleMBean.published}" styleClass="btn btn-primary"/>
-                    <h:commandButton value="#{bundle.unpublish}" action="#{articleMBean.unpublish}" rendered="#{articleMBean.published}" styleClass="btn btn-warning"/>
-                    <h:commandButton value="#{bundle.save}"      action="#{articleMBean.save}"      rendered="#{articleMBean.published}" styleClass="btn btn-primary"/>
-                    <h:commandButton value="#{bundle.remove}"    action="#{articleMBean.remove}"    rendered="#{articleMBean.published}" styleClass="btn btn-warning"/>
-                    <h:button value="#{bundle.cancel}" outcome="websites" styleClass="btn btn-default"/>
+                    <h:commandButton value="#{bundle.publish}" action="#{articleMBean.publish}"
+                                     rendered="#{empty articleMBean.article.id}"
+                                     styleClass="btn btn-primary"/>
+
+                    <h:commandButton value="#{bundle.unpublish}" action="#{articleMBean.unpublish}"
+                                     rendered="#{! empty articleMBean.article.id}"
+                                     styleClass="btn btn-warning">
+                        <f:param name="id" value="#{articleMBean.article.id}"/>
+                    </h:commandButton>
+
+                    <h:commandButton value="#{bundle.save}" action="#{articleMBean.save}"
+                                     rendered="#{! empty articleMBean.article.id}"
+                                     styleClass="btn btn-primary">
+                        <f:param name="id" value="#{articleMBean.article.id}"/>
+                    </h:commandButton>
+
+                    <h:button value="#{bundle.cancel}" outcome="web_sources" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
+            <ui:define name="jquery"></ui:define>
         </ui:composition>
     </body>
 </html>

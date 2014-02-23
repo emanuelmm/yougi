@@ -33,6 +33,7 @@ import org.cejug.yougi.business.ProvinceBean;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
+import org.cejug.yougi.entity.Timezone;
 
 /**
  * This class is used to manage the update of the fields country, province and
@@ -66,11 +67,15 @@ public class LocationMBean implements Serializable {
 
     private List<City> cities;
 
+    private List<Timezone> timezones;
+
     private String selectedCountry;
 
     private String selectedProvince;
 
     private String selectedCity;
+
+    private String selectedTimeZone;
 
     private String cityNotListed;
 
@@ -101,6 +106,8 @@ public class LocationMBean implements Serializable {
         }
         return this.cities;
     }
+
+
 
     public List<String> findCitiesStartingWith(String initials) {
         List<City> cits = cityBean.findStartingWith(initials);
@@ -183,6 +190,14 @@ public class LocationMBean implements Serializable {
 
     public void setSelectedCity(String selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public String getSelectedTimeZone() {
+        return selectedTimeZone;
+    }
+
+    public void setSelectedTimeZone(String selectedTimeZone) {
+        this.selectedTimeZone = selectedTimeZone;
     }
 
     public void initialize() {

@@ -53,7 +53,7 @@ public class CountryBean {
     }
 
     public List<Country> findAssociatedCountries() {
-        return em.createQuery("select distinct p.country from Province p order by p.country")
+        return em.createQuery("select distinct p.country from Province p order by p.country asc")
                  .getResultList();
     }
 
