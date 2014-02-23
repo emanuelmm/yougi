@@ -49,3 +49,6 @@ nbactions.xml
 /.project
 yougi-ear/nb-configuration.xml
 /target/
+.classpath
+.settings
+.project
