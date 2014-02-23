@@ -21,17 +21,17 @@ Technologies In Use
 
 JDK 7: We are using the latest Java language features available, thus the Java Development Kit version 7 or superior is required.
 
-Glassfish 3.1: We deploy JUG Management on Glassfish because it supports the latest JavaEE features.
+Wildfly 8.0.0 : We deploy Yougi on Wildfly because it supports the latest JavaEE features.
 
 JPA 2.0: Java Persistence API implements the persistence layer.
 
-EclipseLink: Implementation of the JPA 2.0 specification (http://www.eclipse.org/eclipselink/) It actually makes JPA works.
+Hibernate: Implementation built-in on Wildfly
 
 EJB 3.1: Enterprise JavaBeans implements the business and service layer.
 
 JSF 2.1: JavaServer Faces
 
-Primefaces 3.4: Primefaces is a rich visual components library running on top of JSF (http://www.primefaces.org/).
+Bootstrap: Bootstrap is a rich visual css/js components library.
 
 iText 5.1: Library to generate PDF files.
 
