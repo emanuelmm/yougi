@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,7 @@ import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.knowledge.entity.WebSource;
 import org.cejug.yougi.knowledge.entity.Article;
+import org.cejug.yougi.util.UrlUtils;
 
 /**
  * Business logic dealing with web sources entities.
@@ -83,25 +85,39 @@ public class WebSourceBean extends AbstractBean<WebSource> {
         }
     }
     
-    /**
-     * @param webSource a web source that contains details about a user website.
-     * @return a list of articles found in the informed web source.
-     * */
-    public WebSource loadWebSource(WebSource webSource) {
-        List<Article> unpublishedArticles;
+    public List<WebSource> findWebResources() {
+    	return em.createQuery("select ws from WebSource ws order by ws.title asc", WebSource.class).getResultList();
+    }
 
-        String feedUrl = findWebsiteFeedURL(webSource.getProvider().getWebsite());
-        LOGGER.log(Level.INFO, "feedUrl: {0}", feedUrl);
-        if(feedUrl == null) {
-            return webSource;
+    public List<UserAccount> findNonReferencedProviders() {
+        return em.createQuery("select ua from UserAccount ua " +
+                "where ua.deactivated = false and " +
+                    "ua.confirmationCode is null and " +
+                    "(ua.website is not null and ua.website <> '') and " +
+                    "ua not in (select distinct ws.provider from WebSource ws) " +
+                "order by ua.firstName", UserAccount.class)
+                .getResultList();
+    }
+
+    public List<Article> loadUnpublishedArticles(WebSource webSource) {
+        List<Article> unpublishedArticles = loadArticles(webSource);
+
+        // Remove from the list of unpublished articles the ones that are already published.
+        List<Article> publishedArticles = articleBean.findPublishedArticles(webSource);
+        for(Article publishedArticle: publishedArticles) {
+            unpublishedArticles.remove(publishedArticle);
         }
+
+        return unpublishedArticles;
+    }
+
+    public List<Article> loadArticles(WebSource webSource) {
+        List<Article> feedArticles = new ArrayList<>();
+
         try {
-            URL url  = new URL(feedUrl);
+            URL url  = new URL(webSource.getFeed());
             XmlReader reader = new XmlReader(url);
             SyndFeed feed = new SyndFeedInput().build(reader);
-            webSource.setTitle(feed.getTitle());
-            webSource.setFeed(feedUrl);
-            unpublishedArticles = new ArrayList<>();
             Article article;
             for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {
                 SyndEntry entry = (SyndEntry) i.next();
@@ -133,21 +149,52 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 }
                 article.setContent(content.toString());
 
-                unpublishedArticles.add(article);
+                feedArticles.add(article);
             }
-
-            // Remove from the list of unpublished articles the ones that are already published.
-            List<Article> publishedArticles = articleBean.findPublishedArticles(webSource);
-            for(Article publishedArticle: publishedArticles) {
-                unpublishedArticles.remove(publishedArticle);
-            }
-
-            webSource.setArticles(unpublishedArticles);
-
         } catch (IllegalArgumentException | FeedException | IOException iae) {
-            LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
+            LOGGER.log(Level.WARNING, iae.getMessage(), iae);
         }
 
+        return feedArticles;
+    }
+
+    /**
+     * @param webSource a web source that contains details about a user website.
+     * @return the webSource loaded with feed values.
+     * */
+    public WebSource loadWebSource(WebSource webSource) {
+        String id = webSource.getId();
+        UserAccount provider = webSource.getProvider();
+        WebSource newWebSource = loadWebSource(provider.getWebsite());
+        if(newWebSource != null) {
+            newWebSource.setId(id);
+            newWebSource.setProvider(provider);
+            return newWebSource;
+        }
+        else {
+            return webSource;
+        }
+    }
+
+    /**
+     * @param websiteUrl a website url where we can find a feed url.
+     * @return a new webSource filled with feed url and title only. Null if a feed url is not found in the content of
+     * the informed website url.
+     * */
+    public WebSource loadWebSource(String websiteUrl) {
+        WebSource webSource = null;
+        String feedUrl = findWebsiteFeedURL(websiteUrl);
+        LOGGER.log(Level.INFO, "feedUrl: {0}", feedUrl);
+        if(feedUrl != null) {
+            try {
+                URL url  = new URL(feedUrl);
+                XmlReader reader = new XmlReader(url);
+                SyndFeed feed = new SyndFeedInput().build(reader);
+                webSource = new WebSource(feed.getTitle(), feedUrl);
+            } catch (IllegalArgumentException | FeedException | IOException iae) {
+                LOGGER.log(Level.SEVERE, iae.getMessage(), iae);
+            }
+        }
         return webSource;
     }
 
@@ -178,14 +225,13 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 continue;
             }
             if(isFeedURL(feedUrl)) {
-                if(isRelative(feedUrl)) {
-                    urlWebsite = setProtocol(urlWebsite);
-                    feedUrl = concatUrlFragment(urlWebsite, feedUrl);
+                if(UrlUtils.INSTANCE.isRelative(feedUrl)) {
+                    urlWebsite = UrlUtils.INSTANCE.setProtocol(urlWebsite);
+                    feedUrl = UrlUtils.INSTANCE.concatUrlFragment(urlWebsite, feedUrl);
                 }
                 break;
             }
         }
-        
         return feedUrl;
     }
 
@@ -202,12 +248,12 @@ public class WebSourceBean extends AbstractBean<WebSource> {
     }
 
     /**
-     * @param urlWebsite url used to find the web content where there is probably a feed to be consumed.
+     * @param url used to find the web content where there is probably a feed to be consumed.
      * @return the entire content, which or without url feed.
      * */
     private String retrieveWebsiteContent(String url) {
         StringBuilder content = null;
-        String fullUrl = setProtocol(url);
+        String fullUrl = UrlUtils.INSTANCE.setProtocol(url);
         
         if(fullUrl != null) {
             try {
@@ -224,33 +270,5 @@ public class WebSourceBean extends AbstractBean<WebSource> {
             }
         }
         return content != null ? content.toString() : null;
-    }
-    
-    private String setProtocol(String url) {
-        if(url != null && !(url.contains("http://") || url.contains("https://"))) {
-            url = "http://" + url;
-        }
-        return url;
-    }
-    
-    private String concatUrlFragment(String url, String fragment) {
-        if(url.endsWith("/") && fragment.startsWith("/")) {
-            url = url + fragment.substring(1);
-        }
-        else if((url.endsWith("/") && !fragment.startsWith("/")) ||
-                (!url.endsWith("/") && fragment.startsWith("/"))) {
-            url = url + fragment;
-        }
-        else {
-            url = url + "/" + fragment;
-        }
-        return url;
-    }
-    
-    private boolean isRelative(String url) {
-        if(url.contains("http")) {
-            return false;
-        }
-        return true;
     }
 }

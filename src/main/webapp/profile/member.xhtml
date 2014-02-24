@@ -110,7 +110,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <h:outputLabel for="timezone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
-                                    <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{locationMBean.selectedTimezone}" styleClass="form-control">
+                                    <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{locationMBean.selectedTimeZone}" styleClass="form-control">
                                         <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                         <f:selectItems value="#{locationMBean.timezones}" var="tz" itemLabel="#{tz.label}" itemValue="#{tz.id}"/>
                                     </h:selectOneMenu>

@@ -195,14 +195,14 @@ public class SessionBean extends AbstractBean<Session> {
     }
 
     public List<Session> findSessionsInTheSameRoom(Session session) {
-        return em.createQuery("select s from Session s where s != :session and s.room = :room order by s.startDate asc")
+        return em.createQuery("select s from Session s where s <> :session and s.room = :room order by s.startDate asc")
                  .setParameter("session", session)
                  .setParameter("room", session.getRoom())
                  .getResultList();
     }
 
     public List<Session> findSessionsInParallel(Session session) {
-        return em.createQuery("select s from Session s where s != :except and s.startDate = :date and (s.startTime between :otherStartTime1 and :otherEndTime1 or s.endTime between :otherStartTime2 and :otherEndTime2)")
+        return em.createQuery("select s from Session s where s <> :except and s.startDate = :date and (s.startTime between :otherStartTime1 and :otherEndTime1 or s.endTime between :otherStartTime2 and :otherEndTime2)")
                  .setParameter("except", session)
                  .setParameter("date", session.getStartDate())
                  .setParameter("otherStartTime1", session.getStartTime())

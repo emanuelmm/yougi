@@ -47,7 +47,7 @@ import org.cejug.yougi.entity.EntitySupport;
 @Stateless
 public class MailingListMessageBean extends AbstractBean<MailingListMessage> {
 
-    @Resource(name = "mail/ug")
+    @Resource(name = "java:/mail/yougi")
     private Session mailSession;
 
     @EJB

@@ -52,15 +52,22 @@ public class ArticleBean extends AbstractBean<Article> {
     }
 
     public List<Article> findPublishedArticles() {
-            return em.createQuery("select a from Article a where a.published = :published order by a.publication desc")
+            return em.createQuery("select a from Article a where a.published = :published order by a.publication desc", Article.class)
                      .setParameter("published", Boolean.TRUE)
                      .getResultList();
     }
 
     public List<Article> findPublishedArticles(WebSource webSource) {
-            return em.createQuery("select a from Article a where a.webSource = :webSource order by a.title asc")
+            return em.createQuery("select a from Article a where a.webSource = :webSource order by a.title asc", Article.class)
                                  .setParameter("webSource", webSource)
                                  .getResultList();
+    }
+
+    public List<Article> findPublishedArticles(Article except) {
+        return em.createQuery("select a from Article a where a.webSource = :webSource and a <> :except order by a.title asc", Article.class)
+                .setParameter("webSource", except.getWebSource())
+                .setParameter("except", except)
+                .getResultList();
     }
 
     public void publish(Article article) {

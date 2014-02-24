@@ -63,7 +63,7 @@ public class SpeakerBean extends AbstractBean<Speaker> {
         List<UserAccount> candidates;
         AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("speakers");
         if(except != null) {
-            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s where s.userAccount != :except) order by ug.userAccount.firstName, ug.userAccount.lastName asc")
+            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s where s.userAccount <> :except) order by ug.userAccount.firstName, ug.userAccount.lastName asc")
                            .setParameter("except", except)
                            .setParameter("group", accessGroup)
                            .getResultList();

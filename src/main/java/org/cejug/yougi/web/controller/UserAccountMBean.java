@@ -59,7 +59,6 @@ public class UserAccountMBean implements Serializable {
 
     private String password;
     private String passwordConfirmation;
-
     private String validationEmail;
 
     private Boolean validationPrivacy = false;

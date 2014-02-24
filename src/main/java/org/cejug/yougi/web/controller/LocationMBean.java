@@ -79,7 +79,7 @@ public class LocationMBean implements Serializable {
 
     private String selectedCity;
 
-    private String selectedTimezone;
+    private String selectedTimeZone;
 
     private String cityNotListed;
 
@@ -203,12 +203,12 @@ public class LocationMBean implements Serializable {
         this.selectedCity = selectedCity;
     }
 
-    public String getSelectedTimezone() {
-        return selectedTimezone;
+    public String getSelectedTimeZone() {
+        return selectedTimeZone;
     }
 
-    public void setSelectedTimezone(String selectedTimezone) {
-        this.selectedTimezone = selectedTimezone;
+    public void setSelectedTimeZone(String selectedTimeZone) {
+        this.selectedTimeZone = selectedTimeZone;
     }
 
     public void initialize() {
