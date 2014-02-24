@@ -22,7 +22,6 @@ package org.cejug.yougi.business;
 
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,10 +34,10 @@ import org.cejug.yougi.entity.Province;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Stateful
+@Stateless
 public class ProvinceBean extends AbstractBean<Province> {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
     public ProvinceBean() {
