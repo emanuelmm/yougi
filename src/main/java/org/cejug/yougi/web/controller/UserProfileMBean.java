@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -110,23 +111,25 @@ public class UserProfileMBean implements Serializable {
      * @return The time zone of the authenticated user.
      */
     public String getTimeZone() {
-        if(timezone == null) {
-            // It gives priority to the user preference.
-            if(userAccount != null && userAccount.getTimeZone() != null && !userAccount.getTimeZone().isEmpty()) {
+        if(userAccount != null && userAccount.getTimeZone() != null && !userAccount.getTimeZone().isEmpty()) {
+            if(timezone == null) {
                 timezone = userAccount.getTimeZone();
+                LOGGER.log(Level.INFO, "User timezone: {0}",timezone);
+            }
+            return timezone;
+        }
+        else {
+            ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
+            if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
+                Timezone tz = timezoneBean.findDefaultTimezone();
+                LOGGER.log(Level.INFO, "Default timezone: {0}",tz.getId());
+                return tz.getId();
             }
             else {
-                ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
-                if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
-                    Timezone tz = timezoneBean.findDefaultTimezone();
-                    timezone = tz.getId();
-                }
-                else {
-                    timezone = appPropTimeZone.getPropertyValue();
-                }
+                LOGGER.log(Level.INFO, "App timezone: {0}",appPropTimeZone.getPropertyValue());
+                return appPropTimeZone.getPropertyValue();
             }
         }
-        return timezone;
     }
 
     public Date getWhatTimeIsIt() {

@@ -26,13 +26,15 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import org.cejug.yougi.business.CityBean;
 import org.cejug.yougi.business.CountryBean;
 import org.cejug.yougi.business.ProvinceBean;
+import org.cejug.yougi.business.TimezoneBean;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
+import org.cejug.yougi.entity.Timezone;
 
 /**
  * This class is used to manage the update of the fields country, province and
@@ -46,7 +48,7 @@ import org.cejug.yougi.entity.Province;
  *
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class LocationMBean implements Serializable {
 
     static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
@@ -60,11 +62,16 @@ public class LocationMBean implements Serializable {
     @EJB
     private CityBean cityBean;
 
+    @EJB
+    private TimezoneBean timezoneBean;
+
     private List<Country> countries;
 
     private List<Province> provinces;
 
     private List<City> cities;
+
+    private List<Timezone> timezones;
 
     private String selectedCountry;
 
@@ -72,12 +79,16 @@ public class LocationMBean implements Serializable {
 
     private String selectedCity;
 
+    private String selectedTimezone;
+
     private String cityNotListed;
 
     private boolean initialized;
 
     public List<Country> getCountries() {
-        this.countries = countryBean.findCountries();
+        if(this.countries == null) {
+            this.countries = countryBean.findCountries();
+        }
         return this.countries;
     }
 
@@ -100,6 +111,13 @@ public class LocationMBean implements Serializable {
             this.cities = cityBean.findByProvince(province, false);
         }
         return this.cities;
+    }
+
+    public List<Timezone> getTimezones() {
+        if(this.timezones == null) {
+            this.timezones = timezoneBean.findTimezones();
+        }
+        return this.timezones;
     }
 
     public List<String> findCitiesStartingWith(String initials) {
@@ -183,6 +201,14 @@ public class LocationMBean implements Serializable {
 
     public void setSelectedCity(String selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public String getSelectedTimezone() {
+        return selectedTimezone;
+    }
+
+    public void setSelectedTimezone(String selectedTimezone) {
+        this.selectedTimezone = selectedTimezone;
     }
 
     public void initialize() {
