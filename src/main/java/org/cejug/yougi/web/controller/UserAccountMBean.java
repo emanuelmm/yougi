@@ -208,7 +208,7 @@ public class UserAccountMBean implements Serializable {
             }
 
             if(this.userAccount.getTimeZone() != null) {
-                locationMBean.setSelectedTimezone(this.userAccount.getTimeZone());
+                locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
             }
         }
         else {
@@ -254,7 +254,7 @@ public class UserAccountMBean implements Serializable {
             existingUserAccount.setCountry(this.locationMBean.getCountry());
             existingUserAccount.setProvince(this.locationMBean.getProvince());
             existingUserAccount.setCity(this.locationMBean.getCity());
-            existingUserAccount.setTimeZone(this.locationMBean.getSelectedTimezone());
+            existingUserAccount.setTimeZone(this.locationMBean.getSelectedTimeZone());
             existingUserAccount.setFirstName(userAccount.getFirstName());
             existingUserAccount.setLastName(userAccount.getLastName());
             existingUserAccount.setGender(userAccount.getGender());
