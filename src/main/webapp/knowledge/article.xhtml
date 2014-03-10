@@ -47,19 +47,35 @@
                             <h:outputText value="#{articleMBean.article.text}" escape="false" style="font-size: 14px;"/>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="text-info">
-                                <h:outputText value="#{bundle.articlesSameSource}"/>
-                            </h4>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">#{bundle.articlesSameSource}</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <c:forEach var="article" items="#{articleMBean.articlesFromSameSource}">
+                                            <li>
+                                                <h:link outcome="article" value="#{article.title}">
+                                                    <f:param name="id" value="#{article.id}"/>
+                                                </h:link>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
 
-                            <ul class="list-group">
-                                <c:forEach var="article" items="#{articleMBean.articlesFromSameSource}">
-                                    <li class="list-group-item">
-                                        <h:link outcome="article" value="#{article.title}">
-                                            <f:param name="id" value="#{article.id}"/>
-                                        </h:link>
-                                    </li>
-                                </c:forEach>
-                            </ul>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">#{bundle.articlesRecentlyPublished}</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <c:forEach var="article" items="#{articleMBean.otherPublishedArticles}">
+                                            <li>
+                                                <h:link outcome="article" value="#{article.title}">
+                                                    <f:param name="id" value="#{article.id}"/>
+                                                </h:link>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
