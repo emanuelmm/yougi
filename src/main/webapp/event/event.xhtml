@@ -38,7 +38,7 @@
                             <p:button value="#{bundle.attend}" outcome="attendee">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
-                            <p:commandButton value="#{bundle.getCertificate}" action="#{eventMBean.getCertificate}" rendered="#{eventMBean.attended and eventMBean.happened}">
+                            <p:commandButton value="#{bundle.getCertificate}" action="#{eventMBean.getCertificate}">
                                 <f:param name="id" value="#{eventMBean.event.id}"/>
                             </p:commandButton>
                             <p:button value="#{bundle.edit}" outcome="event_form" rendered="#{securityBackingMBean.isUserLeader}">
@@ -48,7 +48,7 @@
                         </h:panelGroup>
                     </h:panelGrid>
 
-                    <p:tabView activeIndex="#{param.tab}">
+                    <p:tabView>
                         <p:tab title="#{bundle.details}">
                             <h:panelGrid width="100%">
                                 <h:panelGroup>
