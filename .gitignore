@@ -61,3 +61,4 @@ yougi-ear/nb-configuration.xml
 *~
 
 !/.gitignore
+src/main/resources/rebel.xml
