@@ -111,7 +111,7 @@
                             <replacements>
                                 <replacement>
                                     <token>@Version@</token>
-                                    <value>${version}</value>
+                                    <value>${project.version}</value>
                                 </replacement>
                             </replacements>
                         </configuration>
