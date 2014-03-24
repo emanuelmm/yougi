@@ -42,7 +42,6 @@
     <context-param>
         <param-name>liquibase.datasource</param-name>
         <param-value>java:/jdbc/UgDS</param-value> <!-- WildFly -->
-        <!--<param-value>openejb:Resource/jdbc/UgDS</param-value> TomEE -->
     </context-param>
     <context-param>
         <param-name>liquibase.onerror.fail</param-name>
