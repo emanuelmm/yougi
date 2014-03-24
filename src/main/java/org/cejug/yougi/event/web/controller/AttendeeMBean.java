@@ -45,8 +45,10 @@ import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.AttendeeBean;
 import org.cejug.yougi.event.business.EventBean;
+import org.cejug.yougi.event.business.EventVenueBean;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
+import org.cejug.yougi.event.entity.Venue;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.web.controller.UserProfileMBean;
 import org.cejug.yougi.web.report.EventAttendeeCertificate;
@@ -67,6 +69,9 @@ public class AttendeeMBean implements Serializable {
 
     @EJB
     private EventBean eventBean;
+
+     @EJB
+     private EventVenueBean eventVenueBean;
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
@@ -92,10 +97,6 @@ public class AttendeeMBean implements Serializable {
         this.id = id;
     }
 
-    public String getEventId() {
-        return this.eventId;
-    }
-
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
@@ -117,7 +118,7 @@ public class AttendeeMBean implements Serializable {
     }
 
     public Boolean getAttended() {
-        return (this.attendee != null && this.attendee.getAttended());
+        return (this.attendee != null && this.attendee.getAttended() != null && this.attendee.getAttended());
     }
 
     public List<Event> getAttendedEvents() {
@@ -164,12 +165,17 @@ public class AttendeeMBean implements Serializable {
              ApplicationProperty fileRepositoryPath = applicationPropertyBean.findApplicationProperty(Properties.FILE_REPOSITORY_PATH);
 
              EventAttendeeCertificate eventAttendeeCertificate = new EventAttendeeCertificate(document);
-             StringBuilder certificateTemplatePath = new StringBuilder();
-             certificateTemplatePath.append(fileRepositoryPath.getPropertyValue());
-             certificateTemplatePath.append("/");
-             certificateTemplatePath.append(this.attendee.getEvent().getCertificateTemplate());
-             eventAttendeeCertificate.setCertificateTemplate(writer, certificateTemplatePath.toString());
+             if(this.attendee.getEvent().getCertificateTemplate() != null && !this.attendee.getEvent().getCertificateTemplate().isEmpty()) {
+                StringBuilder certificateTemplatePath = new StringBuilder();
+                certificateTemplatePath.append(fileRepositoryPath.getPropertyValue());
+                certificateTemplatePath.append("/");
+                certificateTemplatePath.append(this.attendee.getEvent().getCertificateTemplate());
+                eventAttendeeCertificate.setCertificateTemplate(writer, certificateTemplatePath.toString());
+             }
 
+             List<Venue> venues = eventVenueBean.findEventVenues(this.attendee.getEvent());
+             System.out.println("Venues: "+ venues);
+             this.attendee.getEvent().setVenues(venues);
              this.attendee.generateCertificateData();
              this.attendeeBean.save(this.attendee);
              eventAttendeeCertificate.generateCertificate(this.attendee);

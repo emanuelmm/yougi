@@ -282,7 +282,6 @@ public class EventMBean {
     public void load() {
         if (id != null && !id.isEmpty()) {
             this.event = eventBean.find(id);
-            System.out.println("Event: "+ this.event);
 
             if(this.event.getParent() != null) {
                 this.selectedParent = this.event.getParent().getId();
@@ -291,10 +290,8 @@ public class EventMBean {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String username = request.getRemoteUser();
             UserAccount person = userAccountBean.findByUsername(username);
-            System.out.println("Person: "+ person);
 
             this.attendee = attendeeBean.find(this.event, person);
-            System.out.println("Attendee: "+ this.attendee);
 
             this.numberPeopleAttending = attendeeBean.findNumberPeopleAttending(this.event);
             this.numberPeopleAttended = attendeeBean.findNumberPeopleAttended(this.event);
@@ -307,9 +304,6 @@ public class EventMBean {
         if(selectedParent != null && !selectedParent.isEmpty()) {
             this.event.setParent(new Event(selectedParent));
         }
-        System.out.println("Title: "+ this.event.getTitle());
-        System.out.println("Start date: "+ this.event.getStartDate());
-        System.out.println("End date: "+ this.event.getEndDate());
         eventBean.save(this.event);
 
         return "events?faces-redirect=true";
