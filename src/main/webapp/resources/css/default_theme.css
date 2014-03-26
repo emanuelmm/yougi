@@ -57,6 +57,10 @@ body {
     color: #0000ff;
 }
 
+.infoMessage {
+    color: #0000ff;
+}
+
 .panelGridColumn {
     vertical-align: top;
 }

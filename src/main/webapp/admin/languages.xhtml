@@ -23,29 +23,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.languages}</ui:define>
             <ui:define name="content">
                 <h1>#{bundle.languages}</h1>
                 <h:form>
-                    <p:dataTable value="#{languageMBean.languages}" var="language" emptyMessage="#{bundle.noRecordsFound}">
-                        <p:column>
+                    <h:dataTable value="#{languageMBean.languages}" var="language" styleClass="table">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="language" value="#{language.name}">
                                 <f:param name="acronym" value="#{language.acronym}"/>
                             </h:link>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.acronym}"/></f:facet>
                             <h:outputText value="#{language.acronym}"/>
-                        </p:column>
-                    </p:dataTable>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
         </ui:composition>
     </h:body>
 </html>
