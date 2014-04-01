@@ -20,11 +20,12 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
+import org.cejug.yougi.entity.Timezone;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.Timezone;
+import java.util.List;
 
 /**
  * Manages user-friendly time zones.
