@@ -111,7 +111,7 @@
                                 <h:outputLabel for="timezone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
                                 <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{locationMBean.selectedTimeZone}" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                    <f:selectItems value="#{locationMBean.timezones}" var="tz" itemLabel="#{tz.label}" itemValue="#{tz.id}"/>
+                                    <f:selectItems value="#{locationMBean.timezones}" var="tz" itemLabel="#{tz}" itemValue="#{tz.id}"/>
                                 </h:selectOneMenu>
                             </div>
                         </div>

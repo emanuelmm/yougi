@@ -52,7 +52,7 @@ public class TimezoneBean {
     }
 
     public List<Timezone> findTimezones() {
-        return em.createQuery("select tz from Timezone tz order by tz.label", Timezone.class)
+        return em.createQuery("select tz from Timezone tz order by tz.rawOffset asc", Timezone.class)
                  .getResultList();
     }
 
