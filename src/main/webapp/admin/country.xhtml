@@ -33,17 +33,21 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <div class="form-group">
                         <h:outputLabel for="name" value="#{bundle.name}" styleClass="control-label"/>
-                        <h:inputText id="name" label="#{bundle.name}" required="true" size="100" maxlength="100" value="#{countryMBean.country.name}" styleClass="form-control"/>
+                        <h:inputText id="name" label="#{bundle.name}" required="true" size="100" maxlength="100" value="#{countryMBean.country.name}" styleClass="form-control">
+                           <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>   
                         <h:message for="name" errorClass="errorMessage"/>
                     </div>
 					<div class="form-group">
                         <h:outputLabel for="acronym" value="#{bundle.acronym}" styleClass="control-label"/>
-                        <h:inputText id="acronym"  label="#{bundle.acronym}" required="true" size="3" maxlength="3" value="#{countryMBean.country.acronym}" styleClass="form-control"/>
+                        <h:inputText id="acronym"  label="#{bundle.acronym}" required="true" size="3" maxlength="3" value="#{countryMBean.country.acronym}" styleClass="form-control" >
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
                         <h:message for="acronym" errorClass="errorMessage"/>
                     </div>
 					<p/>
                         <h:commandButton value="#{bundle.save}" action="#{countryMBean.save}" styleClass="btn btn-primary"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}">
+                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}" styleClass="btn btn-danger">
                             <f:param name="acronym" value="#{countryMBean.country.acronym}" />
                         </h:commandButton>
                         <h:button outcome="countries" value="#{bundle.cancel}" styleClass="btn btn-default" style="margin-left: 5px;"/>
