@@ -73,3 +73,7 @@ body {
 
 .item { width: 365px; }
 #container .grid-sizer { width: 365px; }
+
+.member-row {
+    margin-bottom: 20px;
+}
