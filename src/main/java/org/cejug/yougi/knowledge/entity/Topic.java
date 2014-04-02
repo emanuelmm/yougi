@@ -60,10 +60,7 @@ public class Topic implements Serializable {
         return name;
     }
 
-    public final void setName(String name) throws BusinessLogicException {
-        if(this.name == null || this.name.isEmpty() || this.name.contains(",")) {
-            throw new BusinessLogicException("errorCode0006");
-        }
+    public final void setName(String name){
         this.name = name.trim().toUpperCase();
     }
 
