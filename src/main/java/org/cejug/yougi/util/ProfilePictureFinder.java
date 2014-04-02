@@ -23,9 +23,12 @@ package org.cejug.yougi.util;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -37,16 +40,28 @@ import javax.faces.bean.RequestScoped;
 public class ProfilePictureFinder {
 
     public String getPictureFromEmail(String email) throws IOException {
-        return this.validateUrl(new Gravatar()
-                .setSize(85)
-                .setHttps(true)
-                .setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-                .setStandardDefaultImage(DefaultImage.HTTP_404)
-                .getUrl(email));
+        return this.validateUrl( getGravatarImageUrl(email , 85) );
+    }
+    
+    public String getPictureForMembersList(String email) throws IOException {
+        return this.validateUrl( getGravatarImageUrl(email , 100) );
+    }
+    
+    public String getGravatarImageUrl(String email , int size){
+    	return new Gravatar()
+        .setHttps(true)
+        .setSize(size)
+        .setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+        .setStandardDefaultImage(DefaultImage.HTTP_404)
+        .getUrl(email);
     }
 
     private String validateUrl(String gravataUrl) throws IOException {
-        return isNotFound(new URL(gravataUrl)) ? this.getDefaultAvatar() : gravataUrl;
+    	try{
+    		return isNotFound(new URL(gravataUrl)) ? this.getDefaultAvatar() : gravataUrl;
+    	}catch(UnknownHostException uhe){
+    		return this.getDefaultAvatar();
+    	}
     }
     
     private boolean isNotFound(URL url) throws IOException {
