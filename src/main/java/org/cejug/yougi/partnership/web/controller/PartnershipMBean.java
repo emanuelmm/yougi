@@ -57,7 +57,7 @@ import org.primefaces.model.UploadedFile;
 @RequestScoped
 public class PartnershipMBean {
 
-    static final Logger LOGGER = Logger.getLogger("org.cejug.partnership.web.controller.PartnershipBean");
+    static final Logger LOGGER = Logger.getLogger(PartnershipMBean.class.getSimpleName());
 
     @EJB
     private RepresentativeBean representativeBean;
