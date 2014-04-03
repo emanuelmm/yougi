@@ -21,9 +21,9 @@
  * -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="../layout.xhtml">
@@ -38,35 +38,36 @@
                                 <h:inputText id="emailCriteria" label="#{bundle.email}" size="30" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);"/>
                                 <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}"/>
                             </h:panelGrid>
-                            <h:panelGrid columns="26" cellspacing="0" cellpadding="0">
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'A'}" value="A" action="#{memberMBean.findUserAccountByFirstLetter('A')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'B'}" value="B" action="#{memberMBean.findUserAccountByFirstLetter('B')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'C'}" value="C" action="#{memberMBean.findUserAccountByFirstLetter('C')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'D'}" value="D" action="#{memberMBean.findUserAccountByFirstLetter('D')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'E'}" value="E" action="#{memberMBean.findUserAccountByFirstLetter('E')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'F'}" value="F" action="#{memberMBean.findUserAccountByFirstLetter('F')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'G'}" value="G" action="#{memberMBean.findUserAccountByFirstLetter('G')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'H'}" value="H" action="#{memberMBean.findUserAccountByFirstLetter('H')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'I'}" value="I" action="#{memberMBean.findUserAccountByFirstLetter('I')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'J'}" value="J" action="#{memberMBean.findUserAccountByFirstLetter('J')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'K'}" value="K" action="#{memberMBean.findUserAccountByFirstLetter('K')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'L'}" value="L" action="#{memberMBean.findUserAccountByFirstLetter('L')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'M'}" value="M" action="#{memberMBean.findUserAccountByFirstLetter('M')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'N'}" value="N" action="#{memberMBean.findUserAccountByFirstLetter('N')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'O'}" value="O" action="#{memberMBean.findUserAccountByFirstLetter('O')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'P'}" value="P" action="#{memberMBean.findUserAccountByFirstLetter('P')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Q'}" value="Q" action="#{memberMBean.findUserAccountByFirstLetter('Q')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'R'}" value="R" action="#{memberMBean.findUserAccountByFirstLetter('R')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'S'}" value="S" action="#{memberMBean.findUserAccountByFirstLetter('S')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'T'}" value="T" action="#{memberMBean.findUserAccountByFirstLetter('T')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'U'}" value="U" action="#{memberMBean.findUserAccountByFirstLetter('U')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'V'}" value="V" action="#{memberMBean.findUserAccountByFirstLetter('V')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'W'}" value="W" action="#{memberMBean.findUserAccountByFirstLetter('W')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'X'}" value="X" action="#{memberMBean.findUserAccountByFirstLetter('X')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Y'}" value="Y" action="#{memberMBean.findUserAccountByFirstLetter('Y')}"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Z'}" value="Z" action="#{memberMBean.findUserAccountByFirstLetter('Z')}"/>
-                            </h:panelGrid>
-                            <p></p>
+
+                            <div class="btn-group btn-group-sm">
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'A'}" value="A" action="#{memberMBean.findUserAccountByFirstLetter('A')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'B'}" value="B" action="#{memberMBean.findUserAccountByFirstLetter('B')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'C'}" value="C" action="#{memberMBean.findUserAccountByFirstLetter('C')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'D'}" value="D" action="#{memberMBean.findUserAccountByFirstLetter('D')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'E'}" value="E" action="#{memberMBean.findUserAccountByFirstLetter('E')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'F'}" value="F" action="#{memberMBean.findUserAccountByFirstLetter('F')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'G'}" value="G" action="#{memberMBean.findUserAccountByFirstLetter('G')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'H'}" value="H" action="#{memberMBean.findUserAccountByFirstLetter('H')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'I'}" value="I" action="#{memberMBean.findUserAccountByFirstLetter('I')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'J'}" value="J" action="#{memberMBean.findUserAccountByFirstLetter('J')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'K'}" value="K" action="#{memberMBean.findUserAccountByFirstLetter('K')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'L'}" value="L" action="#{memberMBean.findUserAccountByFirstLetter('L')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'M'}" value="M" action="#{memberMBean.findUserAccountByFirstLetter('M')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'N'}" value="N" action="#{memberMBean.findUserAccountByFirstLetter('N')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'O'}" value="O" action="#{memberMBean.findUserAccountByFirstLetter('O')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'P'}" value="P" action="#{memberMBean.findUserAccountByFirstLetter('P')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Q'}" value="Q" action="#{memberMBean.findUserAccountByFirstLetter('Q')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'R'}" value="R" action="#{memberMBean.findUserAccountByFirstLetter('R')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'S'}" value="S" action="#{memberMBean.findUserAccountByFirstLetter('S')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'T'}" value="T" action="#{memberMBean.findUserAccountByFirstLetter('T')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'U'}" value="U" action="#{memberMBean.findUserAccountByFirstLetter('U')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'V'}" value="V" action="#{memberMBean.findUserAccountByFirstLetter('V')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'W'}" value="W" action="#{memberMBean.findUserAccountByFirstLetter('W')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'X'}" value="X" action="#{memberMBean.findUserAccountByFirstLetter('X')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Y'}" value="Y" action="#{memberMBean.findUserAccountByFirstLetter('Y')}" styleClass="btn btn-default"/>
+                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Z'}" value="Z" action="#{memberMBean.findUserAccountByFirstLetter('Z')}" styleClass="btn btn-default"/>
+                            </div>
+                            <p/>
                             <p:dataTable value="#{memberMBean.userAccounts}" var="member">
                                 <p:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>

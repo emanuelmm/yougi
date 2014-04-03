@@ -57,6 +57,10 @@ body {
     color: #0000ff;
 }
 
+.infoMessage {
+    color: #0000ff;
+}
+
 .panelGridColumn {
     vertical-align: top;
 }
@@ -69,3 +73,7 @@ body {
 
 .item { width: 365px; }
 #container .grid-sizer { width: 365px; }
+
+.member-row {
+    margin-bottom: 20px;
+}
