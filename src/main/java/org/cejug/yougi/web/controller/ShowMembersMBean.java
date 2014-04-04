@@ -46,7 +46,7 @@ public class ShowMembersMBean {
 	public void init(){
 		memberRows = new ArrayList<>();
 		List<UserAccount> userAccounts = new ArrayList<>();
-		for (UserAccount account : userAccountBean.findAllActiveAccounts() ) {
+		for (UserAccount account : userAccountBean.findActiveWithPublicProfile() ) {
 			if(memberRows.size() == 0)
 				memberRows.add( userAccounts );
 			
