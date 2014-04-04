@@ -31,26 +31,27 @@
                 <h1>#{bundle.province}</h1>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                    <h:panelGrid columns="1">
+                    <div class="form-group">
                         <h:outputLabel for="name" value="#{bundle.name}" styleClass="mandatoryField"/>
-                        <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{provinceMBean.province.name}"/>
+                        <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{provinceMBean.province.name}" styleClass="form-control"/>
                         <h:message for="name" errorClass="errorMessage"/>
-
+					</div>
+					<div class="form-group">
                         <h:outputLabel for="country" value="#{bundle.country}" styleClass="mandatoryField"/>
-                        <h:selectOneMenu id="country" label="#{bundle.country}" required="true" value="#{provinceMBean.selectedCountry}">
+                        <h:selectOneMenu id="country" label="#{bundle.country}" required="true" value="#{provinceMBean.selectedCountry}" styleClass="form-control">
                             <f:selectItems value="#{provinceMBean.countries}"/>
                         </h:selectOneMenu>
                         <h:message for="country" errorClass="errorMessage"/>
-                    </h:panelGrid>
+                    </div>
 
                     <h:inputHidden id="id" value="#{provinceMBean.province.id}"/>
 
                     <h:panelGrid columns="3">
-                        <h:commandButton value="#{bundle.save}" action="#{provinceMBean.save}"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{provinceMBean.remove}">
+                        <h:commandButton value="#{bundle.save}" action="#{provinceMBean.save}" styleClass="btn btn-primary"/>
+                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{provinceMBean.remove}" styleClass="btn btn-danger">
                             <f:param name="id" value="#{provinceMBean.province.id}" />
                         </h:commandButton>
-                        <h:button outcome="provinces" value="#{bundle.cancel}"/>
+                        <h:button outcome="provinces" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                     </h:panelGrid>
                 </h:form>
             </ui:define>

@@ -31,23 +31,26 @@
                 <h1>#{bundle.country}</h1>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                    <h:panelGrid columns="1">
-                        <h:outputLabel for="name" value="#{bundle.name}" styleClass="mandatoryField"/>
-                        <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{countryMBean.country.name}"/>
+                    <div class="form-group">
+                        <h:outputLabel for="name" value="#{bundle.name}" styleClass="control-label"/>
+                        <h:inputText id="name" label="#{bundle.name}" required="true" size="100" maxlength="100" value="#{countryMBean.country.name}" styleClass="form-control">
+                           <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>   
                         <h:message for="name" errorClass="errorMessage"/>
-
-                        <h:outputLabel for="acronym" value="#{bundle.acronym}" styleClass="mandatoryField"/>
-                        <h:inputText id="acronym"  label="#{bundle.acronym}" required="true" size="3" maxlength="3" value="#{countryMBean.country.acronym}"/>
+                    </div>
+					<div class="form-group">
+                        <h:outputLabel for="acronym" value="#{bundle.acronym}" styleClass="control-label"/>
+                        <h:inputText id="acronym"  label="#{bundle.acronym}" required="true" size="3" maxlength="3" value="#{countryMBean.country.acronym}" styleClass="form-control" >
+                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                        </h:inputText>
                         <h:message for="acronym" errorClass="errorMessage"/>
-                    </h:panelGrid>
-
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="#{bundle.save}" action="#{countryMBean.save}"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}">
+                    </div>
+					<p/>
+                        <h:commandButton value="#{bundle.save}" action="#{countryMBean.save}" styleClass="btn btn-primary"/>
+                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}" styleClass="btn btn-danger">
                             <f:param name="acronym" value="#{countryMBean.country.acronym}" />
                         </h:commandButton>
-                        <h:button outcome="countries" value="#{bundle.cancel}"/>
-                    </h:panelGrid>
+                        <h:button outcome="countries" value="#{bundle.cancel}" styleClass="btn btn-default" style="margin-left: 5px;"/>
                 </h:form>
             </ui:define>
         </ui:composition>
