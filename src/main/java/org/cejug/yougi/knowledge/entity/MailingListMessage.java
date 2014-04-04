@@ -46,9 +46,7 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
     
     private String body;
 
-    @ManyToOne
-    @JoinColumn(name="sender")
-    private MailingListSubscription sender;
+    private String sender;
 
     @Column(name = "date_received", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -68,17 +66,6 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
     private Boolean published;
 
     public MailingListMessage() {
-    }
-
-    public MailingListMessage(String id) {
-        this.id = id;
-    }
-
-    public MailingListMessage(String id, String subject, String body, Date dateReceived) {
-        this.id = id;
-        this.subject = subject;
-        this.body = body;
-        this.dateReceived = dateReceived;
     }
 
     @Override
@@ -107,11 +94,11 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
         this.body = body;
     }
 
-    public MailingListSubscription getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(MailingListSubscription sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
