@@ -36,6 +36,8 @@ import org.cejug.yougi.knowledge.entity.WebSource;
 @SessionScoped
 public class UnpublishedContentMBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private WebSource webSource;
 
     @EJB

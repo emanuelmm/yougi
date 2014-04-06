@@ -25,6 +25,8 @@ package org.cejug.yougi.exception;
  */
 public class BusinessLogicException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
     public BusinessLogicException(String string, Throwable thrwbl) {
         super(string, thrwbl);
     }

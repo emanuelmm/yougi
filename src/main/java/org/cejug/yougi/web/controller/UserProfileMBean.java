@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -47,6 +46,8 @@ import org.cejug.yougi.entity.UserAccount;
 @ManagedBean
 @SessionScoped
 public class UserProfileMBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @EJB
     private LanguageBean languageBean;

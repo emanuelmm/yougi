@@ -25,16 +25,20 @@ import org.cejug.yougi.entity.AccessGroup;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.entity.City;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+
 import org.cejug.yougi.business.AccessGroupBean;
 import org.cejug.yougi.business.UserGroupBean;
+import org.cejug.yougi.partnership.business.PartnerBean;
 import org.cejug.yougi.partnership.business.RepresentativeBean;
 import org.cejug.yougi.partnership.entity.Partner;
 import org.cejug.yougi.partnership.entity.Representative;
@@ -51,7 +55,7 @@ public class PartnerMBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    private org.cejug.yougi.partnership.business.PartnerBean partnerBean;
+    private PartnerBean partnerBean;
 
     @EJB
     private AccessGroupBean accessGroupBean;
@@ -175,7 +179,7 @@ public class PartnerMBean implements Serializable {
         }
 
         List<UserAccount> reps = new ArrayList<>();
-        List selectedCandidates = this.candidates.getTarget();
+        List<UserAccount> selectedCandidates = this.candidates.getTarget();
         UserAccount userAccount;
         for(int i = 0;i < selectedCandidates.size();i++) {
             userAccount = new UserAccount(((UserAccount)selectedCandidates.get(i)).getId());
