@@ -38,7 +38,6 @@ import org.cejug.yougi.entity.ApplicationProperty;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.knowledge.entity.MailingList;
 import org.cejug.yougi.knowledge.entity.MailingListMessage;
-import org.cejug.yougi.knowledge.entity.MailingListSubscription;
 import org.cejug.yougi.entity.EntitySupport;
 
 /**
@@ -52,9 +51,6 @@ public class MailingListMessageBean extends AbstractBean<MailingListMessage> {
 
     @EJB
     private MailingListBean mailingListBean;
-
-    @EJB
-    private SubscriptionBean subscriptionBean;
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
@@ -111,8 +107,7 @@ public class MailingListMessageBean extends AbstractBean<MailingListMessage> {
                         from = from.substring(from.indexOf('<') + 1, from.indexOf('>'));
                     }
                     from = from.toLowerCase();
-                    MailingListSubscription mailingListSubscription = subscriptionBean.findMailingListSubscription(mailingList, from);
-                    mailingListMessage.setSender(mailingListSubscription);
+                    mailingListMessage.setSender(from);
 
                     /* This part tries to get the full content of the message to
                     * store in the database. For that, a simple OutputStream

@@ -79,7 +79,7 @@
          <validCheckSum>3:aebc3c8fa6228244f5f4b9117d3802df</validCheckSum>
          <sqlFile path="org/cejug/yougi/db/changelog/20140225-13-htmfilho.sql" stripComments="true" />
     </changeSet>
-    
-    <!-- Includes -->
-    
+    <changeSet id="14" author="htmfilho">
+        <sqlFile path="org/cejug/yougi/db/changelog/20140404-14-htmfilho.sql" stripComments="true"/>
+    </changeSet>
 </databaseChangeLog>
