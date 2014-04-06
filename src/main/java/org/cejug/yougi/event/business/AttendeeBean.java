@@ -91,7 +91,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
      * @return a list of found attendees.
      */
     public List<Attendee> findAttendees(Event event) {
-        return em.createQuery("select a from Attendee a where a.event = :event order by a.userAccount.firstName asc").setParameter("event", event).getResultList();
+        return em.createQuery("select a from Attendee a where a.event.id = :event order by a.userAccount.firstName asc").setParameter("event", event.getId() ).getResultList();
     }
 
     /**

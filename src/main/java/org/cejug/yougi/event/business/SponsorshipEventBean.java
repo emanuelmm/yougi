@@ -51,7 +51,7 @@ public class SponsorshipEventBean extends AbstractBean<SponsorshipEvent> {
     }
 
     public List<SponsorshipEvent> findSponsorshipsEvent(Event event) {
-        return em.createQuery("select se from SponsorshipEvent se where se.event = :event order by se.partner.name asc").setParameter("event", event).getResultList();
+        return em.createQuery("select se from SponsorshipEvent se where se.event.id = :event order by se.partner.name asc").setParameter("event", event.getId() ).getResultList();
     }
 
     public List<SponsorshipEvent> findSponsorshipsEvents(Partner sponsor) {

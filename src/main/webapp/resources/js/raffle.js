@@ -24,13 +24,11 @@ var position = -1;
 var interval = null;
 var timeout = null;
 
-function loadAttendees() {
-	attendees = [];
-	$(".attendeeName").each(function() {
-		attendees.push($(this).text());
-	});
+function loadAttendees( xhr , status , data ) {
+	attendees = JSON.parse(data.attendees);
 	btnLoadAttendees.disable();
 	btnInitRaffle.enable();
+	wgtRaffleDlg.show();
 }
 
 function clearRaffle(){
@@ -67,7 +65,7 @@ function initRaffle() {
 	function changeAtendee() {
 		incrementTimer();
 		position = parseInt(Math.random() * (length));
-		$("#winnerName").text(attendees[position]);
+		$("#winnerName").text( attendees[position].name );
 	}
 	
 	function incrementTimer(){
