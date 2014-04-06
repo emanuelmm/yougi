@@ -48,7 +48,7 @@ public class PartnerBean extends AbstractBean<Partner> {
     }
 
     public List<Partner> findPartners() {
-        return em.createQuery("select p from Partner p order by p.name asc")
+        return em.createQuery("select p from Partner p order by p.name asc", Partner.class)
                  .getResultList();
     }
 }

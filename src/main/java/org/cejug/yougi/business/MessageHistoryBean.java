@@ -49,7 +49,7 @@ public class MessageHistoryBean extends AbstractBean<MessageHistory> {
     }
 
     public List<MessageHistory> findByRecipient(UserAccount recipient) {
-    	List<MessageHistory> messages = em.createQuery("select hm from MessageHistory hm where hm.recipient = :userAccount order by hm.dateSent desc")
+    	List<MessageHistory> messages = em.createQuery("select hm from MessageHistory hm where hm.recipient = :userAccount order by hm.dateSent desc", MessageHistory.class)
                                           .setParameter("userAccount", recipient)
                                           .getResultList();
         return messages;

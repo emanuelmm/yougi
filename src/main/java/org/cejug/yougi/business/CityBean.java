@@ -48,24 +48,24 @@ public class CityBean extends AbstractBean<City> {
     }
 
     public List<City> findAll() {
-        return em.createQuery("select c from City c order by c.country.name, c.name asc")
+        return em.createQuery("select c from City c order by c.country.name, c.name asc",City.class)
                  .getResultList();
     }
 
     public List<City> findValidatedCities() {
-        return em.createQuery("select c from City c where c.valid = :valid")
+        return em.createQuery("select c from City c where c.valid = :valid", City.class)
         		 .setParameter("valid", true)
                  .getResultList();
     }
 
     public List<City> findByCountry(Country country, Boolean includingInvalids) {
         if(includingInvalids) {
-            return em.createQuery("select c from City c where c.country = :country order by c.name asc")
+            return em.createQuery("select c from City c where c.country = :country order by c.name asc", City.class)
                  .setParameter("country", country)
                  .getResultList();
         }
         else {
-            return em.createQuery("select c from City c where c.country = :country and c.valid = :valid order by c.name asc")
+            return em.createQuery("select c from City c where c.country = :country and c.valid = :valid order by c.name asc", City.class)
                  .setParameter("country", country)
                  .setParameter("valid", Boolean.TRUE)
                  .getResultList();
@@ -74,12 +74,12 @@ public class CityBean extends AbstractBean<City> {
 
     public List<City> findByProvince(Province province, Boolean includingInvalids) {
         if(includingInvalids) {
-            return em.createQuery("select c from City c where c.province = :province order by c.name asc")
+            return em.createQuery("select c from City c where c.province = :province order by c.name asc", City.class)
                  .setParameter("province", province)
                  .getResultList();
         }
         else {
-            return em.createQuery("select c from City c where c.province = :province and c.valid = :valid order by c.name asc")
+            return em.createQuery("select c from City c where c.province = :province and c.valid = :valid order by c.name asc", City.class)
                  .setParameter("province", province)
                  .setParameter("valid", Boolean.TRUE)
                  .getResultList();
@@ -87,7 +87,7 @@ public class CityBean extends AbstractBean<City> {
     }
 
     public List<City> findStartingWith(String initials) {
-        return em.createQuery("select c from City c where c.name like '"+ initials +"%' order by c.name").getResultList();
+        return em.createQuery("select c from City c where c.name like '"+ initials +"%' order by c.name", City.class).getResultList();
     }
 
     /**
@@ -95,7 +95,7 @@ public class CityBean extends AbstractBean<City> {
      * @return An instance of city or null if there is not city with the given name.
      */
     public City findByName(String name) {
-        List<City> candidates = em.createQuery("select c from City c where c.name = :name")
+        List<City> candidates = em.createQuery("select c from City c where c.name = :name", City.class)
                  .setParameter("name", name)
                  .getResultList();
         if(candidates != null && candidates.size() == 1) {
