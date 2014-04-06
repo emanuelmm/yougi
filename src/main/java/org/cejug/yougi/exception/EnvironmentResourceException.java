@@ -25,6 +25,8 @@ package org.cejug.yougi.exception;
  */
 public class EnvironmentResourceException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
     public EnvironmentResourceException(Throwable thrwbl) {
         super(thrwbl);
     }

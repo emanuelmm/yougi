@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import org.cejug.yougi.business.CityBean;
 import org.cejug.yougi.business.CountryBean;
 import org.cejug.yougi.business.ProvinceBean;
@@ -51,6 +50,8 @@ import org.cejug.yougi.entity.Timezone;
 @ManagedBean
 @SessionScoped
 public class LocationMBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
 

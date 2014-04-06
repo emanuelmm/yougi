@@ -42,6 +42,8 @@ import org.primefaces.model.chart.ChartSeries;
 @RequestScoped
 public class CommunicationPrivacyRange implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @EJB
     private UserAccountBean userAccountBean;
 

@@ -21,7 +21,6 @@
 package org.cejug.yougi.knowledge.business;
 
 import java.util.List;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,8 +36,6 @@ import org.cejug.yougi.knowledge.entity.WebSource;
 @Stateless
 public class ArticleBean extends AbstractBean<Article> {
     
-    private static final Logger LOGGER = Logger.getLogger(ArticleBean.class.getName());
-
     @PersistenceContext
     private EntityManager em;
 

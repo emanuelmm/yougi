@@ -40,6 +40,8 @@ import org.cejug.yougi.knowledge.entity.Article;
 @ViewScoped
 public class FrontPageMBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @EJB
     private EventBean eventBean;
 
