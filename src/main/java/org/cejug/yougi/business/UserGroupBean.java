@@ -40,13 +40,13 @@ public class UserGroupBean {
     private EntityManager em;
 
     public List<UserAccount> findUsersGroup(AccessGroup accessGroup) {
-        return em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :accessGroup order by ug.userAccount.firstName")
+        return em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :accessGroup order by ug.userAccount.firstName", UserAccount.class)
                  .setParameter("accessGroup", accessGroup)
                  .getResultList();
     }
 
     public List<UserGroup> findUsersGroups(AccessGroup accessGroup) {
-        return em.createQuery("select ug from UserGroup ug where ug.accessGroup = :accessGroup")
+        return em.createQuery("select ug from UserGroup ug where ug.accessGroup = :accessGroup", UserGroup.class)
                  .setParameter("accessGroup", accessGroup)
                  .getResultList();
     }
@@ -56,13 +56,13 @@ public class UserGroupBean {
      * @return the list of groups registrations of the informed user account.
      */
     public List<UserGroup> findUsersGroups(UserAccount userAccount) {
-        return em.createQuery("select ug from UserGroup ug where ug.userAccount = :userAccount")
+        return em.createQuery("select ug from UserGroup ug where ug.userAccount = :userAccount", UserGroup.class)
                  .setParameter("userAccount", userAccount)
                  .getResultList();
     }
 
     public List<AccessGroup> findGroupsUser(UserAccount userAccount) {
-        return em.createQuery("select ug.accessGroup from UserGroup ug where ug.userAccount = :userAccount")
+        return em.createQuery("select ug.accessGroup from UserGroup ug where ug.userAccount = :userAccount", AccessGroup.class)
                  .setParameter("userAccount", userAccount)
                  .getResultList();
     }

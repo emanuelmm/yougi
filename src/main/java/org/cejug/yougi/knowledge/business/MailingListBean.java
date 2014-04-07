@@ -52,7 +52,7 @@ public class MailingListBean extends AbstractBean<MailingList> {
     }
 
     public List<MailingList> findMailingLists() {
-        return em.createQuery("select ml from MailingList ml order by ml.name asc").getResultList();
+        return em.createQuery("select ml from MailingList ml order by ml.name asc", MailingList.class).getResultList();
     }
 
     public MailingList findMailingListByEmail(String email) {

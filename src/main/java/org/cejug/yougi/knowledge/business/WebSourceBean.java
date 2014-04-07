@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.UserAccount;

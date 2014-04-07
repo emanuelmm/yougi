@@ -50,12 +50,12 @@ public class ProvinceBean extends AbstractBean<Province> {
     }
 
     public List<Province> findAll() {
-        return em.createQuery("select p from Province p order by p.country.name, p.name asc")
+        return em.createQuery("select p from Province p order by p.country.name, p.name asc", Province.class)
                  .getResultList();
     }
 
     public List<Province> findByCountry(Country country) {
-        return em.createQuery("select p from Province p where p.country = :country order by p.name asc")
+        return em.createQuery("select p from Province p where p.country = :country order by p.name asc", Province.class)
                  .setParameter("country", country)
                  .getResultList();
     }
