@@ -38,7 +38,6 @@
   						<li><a href="#inhabitants" data-toggle="tab">#{bundle.inhabitants}</a></li>
 					</ul>
 
-                    <!-- <p:tabView>-->
                     <div class="tab-content">
                         <!-- <p:tab title="#{bundle.properties}">-->
                         <div class="tab-pane active" id="properties">
@@ -99,7 +98,6 @@
                             </h:panelGrid>
                         </div>
                         <div class="tab-pane" id="inhabitants">
-                         <div class="panel-default"></div>
                             <p:dataTable value="#{cityMBean.inhabitants}" var="inhabitant">
                                 <p:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
@@ -130,8 +128,8 @@
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>
-                            </div>
-                        </div>
+                          </div>
+                    </div>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"></ui:define>
