@@ -57,7 +57,7 @@ public class TrackBean extends AbstractBean<Track> {
     public List<Track> findTracks(Event event) {
         List<Track> tracks = new ArrayList<>();
         if(event != null) {
-            tracks = em.createQuery("select t from Track t where t.event = :event order by t.name asc")
+            tracks = em.createQuery("select t from Track t where t.event = :event order by t.name asc", Track.class)
                                .setParameter("event", event)
                                .getResultList();
             tracks.addAll(findTracks(event.getParent()));

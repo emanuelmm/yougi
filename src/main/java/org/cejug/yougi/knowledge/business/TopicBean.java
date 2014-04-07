@@ -43,11 +43,11 @@ public class TopicBean {
     }
 
     public List<Topic> findTopics() {
-        return em.createQuery("select t from Topic t order by t.name asc").getResultList();
+        return em.createQuery("select t from Topic t order by t.name asc", Topic.class).getResultList();
     }
 
     public List<Topic> findTopics(String query) {
-        return em.createQuery("select t from Topic t where t.name like '"+ query +"%' order by t.name asc").getResultList();
+        return em.createQuery("select t from Topic t where t.name like '"+ query +"%' order by t.name asc", Topic.class).getResultList();
     }
 
     public void save(Topic topic) {
