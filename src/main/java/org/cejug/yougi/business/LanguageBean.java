@@ -40,7 +40,7 @@ public class LanguageBean {
     }
 
     public List<Language> findLanguages() {
-        return em.createQuery("select l from Language l order by l.name asc").getResultList();
+        return em.createQuery("select l from Language l order by l.name asc", Language.class).getResultList();
     }
 
     public void save(Language language) {

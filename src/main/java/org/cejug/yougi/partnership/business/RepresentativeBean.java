@@ -68,13 +68,13 @@ public class RepresentativeBean extends AbstractBean<Representative> {
     }
 
     public List<UserAccount> findRepresentativePersons(Partner partner) {
-    	return em.createQuery("select r.person from Representative r where r.partner = :partner order by r.person.firstName asc")
+    	return em.createQuery("select r.person from Representative r where r.partner = :partner order by r.person.firstName asc", UserAccount.class)
     	         .setParameter("partner", partner)
     	         .getResultList();
     }
 
     public List<Representative> findRepresentatives(Partner partner) {
-    	return em.createQuery("select r from Representative r where r.partner = :partner order by r.person.firstName asc")
+    	return em.createQuery("select r from Representative r where r.partner = :partner order by r.person.firstName asc", Representative.class)
     	         .setParameter("partner", partner)
     	         .getResultList();
     }

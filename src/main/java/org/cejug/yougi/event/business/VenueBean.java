@@ -49,7 +49,7 @@ public class VenueBean extends AbstractBean<Venue> {
     }
 
     public List<Venue> findVenues() {
-    	return em.createQuery("select v from Venue v order by v.name asc")
+    	return em.createQuery("select v from Venue v order by v.name asc", Venue.class)
                  .getResultList();
     }
 
@@ -58,7 +58,7 @@ public class VenueBean extends AbstractBean<Venue> {
             return null;
         }
 
-        List<Venue> venues = em.createQuery("select ev.venue from EventVenue ev where ev.event = :event")
+        List<Venue> venues = em.createQuery("select ev.venue from EventVenue ev where ev.event = :event", Venue.class)
                                .setParameter("event", event)
                                .getResultList();
 
