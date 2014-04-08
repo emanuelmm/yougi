@@ -32,16 +32,22 @@
                 <h1>#{bundle.city}</h1>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
+                    
+                    <ul class="nav nav-tabs">
+  						<li class="active"><a href="#properties" data-toggle="tab">#{bundle.properties}</a></li>
+  						<li><a href="#inhabitants" data-toggle="tab">#{bundle.inhabitants}</a></li>
+					</ul>
 
-                    <p:tabView>
-                        <p:tab title="#{bundle.properties}">
+                    <div class="tab-content">
+                        <!-- <p:tab title="#{bundle.properties}">-->
+                        <div class="tab-pane active" id="properties">
                             <h:panelGrid columns="1">
                                 <h:outputLabel for="name" value="#{bundle.name} *" styleClass="fieldLabel"/>
-                                <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{cityMBean.city.name}"/>
+                                <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{cityMBean.city.name}" styleClass="form-control"/>
                                 <h:message for="name" errorClass="errorMessage"/>
 
                                 <h:outputLabel for="country" value="#{bundle.country} *" styleClass="fieldLabel"/>
-                                <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" required="true">
+                                <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" required="true" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                     <f:selectItems value="#{locationMBean.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.acronym}"/>
                                     <f:ajax render="province"/>
@@ -49,7 +55,7 @@
                                 <h:message for="country" errorClass="errorMessage"/>
 
                                 <h:outputLabel for="province" value="#{bundle.province}" styleClass="fieldLabel"/>
-                                <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}">
+                                <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                     <f:selectItems value="#{locationMBean.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
                                 </h:selectOneMenu>
@@ -65,15 +71,15 @@
                                     <h:outputLabel for="timeZone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
 
                                     <h:panelGroup>
-                                        <h:inputText id="latitude" label="#{bundle.latitude}" size="15" maxlength="15" value="#{cityMBean.city.latitude}"/>
+                                        <h:inputText id="latitude" label="#{bundle.latitude}" size="15" maxlength="15" value="#{cityMBean.city.latitude}" styleClass="form-control"/>
                                         <br/><h:message for="latitude" errorClass="errorMessage"/>
                                     </h:panelGroup>
                                     <h:panelGroup>
-                                        <h:inputText id="longitude" label="#{bundle.longitude}" size="15" maxlength="15" value="#{cityMBean.city.longitude}"/>
+                                        <h:inputText id="longitude" label="#{bundle.longitude}" size="15" maxlength="15" value="#{cityMBean.city.longitude}" styleClass="form-control"/>
                                         <br/><h:message for="longitude" errorClass="errorMessage"/>
                                     </h:panelGroup>
                                     <h:panelGroup>
-                                        <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{cityMBean.city.timeZone}">
+                                        <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{cityMBean.city.timeZone}" styleClass="form-control">
                                             <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                             <f:selectItems value="#{cityMBean.timezones}" var="tz" itemLabel="#{tz.offsetLabel}" itemValue="#{tz.id}"/>
                                         </h:selectOneMenu>
@@ -84,14 +90,14 @@
                             <h:inputHidden id="id" value="#{cityMBean.city.id}"/>
 
                             <h:panelGrid columns="3">
-                                <h:commandButton value="#{bundle.save}" action="#{cityMBean.save}"/>
-                                <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{cityMBean.remove}">
+                                <h:commandButton value="#{bundle.save}" action="#{cityMBean.save}" styleClass="btn btn-primary"/>
+                                <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{cityMBean.remove}" styleClass="btn btn-danger">
                                     <f:param name="id" value="#{cityMBean.city.id}" />
                                 </h:commandButton>
-                                <h:button value="#{bundle.cancel}" outcome="cities"/>
+                                <h:button value="#{bundle.cancel}" outcome="cities" styleClass="btn btn-default"/>
                             </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="#{bundle.inhabitants}">
+                        </div>
+                        <div class="tab-pane" id="inhabitants">
                             <p:dataTable value="#{cityMBean.inhabitants}" var="inhabitant">
                                 <p:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
@@ -122,8 +128,8 @@
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>
-                        </p:tab>
-                    </p:tabView>
+                          </div>
+                    </div>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"></ui:define>
