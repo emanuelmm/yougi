@@ -55,6 +55,8 @@
                                         <dd><h:outputLink value="http://#{userAccountMBean.userAccount.website}" target="_blank">#{userAccountMBean.userAccount.website}</h:outputLink></dd>
                                         <dt><h:outputText value="#{bundle.twitter}"/></dt>
                                         <dd><h:outputLink value="http://twitter.com/#{userAccountMBean.userAccount.twitter}" target="_blank">#{userAccountMBean.userAccount.twitter}</h:outputLink></dd>
+                                        <dt><h:outputText value="#{bundle.publicProfile}"/></dt>
+                                        <dd><h:outputText value="#{userAccountMBean.userAccount.publicProfile}"/></dd>
                                         <dt><h:outputText value="#{bundle.country}"/></dt>
                                         <dd><h:outputText value="#{userAccountMBean.userAccount.country}"/></dd>
                                         <dt><h:outputText value="#{bundle.province}"/></dt>

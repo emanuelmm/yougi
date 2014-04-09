@@ -117,6 +117,11 @@
                         </div>
                     </div>
 
+                    <div class="checkbox-inline">
+                        <h:selectBooleanCheckbox id="publicProfile" label="#{bundle.publicProfile}" value="#{userAccountMBean.userAccount.publicProfile}"/>
+                        <h:outputLabel for="publicProfile" value="#{bundle.publicProfile}" styleClass="control-label"/>
+                    </div>
+
                     <h:inputHidden id="id" value="#{userAccountMBean.userAccount.id}"/>
                     <p/>
 
