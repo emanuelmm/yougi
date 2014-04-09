@@ -265,8 +265,7 @@
                             <h:panelGrid width="100%">
                                 <p:outputPanel id="raffleInfo" style="display:inline-block">                              
 	                               <h:inputHidden id="eventId" value="#{eventMBean.event.id}" />
-	                               <p:commandButton value="#{bundle.raffle}" type="button"
-	                                        onclick="loadEventAttendees();" />
+	                               <p:commandButton value="#{bundle.raffle}" type="button" onclick="loadEventAttendees();" />
 	                               <p:remoteCommand name="loadEventAttendees"
 	                                   action="#{raffleMBean.loadAttendees()}"
 	                                   update=":dlgRaffleContent"
@@ -276,7 +275,7 @@
 	                                            value="#{eventMBean.event.id}" />
 	                                </p:remoteCommand>
 	                                
-	                                <h:outputFormat value="#{bundle.numberPeopleAttendingEvent}"
+	                                <h:outputFormat value="&nbsp;#{bundle.numberPeopleAttendingEvent}"
 	                                    style="color: blue;"
 	                                    rendered="#{securityBackingMBean.isUserLeader}">
 	                                    <f:param value="#{eventMBean.numberPeopleAttending}" />
