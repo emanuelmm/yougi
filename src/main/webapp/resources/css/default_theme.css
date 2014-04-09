@@ -77,3 +77,20 @@ body {
 .member-row {
     margin-bottom: 20px;
 }
+
+#timer{
+	text-align: center;
+	font-size: 90px;
+	font-weight: bold;
+}
+
+#winnerName{
+	text-align: center;
+	font-size: 60px;
+	font-weight: bold;
+}
+
+.align-center {
+	margin: 0 auto;
+	text-align: center;
+}

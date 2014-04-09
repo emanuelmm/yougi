@@ -53,8 +53,8 @@ public class EventVenueBean extends AbstractBean<EventVenue> {
     }
 
     public List<Venue> findEventVenues(Event event) {
-        return em.createQuery("select ev.venue from EventVenue ev where ev.event = :event order by ev.venue.name asc", Venue.class)
-                 .setParameter("event", event)
+        return em.createQuery("select ev.venue from EventVenue ev where ev.event.id = :event order by ev.venue.name asc", Venue.class)
+                 .setParameter("event", event.getId() )
                  .getResultList();
     }
 
