@@ -35,13 +35,16 @@
                     <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                         <h:outputText value="#{eventMBean.event}" style="font-size: 26px; font-weight: bold;"/>
                         <h:panelGroup>
-                            <p:button value="#{bundle.attend}" outcome="attendee">
+                            <h:button value="#{bundle.attend}" outcome="attendee" styleClass="btn btn-default" rendered="#{! eventMBean.isAttending}">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
-                            </p:button>
-                            <p:button value="#{bundle.edit}" outcome="event_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            </h:button>
+                            <h:button value="#{bundle.cancelAttendance}" outcome="attendee" rendered="#{eventMBean.isAttending}" styleClass="btn btn-default">
+                                <f:param name="eventId" value="#{eventMBean.event.id}"/>
+                            </h:button>
+                            <h:button value="#{bundle.edit}" outcome="event_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{eventMBean.event.id}"/>
-                            </p:button>
-                            <p:button value="#{bundle.back}" outcome="events"/>
+                            </h:button>
+                            <h:button value="#{bundle.back}" outcome="events" styleClass="btn btn-default"/>
                         </h:panelGroup>
                     </h:panelGrid>
 
@@ -267,33 +270,33 @@
                                     <f:param value="#{eventMBean.numberPeopleAttending}"/>
                                     <f:param value="#{eventMBean.numberPeopleAttended}"/>
                                 </h:outputFormat>
-                                <p:spacer height="10"/>
-                                <p:dataTable value="#{eventMBean.attendees}" var="attendee">
-                                    <p:column>
+
+                                <h:dataTable value="#{eventMBean.attendees}" var="attendee" styleClass="table">
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                         <h:link outcome="attendee" value="#{attendee.fullName}">
                                             <f:param name="id" value="#{attendee.id}"/>
                                             <f:param name="eventId" value="#{param.id}"/>
                                         </h:link>
-                                    </p:column>
+                                    </h:column>
 
-                                    <p:column>
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
                                         <h:outputText value="#{attendee.userAccount.postingEmail}"/>
-                                    </p:column>
+                                    </h:column>
 
-                                    <p:column>
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
                                         <h:outputText value="#{attendee.registrationDate}">
                                             <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
                                         </h:outputText>
-                                    </p:column>
+                                    </h:column>
 
-                                    <p:column>
+                                    <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.attended}"/></f:facet>
-                                        <h:outputText value="#{attendee.attended}"/>
-                                    </p:column>
-                                </p:dataTable>
+                                        <h:graphicImage url="../images/success-icon.png" rendered="#{attendee.attended}"/>
+                                    </h:column>
+                                </h:dataTable>
                             </h:panelGrid>
                         </p:tab>
                         <p:tab title="#{bundle.venues}">

@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 
 /**
- * Encapsulates the complexity of getting the resource bundle from the context.
+ * Encapsulates the complexity of getting the service bundle from the context.
  * Actually, this is so complex that a better approach should be investigated,
  * or a solution presented to spec leaders.
  *

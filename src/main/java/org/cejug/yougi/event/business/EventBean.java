@@ -72,7 +72,6 @@ public class EventBean extends AbstractBean<Event> {
     @Override
     public Event find(String id) {
         Event event = em.find(Event.class, id);
-        event.setVenues(venueBean.findEventVenues(event));
         return event;
     }
 
