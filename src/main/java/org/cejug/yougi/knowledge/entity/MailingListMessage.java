@@ -51,19 +51,6 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
     @Column(name = "date_received", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateReceived;
-    
-    @ManyToOne
-    @JoinColumn(name = "reply_to")
-    private MailingListMessage replyTo;
-    
-    @OneToMany(mappedBy = "replyTo")
-    private List<MailingListMessage> repliesFrom;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "message_type")
-    private MessageType messageType;
-    
-    private Boolean published;
 
     public MailingListMessage() {
     }
@@ -108,38 +95,6 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
 
     public void setDateReceived(Date dateReceived) {
         this.dateReceived = dateReceived;
-    }
-
-    public MessageType getMessageType() {
-        return messageType;
-    }
-
-    public void setMessageType(MessageType messageType) {
-        this.messageType = messageType;
-    }
-
-    public Boolean getPublished() {
-        return published;
-    }
-
-    public void setPublished(Boolean published) {
-        this.published = published;
-    }
-
-    public List<MailingListMessage> getRepliesFrom() {
-        return repliesFrom;
-    }
-
-    public void setRepliesFrom(List<MailingListMessage> repliesFrom) {
-        this.repliesFrom = repliesFrom;
-    }
-
-    public MailingListMessage getReplyTo() {
-        return replyTo;
-    }
-
-    public void setReplyTo(MailingListMessage replyTo) {
-        this.replyTo = replyTo;
     }
 
     public MailingList getMailingList() {

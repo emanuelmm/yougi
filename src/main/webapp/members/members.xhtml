@@ -22,17 +22,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:ug="http://xmlns.jcp.org/jsf/composite/yougi">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:body>
 	<ui:composition template="/layout.xhtml">
 		<ui:define name="title">#{bundle.members}</ui:define>
 		<ui:define name="content">
 			<h1>#{bundle.members}</h1>
     
-            <c:forEach items="#{showMembersMBean.memberRows}" var="members">
+            <c:forEach items="#{membersMBean.membersRows}" var="members">
                 <div class="row member-row">
                     <c:forEach items="${members}" var="member">
                         <div class="col-md-4">
@@ -43,15 +41,15 @@
                            </div>
                            <div class="col-md-8">
                                     <h4>#{member.firstName} #{member.lastName}</h4>
-                                    <c:if test="#{showMembersMBean.showAddress(member)}">
-                                         <div>#{showMembersMBean.formatedAddress(member)}</div>
+                                    <c:if test="#{membersMBean.showAddress(member)}">
+                                         <div>#{membersMBean.formatedAddress(member)}</div>
                                     </c:if>
                                     <div>#{member.country.name}</div>
-                                    <c:if test="#{showMembersMBean.showTwitter(member)}">
+                                    <c:if test="#{membersMBean.showTwitter(member)}">
                                         <div><a href="https://twitter.com/#{member.twitter}" target="_blank">@#{member.twitter}</a></div>
                                     </c:if>
-                                    <c:if test="#{showMembersMBean.showWebsite(member)}">
-                                        <div><a href="#{member.website}" target="_blank">#{bundle.website}</a></div>
+                                    <c:if test="#{membersMBean.showWebsite(member)}">
+                                        <div><a href="http://#{member.website}" target="_blank">#{bundle.website}</a></div>
                                     </c:if>
                            </div>
                        </div>

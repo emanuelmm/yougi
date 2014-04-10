@@ -260,6 +260,7 @@ public class UserAccountMBean implements Serializable {
             existingUserAccount.setGender(userAccount.getGender());
             existingUserAccount.setWebsite(userAccount.getWebsite());
             existingUserAccount.setTwitter(userAccount.getTwitter());
+            existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
             userAccountBean.save(existingUserAccount);
 
             FacesContext context = FacesContext.getCurrentInstance();

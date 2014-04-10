@@ -33,28 +33,31 @@ import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Province;
 import org.cejug.yougi.entity.UserAccount;
 
-@Named("showMembersMBean")
+/**
+ * @author Efraim Gentil - https://github.com/efraimgentil
+ */
+@Named
 @RequestScoped
-public class ShowMembersMBean {
+public class MembersMBean {
 	
-	private List<List<UserAccount>> memberRows;
+	private List<List<UserAccount>> membersRows;
 	
 	@EJB
 	private UserAccountBean userAccountBean;
 	
 	@PostConstruct
 	public void init(){
-		memberRows = new ArrayList<>();
+		membersRows = new ArrayList<>();
 		List<UserAccount> userAccounts = new ArrayList<>();
 		for (UserAccount account : userAccountBean.findActiveWithPublicProfile() ) {
-			if(memberRows.size() == 0)
-				memberRows.add( userAccounts );
+			if(membersRows.size() == 0)
+				membersRows.add( userAccounts );
 			
 			if(userAccounts.size() < 3)
 				userAccounts.add(account);
 			else{
 				userAccounts = new ArrayList<>();
-				memberRows.add( userAccounts );
+				membersRows.add( userAccounts );
 				userAccounts.add(account);
 			}
 		}
@@ -88,8 +91,8 @@ public class ShowMembersMBean {
 		return member.getTwitter() != null;
 	}
 	
-	public List<List<UserAccount>> getMemberRows() {
-		return memberRows;
+	public List<List<UserAccount>> getMembersRows() {
+		return membersRows;
 	}
 
 }

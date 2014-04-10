@@ -42,8 +42,6 @@ public class MailingList implements Serializable, Identified {
     private String name;
     private String description;
     private String email;
-    private String subscription;
-    private String unsubscription;
 
     public MailingList() {
     }
@@ -89,22 +87,6 @@ public class MailingList implements Serializable, Identified {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSubscription() {
-        return subscription;
-    }
-
-    public void setSubscription(String subscription) {
-        this.subscription = subscription;
-    }
-
-    public String getUnsubscription() {
-        return unsubscription;
-    }
-
-    public void setUnsubscription(String unsubscription) {
-        this.unsubscription = unsubscription;
     }
 
     @Override
