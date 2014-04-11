@@ -38,7 +38,8 @@ public class JobInstantScheduler extends JobScheduler {
         Calendar today = Calendar.getInstance();
 
         // A new JobExecution cannot be created if the start date is after today.
-        if(today.getTime().compareTo(this.getStartDate()) < 0) {
+        if(today.getTime().compareTo(this.getStartDate()) < 0  ||
+                today.getTime().compareTo(this.getEndDate()) > 0) {
             throw new BusinessLogicException("errorCode0014");
         }
 

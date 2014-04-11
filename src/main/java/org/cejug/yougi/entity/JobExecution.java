@@ -20,11 +20,15 @@
  * */
 package org.cejug.yougi.entity;
 
+import javax.batch.operations.*;
+import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.BatchStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -33,6 +37,8 @@ import java.util.Date;
 @Table(name = "job_execution")
 public class JobExecution implements Serializable, Identified {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOGGER = Logger.getLogger(JobExecution.class.getSimpleName());
 
     @Id
     private String id;
@@ -46,7 +52,7 @@ public class JobExecution implements Serializable, Identified {
     private UserAccount owner;
 
     @Column(name = "instance_id")
-    private Integer instanceId;
+    private Long instanceId;
 
     @Enumerated(EnumType.STRING)
     private BatchStatus status;
@@ -76,7 +82,6 @@ public class JobExecution implements Serializable, Identified {
         this.id = id;
     }
 
-
     public JobScheduler getJobScheduler() {
         return jobScheduler;
     }
@@ -85,20 +90,12 @@ public class JobExecution implements Serializable, Identified {
         return owner;
     }
 
-    public Integer getInstanceId() {
+    public Long getInstanceId() {
         return instanceId;
-    }
-
-    public void setInstanceId(Integer instanceId) {
-        this.instanceId = instanceId;
     }
 
     public BatchStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(BatchStatus status) {
-        this.status = status;
     }
 
     public Date getStartTime() {
@@ -115,6 +112,42 @@ public class JobExecution implements Serializable, Identified {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void startJob() {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            this.instanceId = jo.start(jobScheduler.getName(), new java.util.Properties());
+            LOGGER.log(Level.INFO, "Started job: {0}", this.instanceId);
+        } catch (JobStartException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    public void stopJob() {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            jo.stop(this.instanceId);
+            LOGGER.log(Level.INFO, "Stopped job: {0}", this.instanceId);
+        } catch (JobExecutionNotRunningException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage());
+        }
+    }
+
+    public void restartJob() {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            this.instanceId = jo.restart(this.instanceId, new java.util.Properties());
+            LOGGER.log(Level.INFO, "Restarted job: {0}", this.instanceId);
+        } catch (NoSuchJobExecutionException | JobRestartException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage());
+        }
+    }
+
+    public void abandonJob() {
+        JobOperator jo = BatchRuntime.getJobOperator();
+        jo.abandon(this.instanceId);
+        LOGGER.log(Level.INFO, "Abandoned job: {0}", this.instanceId);
     }
 
     @Override
