@@ -32,7 +32,9 @@ import java.util.Calendar;
 @DiscriminatorValue("MONTHLY")
 public class JobMonthlyScheduler extends JobScheduler {
 
-    @Column(name = "day_month")
+	private static final long serialVersionUID = 1L;
+	
+	@Column(name = "day_month")
     private Integer dayOfTheMonth;
 
     /**
@@ -50,16 +52,10 @@ public class JobMonthlyScheduler extends JobScheduler {
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        // A new JobExecution cannot be created if the start date is in the future.
-        if(today.getTime().compareTo(this.getStartDate()) < 0) {
-            throw new BusinessLogicException("errorCode0014");
-        }
+        checkInterval(today);
 
         // Calculate start time
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(this.getStartDate());
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
+        Calendar startTime = initializeStartTime();
 
         while(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.MONTH, this.getFrequency());

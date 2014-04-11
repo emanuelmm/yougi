@@ -23,7 +23,9 @@ package org.cejug.yougi.entity;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -162,6 +164,21 @@ public abstract class JobScheduler implements Serializable, Identified {
     }
 
     public abstract JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException;
+    
+    protected void checkInterval(Calendar today) throws BusinessLogicException {
+    	if(today.getTime().compareTo(this.getStartDate()) < 0  ||
+                today.getTime().compareTo(this.getEndDate()) > 0) {
+            throw new BusinessLogicException("errorCode0014");
+        }
+    }
+    
+    protected Calendar initializeStartTime() {
+    	Calendar startTime = Calendar.getInstance();
+        startTime.setTime(this.getStartDate());
+        startTime.set(Calendar.HOUR_OF_DAY, 0);
+        startTime.set(Calendar.MINUTE, 0);
+        return startTime;
+    }
 
     @Override
     public boolean equals(Object o) {

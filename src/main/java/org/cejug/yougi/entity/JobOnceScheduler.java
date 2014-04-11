@@ -33,7 +33,9 @@ import java.util.Calendar;
 @DiscriminatorValue("ONCE")
 public class JobOnceScheduler extends JobScheduler {
 
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar startTime = Calendar.getInstance();
         startTime.setTime(this.getStartDate());

@@ -33,15 +33,13 @@ import java.util.Calendar;
 @DiscriminatorValue("INSTANT")
 public class JobInstantScheduler extends JobScheduler {
 
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        // A new JobExecution cannot be created if the start date is after today.
-        if(today.getTime().compareTo(this.getStartDate()) < 0  ||
-                today.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
-        }
+        checkInterval(today);
 
         JobExecution jobExecution = new JobExecution(this, owner);
 

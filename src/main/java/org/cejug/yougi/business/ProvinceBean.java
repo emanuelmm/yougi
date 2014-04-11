@@ -25,7 +25,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;

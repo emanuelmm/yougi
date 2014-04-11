@@ -34,7 +34,9 @@ import java.util.Calendar;
 @DiscriminatorValue("YEARLY")
 public class JobYearlyScheduler extends JobScheduler {
 
-    @Column(name = "day_year")
+	private static final long serialVersionUID = 1L;
+	
+	@Column(name = "day_year")
     private Integer dayOfTheYear;
 
     /**
@@ -52,16 +54,10 @@ public class JobYearlyScheduler extends JobScheduler {
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        // A new JobExecution cannot be created if the start date is in the future.
-        if(today.getTime().compareTo(this.getStartDate()) < 0) {
-            throw new BusinessLogicException("errorCode0014");
-        }
+        checkInterval(today);
 
         // Calculate start time
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(this.getStartDate());
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
+        Calendar startTime = initializeStartTime();
 
         while(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.MONTH, this.getFrequency());
