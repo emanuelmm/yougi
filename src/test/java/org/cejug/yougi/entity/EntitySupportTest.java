@@ -18,18 +18,28 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.util;
+package org.cejug.yougi.entity;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * This class groups a set of methods to deal with String
- * that are not already covered by the Java API.
- *
- * @author Daniel Cunha - danielsoro@gmail.com
+ * @Author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum StringUtils {
-    INSTANCE;
+public class EntitySupportTest {
+    @Test
+    public void testGenerateEntityId() throws Exception {
+        Assert.assertEquals("An id should have exactly 32 characters", EntitySupport.INSTANCE.generateEntityId().length(), 32);
+        Assert.assertFalse("An id should not contain the character '-'", EntitySupport.INSTANCE.generateEntityId().contains("-"));
+    }
 
-    public boolean isNullOrBlank(String property) {
-        return (property == null || property.isEmpty());
+    @Test(expected = IllegalArgumentException.class)
+    public void testIsIdNotValid() throws Exception {
+        EntitySupport.INSTANCE.isIdNotValid(null);
+    }
+
+    @Test
+    public void testIsIdValid() throws Exception {
+        Assert.assertFalse("Id is invalid", EntitySupport.INSTANCE.isIdValid("l"));
     }
 }

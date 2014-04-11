@@ -20,16 +20,18 @@
  * */
 package org.cejug.yougi.util;
 
-/**
- * This class groups a set of methods to deal with String
- * that are not already covered by the Java API.
- *
- * @author Daniel Cunha - danielsoro@gmail.com
- */
-public enum StringUtils {
-    INSTANCE;
+import org.junit.Assert;
+import org.junit.Test;
 
-    public boolean isNullOrBlank(String property) {
-        return (property == null || property.isEmpty());
+/**
+ * @Author Hildeberto Mendonca - http://www.hildeberto.com
+ */
+public class StringUtilsTest {
+
+    @Test
+    public void testIsNullOrBlank() throws Exception {
+        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(null));
+        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(""));
+        Assert.assertFalse(StringUtils.INSTANCE.isNullOrBlank("A"));
     }
 }

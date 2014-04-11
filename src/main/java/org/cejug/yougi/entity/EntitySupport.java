@@ -51,7 +51,7 @@ public enum EntitySupport {
             throw new IllegalArgumentException("Identified entity is null");
         }
 
-        return isIdValid(identified.getId());
+        return !isIdValid(identified.getId());
     }
 
     /**
@@ -60,6 +60,10 @@ public enum EntitySupport {
      * @return true if the id is valid.
      * */
     public final boolean isIdValid(String id) {
-        return StringUtils.INSTANCE.isNullOrBlank(id);
+        boolean valid = !StringUtils.INSTANCE.isNullOrBlank(id);
+
+        valid = (valid && id.length() == 32);
+
+        return valid;
     }
 }
