@@ -18,40 +18,22 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.entity;
-
-import org.cejug.yougi.util.StringUtil;
-
-import java.util.UUID;
+package org.cejug.yougi.util;
 
 /**
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * This class groups a set of methods to deal with String
+ * that are not already covered by the Java API.
+ *
+ * @author Daniel Cunha - danielsoro@gmail.com
  */
-public enum EntitySupport {
-
+public enum StringUtil {
     INSTANCE;
 
-    /**
-     * @return Returns a 32 characteres string to be used as id of entities that
-     * implements the interface org.cejug.persistence.Identified.
-     */
-    public final String generateEntityId() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().replaceAll("-", "").toUpperCase();
-    }
-
-    /**
-     * Verifies whether the id of an identified entity is not valid to persist
-     * in the database.
-     * @param identified entity class that implements the interface
-     * org.cejug.persistence.Identified.
-     * @return true if the id is not valid.
-     */
-    public final boolean isIdNotValid(Identified identified) {
-        if(identified == null) {
-            throw new IllegalArgumentException("Identified entity is null");
+    public boolean isNullOrBlank(String property) {
+        if (property == null || property.isEmpty()) {
+            return true;
         }
-
-        return StringUtil.INSTANCE.isNullOrBlank(identified.getId());
+        return false;
     }
+
 }
