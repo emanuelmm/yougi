@@ -40,7 +40,7 @@ import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.entity.UserGroup;
 import org.cejug.yougi.entity.EntitySupport;
 import org.cejug.yougi.exception.BusinessLogicException;
-import org.cejug.yougi.util.StringUtil;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -151,7 +151,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             defaultGroup.setUserDefault(false);
         }
 
-        if(StringUtil.INSTANCE.isNullOrBlank(accessGroup.getId())) {
+        if(EntitySupport.INSTANCE.isIdValid(accessGroup.getId())) {
             try {
                 AccessGroup group = findAccessGroupByName(accessGroup.getName());
                 if(group != null) {

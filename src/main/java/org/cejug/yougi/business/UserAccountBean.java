@@ -45,7 +45,7 @@ import org.cejug.yougi.entity.EmailMessage;
 import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.entity.EntitySupport;
-import org.cejug.yougi.util.StringUtil;
+import org.cejug.yougi.util.StringUtils;
 import org.cejug.yougi.util.UrlUtils;
 
 /**
@@ -336,7 +336,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * @return The confirmed user account.
      * */
     public UserAccount confirmUser(String confirmationCode) {
-    	if(StringUtil.INSTANCE.isNullOrBlank(confirmationCode)) {
+    	if(StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
             return null;
         }
 
@@ -555,7 +555,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
     public void confirmEmailChange(String confirmationCode) throws BusinessLogicException {
         UserAccount userAccount = findByConfirmationCode(confirmationCode);
-        if(StringUtil.INSTANCE.isNullOrBlank(userAccount.getUnverifiedEmail())) {
+        if(StringUtils.INSTANCE.isNullOrBlank(userAccount.getUnverifiedEmail())) {
             throw new BusinessLogicException("errorCode0002");
         }
 
@@ -601,7 +601,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * Update the time zone of all users that inhabit the informed city.
      */
     public void updateTimeZoneInhabitants(City city) {
-        if(StringUtil.INSTANCE.isNullOrBlank(city.getTimeZone())) {
+        if(StringUtils.INSTANCE.isNullOrBlank(city.getTimeZone())) {
             List<UserAccount> userAccounts = findInhabitantsFrom(city);
             for(UserAccount user: userAccounts) {
                 user.setTimeZone(city.getTimeZone());

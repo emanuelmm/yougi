@@ -20,7 +20,7 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.util.StringUtil;
+import org.cejug.yougi.util.StringUtils;
 
 import java.util.UUID;
 
@@ -43,15 +43,23 @@ public enum EntitySupport {
     /**
      * Verifies whether the id of an identified entity is not valid to persist
      * in the database.
-     * @param identified entity class that implements the interface
-     * org.cejug.persistence.Identified.
-     * @return true if the id is not valid.
+     * @param identified class that implements the interface org.cejug.persistence.Identified.
+     * @return true if the id of the identified object is not valid.
      */
     public final boolean isIdNotValid(Identified identified) {
         if(identified == null) {
             throw new IllegalArgumentException("Identified entity is null");
         }
 
-        return StringUtil.INSTANCE.isNullOrBlank(identified.getId());
+        return isIdValid(identified.getId());
+    }
+
+    /**
+     * Verifies whether the id of an entity is valid.
+     * @param id the id of an entity.
+     * @return true if the id is valid.
+     * */
+    public final boolean isIdValid(String id) {
+        return StringUtils.INSTANCE.isNullOrBlank(id);
     }
 }

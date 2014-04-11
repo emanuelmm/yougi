@@ -26,7 +26,7 @@ package org.cejug.yougi.util;
  *
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public enum StringUtil {
+public enum StringUtils {
     INSTANCE;
 
     public boolean isNullOrBlank(String property) {
