@@ -57,7 +57,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
 
     public Attendee find(Event event, UserAccount person) {
         Attendee attendee = null;
-        List<Attendee> attendees = em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event")
+        List<Attendee> attendees = em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event", Attendee.class)
                                      .setParameter("person", person)
                                      .setParameter("event", event)
                                      .getResultList();
@@ -91,7 +91,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
      * @return a list of found attendees.
      */
     public List<Attendee> findAttendees(Event event) {
-        return em.createQuery("select a from Attendee a where a.event = :event order by a.userAccount.firstName asc").setParameter("event", event).getResultList();
+        return em.createQuery("select a from Attendee a where a.event = :event order by a.userAccount.firstName asc", Attendee.class).setParameter("event", event).getResultList();
     }
 
     /**
@@ -112,14 +112,14 @@ public class AttendeeBean extends AbstractBean<Attendee> {
     }
 
     public List<Attendee> findAttendeesWhoAttended(Event event) {
-        return em.createQuery("select a from Attendee a where a.event = :event and a.attended = :attended order by a.userAccount.firstName asc").setParameter("event", event).setParameter("attended", true).getResultList();
+        return em.createQuery("select a from Attendee a where a.event = :event and a.attended = :attended order by a.userAccount.firstName asc", Attendee.class).setParameter("event", event).setParameter("attended", true).getResultList();
     }
 
     /**
      * Returns a list of events in which the presence of the user was confirmed.
      */
     public List<Event> findAttendeedEvents(UserAccount userAccount) {
-        return em.createQuery("select a.event from Attendee a where a.userAccount = :userAccount and a.attended = :attended order by a.event.startDate desc")
+        return em.createQuery("select a.event from Attendee a where a.userAccount = :userAccount and a.attended = :attended order by a.event.startDate desc", Event.class)
                  .setParameter("userAccount", userAccount)
                  .setParameter("attended", true)
                  .getResultList();

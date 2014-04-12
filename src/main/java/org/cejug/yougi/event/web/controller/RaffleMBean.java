@@ -18,60 +18,58 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.web.controller;
+package org.cejug.yougi.event.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.cejug.yougi.entity.PublicContent;
-import org.cejug.yougi.event.business.EventBean;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+
+import org.cejug.yougi.event.business.AttendeeBean;
+import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.knowledge.business.ArticleBean;
-import org.cejug.yougi.knowledge.entity.Article;
+import org.primefaces.context.RequestContext;
 
 /**
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @author Efraim Gentil - https://github.com/efraimgentil
  */
 @ManagedBean
 @ViewScoped
-public class FrontPageMBean implements Serializable {
+public class RaffleMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+	
+	@EJB
+    private AttendeeBean attendeeBean;
+	
+	private String eventId;
+	
+	public void loadAttendees( ){
+		RequestContext context = RequestContext.getCurrentInstance();
+		List<Attendee> attendees = attendeeBean.findAttendees( new Event(eventId) );
+		context.addCallbackParam("attendees",  toJsonString(attendees) );
+	}
+	
+	protected String toJsonString( List<Attendee> attendees ){
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		for (Attendee attendee : attendees) {
+			builder.add("name", attendee.getFullName() );
+			arrayBuilder.add( builder.build() );
+		}
+		return arrayBuilder.build().toString();
+	}
 
-    @EJB
-    private EventBean eventBean;
+	public String getEventId() {
+		return eventId;
+	}
 
-    @EJB
-    private ArticleBean articleBean;
-
-    private final List<PublicContent> publicContents;
-    private PublicContent mainPublicContent;
-
-    public FrontPageMBean() {
-        publicContents = new ArrayList<>();
-    }
-
-    public List<PublicContent> getPublicContents() {
-        return publicContents;
-    }
-
-    public PublicContent getMainPublicContent() {
-        return mainPublicContent;
-    }
-
-    @PostConstruct
-    public void init() {
-        List<Event> comingEvents = eventBean.findUpCommingEvents();
-        List<Article> publishedArticles = articleBean.findPublishedArticles();
-        publicContents.addAll(comingEvents);
-        publicContents.addAll(publishedArticles);
-
-        if(!publicContents.isEmpty()) {
-            mainPublicContent = this.publicContents.remove(0);
-        }
-    }
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 }

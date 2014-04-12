@@ -266,12 +266,27 @@
 
                         <p:tab title="#{bundle.attendees}" rendered="#{securityBackingMBean.isUserLeader}">
                             <h:panelGrid width="100%">
-                                <h:outputFormat value="#{bundle.numberPeopleAttendingEvent}" style="color: blue;" rendered="#{securityBackingMBean.isUserLeader}">
-                                    <f:param value="#{eventMBean.numberPeopleAttending}"/>
-                                    <f:param value="#{eventMBean.numberPeopleAttended}"/>
-                                </h:outputFormat>
-
-                                <h:dataTable value="#{eventMBean.attendees}" var="attendee" styleClass="table">
+                                <p:outputPanel id="raffleInfo" style="display:inline-block">                              
+	                               <h:inputHidden id="eventId" value="#{eventMBean.event.id}" />
+	                               <p:commandButton value="#{bundle.raffle}" type="button" onclick="loadEventAttendees();" />
+	                               <p:remoteCommand name="loadEventAttendees"
+	                                   action="#{raffleMBean.loadAttendees()}"
+	                                   update=":dlgRaffleContent"
+	                                   process="raffleInfo"
+	                                   oncomplete="loadAttendees(xhr, status, args);">
+	                                   <f:setPropertyActionListener target="#{raffleMBean.eventId}"
+	                                            value="#{eventMBean.event.id}" />
+	                                </p:remoteCommand>
+	                                
+	                                <h:outputFormat value="&nbsp;#{bundle.numberPeopleAttendingEvent}"
+	                                    style="color: blue;"
+	                                    rendered="#{securityBackingMBean.isUserLeader}">
+	                                    <f:param value="#{eventMBean.numberPeopleAttending}" />
+	                                    <f:param value="#{eventMBean.numberPeopleAttended}" />
+	                                </h:outputFormat>
+	                            </p:outputPanel>
+                                <p:spacer height="10"/>
+                                <h:dataTable value="#{eventMBean.attendees}" var="attendee">
                                     <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                         <h:link outcome="attendee" value="#{attendee.fullName}">
@@ -294,7 +309,7 @@
 
                                     <h:column>
                                         <f:facet name="header"><h:outputText value="#{bundle.attended}"/></f:facet>
-                                        <h:graphicImage url="../images/success-icon.png" rendered="#{attendee.attended}"/>
+                                        <h:outputText value="#{attendee.attended}"/>
                                     </h:column>
                                 </h:dataTable>
                             </h:panelGrid>
@@ -342,6 +357,30 @@
                         </p:tab>
                     </p:tabView>
                 </h:form>
+                
+                <p:dialog modal="true" width="90%" height="300"
+                header="#{bundle.raffle}" widgetVar="wgtRaffleDlg" closable="false">
+	                <p:outputPanel id="dlgRaffleContent">
+	                    <h1 id="timer">-</h1>
+	                    <h1 id="winnerName">-</h1>
+	                </p:outputPanel>
+	                <f:facet name="footer">
+	                    <div class="align-center">
+	                        <p:commandButton type="button" widgetVar="btnLoadAttendees"
+	                            value="#{bundle.loadAttendeeList}" onclick="loadAttendees();" />
+	                        <p:commandButton type="button" widgetVar="btnInitRaffle"
+	                            value="#{bundle.runRaffle}" onclick="initRaffle();"
+	                            disabled="true" />
+	                        <p:commandButton type="button" widgetVar="btnRemoveLastWinner"
+	                            value="#{bundle.removeLastWinner}" onclick="removeLastWinner();"
+	                            disabled="true" />
+	                        <p:commandButton type="button" value="#{bundle.cancel}"
+	                            onclick="clearRaffle();wgtRaffleDlg.hide()" />
+	                    </div>
+	                </f:facet>
+	            </p:dialog>
+                
+                <script src="#{request.contextPath}/resources/js/raffle.js" />
             </ui:define>
             <ui:define name="jquery"></ui:define>
         </ui:composition>

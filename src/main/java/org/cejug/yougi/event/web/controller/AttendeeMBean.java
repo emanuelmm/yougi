@@ -49,7 +49,6 @@ import org.cejug.yougi.event.business.EventVenueBean;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.Venue;
-import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.web.controller.UserProfileMBean;
 import org.cejug.yougi.web.report.EventAttendeeCertificate;
 

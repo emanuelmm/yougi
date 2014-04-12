@@ -49,7 +49,7 @@ public class RoomBean extends AbstractBean<Room> {
     }
 
     public List<Room> findRooms(Venue venue) {
-        return em.createQuery("select r from Room r where r.venue = :venue order by r.name asc")
+        return em.createQuery("select r from Room r where r.venue = :venue order by r.name asc", Room.class)
                  .setParameter("venue", venue)
                  .getResultList();
     }

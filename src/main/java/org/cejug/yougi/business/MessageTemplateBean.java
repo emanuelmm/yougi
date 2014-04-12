@@ -47,6 +47,6 @@ public class MessageTemplateBean extends AbstractBean<MessageTemplate> {
     }
 
     public List<MessageTemplate> findAll() {
-        return em.createQuery("select mt from MessageTemplate mt order by mt.title").getResultList();
+        return em.createQuery("select mt from MessageTemplate mt order by mt.title", MessageTemplate.class).getResultList();
     }
 }

@@ -22,7 +22,6 @@ package org.cejug.yougi.web.handler;
 
 import java.util.Iterator;
 import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
@@ -55,7 +54,6 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             eventContext = (ExceptionQueuedEventContext) event.getSource();
             t = eventContext.getException();
             if (t instanceof ViewExpiredException) {
-                ViewExpiredException vee = (ViewExpiredException) t;
                 FacesContext fc = FacesContext.getCurrentInstance();
                 NavigationHandler nav = fc.getApplication().getNavigationHandler();
                 try {

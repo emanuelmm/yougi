@@ -21,9 +21,11 @@
 package org.cejug.yougi.business;
 
 import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.cejug.yougi.entity.Country;
 
 /**
@@ -48,12 +50,12 @@ public class CountryBean {
     }
 
     public List<Country> findCountries() {
-        return em.createQuery("select c from Country c order by c.name asc")
+        return em.createQuery("select c from Country c order by c.name asc", Country.class)
                  .getResultList();
     }
 
     public List<Country> findAssociatedCountries() {
-        return em.createQuery("select distinct p.country from Province p order by p.country asc")
+        return em.createQuery("select distinct p.country from Province p order by p.country asc", Country.class)
                  .getResultList();
     }
 
