@@ -38,7 +38,7 @@ public enum WebTextUtils {
      * Empty lines are ignored. It returns a text that appears formatted in a
      * html page.
      */
-    public static String convertLineBreakToHTMLParagraph(String str) {
+    public String convertLineBreakToHTMLParagraph(String str) {
         if (str == null) {
             return null;
         }
@@ -58,7 +58,7 @@ public enum WebTextUtils {
         return formattedStr.toString();
     }
 
-    public static String getFormattedDate(Date date) {
+    public String getFormattedDate(Date date) {
         if (date == null) {
             return "";
         }
@@ -66,7 +66,7 @@ public enum WebTextUtils {
         return TextUtils.INSTANCE.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
     }
 
-    public static String getFormattedTime(Date time, String timeZone) {
+    public String getFormattedTime(Date time, String timeZone) {
         if (time == null) {
             return "";
         }
@@ -74,7 +74,7 @@ public enum WebTextUtils {
         return TextUtils.INSTANCE.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
     }
 
-    public static String getFormattedDateTime(Date dateTime, String timeZone) {
+    public String getFormattedDateTime(Date dateTime, String timeZone) {
         if (dateTime == null) {
             return "";
         }
@@ -82,7 +82,7 @@ public enum WebTextUtils {
         return TextUtils.INSTANCE.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
     }
 
-    public static String printAddress(String address, Country country, Province province, City city, String postalCode) {
+    public String printAddress(String address, Country country, Province province, City city, String postalCode) {
         StringBuilder fullAddress = new StringBuilder();
         String commaSeparator = ", ";
         if (address != null && !address.isEmpty()) {

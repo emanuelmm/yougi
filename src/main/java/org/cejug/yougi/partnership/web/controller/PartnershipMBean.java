@@ -100,14 +100,14 @@ public class PartnershipMBean {
     public String getFormattedPartnerDescription() {
         if (representative != null) {
             String description = this.representative.getPartner().getDescription();
-            return WebTextUtils.convertLineBreakToHTMLParagraph(description);
+            return WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph(description);
         }
         return null;
     }
 
     public String getFormattedPartnerAddress() {
         Partner partner = this.representative.getPartner();
-        return WebTextUtils.printAddress(partner.getAddress(), partner.getCountry(), partner.getProvince(), partner.getCity(), partner.getPostalCode());
+        return WebTextUtils.INSTANCE.printAddress(partner.getAddress(), partner.getCountry(), partner.getProvince(), partner.getCity(), partner.getPostalCode());
     }
 
     public boolean getRepresentativeExists() {

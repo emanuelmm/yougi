@@ -265,14 +265,14 @@ public class EventMBean {
     }
 
     public String getFormattedEventDescription() {
-        return WebTextUtils.convertLineBreakToHTMLParagraph(event.getDescription());
+        return WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph(event.getDescription());
     }
 
     public String getFormattedRegistrationDate() {
         if (this.attendee == null) {
             return "";
         }
-        return WebTextUtils.getFormattedDate(this.attendee.getRegistrationDate());
+        return WebTextUtils.INSTANCE.getFormattedDate(this.attendee.getRegistrationDate());
     }
 
     @PostConstruct
