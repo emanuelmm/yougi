@@ -22,7 +22,7 @@ package org.cejug.yougi.entity;
 
 /**
  *
- * @author Hildeberto Mendonca
+ * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 public interface PublicContent {
 

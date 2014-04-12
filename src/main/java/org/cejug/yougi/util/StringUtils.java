@@ -18,44 +18,18 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.business;
-
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.Province;
+package org.cejug.yougi.util;
 
 /**
+ * This class groups a set of methods to deal with String
+ * that are not already covered by the Java API.
  *
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @author Daniel Cunha - danielsoro@gmail.com
  */
-@Stateless
-public class ProvinceBean extends AbstractBean<Province> {
+public enum StringUtils {
+    INSTANCE;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public ProvinceBean() {
-        super(Province.class);
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public List<Province> findAll() {
-        return em.createQuery("select p from Province p order by p.country.name, p.name asc", Province.class)
-                 .getResultList();
-    }
-
-    public List<Province> findByCountry(Country country) {
-        return em.createQuery("select p from Province p where p.country = :country order by p.name asc", Province.class)
-                 .setParameter("country", country)
-                 .getResultList();
+    public boolean isNullOrBlank(String property) {
+        return (property == null || property.isEmpty());
     }
 }

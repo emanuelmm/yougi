@@ -108,9 +108,9 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
     public AccessGroup findAdministrativeGroup() {
         AccessGroup group;
         try {
-            group = (AccessGroup) em.createQuery("select ag from AccessGroup ag where ag.name = :name")
-                                        .setParameter("name", ADMIN_GROUP)
-                                        .getSingleResult();
+            group = em.createQuery("select ag from AccessGroup ag where ag.name = :name", AccessGroup.class)
+                      .setParameter("name", ADMIN_GROUP)
+                      .getSingleResult();
         }
         catch(Exception nre) {
             group = new AccessGroup(ADMIN_GROUP,"Administrators Group");
@@ -121,7 +121,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
     }
 
     public List<AccessGroup> findAccessGroups() {
-        return em.createQuery("select ag from AccessGroup ag order by ag.name").getResultList();
+        return em.createQuery("select ag from AccessGroup ag order by ag.name", AccessGroup.class).getResultList();
     }
 
     public void sendGroupAssignmentAlert(UserAccount userAccount, AccessGroup accessGroup) throws BusinessLogicException {
@@ -150,7 +150,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             defaultGroup.setUserDefault(false);
         }
 
-        if(accessGroup.getId() == null || accessGroup.getId().isEmpty()) {
+        if(EntitySupport.INSTANCE.isIdValid(accessGroup.getId())) {
             try {
                 AccessGroup group = findAccessGroupByName(accessGroup.getName());
                 if(group != null) {

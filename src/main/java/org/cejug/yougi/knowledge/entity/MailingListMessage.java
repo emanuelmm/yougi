@@ -22,7 +22,6 @@ package org.cejug.yougi.knowledge.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 import org.cejug.yougi.entity.Identified;
 

@@ -18,44 +18,35 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.business;
+package org.cejug.yougi.entity;
 
-import java.util.List;
+import org.cejug.yougi.exception.BusinessLogicException;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.Province;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import java.util.Calendar;
 
 /**
- *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Stateless
-public class ProvinceBean extends AbstractBean<Province> {
+@Entity
+@DiscriminatorValue("ONCE")
+public class JobOnceScheduler extends JobScheduler {
 
-    @PersistenceContext
-    private EntityManager em;
+	private static final long serialVersionUID = 1L;
 
-    public ProvinceBean() {
-        super(Province.class);
-    }
+	@Override
+    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+        Calendar startTime = Calendar.getInstance();
+        startTime.setTime(this.getStartDate());
+        Calendar time = Calendar.getInstance();
+        time.setTime(this.getStartTime());
+        startTime.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        startTime.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+        JobExecution jobExecution = new JobExecution(this, owner);
+        jobExecution.setStartTime(startTime);
 
-    public List<Province> findAll() {
-        return em.createQuery("select p from Province p order by p.country.name, p.name asc", Province.class)
-                 .getResultList();
-    }
-
-    public List<Province> findByCountry(Country country) {
-        return em.createQuery("select p from Province p where p.country = :country order by p.name asc", Province.class)
-                 .setParameter("country", country)
-                 .getResultList();
+        return jobExecution;
     }
 }

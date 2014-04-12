@@ -39,7 +39,7 @@ public class ApplicationPropertyBean {
 
     public Map<String, String> findApplicationProperties() {
         Map<String, String> propertiesMap = new HashMap<>();
-        List<ApplicationProperty> properties = em.createQuery("select ap from ApplicationProperty ap").getResultList();
+        List<ApplicationProperty> properties = em.createQuery("select ap from ApplicationProperty ap", ApplicationProperty.class).getResultList();
         for(ApplicationProperty property: properties) {
             propertiesMap.put(property.getPropertyKey(), property.getPropertyValue());
         }
@@ -103,7 +103,7 @@ public class ApplicationPropertyBean {
     }
 
     public void save(Map<String, String> properties) {
-        List<ApplicationProperty> existingProperties = em.createQuery("select ap from ApplicationProperty ap").getResultList();
+        List<ApplicationProperty> existingProperties = em.createQuery("select ap from ApplicationProperty ap", ApplicationProperty.class).getResultList();
         String value;
         for(ApplicationProperty property: existingProperties) {
             value = properties.get(property.getPropertyKey());

@@ -18,44 +18,31 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.business;
+package org.cejug.yougi.entity;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.Province;
+import java.util.Calendar;
 
 /**
- *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Stateless
-public class ProvinceBean extends AbstractBean<Province> {
+public enum DayOfTheWeek {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public ProvinceBean() {
-        super(Province.class);
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public List<Province> findAll() {
-        return em.createQuery("select p from Province p order by p.country.name, p.name asc", Province.class)
-                 .getResultList();
-    }
-
-    public List<Province> findByCountry(Country country) {
-        return em.createQuery("select p from Province p where p.country = :country order by p.name asc", Province.class)
-                 .setParameter("country", country)
-                 .getResultList();
+    public int getCalendarDayOfTheWeek() {
+        switch (this) {
+            case MONDAY:  return Calendar.MONDAY;
+            case TUESDAY: return Calendar.TUESDAY;
+            case WEDNESDAY: return Calendar.WEDNESDAY;
+            case THURSDAY: return Calendar.THURSDAY;
+            case FRIDAY: return Calendar.FRIDAY;
+            case SATURDAY: return Calendar.SATURDAY;
+            default: return Calendar.SUNDAY;
+        }
     }
 }

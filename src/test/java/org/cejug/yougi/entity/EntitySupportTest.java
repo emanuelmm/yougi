@@ -18,44 +18,28 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.business;
+package org.cejug.yougi.entity;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.Province;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- *
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @Author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Stateless
-public class ProvinceBean extends AbstractBean<Province> {
-
-    @PersistenceContext
-    private EntityManager em;
-
-    public ProvinceBean() {
-        super(Province.class);
+public class EntitySupportTest {
+    @Test
+    public void testGenerateEntityId() throws Exception {
+        Assert.assertEquals("An id should have exactly 32 characters", EntitySupport.INSTANCE.generateEntityId().length(), 32);
+        Assert.assertFalse("An id should not contain the character '-'", EntitySupport.INSTANCE.generateEntityId().contains("-"));
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    @Test(expected = IllegalArgumentException.class)
+    public void testIsIdNotValid() throws Exception {
+        EntitySupport.INSTANCE.isIdNotValid(null);
     }
 
-    public List<Province> findAll() {
-        return em.createQuery("select p from Province p order by p.country.name, p.name asc", Province.class)
-                 .getResultList();
-    }
-
-    public List<Province> findByCountry(Country country) {
-        return em.createQuery("select p from Province p where p.country = :country order by p.name asc", Province.class)
-                 .setParameter("country", country)
-                 .getResultList();
+    @Test
+    public void testIsIdValid() throws Exception {
+        Assert.assertFalse("Id is invalid", EntitySupport.INSTANCE.isIdValid("l"));
     }
 }

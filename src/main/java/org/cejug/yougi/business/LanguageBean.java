@@ -25,6 +25,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.cejug.yougi.entity.Language;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -44,7 +45,7 @@ public class LanguageBean {
     }
 
     public void save(Language language) {
-        if(language.getAcronym() == null || language.getAcronym().isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(language.getAcronym())) {
             language.setAcronym(Language.DEFAULT_LANGUAGE);
             em.persist(language);
         }
