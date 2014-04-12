@@ -89,19 +89,4 @@ public class CityBean extends AbstractBean<City> {
     public List<City> findStartingWith(String initials) {
         return em.createQuery("select c from City c where c.name like '"+ initials +"%' order by c.name", City.class).getResultList();
     }
-
-    /**
-     * @param name The name of the city.
-     * @return An instance of city or null if there is not city with the given name.
-     */
-    public City findByName(String name) {
-        List<City> candidates = em.createQuery("select c from City c where c.name = :name", City.class)
-                 .setParameter("name", name)
-                 .getResultList();
-        if(candidates != null && candidates.size() == 1) {
-            return candidates.get(0);
-        }
-
-        return null;
-    }
 }

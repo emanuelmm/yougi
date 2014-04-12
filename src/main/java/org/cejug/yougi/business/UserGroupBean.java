@@ -61,12 +61,6 @@ public class UserGroupBean {
                  .getResultList();
     }
 
-    public List<AccessGroup> findGroupsUser(UserAccount userAccount) {
-        return em.createQuery("select ug.accessGroup from UserGroup ug where ug.userAccount = :userAccount", AccessGroup.class)
-                 .setParameter("userAccount", userAccount)
-                 .getResultList();
-    }
-
     public void update(AccessGroup accessGroup, List<UserGroup> userGroups) {
         if(userGroups.isEmpty()) {
             em.createQuery("delete from UserGroup ug where ug.accessGroup = :accessGroup")

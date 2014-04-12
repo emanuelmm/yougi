@@ -596,16 +596,4 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         LOGGER.log(Level.INFO, "Number of removed accounts: {0}", i);
     }
-
-    /**
-     * Update the time zone of all users that inhabit the informed city.
-     */
-    public void updateTimeZoneInhabitants(City city) {
-        if(StringUtils.INSTANCE.isNullOrBlank(city.getTimeZone())) {
-            List<UserAccount> userAccounts = findInhabitantsFrom(city);
-            for(UserAccount user: userAccounts) {
-                user.setTimeZone(city.getTimeZone());
-            }
-        }
-    }
 }

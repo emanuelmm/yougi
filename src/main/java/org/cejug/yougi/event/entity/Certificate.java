@@ -36,72 +36,42 @@ public class Certificate {
     
     private String certificateCode;
 
-    /**
-     * @return the certificateFullname
-     */
     public String getCertificateFullname() {
         return certificateFullname;
     }
 
-    /**
-     * @param certificateFullname the certificateFullname to set
-     */
     public void setCertificateFullname(String certificateFullname) {
         this.certificateFullname = certificateFullname;
     }
 
-    /**
-     * @return the certificateEvent
-     */
     public String getCertificateEvent() {
         return certificateEvent;
     }
 
-    /**
-     * @param certificateEvent the certificateEvent to set
-     */
     public void setCertificateEvent(String certificateEvent) {
         this.certificateEvent = certificateEvent;
     }
 
-    /**
-     * @return the certificateVenue
-     */
     public String getCertificateVenue() {
         return certificateVenue;
     }
 
-    /**
-     * @param certificateVenue the certificateVenue to set
-     */
     public void setCertificateVenue(String certificateVenue) {
         this.certificateVenue = certificateVenue;
     }
 
-    /**
-     * @return the certificateDate
-     */
     public Date getCertificateDate() {
         return certificateDate;
     }
 
-    /**
-     * @param certificateDate the certificateDate to set
-     */
     public void setCertificateDate(Date certificateDate) {
         this.certificateDate = certificateDate;
     }
 
-    /**
-     * @return the certificateCode
-     */
     public String getCertificateCode() {
         return certificateCode;
     }
 
-    /**
-     * @param certificateCode the certificateCode to set
-     */
     public void setCertificateCode(String certificateCode) {
         this.certificateCode = certificateCode;
     }

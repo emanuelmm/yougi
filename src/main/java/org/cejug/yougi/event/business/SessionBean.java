@@ -121,10 +121,6 @@ public class SessionBean extends AbstractBean<SessionEvent> {
         return em.createQuery("select s from SessionEvent s where s.topics like '%"+ topic +"%'", SessionEvent.class).getResultList();
     }
 
-    public List<SessionEvent> findSessionsInByTopic(String topic) {
-        return em.createQuery("select s from SessionEvent s where s.topics like '%"+ topic +"%'", SessionEvent.class).getResultList();
-    }
-
     public List<SessionEvent> findSessionsByTrack(Track track) {
         return em.createQuery("select s from SessionEvent s where s.track = :track order by s.startDate asc", SessionEvent.class)
                  .setParameter("track", track)

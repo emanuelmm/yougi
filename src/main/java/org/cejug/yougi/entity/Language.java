@@ -46,10 +46,6 @@ public class Language implements Serializable {
         this.acronym = DEFAULT_LANGUAGE;
     }
 
-    public Language(String acronym) {
-        this.acronym = acronym;
-    }
-
     public String getName() {
         return name;
     }
