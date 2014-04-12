@@ -34,11 +34,11 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:panelGrid>
                         <h:outputLabel for="name" value="#{bundle.name}" styleClass="requiredFieldLabel"/>
-                        <h:inputText id="name" value="#{roomMBean.room.name}" label="#{bundle.name}" required="true" size="60" maxlength="100"/>
+                        <h:inputText id="name" value="#{roomMBean.room.name}" label="#{bundle.name}" required="true" size="60" maxlength="100" styleClass="form-control"/>
                         <h:message for="name" errorClass="errorMessage"/>
 
                         <h:outputLabel for="venue" value="#{bundle.venue}" styleClass="requiredFieldLabel"/>
-                        <h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{roomMBean.selectedVenue}" required="true">
+                        <h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{roomMBean.selectedVenue}" required="true" styleClass="form-control">
                             <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             <f:selectItems value="#{roomMBean.venues}" var="venue" itemLabel="#{venue.name}" itemValue="#{venue.id}"/>
                         </h:selectOneMenu>
@@ -48,14 +48,14 @@
                         <p:spinner id="capacity" value="#{roomMBean.room.capacity}"/>
 
                         <h:outputLabel for="description" value="#{bundle.description}" styleClass="fieldLabel"/>
-                        <h:inputTextarea id="description" label="#{bundle.description}" required="false" cols="80" rows="5" value="#{roomMBean.room.description}"/>
+                        <h:inputTextarea id="description" label="#{bundle.description}" required="false" cols="80" rows="5" value="#{roomMBean.room.description}" styleClass="form-control"/>
                     </h:panelGrid>
 
                     <h:inputHidden id="id" value="#{roomMBean.room.id}"/>
 
                     <h:panelGrid columns="2">
-                        <h:commandButton value="#{bundle.save}" action="#{roomMBean.save}"/>
-                        <h:button value="#{bundle.cancel}" outcome="venue">
+                        <h:commandButton value="#{bundle.save}" action="#{roomMBean.save}" styleClass="btn btn-default"/>
+                        <h:button value="#{bundle.cancel}" outcome="venue" styleClass="btn btn-primary">
                             <f:param name="id" value="#{roomMBean.selectedVenue}"/>
                         </h:button>
                     </h:panelGrid>
