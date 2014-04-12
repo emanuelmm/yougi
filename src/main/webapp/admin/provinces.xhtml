@@ -33,19 +33,19 @@
                 <p><h:link outcome="province" value="#{bundle.new} #{bundle.province}"/></p>
 
                 <h:form>
-                    <p:dataTable id="provinces" value="#{provinceMBean.provinces}" var="province">
-                        <p:column>
+                    <h:dataTable id="provinces" value="#{provinceMBean.provinces}" var="province" styleClass="table table-striped table-bordered">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="province" value="#{province.name}">
                                 <f:param name="id" value="#{province.id}"/>
                             </h:link>
-                        </p:column>
+                        </h:column>
 
-                        <p:column>
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.country}"/></f:facet>
                             <h:outputText value="#{province.country.name}"/>
-                        </p:column>
-                    </p:dataTable>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"></ui:define>

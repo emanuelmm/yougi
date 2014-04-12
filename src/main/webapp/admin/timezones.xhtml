@@ -32,26 +32,26 @@
                 <h1>#{bundle.timeZones}</h1>
                 <h:form>
                     <p><h:link outcome="timezone" value="#{bundle.newTimeZone}"/></p>
-                    <p:dataTable value="#{timezoneMBean.timezones}" var="tz" emptyMessage="#{bundle.noRecordsFound}">
-                        <p:column>
+                    <h:dataTable value="#{timezoneMBean.timezones}" var="tz" emptyMessage="#{bundle.noRecordsFound}" styleClass="table table-striped table-bordered">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.id}"/></f:facet>
                             <h:link outcome="timezone" value="#{tz.id}">
                                 <f:param name="timezone" value="#{tz.id}"/>
                             </h:link>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.offset}"/></f:facet>
                             <h:outputText value="#{tz.offset}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.label}"/></f:facet>
                             <h:outputText value="#{tz.label}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.default}"/></f:facet>
                             <h:graphicImage rendered="#{tz.defaultTz}" url="/images/success-icon.png"/>
-                        </p:column>
-                    </p:dataTable>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"></ui:define>
