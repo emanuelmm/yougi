@@ -54,8 +54,8 @@
                     <h:inputHidden id="id" value="#{roomMBean.room.id}"/>
 
                     <h:panelGrid columns="2">
-                        <h:commandButton value="#{bundle.save}" action="#{roomMBean.save}" styleClass="btn btn-default"/>
-                        <h:button value="#{bundle.cancel}" outcome="venue" styleClass="btn btn-primary">
+                        <h:commandButton value="#{bundle.save}" action="#{roomMBean.save}" styleClass="btn btn-primary"/>
+                        <h:button value="#{bundle.cancel}" outcome="venue" styleClass="btn btn-default">
                             <f:param name="id" value="#{roomMBean.selectedVenue}"/>
                         </h:button>
                     </h:panelGrid>
