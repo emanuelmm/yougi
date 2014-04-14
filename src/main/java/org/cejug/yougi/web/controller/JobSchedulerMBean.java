@@ -49,12 +49,17 @@ public class JobSchedulerMBean {
     @EJB
     private JobSchedulerBean jobSchedulerBean;
 
+    @EJB
+    private UserAccountBean userAccountBean;
+
     private JobScheduler jobScheduler;
 
     private List<JobScheduler> jobSchedulers;
     private List<String> jobNames;
+    private List<UserAccount> userAccounts;
 
     private String selectedName;
+    private String selectedOwner;
 
     @ManagedProperty(value="#{param.id}")
     private String id;
@@ -67,12 +72,24 @@ public class JobSchedulerMBean {
         this.id = userId;
     }
 
+    public JobScheduler getJobScheduler() {
+        return jobScheduler;
+    }
+
     public String getSelectedName() {
         return selectedName;
     }
 
     public void setSelectedName(String selectedName) {
         this.selectedName = selectedName;
+    }
+
+    public String getSelectedOwner() {
+        return selectedOwner;
+    }
+
+    public void setSelectedOwner(String selectedOwner) {
+        this.selectedOwner = selectedOwner;
     }
 
     public List<JobScheduler> getJobSchedulers() {
@@ -87,6 +104,13 @@ public class JobSchedulerMBean {
             this.jobNames = jobSchedulerBean.findUnscheduledJobNames();
         }
         return this.jobNames;
+    }
+
+    public List<UserAccount> getUserAccounts() {
+        if(this.userAccounts == null) {
+            this.userAccounts = userAccountBean.findAllActiveAccounts();
+        }
+        return this.userAccounts;
     }
 
     @PostConstruct

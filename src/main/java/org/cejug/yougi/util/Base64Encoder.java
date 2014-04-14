@@ -1,16 +1,17 @@
-// Copyright 2003-2009 Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland
-// www.source-code.biz, www.inventec.ch/chdh
-//
-// This module is multi-licensed and may be used under the terms
-// of any of the following licenses:
-//
-//  EPL, Eclipse Public License, http://www.eclipse.org/legal
-//  LGPL, GNU Lesser General Public License, http://www.gnu.org/licenses/lgpl.html
-//  AL, Apache License, http://www.apache.org/licenses
-//  BSD, BSD License, http://www.opensource.org/licenses/bsd-license.php
-//
-// Please contact the author if you need another license.
-// This module is provided "as is", without warranties of any kind.
+/* Copyright 2003-2009 Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland
+ * www.source-code.biz, www.inventec.ch/chdh
+ *
+ * This module is multi-licensed and may be used under the terms
+ * of any of the following licenses:
+ *
+ *  EPL, Eclipse Public License, http://www.eclipse.org/legal
+ *  LGPL, GNU Lesser General Public License, http://www.gnu.org/licenses/lgpl.html
+ *  AL, Apache License, http://www.apache.org/licenses
+ *  BSD, BSD License, http://www.opensource.org/licenses/bsd-license.php
+ *
+ * Please contact the author if you need another license.
+ * This module is provided "as is", without warranties of any kind.
+ * */
 package org.cejug.yougi.util;
 
 /**
@@ -41,7 +42,7 @@ package org.cejug.yougi.util;
  */
 public final class Base64Encoder {
 
-// Mapping table from 6-bit nibbles to Base64 characters.
+    // Mapping table from 6-bit nibbles to Base64 characters.
     private static char[] map1 = new char[64];
 
     static {
@@ -58,7 +59,8 @@ public final class Base64Encoder {
         map1[i++] = '+';
         map1[i++] = '/';
     }
-// Mapping table from Base64 characters to 6-bit nibbles.
+
+    // Mapping table from Base64 characters to 6-bit nibbles.
     private static byte[] map2 = new byte[128];
 
     static {

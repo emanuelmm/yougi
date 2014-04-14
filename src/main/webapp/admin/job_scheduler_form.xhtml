@@ -44,15 +44,39 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="website">#{bundle.website}</label><br/>
-                        <h:inputText id="website" value="#{webSourceMBean.website}" styleClass="form-control">
-                            <f:ajax listener="#{webSourceMBean.updateWebSource}" render="member title feed"/>
-                        </h:inputText>
+                        <label for="owner">#{bundle.owner}</label>
+                        <h:selectOneMenu id="owner" label="#{bundle.owner}" value="#{jobSchedulerMBean.selectedOwner}" class="form-control">
+                            <f:selectItem itemLabel="#{bundle.select}" itemValue=""/>
+                            <f:selectItems value="#{jobSchedulerMBean.userAccounts}" var="user" itemLabel="#{user.fullName}" itemValue="#{user.id}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="startDate">#{bundle.startDate}</label>
+                        <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10"/>
+                        <h:message for="startDate" errorClass="errorMessage"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="endDate">#{bundle.endDate}</label>
+                        <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10"/>
+                        <h:message for="endDate" errorClass="errorMessage"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="startTime">#{bundle.startTime}</label>
+                        <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true"/>
+                        <h:message for="endDate" errorClass="errorMessage"/>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="title">#{bundle.title}</label>
+                <label for="startDate">#{bundle.startDate}</label>
                 <h:inputText id="title" styleClass="form-control" value="#{webSourceMBean.title}" required="true"/>
                 <h:message for="title" errorClass="errorMessage"/>
             </div>
