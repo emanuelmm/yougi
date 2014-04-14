@@ -158,7 +158,7 @@
                 <executions>
                     <execution>
                         <id>change_version</id>
-                        <phase>compile</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>replace</goal>
                         </goals>
