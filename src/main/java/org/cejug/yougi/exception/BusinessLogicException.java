@@ -20,9 +20,12 @@
  * */
 package org.cejug.yougi.exception;
 
+import javax.ejb.ApplicationException;
+
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
+@ApplicationException(rollback = true)
 public class BusinessLogicException extends Exception {
 
 	private static final long serialVersionUID = 1L;
