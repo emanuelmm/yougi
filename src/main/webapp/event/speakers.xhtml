@@ -31,9 +31,7 @@
             <ui:define name="content">
                 <h1>#{bundle.speakers}</h1>
                 <h:outputText value="#{speakerMBean.event.name}" style="font-size: 18px; font-weight: bold;" rendered="#{! empty speakerMBean.event}"/>
-                <p><h:link outcome="speaker_form" value="#{bundle.newSpeaker}" rendered="#{! empty speakerMBean.event and securityBackingMBean.isUserLeader}">
-                       <f:param name="eventId" value="#{speakerMBean.event.id}"/>
-                   </h:link></p>
+                <p><h:link outcome="speaker_form" value="#{bundle.newSpeaker}" rendered="#{! empty speakerMBean.event and securityBackingMBean.isUserLeader}"/></p>
                 <h:form>
                     <p:dataGrid value="#{speakerMBean.speakers}" var="speaker" columns="3">
                         <p:panel style="text-align: center">
@@ -41,7 +39,6 @@
                                 <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(speaker.userAccount.email)}"/>
                                 <h:link outcome="speaker" value="#{speaker}">
                                     <f:param name="id" value="#{speaker.id}"/>
-                                    <f:param name="eventId" value="#{speakerMBean.event.id}"/>
                                 </h:link>
                                 <h:outputText value="#{speaker.organization}"/>
                             </h:panelGrid>
