@@ -27,7 +27,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.business.AccessGroupBean;
+import org.cejug.yougi.business.AuthenticationBean;
+import org.cejug.yougi.business.UserGroupBean;
 import org.cejug.yougi.entity.AccessGroup;
+import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.UserGroup;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.SessionEvent;
 import org.cejug.yougi.event.entity.Speaker;
@@ -45,6 +49,12 @@ public class SpeakerBean extends AbstractBean<Speaker> {
     @EJB
     private AccessGroupBean accessGroupBean;
 
+    @EJB
+    private AuthenticationBean authenticationBean;
+
+    @EJB
+    private UserGroupBean userGroupBean;
+
     public SpeakerBean() {
         super(Speaker.class);
     }
@@ -61,16 +71,13 @@ public class SpeakerBean extends AbstractBean<Speaker> {
      */
     public List<UserAccount> findSpeakerCandidates(UserAccount except) {
         List<UserAccount> candidates;
-        AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("speakers");
         if(except != null) {
-            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s where s.userAccount <> :except) order by ug.userAccount.firstName, ug.userAccount.lastName asc", UserAccount.class)
+            candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s where s.userAccount <> :except) order by ua.firstName, ua.lastName asc", UserAccount.class)
                            .setParameter("except", except)
-                           .setParameter("group", accessGroup)
                            .getResultList();
         }
         else {
-            candidates = em.createQuery("select ug.userAccount from UserGroup ug where ug.accessGroup = :group and ug.userAccount not in (select s.userAccount from Speaker s) order by ug.userAccount.firstName, ug.userAccount.lastName asc", UserAccount.class)
-                           .setParameter("group", accessGroup)
+            candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s) order by ua.firstName, ua.lastName asc", UserAccount.class)
                            .getResultList();
         }
         return candidates;
@@ -99,5 +106,17 @@ public class SpeakerBean extends AbstractBean<Speaker> {
         return em.createQuery("select ss.speaker from SpeakerSession ss where ss.sessionEvent = :session order by ss.speaker.userAccount.firstName asc", Speaker.class)
                  .setParameter("session", session)
                  .getResultList();
+    }
+
+    @Override
+    public Speaker save(Speaker speaker) {
+        Speaker theSpeaker = super.save(speaker);
+
+        Authentication authentication = authenticationBean.findByUserAccount(theSpeaker.getUserAccount());
+        AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("speakers");
+        UserGroup userGroup = new UserGroup(accessGroup, authentication);
+        userGroupBean.add(userGroup);
+
+        return theSpeaker;
     }
 }

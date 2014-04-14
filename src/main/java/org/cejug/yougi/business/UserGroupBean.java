@@ -23,6 +23,7 @@ package org.cejug.yougi.business;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.cejug.yougi.entity.AccessGroup;
 import org.cejug.yougi.entity.UserAccount;
@@ -55,10 +56,27 @@ public class UserGroupBean {
      * @param userAccount the user account that is member of one or more groups.
      * @return the list of groups registrations of the informed user account.
      */
-    public List<UserGroup> findUsersGroups(UserAccount userAccount) {
+    public List<UserGroup> findUserGroups(UserAccount userAccount) {
         return em.createQuery("select ug from UserGroup ug where ug.userAccount = :userAccount", UserGroup.class)
                  .setParameter("userAccount", userAccount)
                  .getResultList();
+    }
+
+    public boolean isUserPartOfGroup(UserGroup userGroup) {
+        return isUserPartOfGroup(userGroup.getUserAccount(), userGroup.getAccessGroup());
+    }
+
+    public boolean isUserPartOfGroup(UserAccount userAccount, AccessGroup accessGroup) {
+        try {
+            UserGroup userGroup = em.createQuery("select ug from UserGroup ug where ug.userAccount = :userAccount and ug.accessGroup = :accessGroup", UserGroup.class)
+                    .setParameter("userAccount", userAccount)
+                    .setParameter("accessGroup", accessGroup)
+                    .getSingleResult();
+            return (userGroup != null);
+        }
+        catch (NoResultException nre) {
+            return false;
+        }
     }
 
     public void update(AccessGroup accessGroup, List<UserGroup> userGroups) {
@@ -91,7 +109,9 @@ public class UserGroupBean {
     }
 
     public void add(UserGroup userGroup) {
-        em.persist(userGroup);
+        if(!isUserPartOfGroup(userGroup)) {
+            em.persist(userGroup);
+        }
     }
 
     /**
@@ -99,7 +119,7 @@ public class UserGroupBean {
      * @param userAccount the user account whose username is going to change.
      */
     public void changeUsername(UserAccount userAccount) {
-        List<UserGroup> usersGroups = findUsersGroups(userAccount);
+        List<UserGroup> usersGroups = findUserGroups(userAccount);
         for(UserGroup userGroup: usersGroups) {
             userGroup.setUsername(userAccount.getEmail());
         }

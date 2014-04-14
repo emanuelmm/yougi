@@ -196,8 +196,8 @@ public class SpeakerMBean implements Serializable {
     }
 
     public String save() {
-        UserAccount usrAcc = userAccountBean.find(selectedUserAccount);
-        this.speaker.setUserAccount(usrAcc);
+        UserAccount userAccount = userAccountBean.find(selectedUserAccount);
+        this.speaker.setUserAccount(userAccount);
 
         speakerBean.save(this.speaker);
         return getNextPage();
