@@ -22,12 +22,14 @@ package org.cejug.yougi.knowledge.business;
 
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.knowledge.entity.Topic;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -87,7 +89,7 @@ public class TopicBean {
     }
 
     public void remove(String name) {
-        if(name == null || name.isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(name)) {
             return;
         }
 

@@ -25,11 +25,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
 import org.cejug.yougi.business.TimezoneBean;
@@ -39,6 +41,7 @@ import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -121,7 +124,7 @@ public class UserProfileMBean implements Serializable {
         }
         else {
             ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
-            if(appPropTimeZone.getPropertyValue() == null || appPropTimeZone.getPropertyValue().isEmpty()) {
+            if(StringUtils.INSTANCE.isNullOrBlank(appPropTimeZone.getPropertyValue())) {
                 Timezone tz = timezoneBean.findDefaultTimezone();
                 //LOGGER.log(Level.INFO, "Default timezone: {0}",tz.getId());
                 return tz.getId();

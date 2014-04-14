@@ -21,6 +21,7 @@
 package org.cejug.yougi.web.controller;
 
 import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -33,11 +34,13 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Authentication;
 import org.cejug.yougi.entity.DeactivationType;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.util.ResourceBundleHelper;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -166,7 +169,7 @@ public class UserAccountMBean implements Serializable {
     }
 
     public boolean isConfirmed() {
-        if(userAccount.getConfirmationCode() == null || userAccount.getConfirmationCode().isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(userAccount.getConfirmationCode())) {
             return true;
         }
         return false;
