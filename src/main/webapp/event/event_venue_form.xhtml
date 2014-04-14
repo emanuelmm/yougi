@@ -33,7 +33,7 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:panelGrid>
                         <h:outputLabel for="event" value="#{bundle.event}" styleClass="requiredFieldLabel"/>
-                        <h:selectOneMenu id="event" label="#{bundle.event}" value="#{eventVenueMBean.selectedEvent}">
+                        <h:selectOneMenu id="event" label="#{bundle.event}" value="#{eventVenueMBean.selectedEvent}" styleClass="form-control">
                             <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             <f:selectItems value="#{eventVenueMBean.events}" var="event" itemLabel="#{event.name}" itemValue="#{event.id}"/>
                             <f:ajax render="venue"/>
@@ -41,7 +41,7 @@
                         <h:message for="event" errorClass="errorMessage"/>
 
                         <h:outputLabel for="venue" value="#{bundle.venue}" styleClass="requiredFieldLabel" rendered="true"/>
-                        <h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{eventVenueMBean.selectedVenue}">
+                        <h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{eventVenueMBean.selectedVenue}" styleClass="form-control">
                             <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             <f:selectItems value="#{eventVenueMBean.venues}" var="venue" itemLabel="#{venue.name}" itemValue="#{venue.id}"/>
                         </h:selectOneMenu>
@@ -49,10 +49,10 @@
                     </h:panelGrid>
 
                     <h:panelGrid columns="2">
-                        <h:commandButton value="#{bundle.save}" action="#{eventVenueMBean.save}">
+                        <h:commandButton value="#{bundle.save}" action="#{eventVenueMBean.save}" styleClass="btn btn-default">
                             <f:param name="eventId" value="#{eventVenueMBean.eventId}"/>
                         </h:commandButton>
-                        <h:commandButton value="#{bundle.cancel}" action="#{eventVenueMBean.cancel}">
+                        <h:commandButton value="#{bundle.cancel}" action="#{eventVenueMBean.cancel}" styleClass="btn btn-primary">
                             <f:param name="eventId" value="#{eventVenueMBean.eventId}"/>
                         </h:commandButton>
                     </h:panelGrid>
