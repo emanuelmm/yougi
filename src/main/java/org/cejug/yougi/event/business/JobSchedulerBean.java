@@ -18,23 +18,26 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.project.business;
+package org.cejug.yougi.event.business;
 
-import java.util.List;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.entity.JobScheduler;
 
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.project.entity.Project;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-public class ProjectBean extends AbstractBean<Project> {
-	
+public class JobSchedulerBean extends AbstractBean<JobScheduler> {
+
 	@PersistenceContext
     private EntityManager em;
 
@@ -43,11 +46,27 @@ public class ProjectBean extends AbstractBean<Project> {
 		return em;
 	}
 
-	public ProjectBean() {
-		super(Project.class);
+	public JobSchedulerBean() {
+		super(JobScheduler.class);
 	}
 	
-	public List<Project> findProjects() {
-		return em.createQuery("select p from Project p order by p.name asc", Project.class).getResultList();
+	public List<JobScheduler> findAll() {
+		return em.createQuery("select js from JobScheduler js order by js.name asc", JobScheduler.class).getResultList();
 	}
+
+    public List<String> findUnscheduledJobNames() {
+        List<JobScheduler> schedulers = findAll();
+        JobOperator jo = BatchRuntime.getJobOperator();
+        Set<String> jobNames = jo.getJobNames();
+
+        for(String jobName: jobNames) {
+            for(JobScheduler jobScheduler: schedulers) {
+                if(jobScheduler.getName().equals(jobName)) {
+                    jobNames.remove(jobName);
+                    break;
+                }
+            }
+        }
+        return new ArrayList<>(jobNames);
+    }
 }
