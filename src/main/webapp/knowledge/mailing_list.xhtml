@@ -49,32 +49,18 @@
                         	</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<h:outputLabel for="subscription" value="#{bundle.subscribeTo}" styleClass="control-label"/>
-                        		<h:inputText id="subscription" value="#{mailingListMBean.mailingList.subscription}" size="60" maxlength="100" styleClass="form-control"/>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-							 	<h:outputLabel for="unsubscription" value="#{bundle.unsubscribeFrom}" styleClass="control-label"/>
-                        		<h:inputText id="unsubscription" value="#{mailingListMBean.mailingList.unsubscription}" size="60" maxlength="100" styleClass="form-control"/>
-							</div>
-						</div>
-					</div>
 					<div class="form-group">
 						<h:outputLabel for="description" value="#{bundle.description}" styleClass="control-label"/>
                        	<h:inputTextarea id="description" value="#{mailingListMBean.mailingList.description}" rows="3" cols="40" styleClass="form-control"/>
 					</div>
 							
-                    	<h:inputHidden id="id" value="#{mailingListMBean.mailingList.id}"/>
+                    <h:inputHidden id="id" value="#{mailingListMBean.mailingList.id}"/>
 
-                        <h:commandButton value="#{bundle.save}" action="#{mailingListMBean.save}" styleClass="btn btn-primary"/>
-                        <h:commandButton value="#{bundle.remove}" action="#{mailingListMBean.remove}" rendered="#{! empty mailingListMBean.id}" styleClass="btn btn-danger">
-                            <f:param name="id" value="#{mailingListMBean.mailingList.id}"/>
-                        </h:commandButton>
-                        <h:button value="#{bundle.cancel}" outcome="mailing_lists" styleClass="btn btn-default" style="margin-left: 5px;"/>
+                    <h:commandButton value="#{bundle.save}" action="#{mailingListMBean.save}" styleClass="btn btn-primary"/>
+                    <h:commandButton value="#{bundle.remove}" action="#{mailingListMBean.remove}" rendered="#{! empty mailingListMBean.id}" styleClass="btn btn-danger">
+                        <f:param name="id" value="#{mailingListMBean.mailingList.id}"/>
+                    </h:commandButton>
+                    <h:button value="#{bundle.cancel}" outcome="mailing_lists" styleClass="btn btn-default" style="margin-left: 5px;"/>
                 </h:form>
             </ui:define>
         </ui:composition>
