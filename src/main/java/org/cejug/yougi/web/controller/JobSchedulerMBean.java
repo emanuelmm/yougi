@@ -22,6 +22,7 @@ package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.entity.JobFrequencyType;
 import org.cejug.yougi.entity.JobScheduler;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.JobSchedulerBean;
@@ -60,6 +61,7 @@ public class JobSchedulerMBean {
 
     private String selectedName;
     private String selectedOwner;
+    private JobFrequencyType selectedFrequency;
 
     @ManagedProperty(value="#{param.id}")
     private String id;
@@ -90,6 +92,14 @@ public class JobSchedulerMBean {
 
     public void setSelectedOwner(String selectedOwner) {
         this.selectedOwner = selectedOwner;
+    }
+
+    public JobFrequencyType getSelectedFrequency() {
+        return selectedFrequency;
+    }
+
+    public void setSelectedFrequency(JobFrequencyType selectedFrequency) {
+        this.selectedFrequency = selectedFrequency;
     }
 
     public List<JobScheduler> getJobSchedulers() {

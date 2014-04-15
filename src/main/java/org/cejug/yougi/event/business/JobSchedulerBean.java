@@ -31,12 +31,16 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
 public class JobSchedulerBean extends AbstractBean<JobScheduler> {
+
+    private static final Logger LOGGER = Logger.getLogger(JobSchedulerBean.class.getSimpleName());
 
 	@PersistenceContext
     private EntityManager em;
@@ -60,6 +64,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         Set<String> jobNames = jo.getJobNames();
 
         for(String jobName: jobNames) {
+            LOGGER.log(Level.INFO, jobName);
             for(JobScheduler jobScheduler: schedulers) {
                 if(jobScheduler.getName().equals(jobName)) {
                     jobNames.remove(jobName);
@@ -67,6 +72,11 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                 }
             }
         }
+
+        if (jobNames.isEmpty()) {
+            jobNames.add("mailing_list");
+        }
+
         return new ArrayList<>(jobNames);
     }
 }

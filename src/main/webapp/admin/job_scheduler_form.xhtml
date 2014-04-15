@@ -52,43 +52,56 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="description">#{bundle.description}</label>
+                <h:inputTextarea id="description" value="#{jobSchedulerMBean.jobScheduler.description}" styleClass="form-control"/>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="owner">#{bundle.frequency}</label>
+                        <h:selectOneMenu id="frequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.selectedFrequency}" class="form-control">
+                            <f:selectItem itemLabel="#{bundle.instant}" itemValue="INSTANT"/>
+                            <f:selectItem itemLabel="#{bundle.once}" itemValue="ONCE"/>
+                            <f:selectItem itemLabel="#{bundle.hourly}" itemValue="HOURLY"/>
+                            <f:selectItem itemLabel="#{bundle.daily}" itemValue="DAILY"/>
+                            <f:selectItem itemLabel="#{bundle.weekly}" itemValue="WEEKLY"/>
+                            <f:selectItem itemLabel="#{bundle.monthly}" itemValue="MONTHLY"/>
+                            <f:selectItem itemLabel="#{bundle.yearly}" itemValue="YEARLY"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="startDate">#{bundle.startDate}</label>
+                        <label for="startDate">#{bundle.startDate}</label><br/>
                         <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10"/>
                         <h:message for="startDate" errorClass="errorMessage"/>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="endDate">#{bundle.endDate}</label>
+                        <label for="endDate">#{bundle.endDate}</label><br/>
                         <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10"/>
                         <h:message for="endDate" errorClass="errorMessage"/>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="startTime">#{bundle.startTime}</label>
+                        <label for="startTime">#{bundle.startHour}</label><br/>
                         <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true"/>
                         <h:message for="endDate" errorClass="errorMessage"/>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="startDate">#{bundle.startDate}</label>
-                <h:inputText id="title" styleClass="form-control" value="#{webSourceMBean.title}" required="true"/>
-                <h:message for="title" errorClass="errorMessage"/>
-            </div>
-            <div class="form-group">
-                <label for="feed">#{bundle.feed}</label>
-                <h:inputText id="feed" styleClass="form-control" value="#{webSourceMBean.feed}" required="true"/>
-                <h:message for="feed" errorClass="errorMessage"/>
-            </div>
-            <h:inputHidden value="#{webSourceMBean.webSource.id}"/>
 
-            <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{webSourceMBean.save}"/>&nbsp;
-            <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
+            <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
+
+            <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{jobSchedulerMBean.save}"/>&nbsp;
+            <h:button outcome="job_schedulers" value="#{bundle.back}" styleClass="btn btn-default"/>
         </h:form>
     </ui:define>
     <ui:define name="jquery"></ui:define>
