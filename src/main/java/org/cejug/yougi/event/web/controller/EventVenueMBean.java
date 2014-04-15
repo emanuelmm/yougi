@@ -22,17 +22,20 @@ package org.cejug.yougi.event.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+
 import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.business.EventVenueBean;
 import org.cejug.yougi.event.business.VenueBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.EventVenue;
 import org.cejug.yougi.event.entity.Venue;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -98,7 +101,7 @@ public class EventVenueMBean implements Serializable {
 
     public List<Venue> getVenues() {
         if(this.venues == null) {
-            if(this.selectedEvent == null || this.selectedEvent.isEmpty()) {
+            if(StringUtils.INSTANCE.isNullOrBlank(this.selectedEvent)) {
                 this.venues = venueBean.findVenues();
             }
             else {
@@ -111,7 +114,7 @@ public class EventVenueMBean implements Serializable {
 
     public List<Event> getEvents() {
         if(this.events == null) {
-            if(this.selectedVenue == null || this.selectedVenue.isEmpty()) {
+            if(StringUtils.INSTANCE.isNullOrBlank(this.selectedVenue)) {
                 this.events = eventBean.findParentEvents();
             }
             else {

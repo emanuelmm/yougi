@@ -23,6 +23,7 @@ package org.cejug.yougi.web.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -32,6 +33,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+
 import org.cejug.yougi.business.AuthenticationBean;
 import org.cejug.yougi.business.MessageHistoryBean;
 import org.cejug.yougi.business.UserAccountBean;
@@ -41,6 +43,7 @@ import org.cejug.yougi.entity.MessageHistory;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.AttendeeBean;
 import org.cejug.yougi.event.entity.Event;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -141,7 +144,7 @@ public class MemberMBean implements Serializable {
     }
 
     public String findUserAccountByEmail() {
-        if (this.emailCriteria == null || this.emailCriteria.isEmpty()) {
+        if (StringUtils.INSTANCE.isNullOrBlank(this.emailCriteria)) {
             this.userAccounts = userAccountBean.findAllNotVerifiedAccounts();
         } else {
             List<UserAccount> uas = new ArrayList<>(1);
@@ -156,7 +159,7 @@ public class MemberMBean implements Serializable {
     }
 
     public String findUserAccountByFirstLetter(String firstLetterCriteria) {
-        if (firstLetterCriteria == null || firstLetterCriteria.isEmpty()) {
+        if (StringUtils.INSTANCE.isNullOrBlank(firstLetterCriteria)) {
             this.userAccounts = userAccountBean.findAllNotVerifiedAccounts();
         } else {
             this.firstLetterCriteria = firstLetterCriteria;
@@ -198,7 +201,7 @@ public class MemberMBean implements Serializable {
     }
 
     public boolean isConfirmed() {
-        if (userAccount.getConfirmationCode() == null || userAccount.getConfirmationCode().isEmpty()) {
+        if (StringUtils.INSTANCE.isNullOrBlank(userAccount.getConfirmationCode())) {
             return true;
         }
         return false;

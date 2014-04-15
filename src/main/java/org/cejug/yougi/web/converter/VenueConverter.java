@@ -24,7 +24,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
 import org.cejug.yougi.event.entity.Venue;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -34,7 +36,7 @@ public class VenueConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if(value == null || value.isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(value)) {
             return null;
         }
         return new Venue(value);

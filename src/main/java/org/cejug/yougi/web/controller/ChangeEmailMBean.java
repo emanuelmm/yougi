@@ -27,10 +27,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.ResourceBundleHelper;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -116,7 +118,7 @@ public class ChangeEmailMBean {
 
     @PostConstruct
     public void load() {
-        if (confirmationCode == null || confirmationCode.isEmpty()) {
+        if (StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
             this.userAccount = userProfileMBean.getUserAccount();
         }
     }
