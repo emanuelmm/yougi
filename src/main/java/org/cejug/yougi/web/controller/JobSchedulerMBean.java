@@ -22,13 +22,7 @@ package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
-import org.cejug.yougi.event.business.JobSchedulerBean;
-import org.cejug.yougi.knowledge.business.ArticleBean;
-import org.cejug.yougi.knowledge.business.WebSourceBean;
-import org.cejug.yougi.knowledge.entity.Article;
-import org.cejug.yougi.knowledge.entity.WebSource;
-import org.cejug.yougi.knowledge.web.controller.UnpublishedArticlesMBean;
-import org.cejug.yougi.util.UrlUtils;
+import org.cejug.yougi.business.JobSchedulerBean;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -154,10 +148,12 @@ public class JobSchedulerMBean {
         }
         else {
             this.jobScheduler = jobSchedulerBean.getDefaultInstance();
+            this.jobScheduler.setStartDate(Calendar.getInstance().getTime());
         }
     }
 
     public String save() {
+
         this.jobSchedulerBean.save(this.jobScheduler);
         return "job_schedulers";
     }

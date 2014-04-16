@@ -18,9 +18,8 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.event.business;
+package org.cejug.yougi.business;
 
-import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.*;
 
 import javax.batch.operations.JobOperator;
@@ -28,9 +27,8 @@ import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,8 +58,15 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
     public List<String> findUnscheduledJobNames() {
         List<JobScheduler> schedulers = findAll();
-        JobOperator jo = BatchRuntime.getJobOperator();
-        Set<String> jobNames = jo.getJobNames();
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        Set<String> jobNames = jobOperator.getJobNames();
+
+        if (jobNames.isEmpty()) {
+            Job[] jobs = Job.values();
+            for(Job job: jobs) {
+                jobNames.add(job.toString());
+            }
+        }
 
         for(String jobName: jobNames) {
             LOGGER.log(Level.INFO, jobName);
@@ -71,10 +76,6 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                     break;
                 }
             }
-        }
-
-        if (jobNames.isEmpty()) {
-            jobNames.add("mailing_list");
         }
 
         return new ArrayList<>(jobNames);
