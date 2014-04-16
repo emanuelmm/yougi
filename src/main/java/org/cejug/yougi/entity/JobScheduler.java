@@ -59,7 +59,7 @@ public abstract class JobScheduler implements Serializable, Identified {
     @Column(name = "end_date")
     private Date endDate;
 
-    private Integer frequency;
+    private Integer frequency = 1;
 
     private String description;
 
@@ -178,22 +178,6 @@ public abstract class JobScheduler implements Serializable, Identified {
         startTime.set(Calendar.HOUR_OF_DAY, 0);
         startTime.set(Calendar.MINUTE, 0);
         return startTime;
-    }
-
-    public static JobScheduler getDefaultInstance() {
-        return getInstance(JobFrequencyType.INSTANT);
-    }
-
-    public static JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
-        switch (jobFrequencyType) {
-            case INSTANT: return new JobInstantScheduler();
-            case ONCE: return new JobOnceScheduler();
-            case DAILY: return new JobDailyScheduler();
-            case WEEKLY: return new JobWeeklyScheduler();
-            case MONTHLY: return new JobMonthlyScheduler();
-            case YEARLY: return new JobYearlyScheduler();
-            default: return null;
-        }
     }
 
     @Override

@@ -25,6 +25,7 @@ import org.cejug.yougi.exception.BusinessLogicException;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -35,7 +36,23 @@ public class JobInstantScheduler extends JobScheduler {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
+    @Override
+    public void setStartDate(Date startDate) {
+        super.setStartDate(startDate);
+        super.setEndDate(startDate);
+        super.setStartTime(startDate);
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {}
+
+    @Override
+    public void setStartTime(Date startTime) {}
+
+    @Override
+    public void setFrequency(Integer frequency) {}
+
+    @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 

@@ -21,7 +21,7 @@
 package org.cejug.yougi.event.business;
 
 import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.entity.JobScheduler;
+import org.cejug.yougi.entity.*;
 
 import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
@@ -78,5 +78,36 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         }
 
         return new ArrayList<>(jobNames);
+    }
+
+    public static JobScheduler getDefaultInstance() {
+        return getInstance(JobFrequencyType.INSTANT);
+    }
+
+    public static JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
+        JobScheduler jobScheduler;
+        switch (jobFrequencyType) {
+            case INSTANT:
+                jobScheduler = new JobInstantScheduler();
+                break;
+            case ONCE:
+                jobScheduler = new JobOnceScheduler();
+                break;
+            case DAILY:
+                jobScheduler = new JobDailyScheduler();
+                break;
+            case WEEKLY:
+                jobScheduler = new JobWeeklyScheduler();
+                break;
+            case MONTHLY:
+                jobScheduler = new JobMonthlyScheduler();
+                break;
+            case YEARLY:
+                jobScheduler = new JobYearlyScheduler();
+                break;
+            default: return null;
+        }
+        jobScheduler.setActive(true);
+        return jobScheduler;
     }
 }

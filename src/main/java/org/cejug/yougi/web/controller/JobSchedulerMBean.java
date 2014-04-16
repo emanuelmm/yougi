@@ -21,10 +21,7 @@
 package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.EntitySupport;
-import org.cejug.yougi.entity.JobFrequencyType;
-import org.cejug.yougi.entity.JobScheduler;
-import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.entity.*;
 import org.cejug.yougi.event.business.JobSchedulerBean;
 import org.cejug.yougi.knowledge.business.ArticleBean;
 import org.cejug.yougi.knowledge.business.WebSourceBean;
@@ -38,7 +35,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -46,6 +46,8 @@ import java.util.List;
 @ManagedBean
 @RequestScoped
 public class JobSchedulerMBean {
+
+    private static final Logger LOGGER = Logger.getLogger(JobSchedulerMBean.class.getSimpleName());
 
     @EJB
     private JobSchedulerBean jobSchedulerBean;
@@ -78,6 +80,22 @@ public class JobSchedulerMBean {
         return jobScheduler;
     }
 
+    public JobDailyScheduler getJobDailyScheduler() {
+        return (JobDailyScheduler) jobScheduler;
+    }
+
+    public JobWeeklyScheduler getJobWeeklyScheduler() {
+        return (JobWeeklyScheduler) jobScheduler;
+    }
+
+    public JobMonthlyScheduler getJobMonthlyScheduler() {
+        return (JobMonthlyScheduler) jobScheduler;
+    }
+
+    public JobYearlyScheduler getJobYearlyScheduler() {
+        return (JobYearlyScheduler) jobScheduler;
+    }
+
     public String getSelectedName() {
         return selectedName;
     }
@@ -100,6 +118,12 @@ public class JobSchedulerMBean {
 
     public void setSelectedFrequency(JobFrequencyType selectedFrequency) {
         this.selectedFrequency = selectedFrequency;
+        if(selectedFrequency != null) {
+            Calendar now = Calendar.getInstance();
+            this.jobScheduler = jobSchedulerBean.getInstance(selectedFrequency);
+            this.jobScheduler.setStartDate(now.getTime());
+        }
+        LOGGER.log(Level.INFO, "selected frequency {0}", selectedFrequency);
     }
 
     public List<JobScheduler> getJobSchedulers() {
@@ -129,7 +153,7 @@ public class JobSchedulerMBean {
             this.jobScheduler = jobSchedulerBean.find(this.id);
         }
         else {
-            this.jobScheduler = JobScheduler.getDefaultInstance();
+            this.jobScheduler = jobSchedulerBean.getDefaultInstance();
         }
     }
 
