@@ -22,7 +22,6 @@ package org.cejug.yougi.knowledge.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,7 +29,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.PublicContent;
 import org.cejug.yougi.util.StringUtils;
