@@ -76,4 +76,9 @@ public class JobMonthlyScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.MONTHLY;
+    }
 }

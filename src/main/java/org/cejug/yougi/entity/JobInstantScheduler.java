@@ -65,4 +65,9 @@ public class JobInstantScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.INSTANT;
+    }
 }

@@ -70,7 +70,7 @@
                                     <f:selectItem itemLabel="#{bundle.weekly}" itemValue="WEEKLY"/>
                                     <f:selectItem itemLabel="#{bundle.monthly}" itemValue="MONTHLY"/>
                                     <f:selectItem itemLabel="#{bundle.yearly}" itemValue="YEARLY"/>
-                                    <f:ajax render="startDate endDate startTime panelFrequencies"/>
+                                    <f:ajax render="panelTime panelFrequencies"/>
                                 </h:selectOneMenu>
                             </div>
                         </div>
@@ -86,9 +86,9 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputText value="#{bundle.every}&nbsp;"/>
-                                                <p:spinner id="dayFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobDailyScheduler.frequency}" size="2" min="1" max="30"/>
+                                                <p:spinner id="dayFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobScheduler.frequency}" size="2" min="1" max="30"/>
                                                 <h:outputText value="&nbsp;#{bundle.days}&nbsp;&nbsp;&nbsp;"/>
-                                                <h:selectBooleanCheckbox id="workingDay" label="#{bundle.workingDaysOnly}" value="#{jobSchedulerMBean.jobDailyScheduler.workingDay}"/>
+                                                <h:selectBooleanCheckbox id="workingDay" label="#{bundle.workingDaysOnly}" value="#{jobSchedulerMBean.workingDaysOnly}"/>
                                                 <h:outputLabel for="workingDay" value="&nbsp;#{bundle.workingDaysOnly}"/>
                                             </div>
                                         </div>
@@ -104,7 +104,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputText value="#{bundle.every}&nbsp;"/>
-                                                <p:spinner id="weekFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobWeeklyScheduler.frequency}" size="2" min="1" max="4"/>
+                                                <p:spinner id="weekFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobScheduler.frequency}" size="2" min="1" max="4"/>
                                                 <h:outputText value="&nbsp;#{bundle.weeks}"/>
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputText value="#{bundle.every}&nbsp;"/>
-                                                <p:spinner id="monthFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobMonthlyScheduler.frequency}" size="2" min="1" max="12"/>
+                                                <p:spinner id="monthFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobScheduler.frequency}" size="2" min="1" max="12"/>
                                                 <h:outputText value="&nbsp;#{bundle.months}"/>
                                             </div>
                                         </div>
@@ -136,7 +136,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputText value="#{bundle.every}&nbsp;"/>
-                                                <p:spinner id="yearFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobYearlyScheduler.frequency}" size="2" min="1" max="2"/>
+                                                <p:spinner id="yearFrequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobScheduler.frequency}" size="2" min="1" max="2"/>
                                                 <h:outputText value="&nbsp;#{bundle.years}"/>
                                             </div>
                                         </div>
@@ -146,33 +146,40 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="startDate">#{bundle.startDate}</label><br/>
-                                <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10"/>
-                                <h:message for="startDate" errorClass="errorMessage"/>
+                        <h:panelGroup id="panelTime">
+                            <div class="col-md-3">
+                                <h:panelGroup id="panelStartDate" rendered="#{jobSchedulerMBean.selectedFrequency != 'INSTANT'}">
+                                    <div class="form-group">
+                                        <label for="startDate">#{bundle.startDate}</label><br/>
+                                        <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10"/>
+                                        <h:message for="startDate" errorClass="errorMessage"/>
+                                    </div>
+                                </h:panelGroup>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="endDate">#{bundle.endDate}</label><br/>
-                                <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10"/>
-                                <h:message for="endDate" errorClass="errorMessage"/>
+                            <div class="col-md-3">
+                                <h:panelGroup id="panelStartTime" rendered="#{jobSchedulerMBean.selectedFrequency != 'INSTANT'}">
+                                    <div class="form-group">
+                                        <label for="startTime">#{bundle.startHour}</label><br/>
+                                        <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true"/>
+                                        <h:message for="endDate" errorClass="errorMessage"/>
+                                    </div>
+                                </h:panelGroup>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="startTime">#{bundle.startHour}</label><br/>
-                                <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true"/>
-                                <h:message for="endDate" errorClass="errorMessage"/>
+                            <div class="col-md-3">
+                                <h:panelGroup id="panelEndDate" rendered="#{jobSchedulerMBean.selectedFrequency != 'INSTANT' and jobSchedulerMBean.selectedFrequency != 'ONCE'}">
+                                    <div class="form-group">
+                                        <label for="endDate">#{bundle.endDate}</label><br/>
+                                        <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10"/>
+                                        <h:message for="endDate" errorClass="errorMessage"/>
+                                    </div>
+                                </h:panelGroup>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="checkbox-inline">
-                                <h:selectBooleanCheckbox id="active" label="#{bundle.active}" value="#{jobSchedulerMBean.jobScheduler.active}"/>
-                                <label for="active">#{bundle.active}</label>
-                            </div>
-                        </div>
+                        </h:panelGroup>
+                    </div>
+
+                    <div class="checkbox-inline">
+                        <h:selectBooleanCheckbox id="active" label="#{bundle.active}" value="#{jobSchedulerMBean.jobScheduler.active}"/>
+                        <label for="active">#{bundle.active}</label>
                     </div>
 
                     <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>

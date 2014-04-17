@@ -56,7 +56,7 @@
                             <f:param name="eventId" value="#{speakerMBean.eventId}"/>
                             <f:param name="id" value="#{speakerMBean.speaker.id}"/>
                         </h:commandButton>
-                        <h:commandButton value="#{bundle.remove}" action="#{speakerMBean.remove}" rendered="#{! empty speakerMBean.id}">
+                        <h:commandButton value="#{bundle.remove}" action="#{speakerMBean.remove}" styleClass="btn btn-warning" rendered="#{! empty speakerMBean.id}" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="eventId" value="#{speakerMBean.eventId}"/>
                             <f:param name="id" value="#{speakerMBean.speaker.id}"/>
                         </h:commandButton>

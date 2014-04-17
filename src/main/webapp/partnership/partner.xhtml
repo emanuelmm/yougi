@@ -88,7 +88,7 @@
                     <p/>
                     <h:panelGrid columns="3">
                         <h:commandButton value="#{bundle.save}" action="#{partnerMBean.save}"/>
-                        <h:commandButton value="#{bundle.remove}" action="#{partnerMBean.remove}" rendered="#{! empty partnerMBean.id}">
+                        <h:commandButton value="#{bundle.remove}" action="#{partnerMBean.remove}" rendered="#{! empty partnerMBean.id}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="id" value="#{partnerMBean.partner.id}"/>
                         </h:commandButton>
                         <h:button value="#{bundle.cancel}" outcome="partners"/>

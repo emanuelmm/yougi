@@ -81,4 +81,9 @@ public class JobDailyScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.DAILY;
+    }
 }

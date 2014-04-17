@@ -47,7 +47,7 @@
                     </div>
 					<p/>
                         <h:commandButton value="#{bundle.save}" action="#{countryMBean.save}" styleClass="btn btn-primary"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}" styleClass="btn btn-danger">
+                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.acronym}" action="#{countryMBean.remove}"  styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="acronym" value="#{countryMBean.country.acronym}" />
                         </h:commandButton>
                         <h:button outcome="countries" value="#{bundle.cancel}" styleClass="btn btn-default" style="margin-left: 5px;"/>

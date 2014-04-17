@@ -47,7 +47,7 @@
 
                     <h:panelGrid columns="3">
                         <h:commandButton value="#{bundle.save}" action="#{messageTemplateMBean.save}"/>
-                        <h:commandButton rendered="#{messageTemplateMBean.messageTemplate.id != null}" value="#{bundle.remove}" action="#{messageTemplateMBean.remove}"/>
+                        <h:commandButton rendered="#{messageTemplateMBean.messageTemplate.id != null}" value="#{bundle.remove}" styleClass="btn btn-warning" action="#{messageTemplateMBean.remove}" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                         <h:button outcome="message_templates" value="#{bundle.cancel}"/>
                     </h:panelGrid>
                 </h:form>

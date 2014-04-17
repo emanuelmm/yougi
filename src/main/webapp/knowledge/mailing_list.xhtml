@@ -57,7 +57,7 @@
                     <h:inputHidden id="id" value="#{mailingListMBean.mailingList.id}"/>
 
                     <h:commandButton value="#{bundle.save}" action="#{mailingListMBean.save}" styleClass="btn btn-primary"/>
-                    <h:commandButton value="#{bundle.remove}" action="#{mailingListMBean.remove}" rendered="#{! empty mailingListMBean.id}" styleClass="btn btn-danger">
+                    <h:commandButton value="#{bundle.remove}" action="#{mailingListMBean.remove}" rendered="#{! empty mailingListMBean.id}"  styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
                         <f:param name="id" value="#{mailingListMBean.mailingList.id}"/>
                     </h:commandButton>
                     <h:button value="#{bundle.cancel}" outcome="mailing_lists" styleClass="btn btn-default" style="margin-left: 5px;"/>

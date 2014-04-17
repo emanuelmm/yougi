@@ -122,7 +122,7 @@
                             <f:param name="eventId" value="#{param.eventId}"/>
                             <f:param name="id" value="#{sessionMBean.session.id}"/>
                         </h:commandButton>
-                        <h:commandButton value="#{bundle.remove}" action="#{sessionMBean.remove}" rendered="#{! empty sessionMBean.id}" onclick="return confirmAction('#{bundle.warnCode0005}');">
+                        <h:commandButton value="#{bundle.remove}" action="#{sessionMBean.remove}" styleClass="btn btn-warning" rendered="#{! empty sessionMBean.id}" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="eventId" value="#{param.eventId}"/>
                             <f:param name="id" value="#{sessionMBean.session.id}"/>
                         </h:commandButton>

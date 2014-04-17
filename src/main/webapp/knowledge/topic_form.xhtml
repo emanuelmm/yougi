@@ -51,7 +51,7 @@
                     </div>
                     <p/>
                         <h:commandButton value="#{bundle.save}" action="#{topicMBean.save}" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-primary"/>
-                        <h:commandButton value="#{bundle.remove}" action="#{topicMBean.remove}" rendered="#{securityBackingMBean.isUserLeader and topicMBean.existent}" onclick="return confirmAction('#{bundle.warnCode0005}');">
+                        <h:commandButton value="#{bundle.remove}" action="#{topicMBean.remove}" styleClass="btn btn-warning" rendered="#{securityBackingMBean.isUserLeader and topicMBean.existent}" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="topic" value="#{topicMBean.topic.name}"/>
                         </h:commandButton>
                         <h:button value="#{bundle.cancel}" outcome="topics" styleClass="btn btn-default" style="margin-left: 5px;"/>

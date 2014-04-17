@@ -69,7 +69,6 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         }
 
         for(String jobName: jobNames) {
-            LOGGER.log(Level.INFO, jobName);
             for(JobScheduler jobScheduler: schedulers) {
                 if(jobScheduler.getName().equals(jobName)) {
                     jobNames.remove(jobName);
@@ -81,11 +80,36 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         return new ArrayList<>(jobNames);
     }
 
-    public static JobScheduler getDefaultInstance() {
+    public JobScheduler getDefaultInstance() {
         return getInstance(JobFrequencyType.INSTANT);
     }
 
-    public static JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
+    public JobScheduler getInstance(JobFrequencyType jobFrequencyType, JobScheduler toMerge) {
+        JobScheduler jobScheduler = getInstance(jobFrequencyType);
+        jobScheduler = merge(toMerge, jobScheduler);
+        return jobScheduler;
+    }
+
+    public <T extends JobScheduler> T getInstance(JobFrequencyType jobFrequencyType, Class<T> jobSchedulerClass, JobScheduler toMerge) {
+        JobScheduler jobScheduler = getInstance(jobFrequencyType);
+        jobScheduler = merge(toMerge, jobScheduler);
+        return jobSchedulerClass.cast(jobScheduler);
+    }
+
+    private JobScheduler merge(JobScheduler origin, JobScheduler destine) {
+        destine.setId(origin.getId());
+        destine.setName(origin.getName());
+        destine.setStartDate(origin.getStartDate());
+        destine.setEndDate(origin.getEndDate());
+        destine.setStartTime(origin.getStartTime());
+        destine.setDescription(origin.getDescription());
+        destine.setDefaultOwner(origin.getDefaultOwner());
+        destine.setFrequency(origin.getFrequency());
+        destine.setActive(origin.getActive());
+        return destine;
+    }
+
+    public JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
         JobScheduler jobScheduler;
         switch (jobFrequencyType) {
             case INSTANT:
@@ -108,7 +132,6 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                 break;
             default: return null;
         }
-        jobScheduler.setActive(true);
         return jobScheduler;
     }
 }
