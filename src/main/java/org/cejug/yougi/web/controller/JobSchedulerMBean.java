@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,8 +58,12 @@ public class JobSchedulerMBean {
     private List<UserAccount> userAccounts;
 
     private String selectedOwner;
-    private JobFrequencyType selectedFrequency;
+    private JobFrequencyType frequencyType;
     private Boolean workingDaysOnly;
+    private Date startDate;
+    private Date startTime;
+    private Date endDate;
+    private Integer frequency;
 
     @ManagedProperty(value="#{param.id}")
     private String id;
@@ -83,8 +88,46 @@ public class JobSchedulerMBean {
         this.selectedOwner = selectedOwner;
     }
 
-    public JobFrequencyType getSelectedFrequency() {
-        return selectedFrequency;
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public JobFrequencyType getFrequencyType() {
+        return frequencyType;
+    }
+
+    public void setFrequencyType(JobFrequencyType frequencyType) {
+        LOGGER.log(Level.INFO, "Frequency type: {0}", frequencyType);
+        this.frequencyType = frequencyType;
+    }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        LOGGER.log(Level.INFO, "Frequency0: {0}", frequency);
+        this.frequency = frequency;
     }
 
     public Boolean getWorkingDaysOnly() {
@@ -93,10 +136,6 @@ public class JobSchedulerMBean {
 
     public void setWorkingDaysOnly(Boolean workingDaysOnly) {
         this.workingDaysOnly = workingDaysOnly;
-    }
-
-    public void setSelectedFrequency(JobFrequencyType selectedFrequency) {
-        this.selectedFrequency = selectedFrequency;
     }
 
     public List<JobScheduler> getJobSchedulers() {
@@ -127,7 +166,6 @@ public class JobSchedulerMBean {
         }
         else {
             this.jobScheduler = jobSchedulerBean.getDefaultInstance();
-            this.selectedFrequency = this.jobScheduler.getFrequencyType();
             jobScheduler.setActive(true);
         }
     }
@@ -138,19 +176,31 @@ public class JobSchedulerMBean {
             this.jobScheduler.setDefaultOwner(owner);
         }
 
-        if(this.selectedFrequency == JobFrequencyType.INSTANT) {
-            jobScheduler = jobSchedulerBean.getInstance(this.selectedFrequency, JobInstantScheduler.class, this.jobScheduler);
+        if(this.frequencyType == JobFrequencyType.INSTANT) {
+            jobScheduler = jobSchedulerBean.getInstance(this.frequencyType, JobInstantScheduler.class, this.jobScheduler);
             jobScheduler.setStartDate(Calendar.getInstance().getTime());
         }
-        else if(this.selectedFrequency == JobFrequencyType.DAILY) {
-            JobDailyScheduler jobDailyScheduler = jobSchedulerBean.getInstance(this.selectedFrequency, JobDailyScheduler.class, this.jobScheduler);
+        else if(this.frequencyType == JobFrequencyType.DAILY) {
+            JobDailyScheduler jobDailyScheduler = jobSchedulerBean.getInstance(this.frequencyType, JobDailyScheduler.class, this.jobScheduler);
             jobDailyScheduler.setWorkingDay(this.getWorkingDaysOnly());
+            jobDailyScheduler.setStartDate(startDate);
             jobScheduler = jobDailyScheduler;
         }
         else {
-            jobScheduler = jobSchedulerBean.getInstance(this.selectedFrequency, this.jobScheduler);
+            jobScheduler = jobSchedulerBean.getInstance(this.frequencyType, this.jobScheduler);
+            jobScheduler.setStartDate(startDate);
         }
 
+        if(startTime != null) {
+            jobScheduler.setStartTime(startTime);
+        }
+
+        if(endDate != null) {
+            jobScheduler.setEndDate(endDate);
+        }
+        LOGGER.log(Level.INFO, "Frequency1: {0}", frequency);
+        jobScheduler.setFrequency(frequency);
+        LOGGER.log(Level.INFO, "Frequency2: {0}", jobScheduler.getFrequency());
         jobSchedulerBean.save(jobScheduler);
 
         return "job_schedulers";
