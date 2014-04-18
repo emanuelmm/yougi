@@ -29,6 +29,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.PublicContent;
 
@@ -40,6 +42,7 @@ import org.cejug.yougi.entity.PublicContent;
  */
 @Entity
 @Table(name = "article")
+@XmlRootElement
 public class Article implements Serializable, Identified, PublicContent {
     private static final long serialVersionUID = 1L;
 
