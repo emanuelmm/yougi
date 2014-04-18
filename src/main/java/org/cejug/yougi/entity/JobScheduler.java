@@ -59,7 +59,7 @@ public abstract class JobScheduler implements Serializable, Identified {
     @Column(name = "end_date")
     private Date endDate;
 
-    private Integer frequency = 1;
+    private Integer frequency;
 
     private String description;
 

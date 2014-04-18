@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  *
@@ -64,7 +65,7 @@ public class EmailConfirmationServlet extends HttpServlet {
 
         String confirmationCode = request.getParameter("code");
 
-        if (confirmationCode == null || confirmationCode.equals("")) {
+        if (StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
             PrintWriter out = null;
             try {
                 out = response.getWriter();

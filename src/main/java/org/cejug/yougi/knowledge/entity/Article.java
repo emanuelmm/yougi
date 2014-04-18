@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.PublicContent;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * Entity class representing an extracted article from a web source, making it
@@ -143,7 +144,7 @@ public class Article implements Serializable, Identified, PublicContent {
      * doesn't exist.
      */
     public String getText() {
-        if(this.content == null || this.content.isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(this.content)) {
             return this.summary;
         }
         else {
