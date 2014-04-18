@@ -40,14 +40,10 @@
                         </h:outputLink>
 
                         <h:outputText value="#{bundle.subscribeTo}" styleClass="fieldLabel"/>
-                        <h:outputLink value="mailto:#{mailingListMBean.mailingList.subscription}">
-                            <f:verbatim>#{mailingListMBean.mailingList.subscription}</f:verbatim>
+                        <h:outputLink value="mailto:#{mailingListMBean.mailingList.description}">
+                            <f:verbatim>#{mailingListMBean.mailingList.description}</f:verbatim>
                         </h:outputLink>
 
-                        <h:outputText value="#{bundle.unsubscribeFrom}" styleClass="fieldLabel"/>
-                        <h:outputLink value="mailto:#{mailingListMBean.mailingList.unsubscription}">
-                            <f:verbatim>#{mailingListMBean.mailingList.unsubscription}</f:verbatim>
-                        </h:outputLink>
                     </h:panelGrid>
                     <p/>
                     <h:button value="#{bundle.edit}" outcome="mailing_list" rendered="#{securityBackingMBean.isUserLeader}">
