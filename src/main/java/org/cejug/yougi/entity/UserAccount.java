@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
+
+import org.cejug.yougi.util.StringUtils;
 import org.cejug.yougi.util.TextUtils;
 
 /**
@@ -286,7 +288,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setWebsite(String website) {
-        if(website == null || website.trim().isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(website)) {
             this.website = null;
         }
         else if(website.contains("http://")) {

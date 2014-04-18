@@ -37,6 +37,7 @@ import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.util.ResourceBundleHelper;
+import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -127,7 +128,7 @@ public class ApplicationPropertiesMBean implements Serializable {
         }
         
         String timezoneValue = applicationProperties.get(Properties.TIMEZONE.getKey());
-        if(timezoneValue == null || "".equals(timezoneValue)) {
+        if(StringUtils.INSTANCE.isNullOrBlank(timezoneValue)) {
             Timezone timezone = timezoneBean.findDefaultTimezone();
             applicationProperties.put(Properties.TIMEZONE.getKey(), timezone.getId());
         }
