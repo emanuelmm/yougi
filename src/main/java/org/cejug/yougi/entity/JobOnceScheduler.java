@@ -62,4 +62,9 @@ public class JobOnceScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.ONCE;
+    }
 }

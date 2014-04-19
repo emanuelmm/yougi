@@ -18,9 +18,8 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.event.business;
+package org.cejug.yougi.business;
 
-import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.*;
 
 import javax.batch.operations.JobOperator;
@@ -28,9 +27,8 @@ import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,11 +58,17 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
     public List<String> findUnscheduledJobNames() {
         List<JobScheduler> schedulers = findAll();
-        JobOperator jo = BatchRuntime.getJobOperator();
-        Set<String> jobNames = jo.getJobNames();
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        Set<String> jobNames = jobOperator.getJobNames();
+
+        if (jobNames.isEmpty()) {
+            Job[] jobs = Job.values();
+            for(Job job: jobs) {
+                jobNames.add(job.toString());
+            }
+        }
 
         for(String jobName: jobNames) {
-            LOGGER.log(Level.INFO, jobName);
             for(JobScheduler jobScheduler: schedulers) {
                 if(jobScheduler.getName().equals(jobName)) {
                     jobNames.remove(jobName);
@@ -73,18 +77,39 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
             }
         }
 
-        if (jobNames.isEmpty()) {
-            jobNames.add("mailing_list");
-        }
-
         return new ArrayList<>(jobNames);
     }
 
-    public static JobScheduler getDefaultInstance() {
+    public JobScheduler getDefaultInstance() {
         return getInstance(JobFrequencyType.INSTANT);
     }
 
-    public static JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
+    public JobScheduler getInstance(JobFrequencyType jobFrequencyType, JobScheduler toMerge) {
+        JobScheduler jobScheduler = getInstance(jobFrequencyType);
+        jobScheduler = merge(toMerge, jobScheduler);
+        return jobScheduler;
+    }
+
+    public <T extends JobScheduler> T getInstance(JobFrequencyType jobFrequencyType, Class<T> jobSchedulerClass, JobScheduler toMerge) {
+        JobScheduler jobScheduler = getInstance(jobFrequencyType);
+        jobScheduler = merge(toMerge, jobScheduler);
+        return jobSchedulerClass.cast(jobScheduler);
+    }
+
+    private JobScheduler merge(JobScheduler origin, JobScheduler destine) {
+        destine.setId(origin.getId());
+        destine.setName(origin.getName());
+        destine.setStartDate(origin.getStartDate());
+        destine.setEndDate(origin.getEndDate());
+        destine.setStartTime(origin.getStartTime());
+        destine.setDescription(origin.getDescription());
+        destine.setDefaultOwner(origin.getDefaultOwner());
+        destine.setFrequency(origin.getFrequency());
+        destine.setActive(origin.getActive());
+        return destine;
+    }
+
+    public JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
         JobScheduler jobScheduler;
         switch (jobFrequencyType) {
             case INSTANT:
@@ -107,7 +132,6 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                 break;
             default: return null;
         }
-        jobScheduler.setActive(true);
         return jobScheduler;
     }
 }

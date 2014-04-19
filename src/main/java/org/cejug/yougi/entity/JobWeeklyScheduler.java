@@ -77,4 +77,9 @@ public class JobWeeklyScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.WEEKLY;
+    }
 }

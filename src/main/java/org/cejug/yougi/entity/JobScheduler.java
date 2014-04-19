@@ -164,6 +164,8 @@ public abstract class JobScheduler implements Serializable, Identified {
     }
 
     public abstract JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException;
+
+    public abstract JobFrequencyType getFrequencyType();
     
     protected void checkInterval(Calendar today) throws BusinessLogicException {
     	if(today.getTime().compareTo(this.getStartDate()) < 0  ||

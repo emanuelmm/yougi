@@ -221,7 +221,7 @@
                     <p></p>
                     <h:panelGrid columns="5">
                         <h:commandButton value="#{bundle.save}" rendered="#{!memberMBean.userAccount.deactivated}" action="#{memberMBean.save}"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{memberMBean.userAccount.deactivated}" action="#{memberMBean.removeUserAccount}"/>
+                        <h:commandButton value="#{bundle.remove}" rendered="#{memberMBean.userAccount.deactivated}" action="#{memberMBean.removeUserAccount}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                         <h:commandButton rendered="#{!memberMBean.userAccount.confirmed and !memberMBean.userAccount.deactivated}" value="#{bundle.confirm}" action="#{memberMBean.confirm}"/>
                         <h:commandButton rendered="#{!memberMBean.userAccount.verified and memberMBean.userAccount.confirmed}" value="#{bundle.verified}" action="#{memberMBean.checkUserAsVerified}"/>
                         <h:button rendered="#{!memberMBean.userAccount.deactivated}" value="#{bundle.deactivateMembership}" outcome="user_deactivation"/>

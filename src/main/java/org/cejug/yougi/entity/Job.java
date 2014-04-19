@@ -20,54 +20,13 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.exception.BusinessLogicException;
-
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Entity
-@DiscriminatorValue("INSTANT")
-public class JobInstantScheduler extends JobScheduler {
+public enum Job {
+    MAILING_LIST;
 
-	private static final long serialVersionUID = 1L;
-
-    @Override
-    public void setStartDate(Date startDate) {
-        super.setStartDate(startDate);
-        super.setEndDate(startDate);
-        super.setStartTime(startDate);
-    }
-
-    @Override
-    public void setEndDate(Date endDate) {}
-
-    @Override
-    public void setStartTime(Date startTime) {}
-
-    @Override
-    public void setFrequency(Integer frequency) {}
-
-    @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
-        Calendar today = Calendar.getInstance();
-
-        checkInterval(today);
-
-        JobExecution jobExecution = new JobExecution(this, owner);
-
-        // Calculate start time
-        jobExecution.setStartTime(today);
-
-        return jobExecution;
-    }
-
-    @Override
-    public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.INSTANT;
+    public String toString() {
+        return this.name().toLowerCase();
     }
 }

@@ -78,4 +78,9 @@ public class JobYearlyScheduler extends JobScheduler {
 
         return jobExecution;
     }
+
+    @Override
+    public JobFrequencyType getFrequencyType() {
+        return JobFrequencyType.YEARLY;
+    }
 }

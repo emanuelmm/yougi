@@ -28,9 +28,7 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.topic}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.topic}</h1>
-                <h:form>
-                    <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
+                <h1>#{bundle.topic}: #{topicMBean.topic}</h1>
                     <div  class="form-group">
                     	<h:outputLabel for="name" value="#{bundle.name} *" styleClass="control-label"/>
                     	<h:inputText id="name" label="#{bundle.name}" required="true" size="20" maxlength="20" value="#{topicMBean.topic.name}" readonly="#{! empty topicMBean.topic.name}" styleClass="form-control"/>
@@ -55,7 +53,6 @@
                             <f:param name="topic" value="#{topicMBean.topic.name}"/>
                         </h:commandButton>
                         <h:button value="#{bundle.cancel}" outcome="topics" styleClass="btn btn-default" style="margin-left: 5px;"/>
-                </h:form>
             </ui:define>
         </ui:composition>
     </body>

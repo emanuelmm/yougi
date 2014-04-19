@@ -77,7 +77,7 @@
                             <f:param name="eventId" value="#{sponsorshipEventMBean.eventId}"/>
                             <f:param name="id" value="#{sponsorshipEventMBean.sponsorshipEvent.id}"/>
                         </h:commandButton>
-                        <h:commandButton value="#{bundle.remove}" action="#{sponsorshipEventMBean.remove}" rendered="#{! empty sponsorshipEventMBean.id}">
+                        <h:commandButton value="#{bundle.remove}" action="#{sponsorshipEventMBean.remove}" styleClass="btn btn-warning" rendered="#{! empty sponsorshipEventMBean.id}" onclick="return confirmAction('#{bundle.warnCode0005}');">
                             <f:param name="eventId" value="#{sponsorshipEventMBean.sponsorshipEvent.event.id}"/>
                             <f:param name="id" value="#{sponsorshipEventMBean.sponsorshipEvent.id}"/>
                         </h:commandButton>
