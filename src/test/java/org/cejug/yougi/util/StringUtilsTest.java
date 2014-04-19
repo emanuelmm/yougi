@@ -33,5 +33,6 @@ public class StringUtilsTest {
         Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(null));
         Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(""));
         Assert.assertFalse(StringUtils.INSTANCE.isNullOrBlank("A"));
+        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank("    "));
     }
 }

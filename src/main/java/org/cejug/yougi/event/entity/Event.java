@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.PublicContent;
 
@@ -32,6 +34,7 @@ import org.cejug.yougi.entity.PublicContent;
  */
 @Entity
 @Table(name = "event")
+@XmlRootElement
 public class Event implements Serializable, Identified, PublicContent {
 
     private static final long serialVersionUID = 1L;

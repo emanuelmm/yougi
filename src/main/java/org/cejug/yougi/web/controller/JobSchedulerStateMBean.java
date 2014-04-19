@@ -18,18 +18,41 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.util;
+package org.cejug.yougi.web.controller;
+
+import org.cejug.yougi.business.JobSchedulerBean;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.*;
+import org.cejug.yougi.util.StringUtils;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * This class groups a set of methods to deal with String
- * that are not already covered by the Java API.
- *
- * @author Daniel Cunha - danielsoro@gmail.com
+ * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum StringUtils {
-    INSTANCE;
+@ManagedBean
+@ViewScoped
+public class JobSchedulerStateMBean {
 
-    public boolean isNullOrBlank(String property) {
-        return (property == null || property.trim().isEmpty());
+    private static final Logger LOGGER = Logger.getLogger(JobSchedulerStateMBean.class.getSimpleName());
+
+    private JobScheduler jobScheduler;
+
+    public JobScheduler getJobScheduler() {
+        return jobScheduler;
+    }
+
+    public void setJobScheduler(JobScheduler jobScheduler) {
+        this.jobScheduler = jobScheduler;
     }
 }
