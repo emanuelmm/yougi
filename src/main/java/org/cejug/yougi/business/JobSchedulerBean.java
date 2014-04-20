@@ -68,20 +68,22 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
             }
         }
 
+        List<String> listJobNames = new ArrayList<>(jobNames);
         for(String jobName: jobNames) {
             for(JobScheduler jobScheduler: schedulers) {
-                if(jobScheduler.getName().equals(jobName)) {
-                    jobNames.remove(jobName);
+                String thisJobName = jobScheduler.getName();
+                if(thisJobName.equals(jobName)) {
+                    listJobNames.remove(jobName);
                     break;
                 }
             }
         }
 
-        return new ArrayList<>(jobNames);
+        return listJobNames;
     }
 
     public JobScheduler getDefaultInstance() {
-        return getInstance(JobFrequencyType.INSTANT);
+        return getInstance(JobFrequencyType.DAILY);
     }
 
     public JobScheduler getInstance(JobFrequencyType jobFrequencyType, JobScheduler toMerge) {
@@ -99,7 +101,9 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     private JobScheduler merge(JobScheduler origin, JobScheduler destine) {
         destine.setId(origin.getId());
         destine.setName(origin.getName());
-        destine.setStartDate(origin.getStartDate());
+        if(destine.getFrequencyType() != JobFrequencyType.INSTANT) {
+            destine.setStartDate(origin.getStartDate());
+        }
         destine.setEndDate(origin.getEndDate());
         destine.setStartTime(origin.getStartTime());
         destine.setDescription(origin.getDescription());
@@ -120,18 +124,24 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                 break;
             case DAILY:
                 jobScheduler = new JobDailyScheduler();
+                jobScheduler.setFrequency(1);
                 break;
             case WEEKLY:
                 jobScheduler = new JobWeeklyScheduler();
+                jobScheduler.setFrequency(1);
                 break;
             case MONTHLY:
                 jobScheduler = new JobMonthlyScheduler();
+                jobScheduler.setFrequency(1);
                 break;
             case YEARLY:
                 jobScheduler = new JobYearlyScheduler();
+                jobScheduler.setFrequency(1);
                 break;
             default: return null;
         }
+        jobScheduler.setStartDate(Calendar.getInstance().getTime());
+        jobScheduler.setActive(true);
         return jobScheduler;
     }
 }

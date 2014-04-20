@@ -23,15 +23,12 @@ package org.cejug.yougi.web.controller;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
 import org.cejug.yougi.business.JobSchedulerBean;
-import org.cejug.yougi.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,83 +48,50 @@ public class JobSchedulerMBean {
     @EJB
     private UserAccountBean userAccountBean;
 
-    private JobScheduler jobScheduler;
-
     private List<JobScheduler> jobSchedulers;
     private List<String> jobNames;
     private List<UserAccount> userAccounts;
 
-    private String selectedOwner;
-    private JobFrequencyType frequencyType;
     private Boolean workingDaysOnly;
-    private Date startDate;
-    private Date startTime;
-    private Date endDate;
-    private Integer frequency;
 
     @ManagedProperty(value="#{param.id}")
     private String id;
 
-    public String getId() {
-        return id;
-    }
+    @ManagedProperty(value = "#{jobScheduleMBean}")
+    private JobScheduleMBean jobScheduleMBean;
 
     public void setId(String userId) {
         this.id = userId;
     }
 
+    public void setJobScheduleMBean(JobScheduleMBean jobScheduleMBean) {
+        this.jobScheduleMBean = jobScheduleMBean;
+    }
+
     public JobScheduler getJobScheduler() {
-        return jobScheduler;
+        return this.jobScheduleMBean.getJobScheduler();
     }
 
     public String getSelectedOwner() {
-        return selectedOwner;
+        UserAccount userAccount = jobScheduleMBean.getDefaultOwner();
+        if(userAccount != null) {
+            return userAccount.getId();
+        }
+        else {
+            return null;
+        }
     }
 
     public void setSelectedOwner(String selectedOwner) {
-        this.selectedOwner = selectedOwner;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        jobScheduleMBean.setDefaultOwner(selectedOwner);
     }
 
     public JobFrequencyType getFrequencyType() {
-        return frequencyType;
+        return jobScheduleMBean.getJobScheduler().getFrequencyType();
     }
 
     public void setFrequencyType(JobFrequencyType frequencyType) {
-        LOGGER.log(Level.INFO, "Frequency type: {0}", frequencyType);
-        this.frequencyType = frequencyType;
-    }
-
-    public Integer getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(Integer frequency) {
-        LOGGER.log(Level.INFO, "Frequency0: {0}", frequency);
-        this.frequency = frequency;
+        this.jobScheduleMBean.changeJobFrequencyType(frequencyType);
     }
 
     public Boolean getWorkingDaysOnly() {
@@ -162,52 +126,24 @@ public class JobSchedulerMBean {
     @PostConstruct
     public void load() {
         if(EntitySupport.INSTANCE.isIdValid(this.id)) {
-            this.jobScheduler = jobSchedulerBean.find(this.id);
-        }
-        else {
-            this.jobScheduler = jobSchedulerBean.getDefaultInstance();
-            jobScheduler.setActive(true);
+            this.jobScheduleMBean.loadJobScheduler(this.id);
         }
     }
 
     public String save() {
-        if(!StringUtils.INSTANCE.isNullOrBlank(this.selectedOwner)) {
-            UserAccount owner = userAccountBean.find(this.selectedOwner);
-            this.jobScheduler.setDefaultOwner(owner);
+        LOGGER.log(Level.INFO, "Start date 2: {0}", this.jobScheduleMBean.getJobScheduler().getStartDate());
+        if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
+            JobDailyScheduler jobDailyScheduler = (JobDailyScheduler) jobScheduleMBean.getJobScheduler();
+            jobDailyScheduler.setWorkingDaysOnly(this.workingDaysOnly);
         }
-
-        if(this.frequencyType == JobFrequencyType.INSTANT) {
-            jobScheduler = jobSchedulerBean.getInstance(this.frequencyType, JobInstantScheduler.class, this.jobScheduler);
-            jobScheduler.setStartDate(Calendar.getInstance().getTime());
-        }
-        else if(this.frequencyType == JobFrequencyType.DAILY) {
-            JobDailyScheduler jobDailyScheduler = jobSchedulerBean.getInstance(this.frequencyType, JobDailyScheduler.class, this.jobScheduler);
-            jobDailyScheduler.setWorkingDay(this.getWorkingDaysOnly());
-            jobDailyScheduler.setStartDate(startDate);
-            jobScheduler = jobDailyScheduler;
-        }
-        else {
-            jobScheduler = jobSchedulerBean.getInstance(this.frequencyType, this.jobScheduler);
-            jobScheduler.setStartDate(startDate);
-        }
-
-        if(startTime != null) {
-            jobScheduler.setStartTime(startTime);
-        }
-
-        if(endDate != null) {
-            jobScheduler.setEndDate(endDate);
-        }
-        LOGGER.log(Level.INFO, "Frequency1: {0}", frequency);
-        jobScheduler.setFrequency(frequency);
-        LOGGER.log(Level.INFO, "Frequency2: {0}", jobScheduler.getFrequency());
-        jobSchedulerBean.save(jobScheduler);
+        LOGGER.log(Level.INFO, "Start date 3: {0}", this.jobScheduleMBean.getJobScheduler().getStartDate());
+        jobSchedulerBean.save(jobScheduleMBean.getJobScheduler());
 
         return "job_schedulers";
     }
 
     public String remove() {
-        jobSchedulerBean.remove(this.jobScheduler.getId());
+        jobSchedulerBean.remove(this.jobScheduleMBean.getJobScheduler().getId());
         return "job_schedulers";
     }
 }

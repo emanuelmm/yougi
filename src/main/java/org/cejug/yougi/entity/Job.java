@@ -24,7 +24,13 @@ package org.cejug.yougi.entity;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 public enum Job {
-    MAILING_LIST;
+    MAILING_LIST,
+    INSTANT,
+    ONCE,
+    DAILY,
+    WEEKLY,
+    MONTHLY,
+    YEARLY;
 
     public String toString() {
         return this.name().toLowerCase();

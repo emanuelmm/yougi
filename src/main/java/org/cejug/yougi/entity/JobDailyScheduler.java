@@ -37,17 +37,17 @@ public class JobDailyScheduler extends JobScheduler {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "working_day")
-    private Boolean workingDay;
+    private Boolean workingDaysOnly;
 
     /**
      * If true, the job will run only during working days, never during the weekend.
      * */
-    public Boolean getWorkingDay() {
-        return workingDay;
+    public Boolean getWorkingDaysOnly() {
+        return workingDaysOnly;
     }
 
-    public void setWorkingDay(Boolean workingDay) {
-        this.workingDay = workingDay;
+    public void setWorkingDaysOnly(Boolean workingDaysOnly) {
+        this.workingDaysOnly = workingDaysOnly;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class JobDailyScheduler extends JobScheduler {
             startTime.add(Calendar.DAY_OF_YEAR, this.getFrequency());
         }
 
-        if(workingDay) {
+        if(workingDaysOnly) {
             if(startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
                     startTime.add(Calendar.DAY_OF_YEAR, 1);
