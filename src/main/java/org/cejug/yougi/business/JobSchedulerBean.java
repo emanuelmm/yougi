@@ -46,24 +46,34 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
     private static final Logger LOGGER = Logger.getLogger(JobSchedulerBean.class.getSimpleName());
 
-	@PersistenceContext
+    @PersistenceContext
     private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
 	}
 
-	public JobSchedulerBean() {
-		super(JobScheduler.class);
-	}
-	
-	public List<JobScheduler> findAll() {
-		return em.createQuery("select js from JobScheduler js order by js.name asc", JobScheduler.class).getResultList();
+    public JobSchedulerBean() {
+        super(JobScheduler.class);
 	}
 
+    public List<JobScheduler> findAll() {
+        return em.createQuery("select js from JobScheduler js order by js.name asc", JobScheduler.class)
+                 .getResultList();
+    }
+
+    public List<JobScheduler> findAllActive() {
+        return em.createQuery("select js from JobScheduler js where js.active = :active order by js.name asc", JobScheduler.class)
+                 .setParameter("active", Boolean.TRUE)
+                 .getResultList();
+    }
+
+    /**
+     * @return list of job names that are not scheduled at the moment.
+     * */
     public List<String> findUnscheduledJobNames() {
-        List<JobScheduler> schedulers = findAll();
+        List<JobScheduler> schedulers = findAllActive();
         Set<String> jobNames = getJobXmlNames();
 
         List<String> listJobNames = new ArrayList<>(jobNames);
@@ -80,6 +90,12 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         return listJobNames;
     }
 
+    /**
+     * This method is necessary because the JSR 352 specification doesn't offer a method to retrieve the list of
+     * available jobs. We need this list to enable the scheduler to start jobs without changing the code for every new
+     * job definition.
+     * @return a set of job xml file names that are located in the /META-INF/batch-job directory.
+     * */
     private Set<String> getJobXmlNames() {
         final ClassLoader loader = JobSchedulerBean.class.getClassLoader();
         URL url = loader.getResource("/META-INF/batch-jobs");

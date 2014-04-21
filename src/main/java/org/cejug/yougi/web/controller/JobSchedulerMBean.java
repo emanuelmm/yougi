@@ -30,7 +30,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -104,7 +103,7 @@ public class JobSchedulerMBean {
 
     public List<JobScheduler> getJobSchedulers() {
         if(this.jobSchedulers == null) {
-            this.jobSchedulers = jobSchedulerBean.findAll();
+            this.jobSchedulers = jobSchedulerBean.findAllActive();
         }
         return this.jobSchedulers;
     }
