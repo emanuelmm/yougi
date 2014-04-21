@@ -21,15 +21,21 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.*;
+import org.jboss.vfs.TempFileProvider;
+import org.jboss.vfs.VFS;
+import org.jboss.vfs.VirtualFile;
 
-import javax.batch.operations.JobOperator;
-import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
-import java.util.Properties;
-import java.util.logging.Level;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 /**
@@ -58,15 +64,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
     public List<String> findUnscheduledJobNames() {
         List<JobScheduler> schedulers = findAll();
-        JobOperator jobOperator = BatchRuntime.getJobOperator();
-        Set<String> jobNames = jobOperator.getJobNames();
-
-        if (jobNames.isEmpty()) {
-            Job[] jobs = Job.values();
-            for(Job job: jobs) {
-                jobNames.add(job.toString());
-            }
-        }
+        Set<String> jobNames = getJobXmlNames();
 
         List<String> listJobNames = new ArrayList<>(jobNames);
         for(String jobName: jobNames) {
@@ -80,6 +78,49 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         }
 
         return listJobNames;
+    }
+
+    private Set<String> getJobXmlNames() {
+        final ClassLoader loader = JobSchedulerBean.class.getClassLoader();
+        URL url = loader.getResource("/META-INF/batch-jobs");
+
+        if (url == null) {
+            return Collections.emptySet();
+        }
+
+        VirtualFile virtualFile;
+        Closeable handle = null;
+        String protocol = url.getProtocol();
+        Set<String> names = new HashSet<>();
+        try {
+            if ("vfs".equals(protocol)) {
+                URLConnection conn = url.openConnection();
+                virtualFile = (VirtualFile) conn.getContent();
+            } else if ("file".equals(protocol)) {
+                virtualFile = VFS.getChild(url.toURI());
+                File archiveFile = virtualFile.getPhysicalFile();
+                TempFileProvider provider = TempFileProvider.create("tmp", Executors.newScheduledThreadPool(2));
+                handle = VFS.mountZip(archiveFile, virtualFile, provider);
+            } else {
+                throw new UnsupportedOperationException("Protocol " + protocol + " is not supported");
+            }
+
+            List<VirtualFile> files = virtualFile.getChildren();
+            for(VirtualFile ccFile : files) {
+                if (ccFile.getName().endsWith(".xml")) {
+                    names.add(ccFile.getName().substring(0, ccFile.getName().length() - 4));
+                }
+            }
+
+            if(handle != null) {
+                handle.close();
+            }
+        }
+        catch (IOException | URISyntaxException ioe) {
+            ioe.printStackTrace();
+        }
+
+        return names;
     }
 
     public JobScheduler getDefaultInstance() {

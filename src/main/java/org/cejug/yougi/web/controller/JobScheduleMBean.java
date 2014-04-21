@@ -50,7 +50,6 @@ public class JobScheduleMBean {
     public JobScheduler getJobScheduler() {
         if(this.jobScheduler == null) {
             this.jobScheduler = jobSchedulerBean.getDefaultInstance();
-            LOGGER.log(Level.INFO, "Start date 0: {0}", this.jobScheduler.getStartDate());
         }
         return this.jobScheduler;
     }
@@ -66,7 +65,6 @@ public class JobScheduleMBean {
         else if(!this.jobScheduler.getFrequencyType().equals(jobFrequencyType)) {
             this.jobScheduler = jobSchedulerBean.getInstance(jobFrequencyType, this.jobScheduler);
         }
-        LOGGER.log(Level.INFO, "Start date 1: {0}", this.jobScheduler.getStartDate());
     }
 
     public UserAccount getDefaultOwner() {

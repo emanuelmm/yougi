@@ -131,12 +131,10 @@ public class JobSchedulerMBean {
     }
 
     public String save() {
-        LOGGER.log(Level.INFO, "Start date 2: {0}", this.jobScheduleMBean.getJobScheduler().getStartDate());
         if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
             JobDailyScheduler jobDailyScheduler = (JobDailyScheduler) jobScheduleMBean.getJobScheduler();
             jobDailyScheduler.setWorkingDaysOnly(this.workingDaysOnly);
         }
-        LOGGER.log(Level.INFO, "Start date 3: {0}", this.jobScheduleMBean.getJobScheduler().getStartDate());
         jobSchedulerBean.save(jobScheduleMBean.getJobScheduler());
 
         return "job_schedulers";
