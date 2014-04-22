@@ -110,7 +110,7 @@ public class JobSchedulerMBean {
 
     public List<String> getJobNames() {
         if(this.jobNames == null) {
-            this.jobNames = jobSchedulerBean.findUnscheduledJobNames();
+            this.jobNames = jobSchedulerBean.findJobNames();
         }
         return this.jobNames;
     }

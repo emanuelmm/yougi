@@ -26,6 +26,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -34,9 +36,10 @@ import java.util.Calendar;
 @DiscriminatorValue("DAILY")
 public class JobDailyScheduler extends JobScheduler {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(JobDailyScheduler.class.getSimpleName());
 	
-	@Column(name = "working_day")
+    @Column(name = "working_day")
     private Boolean workingDaysOnly;
 
     /**
@@ -71,13 +74,14 @@ public class JobDailyScheduler extends JobScheduler {
             }
         }
 
-        Calendar time = Calendar.getInstance();
-        time.setTime(this.getStartTime());
-        startTime.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-        startTime.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
+        //Calendar time = Calendar.getInstance();
+        //time.setTime(this.getStartTime());
+        //startTime.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
+        //startTime.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
         JobExecution jobExecution = new JobExecution(this, owner);
-        jobExecution.setStartTime(today);
+        jobExecution.setStartTime(startTime);
+        LOGGER.log(Level.INFO, "job will start at: {0}", startTime.getTime());
 
         return jobExecution;
     }

@@ -21,11 +21,15 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.*;
+import org.cejug.yougi.exception.BusinessLogicException;
 import org.jboss.vfs.TempFileProvider;
 import org.jboss.vfs.VFS;
 import org.jboss.vfs.VirtualFile;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Closeable;
@@ -34,8 +38,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -49,6 +59,9 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private JobExecutionBean jobExecutionBean;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -57,11 +70,6 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     public JobSchedulerBean() {
         super(JobScheduler.class);
 	}
-
-    public List<JobScheduler> findAll() {
-        return em.createQuery("select js from JobScheduler js order by js.name asc", JobScheduler.class)
-                 .getResultList();
-    }
 
     public List<JobScheduler> findAllActive() {
         return em.createQuery("select js from JobScheduler js where js.active = :active order by js.name asc", JobScheduler.class)
@@ -72,22 +80,9 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     /**
      * @return list of job names that are not scheduled at the moment.
      * */
-    public List<String> findUnscheduledJobNames() {
-        List<JobScheduler> schedulers = findAllActive();
+    public List<String> findJobNames() {
         Set<String> jobNames = getJobXmlNames();
-
-        List<String> listJobNames = new ArrayList<>(jobNames);
-        for(String jobName: jobNames) {
-            for(JobScheduler jobScheduler: schedulers) {
-                String thisJobName = jobScheduler.getName();
-                if(thisJobName.equals(jobName)) {
-                    listJobNames.remove(jobName);
-                    break;
-                }
-            }
-        }
-
-        return listJobNames;
+        return new ArrayList<>(jobNames);
     }
 
     /**
@@ -200,5 +195,25 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         jobScheduler.setStartDate(Calendar.getInstance().getTime());
         jobScheduler.setActive(true);
         return jobScheduler;
+    }
+
+    @Override
+    public JobScheduler save(JobScheduler jobScheduler) {
+        jobScheduler = super.save(jobScheduler);
+
+        try {
+            JobExecution jobExecution = jobScheduler.getNextJobExecution();
+            LOGGER.log(Level.INFO, "Job execution: {0}", jobExecution);
+            jobExecutionBean.save(jobExecution);
+        } catch (BusinessLogicException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        return jobScheduler;
+    }
+
+    @Timeout
+    public void startJob(Timer timer) {
+        String jobExecutionId = (String) timer.getInfo();
     }
 }

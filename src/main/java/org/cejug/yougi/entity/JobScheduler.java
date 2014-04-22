@@ -27,6 +27,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -37,6 +39,7 @@ import java.util.Date;
 @DiscriminatorColumn(name = "frequency_type")
 public abstract class JobScheduler implements Serializable, Identified {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(JobScheduler.class.getSimpleName());
 
     @Id
     private String id;
@@ -168,6 +171,7 @@ public abstract class JobScheduler implements Serializable, Identified {
     public abstract JobFrequencyType getFrequencyType();
     
     protected void checkInterval(Calendar today) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Today {0} and start time {1}", new Object[]{today.getTime(), getStartDate()});
     	if(today.getTime().compareTo(this.getStartDate()) < 0  ||
                 today.getTime().compareTo(this.getEndDate()) > 0) {
             throw new BusinessLogicException("errorCode0014");
@@ -177,8 +181,16 @@ public abstract class JobScheduler implements Serializable, Identified {
     protected Calendar initializeStartTime() {
     	Calendar startTime = Calendar.getInstance();
         startTime.setTime(this.getStartDate());
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
+        if(this.startTime != null) {
+            Calendar jobStartTime = Calendar.getInstance();
+            jobStartTime.setTime(this.getStartTime());
+            startTime.set(Calendar.HOUR_OF_DAY, jobStartTime.get(Calendar.HOUR_OF_DAY));
+            startTime.set(Calendar.MINUTE, jobStartTime.get(Calendar.MINUTE));
+        }
+        else {
+            startTime.set(Calendar.HOUR_OF_DAY, 0);
+            startTime.set(Calendar.MINUTE, 0);
+        }
         return startTime;
     }
 

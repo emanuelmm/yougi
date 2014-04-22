@@ -150,6 +150,10 @@ public class JobExecution implements Serializable, Identified {
         LOGGER.log(Level.INFO, "Abandoned job: {0}", this.instanceId);
     }
 
+    public String toString() {
+        return this.jobScheduler.getFrequencyType() + " to start at " + this.startTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

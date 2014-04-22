@@ -18,55 +18,55 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.entity;
+package org.cejug.yougi.business;
 
-import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.entity.JobExecution;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import java.util.Calendar;
-import java.util.Date;
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
+import javax.ejb.TimerService;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Entity
-@DiscriminatorValue("INSTANT")
-public class JobInstantScheduler extends JobScheduler {
+@Stateless
+public class JobExecutionBean extends AbstractBean<JobExecution> {
 
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(JobExecutionBean.class.getSimpleName());
 
-    @Override
-    public void setStartDate(Date startDate) {
-        super.setStartDate(startDate);
-        super.setEndDate(startDate);
-        super.setStartTime(startDate);
-    }
+    @PersistenceContext
+    private EntityManager em;
+
+    @Resource
+    TimerService timerService;
 
     @Override
-    public void setEndDate(Date endDate) {}
+    protected EntityManager getEntityManager() {
+        return em;
+	}
+
+    public JobExecutionBean() {
+        super(JobExecution.class);
+	}
 
     @Override
-    public void setStartTime(Date startTime) {}
+    public JobExecution save(JobExecution jobExecution) {
+        jobExecution = super.save(jobExecution);
 
-    @Override
-    public void setFrequency(Integer frequency) {}
-
-
-    @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
-        Calendar today = Calendar.getInstance();
-
-        JobExecution jobExecution = new JobExecution(this, owner);
-
-        // Calculate start time
-        jobExecution.setStartTime(today);
+        Timer timer = timerService.createTimer(jobExecution.getStartTime(), jobExecution.getId());
 
         return jobExecution;
     }
 
-    @Override
-    public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.INSTANT;
+    @Timeout
+    public void startJob(Timer timer) {
+        String jobExecutionId = (String) timer.getInfo();
+        JobExecution jobExecution = find(jobExecutionId);
+        jobExecution.startJob();
     }
 }
