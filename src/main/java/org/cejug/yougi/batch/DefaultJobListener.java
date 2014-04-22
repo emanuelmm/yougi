@@ -18,48 +18,28 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.entity;
+package org.cejug.yougi.batch;
 
-import org.cejug.yougi.exception.BusinessLogicException;
-
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import java.util.Calendar;
-import java.util.Date;
+import javax.batch.api.listener.JobListener;
+import javax.inject.Named;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Entity
-@DiscriminatorValue("ONCE")
-public class JobOnceScheduler extends JobScheduler {
+@Named
+public class DefaultJobListener implements JobListener {
 
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(DefaultJobListener.class.getSimpleName());
 
     @Override
-    public void setStartDate(Date startDate) {
-        super.setStartDate(startDate);
-        super.setEndDate(startDate);
+    public void beforeJob() throws Exception {
+        LOGGER.log(Level.INFO, "Starting job");
     }
 
     @Override
-    public void setEndDate(Date endDate) {}
-
-    @Override
-    public void setFrequency(Integer frequency) {}
-
-	@Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
-        Calendar startTime = getJobExecutionStartTime();
-
-        JobExecution jobExecution = new JobExecution(this, owner);
-        jobExecution.setStartTime(startTime);
-
-        return jobExecution;
-    }
-
-    @Override
-    public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.ONCE;
+    public void afterJob() throws Exception {
+        LOGGER.log(Level.INFO, "Job finished");
     }
 }

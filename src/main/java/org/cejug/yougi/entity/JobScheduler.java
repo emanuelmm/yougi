@@ -169,29 +169,44 @@ public abstract class JobScheduler implements Serializable, Identified {
     public abstract JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException;
 
     public abstract JobFrequencyType getFrequencyType();
-    
-    protected void checkInterval(Calendar today) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Today {0} and start time {1}", new Object[]{today.getTime(), getStartDate()});
-    	if(today.getTime().compareTo(this.getStartDate()) < 0  ||
-                today.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
+
+    /**
+     * Checks whether the scheduler interval is valid.
+     * @return true the start date is greater than or equal to now and start date is less than or equal to end date.
+     * false if otherwise.
+     * */
+    protected boolean checkInterval() {
+        boolean valid = true;
+
+        Calendar today = Calendar.getInstance();
+
+        if(today.getTime().compareTo(startDate) > 0) {
+            valid = false;
         }
+        else if(endDate != null && (startDate.compareTo(endDate) > 0)) {
+            valid = false;
+        }
+
+        return valid;
     }
-    
-    protected Calendar initializeStartTime() {
-    	Calendar startTime = Calendar.getInstance();
-        startTime.setTime(this.getStartDate());
+
+    /**
+     * Initialize the start time of the job execution.
+     * */
+    protected Calendar getJobExecutionStartTime() {
+    	Calendar jobExecutionStartTime = Calendar.getInstance();
+        jobExecutionStartTime.setTime(startDate);
         if(this.startTime != null) {
             Calendar jobStartTime = Calendar.getInstance();
-            jobStartTime.setTime(this.getStartTime());
-            startTime.set(Calendar.HOUR_OF_DAY, jobStartTime.get(Calendar.HOUR_OF_DAY));
-            startTime.set(Calendar.MINUTE, jobStartTime.get(Calendar.MINUTE));
+            jobStartTime.setTime(this.startTime);
+            jobExecutionStartTime.set(Calendar.HOUR_OF_DAY, jobStartTime.get(Calendar.HOUR_OF_DAY));
+            jobExecutionStartTime.set(Calendar.MINUTE, jobStartTime.get(Calendar.MINUTE));
         }
         else {
-            startTime.set(Calendar.HOUR_OF_DAY, 0);
-            startTime.set(Calendar.MINUTE, 0);
+            jobExecutionStartTime.set(Calendar.HOUR_OF_DAY, 0);
+            jobExecutionStartTime.set(Calendar.MINUTE, 0);
         }
-        return startTime;
+        return jobExecutionStartTime;
     }
 
     @Override

@@ -54,10 +54,8 @@ public class JobYearlyScheduler extends JobScheduler {
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        checkInterval(today);
-
         // Calculate start time
-        Calendar startTime = initializeStartTime();
+        Calendar startTime = getJobExecutionStartTime();
 
         while(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.MONTH, this.getFrequency());
@@ -66,11 +64,6 @@ public class JobYearlyScheduler extends JobScheduler {
         while(startTime.get(Calendar.DAY_OF_YEAR) != this.getDayOfTheYear()) {
             startTime.add(Calendar.DAY_OF_YEAR, 1);
         }
-
-        Calendar time = Calendar.getInstance();
-        time.setTime(this.getStartTime());
-        startTime.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
-        startTime.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
 
         JobExecution jobExecution = new JobExecution(this, owner);
 
