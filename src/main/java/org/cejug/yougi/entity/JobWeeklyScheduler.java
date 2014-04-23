@@ -26,6 +26,7 @@ import javax.persistence.*;
 import java.util.Calendar;
 
 /**
+ * Weekly scheduled batch job.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
@@ -33,42 +34,25 @@ import java.util.Calendar;
 public class JobWeeklyScheduler extends JobScheduler {
 	
 	private static final long serialVersionUID = 1L;
-	
-	@Enumerated(EnumType.STRING)
-    @Column(name = "day_week")
-    private DayOfTheWeek dayOfTheWeek;
-
-    /**
-     * The day of the week in which the job runs.
-     * */
-    public DayOfTheWeek getDayOfTheWeek() {
-        return dayOfTheWeek;
-    }
-
-    public void setDayOfTheWeek(DayOfTheWeek dayOfTheWeek) {
-        this.dayOfTheWeek = dayOfTheWeek;
-    }
 
     @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        // Calculate start time
+        // Calculate original start time
         Calendar startTime = getJobExecutionStartTime();
 
-        while(today.compareTo(startTime) > 0) {
+        // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
+        if(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.WEEK_OF_YEAR, this.getFrequency());
         }
 
-        while(startTime.get(Calendar.DAY_OF_WEEK) != this.getDayOfTheWeek().getCalendarDayOfTheWeek()) {
-            startTime.add(Calendar.DAY_OF_YEAR, 1);
+        // A business exception is thrown if the start time is bigger than the end date.
+        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
+            throw new BusinessLogicException("errorCode0014");
         }
 
-        JobExecution jobExecution = new JobExecution(this, owner);
-
-        jobExecution.setStartTime(startTime);
-
-        return jobExecution;
+        return new JobExecution(this, owner, startTime.getTime());
     }
 
     @Override

@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * On demand batch job.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
@@ -56,12 +57,8 @@ public class JobInstantScheduler extends JobScheduler {
     @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
-
-        JobExecution jobExecution = new JobExecution(this, owner);
-
-        // Calculate start time
-        jobExecution.setStartTime(today);
-
+        JobExecution jobExecution = new JobExecution(this, owner, today.getTime());
+        this.setActive(false);
         return jobExecution;
     }
 

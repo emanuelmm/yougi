@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Daily scheduled batch job.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
@@ -57,26 +58,31 @@ public class JobDailyScheduler extends JobScheduler {
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 
-        // Calculate start time
+        // Calculate original start time
         Calendar startTime = getJobExecutionStartTime();
 
-        while(today.compareTo(startTime) > 0) {
+        // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
+        if(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.DAY_OF_YEAR, this.getFrequency());
         }
 
+        /* If the updated start time falls down in the weekend and the scheduler only considers working days, then the
+        * start time is incremented until it reaches the first working day of the week, which is monday. */
         if(workingDaysOnly) {
-            if(startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            if(startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+               startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
                     startTime.add(Calendar.DAY_OF_YEAR, 1);
                 }
             }
         }
 
-        JobExecution jobExecution = new JobExecution(this, owner);
-        jobExecution.setStartTime(startTime);
-        LOGGER.log(Level.INFO, "job will start at: {0}", startTime.getTime());
+        // A business exception is thrown if the start time is bigger than the end date.
+        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
+            throw new BusinessLogicException("errorCode0014");
+        }
 
-        return jobExecution;
+        return new JobExecution(this, owner, startTime.getTime());
     }
 
     @Override

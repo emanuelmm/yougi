@@ -191,7 +191,8 @@ public abstract class JobScheduler implements Serializable, Identified {
     }
 
     /**
-     * Initialize the start time of the job execution.
+     * @return the original start time of the job execution. The date for the next job execution should be calculated
+     * from this date.
      * */
     protected Calendar getJobExecutionStartTime() {
     	Calendar jobExecutionStartTime = Calendar.getInstance();

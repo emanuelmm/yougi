@@ -25,7 +25,6 @@ import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.BatchStatus;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,9 +66,10 @@ public class JobExecution implements Serializable, Identified {
 
     public JobExecution() {}
 
-    public JobExecution(JobScheduler jobScheduler, UserAccount owner) {
+    public JobExecution(JobScheduler jobScheduler, UserAccount owner, Date startTime) {
         this.jobScheduler = jobScheduler;
         this.owner = owner;
+        this.startTime = startTime;
     }
 
     @Override
@@ -100,10 +100,6 @@ public class JobExecution implements Serializable, Identified {
 
     public Date getStartTime() {
         return startTime;
-    }
-
-    public void setStartTime(Calendar startTime) {
-        this.startTime = startTime.getTime();
     }
 
     public Date getEndTime() {
