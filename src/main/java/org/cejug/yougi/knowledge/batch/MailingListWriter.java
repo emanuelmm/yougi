@@ -15,9 +15,9 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class MessagesWriter extends AbstractItemWriter {
+public class MailingListWriter extends AbstractItemWriter {
 
-    private static final Logger LOGGER = Logger.getLogger(MessagesWriter.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(MailingListWriter.class.getSimpleName());
 
     @PersistenceContext
     EntityManager em;

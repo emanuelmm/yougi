@@ -5,9 +5,9 @@
     </listeners>
     <step id="storeMessages">
         <chunk item-count="3" skip-limit="3">
-            <reader ref="latestMessagesReader"/>
-            <processor ref="messagesProcessor"/>
-            <writer ref="messagesWriter"/>
+            <reader ref="mailingListReader"/>
+            <processor ref="mailingListProcessor"/>
+            <writer ref="mailingListWriter"/>
         </chunk>
     </step>
 </job>

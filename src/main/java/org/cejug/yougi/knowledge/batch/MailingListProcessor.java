@@ -11,9 +11,9 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class MessagesProcessor implements ItemProcessor {
+public class MailingListProcessor implements ItemProcessor {
 
-    private static final Logger LOGGER = Logger.getLogger(MessagesProcessor.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(MailingListProcessor.class.getSimpleName());
 
     @Override
     public Object processItem(Object message) throws Exception {

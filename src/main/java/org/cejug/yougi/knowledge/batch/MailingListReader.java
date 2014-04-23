@@ -12,9 +12,9 @@ import java.util.logging.Logger;
  */
 @Named
 @Dependent
-public class LatestMessagesReader extends AbstractItemReader {
+public class MailingListReader extends AbstractItemReader {
 
-    private static final Logger LOGGER = Logger.getLogger(LatestMessagesReader.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(MailingListReader.class.getSimpleName());
 
     @Override
     public void open(Serializable checkpoint) throws Exception {

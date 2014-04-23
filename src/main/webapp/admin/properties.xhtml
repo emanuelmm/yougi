@@ -87,12 +87,38 @@
                                         <h:selectBooleanCheckbox id="sendEmails" label="#{bundle.sendEmails}" value="#{applicationPropertiesMBean.sendEmails}"/>
                                         <h:outputLabel for="sendEmails" value="#{bundle.sendEmails}" styleClass="control-label"/>
                                     </div>
+                                    <div class="checkbox-inline">
+                                        <h:selectBooleanCheckbox id="receiveEmails" label="#{bundle.receiveEmails}" value="#{applicationPropertiesMBean.receiveEmails}"/>
+                                        <h:outputLabel for="receiveEmails" value="#{bundle.receiveEmails}" styleClass="control-label"/>
+                                    </div>
                                     <div class="panel-body">
                                         <h:outputLabel for="emailServerType" value="#{bundle.emailServerType}" styleClass="control-label"/>
                                         <h:selectOneRadio id="emailServerType" label="#{bundle.emailServerType}" value="#{applicationPropertiesMBean.applicationProperties['emailServerType']}">
                                             <f:selectItem itemLabel="&nbsp;#{bundle.pop3}&nbsp;&nbsp;" itemValue="pop3"/>
                                             <f:selectItem itemLabel="&nbsp;#{bundle.imap}" itemValue="imap"/>
                                         </h:selectOneRadio>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <h:outputLabel for="emailHost" value="#{bundle.emailHost}" styleClass="control-label"/>
+                                                <h:inputText id="emailHost" label="#{bundle.emailHost}" value="#{applicationPropertiesMBean.applicationProperties['emailHost']}" styleClass="form-control"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="emailHostPort" value="#{bundle.port}" styleClass="control-label"/>
+                                                <h:inputText id="emailHostPort" label="#{bundle.port}" value="#{applicationPropertiesMBean.applicationProperties['emailHostPort']}" styleClass="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel for="emailUser" value="#{bundle.emailUser}" styleClass="control-label"/>
+                                        <h:inputText id="emailUser" label="#{bundle.emailUser}" value="#{applicationPropertiesMBean.applicationProperties['emailUser']}" styleClass="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel for="emailUserPassword" value="#{bundle.emailUserPassword}" styleClass="control-label"/>
+                                        <h:inputText id="emailUserPassword" label="#{bundle.emailUserPassword}" value="#{applicationPropertiesMBean.applicationProperties['emailUserPassword']}" styleClass="form-control"/>
                                     </div>
                                 </div>
                             </div>

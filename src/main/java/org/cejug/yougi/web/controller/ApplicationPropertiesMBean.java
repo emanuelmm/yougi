@@ -59,6 +59,7 @@ public class ApplicationPropertiesMBean implements Serializable {
 
     private Map<String, String> applicationProperties;
     private Boolean sendEmails;
+    private Boolean receiveEmails;
     private Boolean captchaEnabled;
     private List<Language> languages;
     private List<Timezone> timezones;
@@ -77,6 +78,14 @@ public class ApplicationPropertiesMBean implements Serializable {
 
     public void setSendEmails(Boolean sendEmails) {
         this.sendEmails = sendEmails;
+    }
+
+    public Boolean getReceiveEmails() {
+        return receiveEmails;
+    }
+
+    public void setReceiveEmails(Boolean receiveEmails) {
+        this.receiveEmails = receiveEmails;
     }
 
     public Boolean getCaptchaEnabled() {
@@ -101,16 +110,6 @@ public class ApplicationPropertiesMBean implements Serializable {
         return this.languages;
     }
 
-    public String save() {
-        this.applicationProperties.put(Properties.SEND_EMAILS.getKey(), sendEmails.toString());
-        this.applicationProperties.put(Properties.CAPTCHA_ENABLED.getKey(), captchaEnabled.toString());
-        applicationPropertyBean.save(this.applicationProperties);
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoPropertiesSaved"), ""));
-
-        return "properties";
-    }
-
     @PostConstruct
     public void load() {
         applicationProperties = applicationPropertyBean.findApplicationProperties();
@@ -123,6 +122,10 @@ public class ApplicationPropertiesMBean implements Serializable {
             sendEmails = true;
         }
 
+        if (applicationProperties.get(Properties.RECEIVE_EMAILS.getKey()).equals("true")) {
+            receiveEmails = true;
+        }
+
         if (applicationProperties.get(Properties.CAPTCHA_ENABLED.getKey()).equals("true")) {
             captchaEnabled = true;
         }
@@ -132,6 +135,17 @@ public class ApplicationPropertiesMBean implements Serializable {
             Timezone timezone = timezoneBean.findDefaultTimezone();
             applicationProperties.put(Properties.TIMEZONE.getKey(), timezone.getId());
         }
+    }
+
+    public String save() {
+        this.applicationProperties.put(Properties.SEND_EMAILS.getKey(), sendEmails.toString());
+        this.applicationProperties.put(Properties.RECEIVE_EMAILS.getKey(), receiveEmails.toString());
+        this.applicationProperties.put(Properties.CAPTCHA_ENABLED.getKey(), captchaEnabled.toString());
+        applicationPropertyBean.save(this.applicationProperties);
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoPropertiesSaved"), ""));
+
+        return "properties";
     }
 
     private String getUrl() {
