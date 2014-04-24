@@ -31,7 +31,7 @@
                 <h1>#{bundle.topics}</h1>
                 <h:form>
                     <p><h:button outcome="topic_form" value="#{bundle.newTopic}" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default"/></p>
-                    <h:dataTable value="#{topicMBean.topics}" var="topic" emptyMessage="#{bundle.noRecordsFound}" styleClass="table">
+                    <h:dataTable value="#{topicMBean.topics}" var="topic" styleClass="table">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="topic" value="#{topic.name}">
@@ -53,7 +53,6 @@
                     </h:dataTable>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
         </ui:composition>
     </h:body>
 </html>
