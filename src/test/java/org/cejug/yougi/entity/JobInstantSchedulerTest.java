@@ -20,43 +20,38 @@
  * */
 package org.cejug.yougi.entity;
 
+import java.text.DateFormat;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.junit.Test;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.junit.Assert;
 
 /**
  * @Author Hildeberto Mendonca - http://www.hildeberto.com
  */
 public class JobInstantSchedulerTest {
 
-    @Test(expected = BusinessLogicException.class)
-    public void getNextJobExecutionInFutureDate() throws Exception {
+    /**
+     * A JobInstantScheduler create JobExecution instances with the current
+     * date and time. This test checks whether the start time of the JobExecution
+     * is now.
+     */
+    @Test
+    public void getNextJobExecutionInCurrentDate() throws Exception {
         JobScheduler jobScheduler = new JobInstantScheduler();
         jobScheduler.setDefaultOwner(new UserAccount("user"));
         jobScheduler.setDescription("test");
 
         Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.DAY_OF_MONTH, 1);
         jobScheduler.setStartDate(startDate.getTime());
-        jobScheduler.getNextJobExecution();
-    }
-
-    @Test(expected = BusinessLogicException.class)
-    public void getNextJobExecutionAfterEndDate() throws Exception {
-        JobScheduler jobScheduler = new JobInstantScheduler();
-        jobScheduler.setDefaultOwner(new UserAccount("user"));
-        jobScheduler.setDescription("test");
-
-        Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse("01/04/2014");
-        jobScheduler.setStartDate(startDate);
-        jobScheduler.setStartTime(startDate);
-
-        Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse("05/04/2014");
-        jobScheduler.setEndDate(endDate);
-
-        jobScheduler.getNextJobExecution();
+        
+        JobExecution jobExecution = jobScheduler.getNextJobExecution();
+        Date startTime = jobExecution.getStartTime();
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        
+        Assert.assertEquals(dateFormat.format(startDate.getTime()), dateFormat.format(startTime));
     }
 }
