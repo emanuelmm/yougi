@@ -48,3 +48,17 @@ nbactions.xml
 /yougi-web/yougi-web.iml
 /.project
 yougi-ear/nb-configuration.xml
+/target/
+
+# eclipse settings
+.classpath
+.settings/
+.project
+*.class
+*.jar
+
+# bkp files
+*~
+
+!/.gitignore
+src/main/resources/rebel.xml
