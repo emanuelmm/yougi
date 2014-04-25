@@ -102,6 +102,11 @@ public class ApplicationPropertyBean {
         return applicationProperty;
     }
 
+    public String getPropertyValue(Properties properties) {
+        ApplicationProperty applicationProperty = findApplicationProperty(properties);
+        return applicationProperty.getPropertyValue();
+    }
+
     public void save(Map<String, String> properties) {
         List<ApplicationProperty> existingProperties = em.createQuery("select ap from ApplicationProperty ap", ApplicationProperty.class).getResultList();
         String value;

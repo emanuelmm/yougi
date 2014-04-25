@@ -20,9 +20,12 @@
  * */
 package org.cejug.yougi.knowledge.batch;
 
+import org.cejug.yougi.knowledge.entity.MailingListMessage;
+
 import javax.batch.api.chunk.ItemProcessor;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.mail.Message;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,8 +39,12 @@ public class MailingListProcessor implements ItemProcessor {
     private static final Logger LOGGER = Logger.getLogger(MailingListProcessor.class.getSimpleName());
 
     @Override
-    public Object processItem(Object message) throws Exception {
-        LOGGER.log(Level.INFO, "Message {0}", message);
-        return message;
+    public MailingListMessage processItem(Object msg) throws Exception {
+        Message message = (Message) msg;
+
+        MailingListMessage mailingListMessage = new MailingListMessage();
+        mailingListMessage.setSubject(message.getSubject());
+
+        return mailingListMessage;
     }
 }

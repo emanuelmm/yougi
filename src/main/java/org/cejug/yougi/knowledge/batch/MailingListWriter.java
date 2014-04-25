@@ -20,6 +20,8 @@
  * */
 package org.cejug.yougi.knowledge.batch;
 
+import org.cejug.yougi.knowledge.entity.MailingListMessage;
+
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -45,6 +47,8 @@ public class MailingListWriter extends AbstractItemWriter {
     @Override
     @Transactional
     public void writeItems(List messages) throws Exception {
-        LOGGER.log(Level.INFO, "List {0}", messages.size());
+        for(MailingListMessage mailingListMessage: (List<MailingListMessage>) messages) {
+            LOGGER.log(Level.INFO, "Message: {0}", mailingListMessage.getSubject());
+        }
     }
 }

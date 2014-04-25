@@ -20,30 +20,70 @@
  * */
 package org.cejug.yougi.knowledge.batch;
 
+import org.cejug.yougi.business.ApplicationPropertyBean;
+import org.cejug.yougi.entity.Properties;
+
 import javax.batch.api.chunk.AbstractItemReader;
-import javax.enterprise.context.Dependent;
+import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.mail.Authenticator;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Store;
 import java.io.Serializable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Named
-@Dependent
 public class MailingListReader extends AbstractItemReader {
 
     private static final Logger LOGGER = Logger.getLogger(MailingListReader.class.getSimpleName());
 
+    @EJB
+    private ApplicationPropertyBean applicationPropertyBean;
+
+    private Folder inbox;
+    private int messageCount;
+    private int messageNumber = 1;
+
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        LOGGER.log(Level.INFO, "open");
+        java.util.Properties connProperties = new java.util.Properties();
+        final String protocol = applicationPropertyBean.getPropertyValue(Properties.EMAIL_SERVER_TYPE);
+        final String user = applicationPropertyBean.getPropertyValue(Properties.EMAIL_USER);
+
+        connProperties.put("mail.store.protocol", protocol);
+        connProperties.put("mail."+ protocol +".host", applicationPropertyBean.getPropertyValue(Properties.EMAIL_HOST));
+        connProperties.put("mail."+ protocol +".port", applicationPropertyBean.getPropertyValue(Properties.EMAIL_HOST_PORT));
+        connProperties.put("mail."+ protocol +".user", user);
+        connProperties.put("mail."+ protocol +".ssl.enable", true);
+
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, applicationPropertyBean.getPropertyValue(Properties.EMAIL_USER_PASSWORD));
+            }
+        };
+
+        Session session = Session.getInstance(connProperties, authenticator);
+        Store store = session.getStore(applicationPropertyBean.getPropertyValue(Properties.EMAIL_SERVER_TYPE));
+        store.connect();
+
+        inbox = store.getFolder("INBOX");
+        inbox.open(Folder.READ_ONLY);
+        messageCount = inbox.getMessageCount();
     }
 
     @Override
-    public Object readItem() throws Exception {
-        LOGGER.log(Level.INFO, "read Item");
-        return "read item";
+    public Message readItem() throws Exception {
+        Message message = null;
+        if(messageNumber < messageCount) {
+            message = inbox.getMessage(messageNumber++);
+        }
+        return message;
     }
 }
