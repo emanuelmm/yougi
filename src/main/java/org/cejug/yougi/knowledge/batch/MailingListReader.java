@@ -23,6 +23,7 @@ package org.cejug.yougi.knowledge.batch;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.entity.Properties;
 
+import javax.annotation.Resource;
 import javax.batch.api.chunk.AbstractItemReader;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -46,31 +47,16 @@ public class MailingListReader extends AbstractItemReader {
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
 
+    @Resource(lookup = "java:/mail/yougi")
+    private Session mailSession;
+
     private Folder inbox;
     private int messageCount;
     private int messageNumber = 1;
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        java.util.Properties connProperties = new java.util.Properties();
-        final String protocol = applicationPropertyBean.getPropertyValue(Properties.EMAIL_SERVER_TYPE);
-        final String user = applicationPropertyBean.getPropertyValue(Properties.EMAIL_USER);
-
-        connProperties.put("mail.store.protocol", protocol);
-        connProperties.put("mail."+ protocol +".host", applicationPropertyBean.getPropertyValue(Properties.EMAIL_HOST));
-        connProperties.put("mail."+ protocol +".port", applicationPropertyBean.getPropertyValue(Properties.EMAIL_HOST_PORT));
-        connProperties.put("mail."+ protocol +".user", user);
-        connProperties.put("mail."+ protocol +".ssl.enable", true);
-
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, applicationPropertyBean.getPropertyValue(Properties.EMAIL_USER_PASSWORD));
-            }
-        };
-
-        Session session = Session.getInstance(connProperties, authenticator);
-        Store store = session.getStore(applicationPropertyBean.getPropertyValue(Properties.EMAIL_SERVER_TYPE));
+        Store store = mailSession.getStore(applicationPropertyBean.getPropertyValue(Properties.EMAIL_SERVER_TYPE));
         store.connect();
 
         inbox = store.getFolder("INBOX");
