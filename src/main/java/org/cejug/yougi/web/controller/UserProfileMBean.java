@@ -29,6 +29,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
@@ -39,6 +40,7 @@ import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.qualifier.UserName;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -60,6 +62,10 @@ public class UserProfileMBean implements Serializable {
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @Inject
+    @UserName
+    private String username;
 
     private Language language;
     private UserAccount userAccount;
@@ -96,8 +102,6 @@ public class UserProfileMBean implements Serializable {
     public UserAccount getUserAccount() {
     	if(userAccount == null) {
             FacesContext fc = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest)fc.getExternalContext().getRequest();
-            String username = request.getRemoteUser();
             this.userAccount = userAccountBean.findByUsername(username);
     	}
     	return userAccount;
