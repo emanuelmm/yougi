@@ -29,9 +29,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
@@ -88,7 +86,7 @@ public class EventMBean {
     @ManagedProperty(value = "#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{userProfileMBean}")
+    @Inject
     private UserProfileMBean userProfileMBean;
 
     @Inject
