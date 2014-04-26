@@ -30,6 +30,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.AuthenticationBean;
@@ -39,6 +40,7 @@ import org.cejug.yougi.entity.Authentication;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
@@ -60,8 +62,11 @@ public class ChangePasswordMBean {
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
 
-    private String currentPassword;
+    @Inject
+    @UserName
     private String username;
+
+    private String currentPassword;
     private String password;
     private String passwordConfirmation;
 
@@ -189,8 +194,6 @@ public class ChangePasswordMBean {
      * @return returns the next step in the navigation flow.
      */
     public String changePassword() {
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        username = request.getRemoteUser();
         UserAccount userAccount = userAccountBean.findByUsername(username);
         if(!authenticationBean.passwordMatches(userAccount, currentPassword)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("The current password does not match."));

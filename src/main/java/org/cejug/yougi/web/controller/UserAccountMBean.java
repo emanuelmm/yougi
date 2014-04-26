@@ -31,6 +31,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,6 +40,7 @@ import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Authentication;
 import org.cejug.yougi.entity.DeactivationType;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.util.StringUtils;
 
@@ -56,6 +58,10 @@ public class UserAccountMBean implements Serializable {
 
     @ManagedProperty(value="#{locationMBean}")
     private LocationMBean locationMBean;
+
+    @Inject
+    @UserName
+    private String username;
 
     private String userId;
     private UserAccount userAccount;
@@ -184,8 +190,6 @@ public class UserAccountMBean implements Serializable {
 
     @PostConstruct
     public void load() {
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
         if(username != null) {
             this.userAccount = userAccountBean.findByUsername(username);
 

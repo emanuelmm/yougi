@@ -36,6 +36,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.UserAccountBean;
@@ -43,6 +44,7 @@ import org.cejug.yougi.partnership.business.PartnerBean;
 import org.cejug.yougi.partnership.business.RepresentativeBean;
 import org.cejug.yougi.partnership.entity.Partner;
 import org.cejug.yougi.partnership.entity.Representative;
+import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.util.WebTextUtils;
 import org.cejug.yougi.web.controller.LocationMBean;
 import org.primefaces.event.FileUploadEvent;
@@ -73,6 +75,10 @@ public class PartnershipMBean {
 
     @ManagedProperty(value = "#{locationMBean}")
     private LocationMBean locationMBean;
+
+    @Inject
+    @UserName
+    private String username;
 
     private Representative representative;
 
@@ -127,8 +133,6 @@ public class PartnershipMBean {
 
     @PostConstruct
     public void load() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
         UserAccount person = userAccountBean.findByUsername(username);
         this.representative = representativeBean.findRepresentative(person);
 
@@ -205,8 +209,6 @@ public class PartnershipMBean {
         LOGGER.log(Level.INFO, "JUG-0001: File {0} of type {1} temporarely uploaded to {2}", new String[]{uploadedFile.getFileName(), uploadedFile.getContentType(), System.getProperty("java.io.tmpdir")});
         try {
             /* Loads the representative related to the logged user. */
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            String username = request.getRemoteUser();
             UserAccount person = userAccountBean.findByUsername(username);
             this.representative = representativeBean.findRepresentative(person);
 

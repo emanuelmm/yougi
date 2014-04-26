@@ -30,6 +30,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.UserAccountBean;
@@ -43,6 +44,7 @@ import org.cejug.yougi.event.business.SponsorshipEventBean;
 import org.cejug.yougi.event.business.TrackBean;
 import org.cejug.yougi.event.entity.*;
 import org.cejug.yougi.event.entity.SessionEvent;
+import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.web.controller.UserProfileMBean;
 import org.cejug.yougi.util.WebTextUtils;
 import org.primefaces.model.chart.PieChartModel;
@@ -88,6 +90,10 @@ public class EventMBean {
 
     @ManagedProperty(value = "#{userProfileMBean}")
     private UserProfileMBean userProfileMBean;
+
+    @Inject
+    @UserName
+    private String username;
 
     private Event event;
     private Attendee attendee;
@@ -284,8 +290,6 @@ public class EventMBean {
                 this.selectedParent = this.event.getParent().getId();
             }
 
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            String username = request.getRemoteUser();
             UserAccount person = userAccountBean.findByUsername(username);
 
             this.attendee = attendeeBean.find(this.event, person);

@@ -25,13 +25,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
 import org.cejug.yougi.business.TimezoneBean;
@@ -41,6 +40,7 @@ import org.cejug.yougi.entity.Language;
 import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.util.StringUtils;
 
 /**
@@ -63,6 +63,10 @@ public class UserProfileMBean implements Serializable {
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @Inject
+    @UserName
+    private String username;
 
     private Language language;
     private UserAccount userAccount;

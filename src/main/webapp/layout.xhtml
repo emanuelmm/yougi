@@ -112,7 +112,7 @@
                             <c:if test="#{! empty request.remoteUser}">
                                 <span class="navbar-text">
                                     <h:outputText value="#{bundle.hello} "/>
-                                    <h:outputText value="#{userProfileMBean.userAccount.firstName} !"/></span>
+                                    <h:outputText value="#{firstName} !"/></span>
                                 <ul class="nav navbar-nav">
                                     <li><h:commandLink action="#{securityBackingMBean.logout}" value="#{bundle.signOut}"/></li>
                                 </ul>
