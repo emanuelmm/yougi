@@ -20,14 +20,19 @@
  * */
 package org.cejug.yougi.entity;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserAccountTest {
     @Test
     public void testSetFirstName() throws Exception {
+    	UserAccount user = new UserAccount();
+    	user.setFirstName("testname");
+    	Assert.assertEquals("Testname", user.getFirstName());
 
     }
 
