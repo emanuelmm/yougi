@@ -55,7 +55,7 @@ import org.cejug.yougi.util.UrlUtils;
 @Stateless
 public class WebSourceBean extends AbstractBean<WebSource> {
     
-    private static final Logger LOGGER = Logger.getLogger(WebSourceBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WebSourceBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

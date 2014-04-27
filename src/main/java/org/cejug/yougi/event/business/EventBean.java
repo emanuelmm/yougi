@@ -58,7 +58,7 @@ public class EventBean extends AbstractBean<Event> {
     @EJB
     private MessageTemplateBean messageTemplateBean;
 
-    static final Logger LOGGER = Logger.getLogger(EventBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(EventBean.class.getSimpleName());
 
     public EventBean() {
         super(Event.class);

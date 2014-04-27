@@ -42,7 +42,7 @@ import org.cejug.yougi.event.entity.Venue;
 @ViewScoped
 public class VenueSelectionMBean {
 
-    static final Logger LOGGER = Logger.getLogger(VenueSelectionMBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(VenueSelectionMBean.class.getSimpleName());
 
     @EJB
     private VenueBean venueBean;

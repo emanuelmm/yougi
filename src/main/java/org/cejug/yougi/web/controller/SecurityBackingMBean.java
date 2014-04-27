@@ -44,7 +44,7 @@ import org.cejug.yougi.util.ResourceBundleHelper;
 @RequestScoped
 public class SecurityBackingMBean {
 
-    private static final Logger LOGGER = Logger.getLogger(SecurityBackingMBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SecurityBackingMBean.class.getSimpleName());
 
     @EJB
     private UserAccountBean userAccountBean;

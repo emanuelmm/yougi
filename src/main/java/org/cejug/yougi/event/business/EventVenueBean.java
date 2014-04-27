@@ -41,7 +41,7 @@ public class EventVenueBean extends AbstractBean<EventVenue> {
     @PersistenceContext
     private EntityManager em;
 
-    static final Logger LOGGER = Logger.getLogger(EventVenueBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(EventVenueBean.class.getSimpleName());
 
     public EventVenueBean() {
         super(EventVenue.class);

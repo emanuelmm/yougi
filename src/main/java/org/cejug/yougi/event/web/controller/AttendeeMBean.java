@@ -59,7 +59,7 @@ import org.cejug.yougi.web.report.EventAttendeeCertificate;
 @RequestScoped
 public class AttendeeMBean implements Serializable {
 
-    static final Logger LOGGER = Logger.getLogger(AttendeeMBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(AttendeeMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 

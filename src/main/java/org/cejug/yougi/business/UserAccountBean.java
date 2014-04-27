@@ -78,7 +78,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
     @PersistenceContext
     private EntityManager em;
 
-    static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
 
     public UserAccountBean() {
         super(UserAccount.class);

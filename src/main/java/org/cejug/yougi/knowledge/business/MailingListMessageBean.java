@@ -55,7 +55,7 @@ public class MailingListMessageBean extends AbstractBean<MailingListMessage> {
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
 
-    static final Logger LOGGER = Logger.getLogger(MailingListMessageBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(MailingListMessageBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

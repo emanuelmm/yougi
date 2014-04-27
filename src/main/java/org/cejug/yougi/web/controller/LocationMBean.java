@@ -53,7 +53,7 @@ public class LocationMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getName());
+    static final Logger LOGGER = Logger.getLogger(LocationMBean.class.getSimpleName());
 
     @EJB
     private CountryBean countryBean;
