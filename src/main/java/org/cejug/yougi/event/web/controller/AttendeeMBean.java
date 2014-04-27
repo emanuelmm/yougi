@@ -39,6 +39,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
+import javax.inject.Inject;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.entity.ApplicationProperty;
 import org.cejug.yougi.entity.Properties;
@@ -81,7 +82,7 @@ public class AttendeeMBean implements Serializable {
     @ManagedProperty(value = "#{param.eventId}")
     private String eventId;
 
-    @ManagedProperty(value = "#{userProfileMBean}")
+    @Inject
     private UserProfileMBean userProfileMBean;
 
     private Attendee attendee;
