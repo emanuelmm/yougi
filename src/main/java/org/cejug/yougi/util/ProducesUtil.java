@@ -25,6 +25,7 @@ import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.qualifier.UserName;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -39,9 +40,17 @@ public class ProducesUtil {
     @Inject
     private UserAccountBean userAccountBean;
 
+    @Inject
+    private FacesContext facesContext;
+
+    @Produces @RequestScoped
+    public FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+
     @Produces @Named @UserName
     public String getUserName() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         return request.getRemoteUser();
     }
 
