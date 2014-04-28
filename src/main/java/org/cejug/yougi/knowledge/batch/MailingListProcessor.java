@@ -44,6 +44,7 @@ public class MailingListProcessor implements ItemProcessor {
 
         MailingListMessage mailingListMessage = new MailingListMessage();
         mailingListMessage.setSubject(message.getSubject());
+        mailingListMessage.setContentType(message.getContentType());
 
         return mailingListMessage;
     }

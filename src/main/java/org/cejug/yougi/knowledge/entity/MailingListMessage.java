@@ -23,6 +23,8 @@ package org.cejug.yougi.knowledge.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import org.cejug.yougi.entity.ContentType;
 import org.cejug.yougi.entity.Identified;
 
 /**
@@ -44,6 +46,9 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
     private String subject;
     
     private String body;
+
+    @Transient
+    private String contentType;
 
     private String sender;
 
@@ -78,6 +83,14 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public String getSender() {

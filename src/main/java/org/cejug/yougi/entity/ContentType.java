@@ -18,38 +18,40 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.knowledge.batch;
-
-import org.cejug.yougi.knowledge.entity.MailingListMessage;
-
-import javax.batch.api.chunk.AbstractItemWriter;
-import javax.enterprise.context.Dependent;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package org.cejug.yougi.entity;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@Named
-@Dependent
-public class MailingListWriter extends AbstractItemWriter {
+public enum ContentType {
 
-    private static final Logger LOGGER = Logger.getLogger(MailingListWriter.class.getSimpleName());
+    TEXT_HTML      ("text/html",       "html"),
+    TEXT_PLAIN     ("text/plain",      "txt");
 
-    @PersistenceContext
-    EntityManager em;
+    private final String contentType;
+    private final String extension;
+
+    ContentType(String contenuType, String extension) {
+        this.contentType = contenuType;
+        this.extension = extension;
+    }
 
     @Override
-    @Transactional
-    public void writeItems(List messages) throws Exception {
-        for(MailingListMessage mailingListMessage: (List<MailingListMessage>) messages) {
-            LOGGER.log(Level.INFO, "Message: {0} - {1}", new String[]{mailingListMessage.getSubject(),
-                                                                      mailingListMessage.getContentType()});
+    public String toString() {
+        return this.contentType;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public boolean isKnownExtension(String extension) {
+        boolean exist = false;
+
+        if(TEXT_HTML.getExtension().equals(extension) || TEXT_PLAIN.getExtension().equals(extension)) {
+            exist = true;
         }
+
+        return exist;
     }
 }
