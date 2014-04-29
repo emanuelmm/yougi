@@ -20,6 +20,17 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import org.cejug.yougi.business.ApplicationPropertyBean;
+import org.cejug.yougi.business.AuthenticationBean;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.ApplicationProperty;
+import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.Properties;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.qualifier.UserName;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -31,17 +42,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import org.cejug.yougi.business.ApplicationPropertyBean;
-import org.cejug.yougi.business.AuthenticationBean;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.ApplicationProperty;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.Properties;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.exception.BusinessLogicException;
-import org.cejug.yougi.qualifier.UserName;
-import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -61,6 +61,9 @@ public class ChangePasswordMBean {
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @Inject
+    private FacesContext context;
 
     @Inject
     @UserName
@@ -156,11 +159,11 @@ public class ChangePasswordMBean {
             ApplicationProperty url = applicationPropertyBean.findApplicationProperty(Properties.URL);
             String serverAddress = url.getPropertyValue();
             userAccountBean.requestConfirmationPasswordChange(username, serverAddress);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
             return "change_password";
         }
         catch(EJBException ee) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ee.getCausedByException().getMessage()));
+            context.addMessage(null, new FacesMessage(ee.getCausedByException().getMessage()));
             return "request_password_change";
         }
     }
@@ -175,15 +178,15 @@ public class ChangePasswordMBean {
         UserAccount userAccount = userAccountBean.findByConfirmationCode(confirmationCode.trim().toUpperCase());
 
         if(userAccount == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0012"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0012"), null));
             return "change_password";
         }
 
         try {
             userAccountBean.changePassword(userAccount, this.password);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
         } catch (BusinessLogicException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            context.addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
         }
         return "login";
@@ -196,14 +199,14 @@ public class ChangePasswordMBean {
     public String changePassword() {
         UserAccount userAccount = userAccountBean.findByUsername(username);
         if(!authenticationBean.passwordMatches(userAccount, currentPassword)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("The current password does not match."));
+            context.addMessage(null, new FacesMessage("The current password does not match."));
             return "change_password";
         }
 
         try {
             userAccountBean.changePassword(userAccount, this.password);
         } catch (BusinessLogicException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            context.addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
         }
         return "profile?faces-redirect=true";

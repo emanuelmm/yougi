@@ -20,7 +20,13 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.DeactivationType;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.qualifier.UserName;
+import org.cejug.yougi.util.ResourceBundleHelper;
+import org.cejug.yougi.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,14 +41,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.DeactivationType;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.qualifier.UserName;
-import org.cejug.yougi.util.ResourceBundleHelper;
-import org.cejug.yougi.util.StringUtils;
+import java.io.Serializable;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -58,6 +57,12 @@ public class UserAccountMBean implements Serializable {
 
     @ManagedProperty(value="#{locationMBean}")
     private LocationMBean locationMBean;
+
+    @Inject
+    private FacesContext context;
+
+    @Inject
+    private HttpServletRequest request;
 
     @Inject
     @UserName
@@ -224,8 +229,6 @@ public class UserAccountMBean implements Serializable {
     }
 
     public String register() {
-        FacesContext context = FacesContext.getCurrentInstance();
-
         boolean isFirstUser = userAccountBean.thereIsNoAccount();
 
         if(context.isValidationFailed()) {
@@ -270,7 +273,6 @@ public class UserAccountMBean implements Serializable {
             existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
             userAccountBean.save(existingUserAccount);
 
-            FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().remove("locationBean");
         }
         return "profile?faces-redirect=true";
@@ -289,7 +291,7 @@ public class UserAccountMBean implements Serializable {
             existingUserAccount.setSpeaker(userAccount.getSpeaker());
 
             if(!isPrivacyValid(existingUserAccount)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Selecione pelo menos uma das opções de privacidade."));
+                context.addMessage(null, new FacesMessage("Selecione pelo menos uma das opções de privacidade."));
                 return "privacy";
             }
 
@@ -300,8 +302,7 @@ public class UserAccountMBean implements Serializable {
 
     public String deactivateMembership() {
         userAccountBean.deactivateMembership(userAccount, DeactivationType.OWNWILL);
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         try {
             request.logout();
             session.invalidate();

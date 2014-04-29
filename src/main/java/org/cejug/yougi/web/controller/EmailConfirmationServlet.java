@@ -20,16 +20,17 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.util.StringUtils;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.util.StringUtils;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *

@@ -20,26 +20,9 @@
  * */
 package org.cejug.yougi.partnership.web.controller;
 
-import org.cejug.yougi.entity.Province;
-import org.cejug.yougi.entity.Properties;
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.entity.ApplicationProperty;
-import org.cejug.yougi.entity.City;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.*;
 import org.cejug.yougi.partnership.business.PartnerBean;
 import org.cejug.yougi.partnership.business.RepresentativeBean;
 import org.cejug.yougi.partnership.entity.Partner;
@@ -51,6 +34,18 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -79,6 +74,9 @@ public class PartnershipMBean {
     @Inject
     @UserName
     private String username;
+
+    @Inject
+    private FacesContext context;
 
     private Representative representative;
 
@@ -179,7 +177,6 @@ public class PartnershipMBean {
         partnerBean.save(this.representative.getPartner());
         representativeBean.save(this.representative);
 
-        FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getSessionMap().remove("locationBean");
 
         return "profile?faces-redirect=true&tab=2";
@@ -245,7 +242,7 @@ public class PartnershipMBean {
             LOGGER.log(Level.INFO, e.getMessage(), e);
         }
         FacesMessage msg = new FacesMessage("Succesful", uploadedFile.getSize() + " bytes of the file " + uploadedFile.getFileName() + " are uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        context.addMessage(null, msg);
     }
 
     public String removeLogoImage() {

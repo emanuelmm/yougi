@@ -20,22 +20,23 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.Role;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.Role;
-import org.cejug.yougi.exception.EnvironmentResourceException;
-import org.cejug.yougi.util.ResourceBundleHelper;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -55,13 +56,19 @@ public class SecurityBackingMBean {
     @ManagedProperty(value="#{sessionScope}")
     private Map<String, Object> sessionMap;
 
+    @Inject
+    private FacesContext context;
+
+    @Inject
+    private HttpServletRequest request;
+
     public boolean isUserSignedIn() {
         return sessionMap.containsKey("signedUser");
     }
 
     public String login() {
         if(userAccountBean.thereIsNoAccount()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
             return "/registration";
         }
         else {
@@ -70,8 +77,6 @@ public class SecurityBackingMBean {
     }
 
     public String authenticate() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             if(!isUserSignedIn()) {
                 request.login(this.username, this.password);
@@ -79,14 +84,14 @@ public class SecurityBackingMBean {
             return "/index";
         } catch (ServletException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0013"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0013"), null));
         }
         return "/login";
     }
 
     public String register() {
         if(userAccountBean.thereIsNoAccount()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
             return "/registration";
         }
         else {
@@ -100,8 +105,7 @@ public class SecurityBackingMBean {
      * @return The next step in the navigation flow.
      */
     public String logout() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         try {
             request.logout();
             session.invalidate();
@@ -113,39 +117,23 @@ public class SecurityBackingMBean {
     }
 
     public Boolean getIsUserAdministrator() {
-        HttpServletRequest request = getHttpRequest();
         return request.isUserInRole(Role.ADMIN.toString());
     }
 
     public Boolean getIsUserLeader() {
-        HttpServletRequest request = getHttpRequest();
         return request.isUserInRole(Role.LEADER.toString());
     }
 
     public Boolean getIsUserHelper() {
-        HttpServletRequest request = getHttpRequest();
         return request.isUserInRole(Role.HELPER.toString());
     }
 
     public Boolean getIsUserPartner() {
-        HttpServletRequest request = getHttpRequest();
         return request.isUserInRole(Role.PARTNER.toString());
     }
 
     public Boolean getIsUserSpeaker() {
-        HttpServletRequest request = getHttpRequest();
         return request.isUserInRole(Role.SPEAKER.toString());
-    }
-
-    private HttpServletRequest getHttpRequest() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Object request = context.getExternalContext().getRequest();
-        if(request instanceof HttpServletRequest) {
-            return (HttpServletRequest) request;
-        }
-        else {
-            throw new EnvironmentResourceException("errorCode0011");
-        }
     }
 
     public Map<String, Object> getSessionMap() {
