@@ -20,28 +20,24 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Logger;
+import org.cejug.yougi.business.ApplicationPropertyBean;
+import org.cejug.yougi.business.LanguageBean;
+import org.cejug.yougi.business.TimezoneBean;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.*;
+import org.cejug.yougi.qualifier.UserName;
+import org.cejug.yougi.util.StringUtils;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import org.cejug.yougi.business.ApplicationPropertyBean;
-import org.cejug.yougi.business.LanguageBean;
-import org.cejug.yougi.business.TimezoneBean;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.ApplicationProperty;
-import org.cejug.yougi.entity.Language;
-import org.cejug.yougi.entity.Properties;
-import org.cejug.yougi.entity.Timezone;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.qualifier.UserName;
-import org.cejug.yougi.util.StringUtils;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -63,6 +59,9 @@ public class UserProfileMBean implements Serializable {
 
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @Inject
+    private FacesContext context;
 
     @Inject
     @UserName
@@ -89,9 +88,8 @@ public class UserProfileMBean implements Serializable {
 
     public String changeLanguage(String acronym) {
         this.language = languageBean.findLanguage(acronym);
-        FacesContext fc = FacesContext.getCurrentInstance();
         Locale locale = new Locale(language.getAcronym());
-        fc.getViewRoot().setLocale(locale);
+        context.getViewRoot().setLocale(locale);
         return "index?faces-redirect=true";
     }
 
@@ -102,9 +100,6 @@ public class UserProfileMBean implements Serializable {
      */
     public UserAccount getUserAccount() {
     	if(userAccount == null) {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest)fc.getExternalContext().getRequest();
-            String username = request.getRemoteUser();
             this.userAccount = userAccountBean.findByUsername(username);
     	}
     	return userAccount;

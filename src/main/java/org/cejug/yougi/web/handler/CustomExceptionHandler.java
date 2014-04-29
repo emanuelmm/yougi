@@ -29,6 +29,8 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
+import javax.inject.Inject;
+
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
@@ -38,6 +40,9 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     public CustomExceptionHandler(ExceptionHandler parent) {
         this.parent = parent;
     }
+
+    @Inject
+    private FacesContext context;
 
     @Override
     public ExceptionHandler getWrapped() {
@@ -54,12 +59,11 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             eventContext = (ExceptionQueuedEventContext) event.getSource();
             t = eventContext.getException();
             if (t instanceof ViewExpiredException) {
-                FacesContext fc = FacesContext.getCurrentInstance();
-                NavigationHandler nav = fc.getApplication().getNavigationHandler();
+                NavigationHandler nav = context.getApplication().getNavigationHandler();
                 try {
-                    fc.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.INSTANCE.getMessage("warnCode0004"));
-                    nav.handleNavigation(fc, null, "/login?faces-redirect=true");
-                    fc.renderResponse();
+                    context.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.INSTANCE.getMessage("warnCode0004"));
+                    nav.handleNavigation(context, null, "/login?faces-redirect=true");
+                    context.renderResponse();
                 } finally {
                     i.remove();
                 }

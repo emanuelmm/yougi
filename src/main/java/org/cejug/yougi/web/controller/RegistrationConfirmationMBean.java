@@ -27,6 +27,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.util.ResourceBundleHelper;
@@ -40,6 +42,9 @@ public class RegistrationConfirmationMBean {
 
     @EJB
     private UserAccountBean userAccountBean;
+
+    @Inject
+    private FacesContext context;
 
     private UserAccount userAccount;
 
@@ -99,7 +104,6 @@ public class RegistrationConfirmationMBean {
     @PostConstruct
     public void load() {
         if(this.code != null && !this.code.isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
             this.userAccount = userAccountBean.confirmUser(this.code);
             if(this.userAccount != null) {
                 this.validated = Boolean.TRUE;
@@ -125,7 +129,6 @@ public class RegistrationConfirmationMBean {
                 this.validated = Boolean.FALSE;
             }
 
-            FacesContext context = FacesContext.getCurrentInstance();
             if(!this.validated) {
                 context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
             }

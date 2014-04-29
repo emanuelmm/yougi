@@ -33,6 +33,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 
 import org.cejug.yougi.business.AuthenticationBean;
 import org.cejug.yougi.business.MessageHistoryBean;
@@ -68,6 +69,9 @@ public class MemberMBean implements Serializable {
 
     @ManagedProperty(value = "#{locationMBean}")
     private LocationMBean locationMBean;
+
+    @Inject
+    private FacesContext context;
 
     private List<UserAccount> userAccounts;
 
@@ -287,7 +291,7 @@ public class MemberMBean implements Serializable {
         try {
             userAccountBean.confirmUser(userAccount.getConfirmationCode());
         } catch (IllegalArgumentException iae) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(iae.getMessage()));
+            context.addMessage(null, new FacesMessage(iae.getMessage()));
             return "user";
         }
         removeSessionScoped();
@@ -311,7 +315,6 @@ public class MemberMBean implements Serializable {
     }
 
     private void removeSessionScoped() {
-        FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().getSessionMap().remove("memberBean");
     }
 }

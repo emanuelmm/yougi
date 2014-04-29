@@ -20,16 +20,6 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.LanguageBean;
 import org.cejug.yougi.business.TimezoneBean;
@@ -38,6 +28,18 @@ import org.cejug.yougi.entity.Properties;
 import org.cejug.yougi.entity.Timezone;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.util.StringUtils;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -56,6 +58,12 @@ public class ApplicationPropertiesMBean implements Serializable {
 
     @EJB
     private LanguageBean languageBean;
+
+    @Inject
+    private FacesContext context;
+
+    @Inject
+    private HttpServletRequest request;
 
     private Map<String, String> applicationProperties;
     private Boolean sendEmails;
@@ -143,13 +151,12 @@ public class ApplicationPropertiesMBean implements Serializable {
         this.applicationProperties.put(Properties.CAPTCHA_ENABLED.getKey(), captchaEnabled.toString());
         applicationPropertyBean.save(this.applicationProperties);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoPropertiesSaved"), ""));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoPropertiesSaved"), ""));
 
         return "properties";
     }
 
     private String getUrl() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String serverName = request.getServerName();
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();

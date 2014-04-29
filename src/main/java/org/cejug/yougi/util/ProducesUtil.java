@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
@@ -43,15 +44,25 @@ public class ProducesUtil {
     @Inject
     private FacesContext facesContext;
 
+    @Inject
+    private HttpServletResponse httpServletResponse;
+
+    @Inject
+    private HttpServletRequest httpServletRequest;
+
     @Produces @RequestScoped
     public FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
     }
 
+    @Produces @RequestScoped
+    public HttpServletResponse getHttpServletResponse() {
+        return (HttpServletResponse) facesContext.getExternalContext().getResponse();
+    }
+
     @Produces @Named @UserName
     public String getUserName() {
-        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        return request.getRemoteUser();
+        return httpServletRequest.getRemoteUser();
     }
 
     @Produces @Named
