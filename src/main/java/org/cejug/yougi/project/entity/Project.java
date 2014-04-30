@@ -20,13 +20,12 @@
  * */
 package org.cejug.yougi.project.entity;
 
-import java.io.Serializable;
+import org.cejug.yougi.entity.Identified;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.cejug.yougi.entity.Identified;
+import java.io.Serializable;
 
 @Entity
 @Table(name="project")

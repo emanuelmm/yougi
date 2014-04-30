@@ -20,17 +20,13 @@
  * */
 package org.cejug.yougi.partnership.entity;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.Province;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

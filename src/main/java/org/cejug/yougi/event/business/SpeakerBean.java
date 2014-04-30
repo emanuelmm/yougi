@@ -20,22 +20,23 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.business.AccessGroupBean;
 import org.cejug.yougi.business.AuthenticationBean;
 import org.cejug.yougi.business.UserGroupBean;
 import org.cejug.yougi.entity.AccessGroup;
 import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.entity.UserGroup;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.SessionEvent;
 import org.cejug.yougi.event.entity.Speaker;
-import org.cejug.yougi.entity.UserAccount;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

@@ -20,30 +20,24 @@
  * */
 package org.cejug.yougi.partnership.web.controller;
 
-import org.cejug.yougi.entity.Province;
-import org.cejug.yougi.entity.AccessGroup;
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.entity.City;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-
 import org.cejug.yougi.business.AccessGroupBean;
 import org.cejug.yougi.business.UserGroupBean;
+import org.cejug.yougi.entity.*;
 import org.cejug.yougi.partnership.business.PartnerBean;
 import org.cejug.yougi.partnership.business.RepresentativeBean;
 import org.cejug.yougi.partnership.entity.Partner;
 import org.cejug.yougi.partnership.entity.Representative;
 import org.cejug.yougi.web.controller.LocationMBean;
 import org.primefaces.model.DualListModel;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

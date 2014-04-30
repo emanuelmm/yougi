@@ -20,9 +20,9 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

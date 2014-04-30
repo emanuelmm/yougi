@@ -20,12 +20,13 @@
  * */
 package org.cejug.yougi.entity;
 
+import org.cejug.yougi.util.Base64Encoder;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import javax.persistence.*;
-import org.cejug.yougi.util.Base64Encoder;
 
 /**
  * Represents the authentication credentials of the user.

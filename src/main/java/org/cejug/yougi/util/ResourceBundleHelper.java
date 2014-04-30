@@ -20,11 +20,11 @@
  * */
 package org.cejug.yougi.util;
 
+import javax.faces.context.FacesContext;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javax.faces.context.FacesContext;
 
 /**
  * Encapsulates the complexity of getting the service bundle from the context.

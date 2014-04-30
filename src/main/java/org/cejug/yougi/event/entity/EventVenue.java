@@ -20,13 +20,10 @@
  * */
 package org.cejug.yougi.event.entity;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.cejug.yougi.entity.Identified;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Associates a event to a venue because an event can happen in several venues

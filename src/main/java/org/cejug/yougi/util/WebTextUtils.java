@@ -20,11 +20,12 @@
  * */
 package org.cejug.yougi.util;
 
-import java.util.Date;
-import java.util.StringTokenizer;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
+
+import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

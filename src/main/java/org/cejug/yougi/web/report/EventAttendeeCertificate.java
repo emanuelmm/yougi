@@ -22,9 +22,10 @@ package org.cejug.yougi.web.report;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-import java.io.IOException;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.util.TextUtils;
+
+import java.io.IOException;
 
 /**
  *

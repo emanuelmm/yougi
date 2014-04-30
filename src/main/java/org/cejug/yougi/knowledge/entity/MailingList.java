@@ -20,11 +20,12 @@
  * */
 package org.cejug.yougi.knowledge.entity;
 
-import java.io.Serializable;
+import org.cejug.yougi.entity.Identified;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.cejug.yougi.entity.Identified;
+import java.io.Serializable;
 
 /**
  * An entity class that represents a mailing list of the user group.

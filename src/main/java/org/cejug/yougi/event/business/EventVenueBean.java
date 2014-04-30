@@ -20,15 +20,16 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.List;
-import java.util.logging.Logger;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.EventVenue;
 import org.cejug.yougi.event.entity.Venue;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Manages the allocation of events in venues.

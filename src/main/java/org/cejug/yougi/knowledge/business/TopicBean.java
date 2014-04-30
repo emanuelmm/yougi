@@ -20,16 +20,15 @@
  * */
 package org.cejug.yougi.knowledge.business;
 
-import java.util.List;
-import java.util.StringTokenizer;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.knowledge.entity.Topic;
+import org.cejug.yougi.util.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.exception.BusinessLogicException;
-import org.cejug.yougi.knowledge.entity.Topic;
-import org.cejug.yougi.util.StringUtils;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

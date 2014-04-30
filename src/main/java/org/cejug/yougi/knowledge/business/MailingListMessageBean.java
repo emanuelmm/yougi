@@ -20,25 +20,26 @@
  * */
 package org.cejug.yougi.knowledge.business;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.business.ApplicationPropertyBean;
+import org.cejug.yougi.entity.ApplicationProperty;
+import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.entity.Properties;
+import org.cejug.yougi.knowledge.entity.MailingList;
+import org.cejug.yougi.knowledge.entity.MailingListMessage;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.mail.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.business.ApplicationPropertyBean;
-import org.cejug.yougi.entity.ApplicationProperty;
-import org.cejug.yougi.entity.Properties;
-import org.cejug.yougi.knowledge.entity.MailingList;
-import org.cejug.yougi.knowledge.entity.MailingListMessage;
-import org.cejug.yougi.entity.EntitySupport;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

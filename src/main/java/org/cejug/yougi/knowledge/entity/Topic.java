@@ -22,10 +22,10 @@ package org.cejug.yougi.knowledge.entity;
 
 import org.cejug.yougi.exception.BusinessLogicException;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

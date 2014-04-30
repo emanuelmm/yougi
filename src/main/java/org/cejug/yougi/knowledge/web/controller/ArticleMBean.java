@@ -20,16 +20,15 @@
  * */
 package org.cejug.yougi.knowledge.web.controller;
 
+import org.cejug.yougi.knowledge.business.ArticleBean;
+import org.cejug.yougi.knowledge.business.WebSourceBean;
+import org.cejug.yougi.knowledge.entity.Article;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-
-import org.cejug.yougi.knowledge.business.ArticleBean;
-import org.cejug.yougi.knowledge.business.WebSourceBean;
-import org.cejug.yougi.knowledge.entity.Article;
-
 import java.util.List;
 
 /**

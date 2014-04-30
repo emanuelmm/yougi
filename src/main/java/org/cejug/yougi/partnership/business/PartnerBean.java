@@ -20,12 +20,13 @@
  * */
 package org.cejug.yougi.partnership.business;
 
-import java.util.List;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.partnership.entity.Partner;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.partnership.entity.Partner;
+import java.util.List;
 
 /**
  * Manages partners of the user group.

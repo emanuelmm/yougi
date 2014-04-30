@@ -26,6 +26,16 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.knowledge.entity.Article;
+import org.cejug.yougi.knowledge.entity.WebSource;
+import org.cejug.yougi.util.UrlUtils;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,15 +47,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.knowledge.entity.WebSource;
-import org.cejug.yougi.knowledge.entity.Article;
-import org.cejug.yougi.util.UrlUtils;
 
 /**
  * Business logic dealing with web sources entities.

@@ -20,14 +20,14 @@
  * */
 package org.cejug.yougi.event.entity;
 
+import org.cejug.yougi.entity.Identified;
+import org.cejug.yougi.entity.PublicContent;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.cejug.yougi.entity.Identified;
-import org.cejug.yougi.entity.PublicContent;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

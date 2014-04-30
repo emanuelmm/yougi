@@ -20,17 +20,18 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Attendee;
 import org.cejug.yougi.event.entity.Certificate;
 import org.cejug.yougi.event.entity.Event;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Manages attendees of events organized by the user group.

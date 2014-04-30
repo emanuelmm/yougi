@@ -20,6 +20,12 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.util.ResourceBundleHelper;
+import org.cejug.yougi.util.StringUtils;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -28,12 +34,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.exception.BusinessLogicException;
-import org.cejug.yougi.util.ResourceBundleHelper;
-import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

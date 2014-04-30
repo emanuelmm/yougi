@@ -23,8 +23,9 @@ package org.cejug.yougi.web.report;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import java.util.List;
 import org.cejug.yougi.event.entity.Attendee;
+
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

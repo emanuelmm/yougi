@@ -26,7 +26,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

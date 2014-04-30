@@ -20,13 +20,13 @@
  * */
 package org.cejug.yougi.entity;
 
+import org.cejug.yougi.util.StringUtils;
+import org.cejug.yougi.util.TextUtils;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.*;
-
-import org.cejug.yougi.util.StringUtils;
-import org.cejug.yougi.util.TextUtils;
 
 /**
  * Represents the user account.

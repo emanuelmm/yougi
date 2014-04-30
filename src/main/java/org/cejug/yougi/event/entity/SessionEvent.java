@@ -20,11 +20,12 @@
  * */
 package org.cejug.yougi.event.entity;
 
+import org.cejug.yougi.entity.Identified;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
-import org.cejug.yougi.entity.Identified;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

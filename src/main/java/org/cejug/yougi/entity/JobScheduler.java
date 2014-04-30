@@ -23,11 +23,9 @@ package org.cejug.yougi.entity;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

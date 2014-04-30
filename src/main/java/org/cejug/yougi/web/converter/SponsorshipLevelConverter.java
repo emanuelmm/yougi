@@ -20,12 +20,13 @@
  * */
 package org.cejug.yougi.web.converter;
 
+import org.cejug.yougi.event.entity.SponsorshipLevel;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import org.cejug.yougi.event.entity.SponsorshipLevel;
-import org.cejug.yougi.util.ResourceBundleHelper;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

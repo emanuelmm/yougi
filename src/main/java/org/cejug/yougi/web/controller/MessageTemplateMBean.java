@@ -20,13 +20,14 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.util.List;
+import org.cejug.yougi.entity.MessageTemplate;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import org.cejug.yougi.entity.MessageTemplate;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

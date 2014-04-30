@@ -20,9 +20,9 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import org.cejug.yougi.business.JobSchedulerBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
-import org.cejug.yougi.business.JobSchedulerBean;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

@@ -20,15 +20,6 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.mail.MessagingException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.business.MessageTemplateBean;
 import org.cejug.yougi.business.MessengerBean;
@@ -37,6 +28,16 @@ import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.util.TextUtils;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages events organized by the user group.

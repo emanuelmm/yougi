@@ -20,13 +20,14 @@
  * */
 package org.cejug.yougi.business;
 
+import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.exception.BusinessLogicException;
 
 /**
  *

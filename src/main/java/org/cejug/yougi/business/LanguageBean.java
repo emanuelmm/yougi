@@ -20,12 +20,13 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
+import org.cejug.yougi.entity.Language;
+import org.cejug.yougi.util.StringUtils;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.Language;
-import org.cejug.yougi.util.StringUtils;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

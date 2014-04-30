@@ -22,11 +22,12 @@ package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.MessageHistory;
 import org.cejug.yougi.entity.UserAccount;
-import java.util.*;
-import java.util.logging.Logger;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

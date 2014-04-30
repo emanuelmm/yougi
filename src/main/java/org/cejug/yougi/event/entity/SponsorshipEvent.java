@@ -20,18 +20,12 @@
  * */
 package org.cejug.yougi.event.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.partnership.entity.Partner;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

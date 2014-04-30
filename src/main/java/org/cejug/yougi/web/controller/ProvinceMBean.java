@@ -20,8 +20,11 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.cejug.yougi.business.CountryBean;
+import org.cejug.yougi.business.ProvinceBean;
+import org.cejug.yougi.entity.Country;
+import org.cejug.yougi.entity.Province;
+import org.cejug.yougi.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -29,12 +32,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
-
-import org.cejug.yougi.business.CountryBean;
-import org.cejug.yougi.business.ProvinceBean;
-import org.cejug.yougi.entity.Country;
-import org.cejug.yougi.entity.Province;
-import org.cejug.yougi.util.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

@@ -21,10 +21,9 @@
 package org.cejug.yougi.business;
 
 import com.itextpdf.tool.xml.exceptions.NotImplementedException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.cejug.yougi.entity.*;
+import org.cejug.yougi.exception.BusinessLogicException;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
@@ -32,14 +31,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import org.cejug.yougi.entity.AccessGroup;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.EmailMessage;
-import org.cejug.yougi.entity.MessageTemplate;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.entity.UserGroup;
-import org.cejug.yougi.entity.EntitySupport;
-import org.cejug.yougi.exception.BusinessLogicException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
