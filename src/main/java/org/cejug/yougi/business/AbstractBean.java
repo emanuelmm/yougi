@@ -20,9 +20,10 @@
  * */
 package org.cejug.yougi.business;
 
-import javax.persistence.EntityManager;
 import org.cejug.yougi.entity.EntitySupport;
 import org.cejug.yougi.entity.Identified;
+
+import javax.persistence.EntityManager;
 
 /**
  * Implements basic operations

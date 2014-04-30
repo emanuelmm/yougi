@@ -20,14 +20,17 @@
  * */
 package org.cejug.yougi.business;
 
-import org.cejug.yougi.entity.City;
-import org.cejug.yougi.entity.ApplicationProperty;
-import org.cejug.yougi.entity.AccessGroup;
-import org.cejug.yougi.entity.UserGroup;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.Properties;
-import org.cejug.yougi.entity.DeactivationType;
-import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.entity.*;
+import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.util.StringUtils;
+import org.cejug.yougi.util.UrlUtils;
+
+import javax.ejb.*;
+import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,18 +38,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.*;
-import javax.mail.MessagingException;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import org.cejug.yougi.entity.EmailMessage;
-import org.cejug.yougi.entity.MessageTemplate;
-import org.cejug.yougi.exception.BusinessLogicException;
-import org.cejug.yougi.entity.EntitySupport;
-import org.cejug.yougi.util.StringUtils;
-import org.cejug.yougi.util.UrlUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

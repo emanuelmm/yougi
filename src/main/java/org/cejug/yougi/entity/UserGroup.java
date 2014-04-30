@@ -20,8 +20,8 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Represents the allocation of users in groups.

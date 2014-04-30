@@ -20,14 +20,15 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
+import org.cejug.yougi.entity.AccessGroup;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.entity.UserGroup;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.AccessGroup;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.entity.UserGroup;
+import java.util.List;
 
 /**
  * Business logic to manage the relationship between users and access groups.

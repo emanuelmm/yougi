@@ -20,14 +20,13 @@
  * */
 package org.cejug.yougi.project.business;
 
-import java.util.List;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.project.entity.Project;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.project.entity.Project;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

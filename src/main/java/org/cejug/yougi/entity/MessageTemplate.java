@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.persistence.*;
 
 /**
  * Message template with variables to be fulfilled with object attributes.

@@ -20,10 +20,10 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * Represents a country covered by the Java User Group.

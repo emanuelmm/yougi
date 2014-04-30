@@ -20,20 +20,21 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.business.SponsorshipEventBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.SponsorshipEvent;
 import org.cejug.yougi.partnership.business.PartnerBean;
 import org.cejug.yougi.partnership.entity.Partner;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

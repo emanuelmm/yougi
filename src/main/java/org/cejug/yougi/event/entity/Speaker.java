@@ -20,10 +20,11 @@
  * */
 package org.cejug.yougi.event.entity;
 
-import java.io.Serializable;
-import javax.persistence.*;
 import org.cejug.yougi.entity.Identified;
 import org.cejug.yougi.entity.UserAccount;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Person with knowledge and experience to give a speech in an event, respecting

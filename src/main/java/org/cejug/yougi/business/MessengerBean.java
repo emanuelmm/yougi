@@ -23,14 +23,16 @@ package org.cejug.yougi.business;
 import org.cejug.yougi.entity.ApplicationProperty;
 import org.cejug.yougi.entity.EmailMessage;
 import org.cejug.yougi.entity.MessageHistory;
-import java.util.*;
+import org.cejug.yougi.entity.Properties;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import org.cejug.yougi.entity.Properties;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Centralizes the posting of all email messages sent by the system and manage

@@ -20,19 +20,20 @@
  * */
 package org.cejug.yougi.web.report;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class feeds the bar chart that shows the growth of the user group in a

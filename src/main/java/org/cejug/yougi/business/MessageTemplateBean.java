@@ -20,11 +20,12 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
+import org.cejug.yougi.entity.MessageTemplate;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.entity.MessageTemplate;
+import java.util.List;
 
 /**
  * Business logic related to MessageTemplate entity class.

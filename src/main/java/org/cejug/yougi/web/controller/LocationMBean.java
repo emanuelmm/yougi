@@ -20,13 +20,6 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import org.cejug.yougi.business.CityBean;
 import org.cejug.yougi.business.CountryBean;
 import org.cejug.yougi.business.ProvinceBean;
@@ -35,6 +28,14 @@ import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
 import org.cejug.yougi.entity.Timezone;
+
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class is used to manage the update of the fields country, province and

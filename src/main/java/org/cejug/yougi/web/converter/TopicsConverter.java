@@ -20,11 +20,11 @@
  * */
 package org.cejug.yougi.web.converter;
 
-import java.util.StringTokenizer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import java.util.StringTokenizer;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

@@ -20,13 +20,13 @@
  * */
 package org.cejug.yougi.web.converter;
 
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.util.StringUtils;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.util.StringUtils;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

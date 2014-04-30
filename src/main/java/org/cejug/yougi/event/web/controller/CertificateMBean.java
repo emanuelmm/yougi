@@ -20,15 +20,16 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import java.util.logging.Logger;
+import org.cejug.yougi.event.business.AttendeeBean;
+import org.cejug.yougi.event.entity.Certificate;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import org.cejug.yougi.event.business.AttendeeBean;
-import org.cejug.yougi.event.entity.Certificate;
-import org.cejug.yougi.util.ResourceBundleHelper;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

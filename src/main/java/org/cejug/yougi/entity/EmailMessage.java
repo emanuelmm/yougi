@@ -20,15 +20,16 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import org.cejug.yougi.exception.EnvironmentResourceException;
+
 import javax.mail.Address;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import org.cejug.yougi.exception.EnvironmentResourceException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Adapts a mime email message to the application domain, considering a

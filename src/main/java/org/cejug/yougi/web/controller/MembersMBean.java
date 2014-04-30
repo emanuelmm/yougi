@@ -20,18 +20,17 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.City;
+import org.cejug.yougi.entity.Province;
+import org.cejug.yougi.entity.UserAccount;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.City;
-import org.cejug.yougi.entity.Province;
-import org.cejug.yougi.entity.UserAccount;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Efraim Gentil - https://github.com/efraimgentil

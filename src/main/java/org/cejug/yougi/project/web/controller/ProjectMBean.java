@@ -20,16 +20,15 @@
  * */
 package org.cejug.yougi.project.web.controller;
 
-import java.util.List;
+import org.cejug.yougi.project.business.ProjectBean;
+import org.cejug.yougi.project.entity.Project;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-
-import org.cejug.yougi.project.business.ProjectBean;
-import org.cejug.yougi.project.entity.Project;
+import java.util.List;
 
 @ManagedBean
 @RequestScoped

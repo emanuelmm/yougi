@@ -20,11 +20,11 @@
  * */
 package org.cejug.yougi.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

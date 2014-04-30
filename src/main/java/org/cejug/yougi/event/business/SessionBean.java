@@ -20,19 +20,15 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.event.entity.*;
+import org.cejug.yougi.knowledge.business.TopicBean;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.event.entity.*;
-import org.cejug.yougi.event.entity.SessionEvent;
-import org.cejug.yougi.knowledge.business.TopicBean;
+import java.util.*;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

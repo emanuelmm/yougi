@@ -20,7 +20,8 @@
  * */
 package org.cejug.yougi.web.handler;
 
-import java.util.Iterator;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.faces.FacesException;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
@@ -30,8 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import javax.inject.Inject;
-
-import org.cejug.yougi.util.ResourceBundleHelper;
+import java.util.Iterator;
 
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 

@@ -20,14 +20,15 @@
  * */
 package org.cejug.yougi.knowledge.business;
 
-import java.util.List;
-import java.util.logging.Logger;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.knowledge.entity.MailingList;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.knowledge.entity.MailingList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Implements the business logic related to the management of mailing lists.

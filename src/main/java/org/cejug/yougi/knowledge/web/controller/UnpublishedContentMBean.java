@@ -20,14 +20,15 @@
  * */
 package org.cejug.yougi.knowledge.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import org.cejug.yougi.knowledge.business.WebSourceBean;
 import org.cejug.yougi.knowledge.entity.Article;
 import org.cejug.yougi.knowledge.entity.WebSource;
+
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

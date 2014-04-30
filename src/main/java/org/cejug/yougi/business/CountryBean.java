@@ -20,13 +20,12 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
+import org.cejug.yougi.entity.Country;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.cejug.yougi.entity.Country;
+import java.util.List;
 
 /**
  * Manages data of countries, states or provinces and cities because these

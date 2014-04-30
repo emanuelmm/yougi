@@ -20,13 +20,14 @@
  * */
 package org.cejug.yougi.business;
 
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.entity.City;
 import org.cejug.yougi.entity.Country;
 import org.cejug.yougi.entity.Province;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  *

@@ -20,13 +20,14 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.event.entity.Room;
 import org.cejug.yougi.event.entity.Venue;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Manages rooms.

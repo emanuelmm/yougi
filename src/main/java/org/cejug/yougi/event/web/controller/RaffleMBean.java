@@ -20,8 +20,10 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
+import org.cejug.yougi.event.business.AttendeeBean;
+import org.cejug.yougi.event.entity.Attendee;
+import org.cejug.yougi.event.entity.Event;
+import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -29,11 +31,8 @@ import javax.faces.bean.ViewScoped;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-
-import org.cejug.yougi.event.business.AttendeeBean;
-import org.cejug.yougi.event.entity.Attendee;
-import org.cejug.yougi.event.entity.Event;
-import org.primefaces.context.RequestContext;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Efraim Gentil - https://github.com/efraimgentil

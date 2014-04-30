@@ -20,13 +20,14 @@
  * */
 package org.cejug.yougi.web.converter;
 
-import java.util.List;
+import org.cejug.yougi.event.entity.Speaker;
+import org.cejug.yougi.util.ResourceBundleHelper;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import org.cejug.yougi.event.entity.Speaker;
-import org.cejug.yougi.util.ResourceBundleHelper;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

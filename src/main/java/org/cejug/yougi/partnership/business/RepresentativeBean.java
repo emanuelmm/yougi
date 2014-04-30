@@ -20,18 +20,19 @@
  * */
 package org.cejug.yougi.partnership.business;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.cejug.yougi.business.AbstractBean;
+import org.cejug.yougi.entity.EntitySupport;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.partnership.entity.Partner;
+import org.cejug.yougi.partnership.entity.Representative;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.cejug.yougi.business.AbstractBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.partnership.entity.Partner;
-import org.cejug.yougi.partnership.entity.Representative;
-import org.cejug.yougi.entity.EntitySupport;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages partners of the user group.

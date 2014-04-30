@@ -20,13 +20,13 @@
  * */
 package org.cejug.yougi.knowledge.entity;
 
+import org.cejug.yougi.entity.Identified;
+import org.cejug.yougi.entity.UserAccount;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
-
-import org.cejug.yougi.entity.Identified;
-import org.cejug.yougi.entity.UserAccount;
 
 /**
  * Entity class representing an external website used as a source of content for

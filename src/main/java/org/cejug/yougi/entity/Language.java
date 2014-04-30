@@ -20,12 +20,12 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.io.Serializable;
-import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Locale;
 
 @Entity
 @Table(name = "language")

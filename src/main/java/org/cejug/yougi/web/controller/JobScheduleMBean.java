@@ -22,12 +22,14 @@ package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.JobSchedulerBean;
 import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.*;
+import org.cejug.yougi.entity.JobFrequencyType;
+import org.cejug.yougi.entity.JobScheduler;
+import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.util.StringUtils;
 
 import javax.ejb.EJB;
-import javax.faces.bean.*;
-import java.util.logging.Level;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import java.util.logging.Logger;
 
 /**

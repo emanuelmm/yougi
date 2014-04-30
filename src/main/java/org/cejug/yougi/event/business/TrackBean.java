@@ -20,14 +20,15 @@
  * */
 package org.cejug.yougi.event.business;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.Track;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

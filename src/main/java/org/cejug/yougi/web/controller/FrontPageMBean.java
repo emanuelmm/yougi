@@ -20,18 +20,19 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import org.cejug.yougi.entity.PublicContent;
 import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.knowledge.business.ArticleBean;
 import org.cejug.yougi.knowledge.entity.Article;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

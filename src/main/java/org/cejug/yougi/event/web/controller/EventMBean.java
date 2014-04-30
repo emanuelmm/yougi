@@ -20,32 +20,26 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.logging.Logger;
+import org.cejug.yougi.business.ApplicationPropertyBean;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.event.business.*;
+import org.cejug.yougi.event.entity.*;
+import org.cejug.yougi.qualifier.UserName;
+import org.cejug.yougi.util.WebTextUtils;
+import org.cejug.yougi.web.controller.UserProfileMBean;
+import org.primefaces.model.chart.PieChartModel;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import org.cejug.yougi.business.ApplicationPropertyBean;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.event.business.AttendeeBean;
-import org.cejug.yougi.event.business.EventBean;
-import org.cejug.yougi.event.business.EventVenueBean;
-import org.cejug.yougi.event.business.SessionBean;
-import org.cejug.yougi.event.business.SpeakerBean;
-import org.cejug.yougi.event.business.SponsorshipEventBean;
-import org.cejug.yougi.event.business.TrackBean;
-import org.cejug.yougi.event.entity.*;
-import org.cejug.yougi.event.entity.SessionEvent;
-import org.cejug.yougi.qualifier.UserName;
-import org.cejug.yougi.web.controller.UserProfileMBean;
-import org.cejug.yougi.util.WebTextUtils;
-import org.primefaces.model.chart.PieChartModel;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

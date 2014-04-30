@@ -20,9 +20,16 @@
  * */
 package org.cejug.yougi.web.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.cejug.yougi.business.AuthenticationBean;
+import org.cejug.yougi.business.MessageHistoryBean;
+import org.cejug.yougi.business.UserAccountBean;
+import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.DeactivationType;
+import org.cejug.yougi.entity.MessageHistory;
+import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.event.business.AttendeeBean;
+import org.cejug.yougi.event.entity.Event;
+import org.cejug.yougi.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,17 +41,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-
-import org.cejug.yougi.business.AuthenticationBean;
-import org.cejug.yougi.business.MessageHistoryBean;
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.DeactivationType;
-import org.cejug.yougi.entity.MessageHistory;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.event.business.AttendeeBean;
-import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.util.StringUtils;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

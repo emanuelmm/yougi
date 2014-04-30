@@ -20,17 +20,18 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import java.util.List;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import org.cejug.yougi.event.business.EventVenueBean;
 import org.cejug.yougi.event.business.RoomBean;
 import org.cejug.yougi.event.business.VenueBean;
 import org.cejug.yougi.event.entity.Event;
 import org.cejug.yougi.event.entity.Room;
 import org.cejug.yougi.event.entity.Venue;
+
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class is used to manage the selection of the venue and room of an event

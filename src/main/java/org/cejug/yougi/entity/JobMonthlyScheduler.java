@@ -22,7 +22,8 @@ package org.cejug.yougi.entity;
 
 import org.cejug.yougi.exception.BusinessLogicException;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.Calendar;
 
 /**
