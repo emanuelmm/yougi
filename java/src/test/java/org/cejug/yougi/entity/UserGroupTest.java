@@ -23,7 +23,7 @@ package org.cejug.yougi.entity;
 import org.junit.Test;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserGroupTest {
     @Test
