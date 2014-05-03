@@ -28,9 +28,11 @@ import org.junit.Test;
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserAccountTest {
+	
+	private UserAccount user = new UserAccount();
+	
     @Test
     public void testSetFirstName() throws Exception {
-    	UserAccount user = new UserAccount();
     	user.setFirstName("testname");
     	Assert.assertEquals("Testname", user.getFirstName());
 
@@ -38,41 +40,71 @@ public class UserAccountTest {
 
     @Test
     public void testGetFullName() throws Exception {
+    	user.setFirstName("darth");
+    	user.setLastName("vader");
+    	Assert.assertEquals("Darth Vader", user.getFullName());
 
     }
 
     @Test
     public void testSetUnverifiedEmail() throws Exception {
+    	user.setUnverifiedEmail("");
+    	Assert.assertNotNull(user);
+    	user.setUnverifiedEmail("DARTHVADER@TEST.COM");
+    	Assert.assertEquals("darthvader@test.com", user.getUnverifiedEmail());
 
     }
 
     @Test
     public void testSetEmailAsVerified() throws Exception {
-
+    	user.setUnverifiedEmail(null);
+    	user.setEmailAsVerified();
+    	Assert.assertEquals(user.getEmail(), user.getUnverifiedEmail());
     }
 
     @Test
     public void testGetPostingEmail() throws Exception {
+    	user.setUnverifiedEmail("DARTHVADER@TEST.COM");	
+    	Assert.assertEquals("darthvader@test.com", user.getPostingEmail());
+    	user.setUnverifiedEmail(null);
+    	Assert.assertNull(user.getPostingEmail());
+    	
 
     }
 
     @Test
     public void testSetWebsite() throws Exception {
-
+    	user.setWebsite("http://teste.org");
+    	Assert.assertEquals("teste.org", user.getWebsite());
+    	user.setWebsite("https://teste.org");
+    	Assert.assertEquals("teste.org", user.getWebsite());
+    	user.setWebsite("teste.org");
+    	Assert.assertEquals("teste.org", user.getWebsite());
     }
 
     @Test
     public void testSetTwitter() throws Exception {
+    	user.setTwitter(null);
+    	Assert.assertNull(user.getTwitter());
+    	user.setTwitter("");
+    	Assert.assertNull(user.getTwitter());
+    	user.setTwitter("@TestTwitter");
+    	Assert.assertEquals("TestTwitter", user.getTwitter());
 
     }
 
     @Test
     public void testDefineNewConfirmationCode() throws Exception {
+    	user.defineNewConfirmationCode();
+    	Assert.assertNotNull("This is a confirmation code", user.getConfirmationCode());
 
     }
 
     @Test
     public void testResetConfirmationCode() throws Exception {
+    	user.defineNewConfirmationCode();
+    	user.resetConfirmationCode();
+    	Assert.assertNull(user.getConfirmationCode());
 
     }
 }
