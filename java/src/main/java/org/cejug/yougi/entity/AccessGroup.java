@@ -88,8 +88,7 @@ public class AccessGroup implements Serializable, Identified {
     public boolean getDefault() {
         if(userDefault == null) {
             return false;
-        }
-        else {
+        } else {
             return userDefault.booleanValue();
         }
     }

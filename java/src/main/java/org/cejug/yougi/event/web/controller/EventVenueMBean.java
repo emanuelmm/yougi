@@ -102,8 +102,7 @@ public class EventVenueMBean implements Serializable {
         if(this.venues == null) {
             if(StringUtils.INSTANCE.isNullOrBlank(this.selectedEvent)) {
                 this.venues = venueBean.findVenues();
-            }
-            else {
+            } else {
                 Event event = new Event(selectedEvent);
                 this.venues = eventVenueBean.findVenues(event);
             }
@@ -115,8 +114,7 @@ public class EventVenueMBean implements Serializable {
         if(this.events == null) {
             if(StringUtils.INSTANCE.isNullOrBlank(this.selectedVenue)) {
                 this.events = eventBean.findParentEvents();
-            }
-            else {
+            } else {
                 Venue venue = new Venue(selectedVenue);
                 this.events = eventVenueBean.findEvents(venue);
             }
@@ -152,8 +150,7 @@ public class EventVenueMBean implements Serializable {
     private String getNextPage() {
         if (this.eventId != null && !this.eventId.isEmpty()) {
             return "event?faces-redirect=true&tab=5&id="+ this.selectedEvent;
-        }
-        else {
+        } else {
             return "venue?faces-redirect=true&id="+ this.selectedVenue;
         }
     }

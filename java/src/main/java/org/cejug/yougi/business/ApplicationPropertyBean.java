@@ -28,12 +28,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
 public class ApplicationPropertyBean {
+
+    static final Logger LOGGER = Logger.getLogger(ApplicationPropertyBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -52,9 +56,8 @@ public class ApplicationPropertyBean {
                 propertiesMap.put(props[i].getKey(), props[i].getDefaultValue());
             }
             create(propertiesMap);
-        }
-        // If there is more properties in the enumeration than in the database, then additional enumerations are persisted.
-        else if(Properties.values().length > propertiesMap.size()) {
+        } else if(Properties.values().length > propertiesMap.size()) {
+            // If there is more properties in the enumeration than in the database, then additional enumerations are persisted.
             Properties[] props = Properties.values();
             for(int i = 0;i < props.length;i++) {
                 if(!propertiesMap.containsKey(props[i].getKey())) {
@@ -62,9 +65,8 @@ public class ApplicationPropertyBean {
                     create(props[i].getKey(), props[i].getDefaultValue());
                 }
             }
-        }
-        // If there is more persisted properties than in the enumeration, then exceding properties are removed.
-        else if(Properties.values().length < propertiesMap.size()) {
+        } else if(Properties.values().length < propertiesMap.size()) {
+            // If there is more persisted properties than in the enumeration, then exceding properties are removed.
             // entries from database
             Set<Map.Entry<String, String>> propEntries = propertiesMap.entrySet();
 
@@ -94,11 +96,11 @@ public class ApplicationPropertyBean {
             applicationProperty = (ApplicationProperty)em.createQuery("select ap from ApplicationProperty ap where ap.propertyKey = :key")
                                                                          .setParameter("key", properties.getKey())
                                                                          .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             Map<String, String> applicationProperties = findApplicationProperties();
             String key = properties.getKey();
-            applicationProperty = new ApplicationProperty(key, (String)applicationProperties.get(key));
+            applicationProperty = new ApplicationProperty(key, applicationProperties.get(key));
         }
         return applicationProperty;
     }

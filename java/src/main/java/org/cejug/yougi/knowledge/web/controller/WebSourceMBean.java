@@ -169,8 +169,7 @@ public class WebSourceMBean {
                 this.selectedMember = this.webSource.getProvider().getId();
             }
             unpublishedArticlesMBean.setWebSource(this.webSource);
-        }
-        else {
+        } else {
             this.webSource = new WebSource();
         }
     }

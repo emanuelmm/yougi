@@ -20,11 +20,15 @@
  * */
 package org.cejug.yougi.util;
 
+import sun.rmi.runtime.Log;
+
 import javax.faces.context.FacesContext;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Encapsulates the complexity of getting the service bundle from the context.
@@ -37,6 +41,7 @@ import java.util.ResourceBundle;
 public enum ResourceBundleHelper {
     INSTANCE;
 
+    private static final Logger LOGGER = Logger.getLogger(ResourceBundleHelper.class.getSimpleName());
     private static final String BUNDLE_NAME = "org.cejug.yougi.web.bundles.Resources";
 
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -68,6 +73,7 @@ public enum ResourceBundleHelper {
         try {
             bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale, getCurrentLoader(BUNDLE_NAME));
         } catch (MissingResourceException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             return "?";
         }
         if (bundle == null) {
@@ -76,6 +82,7 @@ public enum ResourceBundleHelper {
         try {
             message = bundle.getString(key);
         } catch (Exception e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
         }
         return message;
     }

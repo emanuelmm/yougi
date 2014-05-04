@@ -99,8 +99,7 @@ public class AccessGroupMBean {
 
             target.addAll(userGroupBean.findUsersGroup(group));
             allUsers.removeAll(target);
-        }
-        else {
+        } else {
             this.group = new AccessGroup();
         }
         this.members = new DualListModel<>(allUsers, target);

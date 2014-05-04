@@ -165,8 +165,7 @@ public class Event implements Serializable, Identified, PublicContent {
     public String getSummary() {
         if(shortDescription != null) {
             return shortDescription;
-        }
-        else {
+        } else {
             return description;
         }
     }

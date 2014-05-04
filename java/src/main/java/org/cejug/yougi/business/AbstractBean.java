@@ -50,8 +50,7 @@ public abstract class AbstractBean<T extends Identified> {
         if(EntitySupport.INSTANCE.isIdNotValid(entity)) {
             entity.setId(EntitySupport.INSTANCE.generateEntityId());
             getEntityManager().persist(entity);
-        }
-        else {
+        } else {
             entity = getEntityManager().merge(entity);
         }
         return entity;

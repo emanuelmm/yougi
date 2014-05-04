@@ -29,6 +29,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Business logic to manage the relationship between users and access groups.
@@ -37,6 +39,8 @@ import java.util.List;
  */
 @Stateless
 public class UserGroupBean {
+
+    static final Logger LOGGER = Logger.getLogger(UserGroupBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -74,8 +78,8 @@ public class UserGroupBean {
                     .setParameter("accessGroup", accessGroup)
                     .getSingleResult();
             return (userGroup != null);
-        }
-        catch (NoResultException nre) {
+        } catch (NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return false;
         }
     }

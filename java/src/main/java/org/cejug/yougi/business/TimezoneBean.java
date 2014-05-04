@@ -41,8 +41,7 @@ public class TimezoneBean {
     public Timezone findTimezone(String id) {
         if(id != null) {
             return em.find(Timezone.class, id);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -67,8 +66,7 @@ public class TimezoneBean {
         Timezone existingTimezone = em.find(Timezone.class, timezone.getId());
         if(existingTimezone == null) {
             em.persist(timezone);
-        }
-        else {
+        } else {
             em.merge(timezone);
         }
     }

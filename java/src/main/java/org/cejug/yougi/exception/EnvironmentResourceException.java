@@ -20,6 +20,8 @@
  * */
 package org.cejug.yougi.exception;
 
+import java.text.MessageFormat;
+
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
@@ -27,15 +29,19 @@ public class EnvironmentResourceException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-    public EnvironmentResourceException(Throwable thrwbl) {
-        super(thrwbl);
-    }
-
     public EnvironmentResourceException(String message) {
         super(message);
     }
 
-    public EnvironmentResourceException(String message, Throwable thrwbl) {
-        super(message, thrwbl);
+    public EnvironmentResourceException(String message, Object ... arguments) {
+        super(MessageFormat.format(message, arguments));
+    }
+
+    public EnvironmentResourceException(Throwable cause, String message) {
+        super(message, cause);
+    }
+
+    public EnvironmentResourceException(Throwable cause, String message, Object ... arguments) {
+        super(MessageFormat.format(message, arguments), cause);
     }
 }

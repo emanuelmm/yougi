@@ -107,8 +107,7 @@ public class RegistrationConfirmationMBean {
             this.userAccount = userAccountBean.confirmUser(this.code);
             if(this.userAccount != null) {
                 this.validated = Boolean.TRUE;
-            }
-            else {
+            } else {
                 this.validated = Boolean.FALSE;
                 context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
             }
@@ -124,8 +123,7 @@ public class RegistrationConfirmationMBean {
             this.userAccount = userAccountBean.confirmUser(this.informedCode);
             if(this.userAccount != null) {
                 this.validated = Boolean.TRUE;
-            }
-            else {
+            } else {
                 this.validated = Boolean.FALSE;
             }
 

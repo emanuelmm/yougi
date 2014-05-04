@@ -21,6 +21,7 @@
 package org.cejug.yougi.exception;
 
 import javax.ejb.ApplicationException;
+import java.text.MessageFormat;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -30,11 +31,19 @@ public class BusinessLogicException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-    public BusinessLogicException(String string, Throwable thrwbl) {
-        super(string, thrwbl);
+    public BusinessLogicException(String message) {
+        super(message);
     }
 
-    public BusinessLogicException(String string) {
-        super(string);
+    public BusinessLogicException(String message, Object ... arguments) {
+        super(MessageFormat.format(message, arguments));
+    }
+
+    public BusinessLogicException(Throwable cause, String message) {
+        super(message, cause);
+    }
+
+    public BusinessLogicException(Throwable cause, String message, Object ... arguments) {
+        super(MessageFormat.format(message, arguments), cause);
     }
 }

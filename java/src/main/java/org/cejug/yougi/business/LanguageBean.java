@@ -49,8 +49,7 @@ public class LanguageBean {
         if(StringUtils.INSTANCE.isNullOrBlank(language.getAcronym())) {
             language.setAcronym(Language.DEFAULT_LANGUAGE);
             em.persist(language);
-        }
-        else {
+        } else {
             em.merge(language);
         }
     }

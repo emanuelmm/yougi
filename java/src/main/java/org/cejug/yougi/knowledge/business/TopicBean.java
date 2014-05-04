@@ -55,8 +55,7 @@ public class TopicBean {
         Topic existing = em.find(Topic.class, topic.getName());
         if(existing == null) {
             em.persist(topic);
-        }
-        else {
+        } else {
             em.merge(topic);
         }
     }

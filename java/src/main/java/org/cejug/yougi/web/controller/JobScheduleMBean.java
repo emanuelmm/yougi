@@ -63,8 +63,7 @@ public class JobScheduleMBean {
     public void changeJobFrequencyType(JobFrequencyType jobFrequencyType) {
         if(this.jobScheduler == null) {
             this.jobScheduler = jobSchedulerBean.getInstance(jobFrequencyType);
-        }
-        else if(!this.jobScheduler.getFrequencyType().equals(jobFrequencyType)) {
+        } else if(!this.jobScheduler.getFrequencyType().equals(jobFrequencyType)) {
             this.jobScheduler = jobSchedulerBean.getInstance(jobFrequencyType, this.jobScheduler);
         }
     }
@@ -72,8 +71,7 @@ public class JobScheduleMBean {
     public UserAccount getDefaultOwner() {
         if(this.jobScheduler != null && this.jobScheduler.getDefaultOwner() != null) {
             return this.jobScheduler.getDefaultOwner();
-        }
-        else {
+        } else {
             return null;
         }
     }

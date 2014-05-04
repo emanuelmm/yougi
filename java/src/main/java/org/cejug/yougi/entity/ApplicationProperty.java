@@ -67,8 +67,7 @@ public class ApplicationProperty implements Serializable {
     public boolean sendEmailsEnabled() {
         if(propertyKey.equals(Properties.SEND_EMAILS.getKey())) {
             return Boolean.valueOf(propertyValue);
-        }
-        else {
+        } else {
             return false;
         }
     }

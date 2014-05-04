@@ -32,6 +32,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages attendees of events organized by the user group.
@@ -40,6 +42,8 @@ import java.util.List;
  */
 @Stateless
 public class AttendeeBean extends AbstractBean<Attendee> {
+
+    static final Logger LOGGER = Logger.getLogger(AttendeeBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -82,6 +86,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
             Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
             return attendee != null;
         } catch (NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return false;
         }
     }
@@ -176,8 +181,8 @@ public class AttendeeBean extends AbstractBean<Attendee> {
                                             .getSingleResult();
 
             return attendee != null;
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return false;
         }
     }

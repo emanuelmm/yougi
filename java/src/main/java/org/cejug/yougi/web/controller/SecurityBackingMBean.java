@@ -70,8 +70,7 @@ public class SecurityBackingMBean {
         if(userAccountBean.thereIsNoAccount()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
             return "/registration";
-        }
-        else {
+        } else {
             return "/login?faces-redirect=true";
         }
     }
@@ -93,8 +92,7 @@ public class SecurityBackingMBean {
         if(userAccountBean.thereIsNoAccount()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
             return "/registration";
-        }
-        else {
+        } else {
             return "/registration?faces-redirect=true";
         }
     }
@@ -109,8 +107,8 @@ public class SecurityBackingMBean {
         try {
             request.logout();
             session.invalidate();
-        }
-        catch(ServletException se) {
+        } catch(ServletException se) {
+            LOGGER.log(Level.INFO, se.getMessage(), se);
             return "/index?faces-redirect=true";
         }
         return "/index?faces-redirect=true";

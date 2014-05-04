@@ -120,8 +120,7 @@ public class EventBean extends AbstractBean<Event> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException e) {
+        } catch(MessagingException e) {
             LOGGER.log(Level.WARNING, "Error when sending the confirmation of event attendance to user "+ userAccount.getPostingEmail(), e);
         }
     }

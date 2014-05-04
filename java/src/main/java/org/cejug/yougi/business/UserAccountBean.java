@@ -45,6 +45,8 @@ import java.util.logging.Logger;
 @Stateless
 public class UserAccountBean extends AbstractBean<UserAccount> {
 
+    static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
+
     @EJB
     private AccessGroupBean accessGroupBean;
 
@@ -68,8 +70,6 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
     @PersistenceContext
     private EntityManager em;
-
-    static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
 
     public UserAccountBean() {
         super(UserAccount.class);
@@ -108,8 +108,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             return (UserAccount) em.createQuery("select a.userAccount from Authentication a where a.username = :username")
                                    .setParameter("username", username)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -119,8 +119,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.email = :email")
                                    .setParameter("email", email)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -131,8 +131,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.website like :website")
                     .setParameter("website", "%" + website + "%")
                     .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -142,8 +142,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :confirmationCode")
                                    .setParameter("confirmationCode", confirmationCode)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -207,8 +207,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.email = :email and ua.deactivationType is not null")
                                    .setParameter("email", email)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -292,8 +292,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             AccessGroup adminGroup = accessGroupBean.findAdministrativeGroup();
             UserGroup userGroup = new UserGroup(adminGroup, authentication);
             userGroupBean.add(userGroup);
-        }
-        else {
+        } else {
             /* A confirmation email is sent to all other new users. */
             ApplicationProperty appProp = applicationPropertyBean.findApplicationProperty(Properties.SEND_EMAILS);
             if(appProp.sendEmailsEnabled()) {
@@ -313,8 +312,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the mail confirmation. The registration was not finalized.", me);
         }
     }
@@ -357,8 +355,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
             }
 
             return userAccount;
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -371,8 +369,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the deactivation reason to user "+ userAccount.getPostingEmail(), me);
         }
     }
@@ -386,8 +383,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending alert to administrators about the registration of "+ userAccount.getPostingEmail(), me);
         }
     }
@@ -429,8 +425,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
         MessageTemplate messageTemplate;
         if(userAccount.getDeactivationType() == DeactivationType.ADMINISTRATIVE) {
             messageTemplate = messageTemplateBean.find("03BD6F3ACE4C48BD8660411FC8673DB4");
-        }
-        else {
+        } else {
             messageTemplate = messageTemplateBean.find("IKWMAJSNDOE3F122DCC87D4224887287");
         }
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
@@ -440,8 +435,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the deactivation reason to user "+ userAccount.getPostingEmail(), me);
         }
     }
@@ -455,21 +449,19 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the deactivation reason from "+ userAccount.getPostingEmail() +" to administrators.", me);
         }
     }
 
-    public void requestConfirmationPasswordChange(String username, String serverAddress) {
+    public void requestConfirmationPasswordChange(String username, String serverAddress) throws BusinessLogicException {
         UserAccount userAccount = findByUsername(username);
 
         if(userAccount != null) {
             userAccount.defineNewConfirmationCode();
             sendConfirmationCode(userAccount, serverAddress);
-        }
-        else {
-            throw new PersistenceException("Usuário inexistente: "+ username);
+        } else {
+            throw new BusinessLogicException("Usuário inexistente: {0}", username);
         }
     }
 
@@ -483,8 +475,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the mail confirmation. The registration was not finalized.", me);
         }
     }
@@ -538,8 +529,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the mail confirmation. The registration was not finalized.", me);
         }
     }

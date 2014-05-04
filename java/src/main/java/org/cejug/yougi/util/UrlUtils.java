@@ -39,8 +39,7 @@ public enum UrlUtils {
     public String removeProtocol(String url) {
         if(url.contains(HTTP)) {
             url = url.replace(HTTP, "");
-        }
-        else if(url.contains(HTTPS)) {
+        } else if(url.contains(HTTPS)) {
             url = url.replace(HTTPS, "");
         }
         return url;
@@ -49,12 +48,10 @@ public enum UrlUtils {
     public String concatUrlFragment(String url, String fragment) {
         if(url.endsWith("/") && fragment.startsWith("/")) {
             url = url + fragment.substring(1);
-        }
-        else if((url.endsWith("/") && !fragment.startsWith("/")) ||
+        } else if((url.endsWith("/") && !fragment.startsWith("/")) ||
                 (!url.endsWith("/") && fragment.startsWith("/"))) {
             url = url + fragment;
-        }
-        else {
+        } else {
             url = url + "/" + fragment;
         }
         return url;

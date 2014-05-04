@@ -71,8 +71,7 @@ public class CountryMBean {
     public void load() {
         if(acronym != null && !acronym.isEmpty()) {
             this.country = locationBean.findCountry(acronym);
-        }
-        else {
+        } else {
             this.country = new Country();
         }
     }

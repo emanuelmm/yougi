@@ -120,15 +120,13 @@ public class UserProfileMBean implements Serializable {
                 //LOGGER.log(Level.INFO, "User timezone: {0}",timezone);
             }
             return timezone;
-        }
-        else {
+        } else {
             ApplicationProperty appPropTimeZone = applicationPropertyBean.findApplicationProperty(Properties.TIMEZONE);
             if(StringUtils.INSTANCE.isNullOrBlank(appPropTimeZone.getPropertyValue())) {
                 Timezone tz = timezoneBean.findDefaultTimezone();
                 //LOGGER.log(Level.INFO, "Default timezone: {0}",tz.getId());
                 return tz.getId();
-            }
-            else {
+            } else {
                 //LOGGER.log(Level.INFO, "App timezone: {0}",appPropTimeZone.getPropertyValue());
                 return appPropTimeZone.getPropertyValue();
             }

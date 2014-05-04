@@ -28,6 +28,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,6 +37,8 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AuthenticationBean {
+
+    static final Logger LOGGER = Logger.getLogger(AuthenticationBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -48,8 +52,8 @@ public class AuthenticationBean {
             return (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount")
                                       .setParameter("userAccount", userAccount)
                                       .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -63,8 +67,8 @@ public class AuthenticationBean {
             return (Authentication) em.createQuery("select a from Authentication a where a.userAccount.id = :userAccount")
                                    .setParameter("userAccount", userAccount)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -85,8 +89,8 @@ public class AuthenticationBean {
             if(authentication != null) {
                 return Boolean.TRUE;
             }
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return Boolean.FALSE;
         }
 
@@ -107,8 +111,7 @@ public class AuthenticationBean {
             if(authentication != null) {
                 authentication.setPassword(newPassword);
             }
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
             throw new BusinessLogicException("User account not found. It is not possible to change the password.", nre);
         }
     }
@@ -117,8 +120,7 @@ public class AuthenticationBean {
         Authentication existingAuthentication = findByUserAccount(authentication.getUserAccount());
         if(existingAuthentication == null) {
             em.persist(authentication);
-        }
-        else {
+        } else {
             em.merge(authentication);
         }
     }

@@ -180,8 +180,7 @@ public abstract class JobScheduler implements Serializable, Identified {
 
         if(today.getTime().compareTo(startDate) > 0) {
             valid = false;
-        }
-        else if(endDate != null && (startDate.compareTo(endDate) > 0)) {
+        } else if(endDate != null && (startDate.compareTo(endDate) > 0)) {
             valid = false;
         }
 
@@ -200,8 +199,7 @@ public abstract class JobScheduler implements Serializable, Identified {
             jobStartTime.setTime(this.startTime);
             jobExecutionStartTime.set(Calendar.HOUR_OF_DAY, jobStartTime.get(Calendar.HOUR_OF_DAY));
             jobExecutionStartTime.set(Calendar.MINUTE, jobStartTime.get(Calendar.MINUTE));
-        }
-        else {
+        } else {
             jobExecutionStartTime.set(Calendar.HOUR_OF_DAY, 0);
             jobExecutionStartTime.set(Calendar.MINUTE, 0);
         }

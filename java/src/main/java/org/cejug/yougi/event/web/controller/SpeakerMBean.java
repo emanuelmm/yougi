@@ -118,8 +118,7 @@ public class SpeakerMBean implements Serializable {
         if (this.speakers == null) {
             if(this.event != null) {
                 this.speakers = speakerBean.findSpeakers(this.event);
-            }
-            else {
+            } else {
                 this.speakers = speakerBean.findSpeakers();
             }
         }
@@ -156,8 +155,7 @@ public class SpeakerMBean implements Serializable {
         if(this.sessions == null) {
             if(this.event != null) {
                 this.sessions = sessionBean.findSessions(this.event);
-            }
-            else if (this.speaker != null) {
+            } else if (this.speaker != null) {
                 this.sessions = sessionBean.findSessionsSpeaker(this.speaker);
             }
         }
@@ -212,8 +210,7 @@ public class SpeakerMBean implements Serializable {
     private String getNextPage() {
         if (this.eventId != null && !this.eventId.isEmpty()) {
             return "event?faces-redirect=true&tab=3&id="+ this.eventId;
-        }
-        else {
+        } else {
             return "speakers?faces-redirect=true&eventId="+ this.eventId;
         }
     }

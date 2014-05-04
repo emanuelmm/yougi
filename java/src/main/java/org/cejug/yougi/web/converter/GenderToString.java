@@ -38,8 +38,7 @@ public class GenderToString implements Converter {
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if("MALE".equals(value)) {
             return Gender.MALE;
-        }
-        else {
+        } else {
             return Gender.FEMALE;
         }
     }

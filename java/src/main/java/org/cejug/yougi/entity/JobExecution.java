@@ -126,7 +126,7 @@ public class JobExecution implements Serializable, Identified {
             jo.stop(this.instanceId);
             LOGGER.log(Level.INFO, "Stopped job: {0}", this.instanceId);
         } catch (JobExecutionNotRunningException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
 
@@ -136,7 +136,7 @@ public class JobExecution implements Serializable, Identified {
             this.instanceId = jo.restart(this.instanceId, new java.util.Properties());
             LOGGER.log(Level.INFO, "Restarted job: {0}", this.instanceId);
         } catch (NoSuchJobExecutionException | JobRestartException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
 

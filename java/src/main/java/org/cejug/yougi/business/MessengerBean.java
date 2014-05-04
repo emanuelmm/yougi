@@ -71,8 +71,7 @@ public class MessengerBean {
 
         try {
             Transport.send(emailMessage.createMimeMessage(mailSession));
-        }
-        catch (MessagingException me) {
+        } catch (MessagingException me) {
             messagingException = me;
         }
 
@@ -81,8 +80,7 @@ public class MessengerBean {
             if(messagingException == null) {
                 messageHistory.setMessageSent(Boolean.TRUE);
                 messageHistory.setDateSent(Calendar.getInstance().getTime());
-            }
-            else {
+            } else {
                 messageHistory.setMessageSent(Boolean.FALSE);
             }
             messageHistoryBean.save(messageHistory);

@@ -75,8 +75,7 @@ public class MailingListMBean {
     public void load() {
         if(id != null && !id.isEmpty()) {
             this.mailingList = mailingListBean.find(id);
-        }
-        else {
+        } else {
             this.mailingList = new MailingList();
         }
     }

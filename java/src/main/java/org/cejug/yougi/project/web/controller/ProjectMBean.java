@@ -67,8 +67,7 @@ public class ProjectMBean {
 	public void load() {
 		if(this.id != null && !this.id.isEmpty()) {
 			this.project = projectBean.find(this.id);
-		}
-		else {
+		} else {
 			this.project = new Project();
 		}
 	}

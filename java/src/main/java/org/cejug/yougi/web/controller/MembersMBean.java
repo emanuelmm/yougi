@@ -49,12 +49,13 @@ public class MembersMBean {
 		membersRows = new ArrayList<>();
 		List<UserAccount> userAccounts = new ArrayList<>();
 		for (UserAccount account : userAccountBean.findActiveWithPublicProfile() ) {
-			if(membersRows.size() == 0)
-				membersRows.add( userAccounts );
-			
-			if(userAccounts.size() < 3)
-				userAccounts.add(account);
-			else{
+			if(membersRows.size() == 0) {
+                membersRows.add(userAccounts);
+            }
+
+			if(userAccounts.size() < 3) {
+                userAccounts.add(account);
+            } else {
 				userAccounts = new ArrayList<>();
 				membersRows.add( userAccounts );
 				userAccounts.add(account);

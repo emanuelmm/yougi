@@ -61,8 +61,7 @@ public class CertificateMBean {
         boolean verified = attendeeBean.verifyCertificateAuthenticity(this.certificate);
         if(verified) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0001"), ""));
-        }
-        else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0001"), ResourceBundleHelper.INSTANCE.getMessage("warnCode0002")));
         }
         return "certificate_validation";

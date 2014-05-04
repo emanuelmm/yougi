@@ -33,6 +33,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages partners of the user group.
@@ -41,6 +43,8 @@ import java.util.List;
  */
 @Stateless
 public class RepresentativeBean extends AbstractBean<Representative> {
+
+    static final Logger LOGGER = Logger.getLogger(RepresentativeBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -62,8 +66,8 @@ public class RepresentativeBean extends AbstractBean<Representative> {
             return (Representative) em.createQuery("select r from Representative r where r.person = :person")
                                       .setParameter("person", person)
                                       .getSingleResult();
-    	}
-    	catch(NoResultException nre) {
+    	} catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
     		return null;
     	}
     }

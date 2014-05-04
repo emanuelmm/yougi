@@ -140,8 +140,7 @@ public class Article implements Serializable, Identified, PublicContent {
     public String getText() {
         if(StringUtils.INSTANCE.isNullOrBlank(this.content)) {
             return this.summary;
-        }
-        else {
+        } else {
             return this.content;
         }
     }
@@ -195,8 +194,7 @@ public class Article implements Serializable, Identified, PublicContent {
 
         if(this.id != null && other.id != null) {
             equals = this.id.equals(other.id);
-        }
-        else if(this.permanentLink != null) {
+        } else if(this.permanentLink != null) {
             equals = this.permanentLink.equals(other.permanentLink);
         }
 

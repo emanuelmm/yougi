@@ -76,8 +76,7 @@ public class SpeakerBean extends AbstractBean<Speaker> {
             candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s where s.userAccount <> :except) order by ua.firstName, ua.lastName asc", UserAccount.class)
                            .setParameter("except", except)
                            .getResultList();
-        }
-        else {
+        } else {
             candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s) order by ua.firstName, ua.lastName asc", UserAccount.class)
                            .getResultList();
         }

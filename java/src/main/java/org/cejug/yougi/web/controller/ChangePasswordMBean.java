@@ -42,6 +42,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -49,6 +51,8 @@ import javax.inject.Inject;
 @ManagedBean
 @RequestScoped
 public class ChangePasswordMBean {
+
+    static final Logger LOGGER = Logger.getLogger(ChangePasswordMBean.class.getSimpleName());
 
     @EJB
     private UserAccountBean userAccountBean;
@@ -161,9 +165,9 @@ public class ChangePasswordMBean {
             userAccountBean.requestConfirmationPasswordChange(username, serverAddress);
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
             return "change_password";
-        }
-        catch(EJBException ee) {
-            context.addMessage(null, new FacesMessage(ee.getCausedByException().getMessage()));
+        } catch(BusinessLogicException ble) {
+            LOGGER.log(Level.INFO, ble.getMessage(), ble);
+            context.addMessage(null, new FacesMessage(ble.getMessage()));
             return "request_password_change";
         }
     }
@@ -186,6 +190,7 @@ public class ChangePasswordMBean {
             userAccountBean.changePassword(userAccount, this.password);
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
         } catch (BusinessLogicException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
         }
@@ -206,6 +211,7 @@ public class ChangePasswordMBean {
         try {
             userAccountBean.changePassword(userAccount, this.password);
         } catch (BusinessLogicException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.addMessage(null, new FacesMessage(e.getMessage()));
             return "change_password";
         }

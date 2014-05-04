@@ -100,11 +100,9 @@ public class Authentication implements Serializable {
             byte stringCriptBytes[] = md.digest(stringBytes);
             char[] encoded = Base64Encoder.encode(stringCriptBytes);
             return String.valueOf(encoded);
-        }
-        catch(NoSuchAlgorithmException nsae) {
+        } catch(NoSuchAlgorithmException nsae) {
             throw new SecurityException("The Requested encoding algorithm was not found in this execution platform.", nsae);
-        }
-        catch(UnsupportedEncodingException uee) {
+        } catch(UnsupportedEncodingException uee) {
             throw new SecurityException("UTF8 is not supported in this execution platform.", uee);
         }
     }

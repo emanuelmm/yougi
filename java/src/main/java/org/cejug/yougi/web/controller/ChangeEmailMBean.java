@@ -25,6 +25,7 @@ import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.util.StringUtils;
+import sun.rmi.runtime.Log;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,6 +35,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -41,6 +44,8 @@ import javax.inject.Inject;
 @ManagedBean
 @RequestScoped
 public class ChangeEmailMBean {
+
+    static final Logger LOGGER = Logger.getLogger(ChangeEmailMBean.class.getSimpleName());
 
     @EJB
     private UserAccountBean userAccountBean;
@@ -149,6 +154,7 @@ public class ChangeEmailMBean {
         try {
             userAccountBean.changeEmail(userAccount, this.newEmail);
         } catch (BusinessLogicException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
             return "change_email";
         }
@@ -158,8 +164,8 @@ public class ChangeEmailMBean {
     public String confirmEmailChange() {
         try {
             userAccountBean.confirmEmailChange(confirmationCode);
-        }
-        catch(BusinessLogicException e) {
+        } catch(BusinessLogicException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
             return "change_email_confirmation";
         }

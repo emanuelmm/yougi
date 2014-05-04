@@ -76,8 +76,8 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             return em.createQuery("select ag from AccessGroup ag where ag.name = :name", AccessGroup.class)
                      .setParameter("name", name)
                      .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }
@@ -88,8 +88,8 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             defaultUserGroup = (AccessGroup) em.createQuery("select ag from AccessGroup ag where ag.userDefault = :default")
                                         .setParameter("default", Boolean.TRUE)
                                         .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             defaultUserGroup = new AccessGroup(DEFAULT_GROUP,"Default Members Group");
             defaultUserGroup.setId(EntitySupport.INSTANCE.generateEntityId());
             defaultUserGroup.setUserDefault(Boolean.TRUE);
@@ -106,8 +106,8 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             group = em.createQuery("select ag from AccessGroup ag where ag.name = :name", AccessGroup.class)
                       .setParameter("name", ADMIN_GROUP)
                       .getSingleResult();
-        }
-        catch(Exception nre) {
+        } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             group = new AccessGroup(ADMIN_GROUP,"Administrators Group");
             group.setId(EntitySupport.INSTANCE.generateEntityId());
             em.persist(group);
@@ -128,8 +128,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
 
         try {
             messengerBean.sendEmailMessage(emailMessage);
-        }
-        catch(MessagingException me) {
+        } catch(MessagingException me) {
             LOGGER.log(Level.WARNING, "Error when sending the group assignment alert to "+ userAccount.getFullName(), me);
         }
     }
@@ -151,13 +150,11 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                 if(group != null) {
                     throw new PersistenceException("A group named '"+ accessGroup.getName() +"' already exists.");
                 }
-            }
-            catch(NoResultException nre) {
+            } catch(NoResultException nre) {
                 accessGroup.setId(EntitySupport.INSTANCE.generateEntityId());
                 em.persist(accessGroup);
             }
-        }
-        else {
+        } else {
             em.merge(accessGroup);
         }
 

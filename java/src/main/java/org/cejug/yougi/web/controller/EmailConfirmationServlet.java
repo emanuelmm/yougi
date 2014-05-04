@@ -31,12 +31,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 public class EmailConfirmationServlet extends HttpServlet {
+
+    static final Logger LOGGER = Logger.getLogger(EmailConfirmationServlet.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 
@@ -75,8 +79,7 @@ public class EmailConfirmationServlet extends HttpServlet {
                 out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath) + "\">Go to Homepage</a>.");
                 out.println("</body>");
                 out.println("</html>");
-            }
-            finally {
+            } finally {
                 if(out != null) {
                     out.close();
                 }
@@ -86,11 +89,11 @@ public class EmailConfirmationServlet extends HttpServlet {
             UserAccount userAccount = userAccountBean.confirmUser(confirmationCode);
             if(userAccount != null) {
                 response.sendRedirect("login.xhtml");
-            }
-            else {
+            } else {
                 throw new Exception();
             }
         } catch (Exception e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             PrintWriter out = null;
             try {
                 out = response.getWriter();
@@ -101,8 +104,7 @@ public class EmailConfirmationServlet extends HttpServlet {
                 out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath) + "\">Go to website</a>");
                 out.println("</body>");
                 out.println("</html>");
-            }
-            finally {
+            } finally {
                 if(out != null) {
                     out.close();
                 }

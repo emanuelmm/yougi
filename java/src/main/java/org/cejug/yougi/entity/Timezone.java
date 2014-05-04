@@ -71,8 +71,7 @@ public class Timezone implements Serializable {
 
         if(this.rawOffset >= 0) {
             sb.append("+");
-        }
-        else {
+        } else {
             sb.append("-");
         }
 
@@ -82,8 +81,7 @@ public class Timezone implements Serializable {
 
         if((this.rawOffset % INTERVAL_RAW_OFFSET) != 0) {
             sb.append(String.format("%02d", (absRawOffset - ((absRawOffset / INTERVAL_RAW_OFFSET) * INTERVAL_RAW_OFFSET)) / MINUTE_SCALE));
-        }
-        else {
+        } else {
             sb.append("00");
         }
 
@@ -94,8 +92,7 @@ public class Timezone implements Serializable {
         String sign;
         if(this.rawOffset >= 0) {
             sign = "+";
-        }
-        else {
+        } else {
             sign = "-";
         }
         return sign;
@@ -132,8 +129,7 @@ public class Timezone implements Serializable {
 
         if(this.rawOffset >= 0) {
             this.rawOffset = newRawOffset;
-        }
-        else {
+        } else {
             this.rawOffset = newRawOffset * -1;
         }
     }
@@ -151,8 +147,7 @@ public class Timezone implements Serializable {
         Integer offsetHour = getOffsetHour();
         if(this.rawOffset >= 0) {
             this.rawOffset = (offsetHour * INTERVAL_RAW_OFFSET) + (offsetMinute * MINUTE_SCALE);
-        }
-        else {
+        } else {
             this.rawOffset = ((offsetHour * INTERVAL_RAW_OFFSET) + (offsetMinute * MINUTE_SCALE)) * -1;
         }
     }

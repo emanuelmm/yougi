@@ -22,6 +22,7 @@ package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.*;
 import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.jboss.vfs.TempFileProvider;
 import org.jboss.vfs.VFS;
 import org.jboss.vfs.VirtualFile;
@@ -121,9 +122,8 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
             if(handle != null) {
                 handle.close();
             }
-        }
-        catch (IOException | URISyntaxException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException | URISyntaxException ioe) {
+            throw new EnvironmentResourceException(ioe.getMessage(), ioe);
         }
 
         return names;

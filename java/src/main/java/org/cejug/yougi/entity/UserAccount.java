@@ -198,8 +198,7 @@ public class UserAccount implements Serializable, Identified {
     public void setUnverifiedEmail(String unverifiedEmail) {
         if(unverifiedEmail != null) {
             this.unverifiedEmail = unverifiedEmail.toLowerCase();
-        }
-        else {
+        } else {
             this.unverifiedEmail = null;
         }
     }
@@ -222,10 +221,9 @@ public class UserAccount implements Serializable, Identified {
         // the message recipient.
         if(this.unverifiedEmail != null && !this.unverifiedEmail.isEmpty()) {
             return this.unverifiedEmail;
-        }
-        // If unverified email is null it means that the email is valid and it
-        // can be used in the message recipient.
-        else {
+        } else {
+            // If unverified email is null it means that the email is valid and it
+            // can be used in the message recipient.
             return this.email;
         }
     }
@@ -249,8 +247,7 @@ public class UserAccount implements Serializable, Identified {
     public Boolean getDeactivated() {
         if(deactivated != null) {
             return deactivated;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -290,14 +287,11 @@ public class UserAccount implements Serializable, Identified {
     public void setWebsite(String website) {
         if(StringUtils.INSTANCE.isNullOrBlank(website)) {
             this.website = null;
-        }
-        else if(website.contains("http://")) {
+        } else if(website.contains("http://")) {
             this.website = website.replace("http://", "");
-        }
-        else if(website.contains("https://")) {
+        } else if(website.contains("https://")) {
             this.website = website.replace("https://", "");
-        }
-        else {
+        } else {
             this.website = website;
         }
     }
@@ -309,11 +303,9 @@ public class UserAccount implements Serializable, Identified {
     public void setTwitter(String twitter) {
         if(twitter == null || twitter.trim().isEmpty()) {
             this.twitter = null;
-        }
-        else if(twitter.contains("@")) {
+        } else if(twitter.contains("@")) {
             this.twitter = twitter.replace("@", "");
-        }
-        else {
+        } else {
             this.twitter = twitter;
         }
     }

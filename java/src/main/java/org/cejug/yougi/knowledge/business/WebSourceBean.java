@@ -125,14 +125,12 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 article.setPermanentLink(entry.getLink());
                 if(entry.getAuthor() != null) {
                     article.setAuthor(entry.getAuthor());
-                }
-                else {
+                } else {
                     article.setAuthor(webSource.getProvider().getFullName());
                 }
                 if(entry.getUpdatedDate() != null) {
                     article.setPublication(entry.getUpdatedDate());
-                }
-                else {
+                } else {
                     article.setPublication(entry.getPublishedDate());
                 }
                 article.setWebSource(webSource);
@@ -168,8 +166,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
             newWebSource.setId(id);
             newWebSource.setProvider(provider);
             return newWebSource;
-        }
-        else {
+        } else {
             return webSource;
         }
     }
@@ -215,11 +212,9 @@ public class WebSourceBean extends AbstractBean<WebSource> {
             feedUrl = matcher.group();
             if(feedUrl.contains("\"")) {
                 feedUrl = feedUrl.substring(feedUrl.indexOf("\"") + 1, feedUrl.lastIndexOf("\""));
-            }
-            else if(feedUrl.contains("\'")) {
+            } else if(feedUrl.contains("\'")) {
                 feedUrl = feedUrl.substring(feedUrl.indexOf("\'") + 1, feedUrl.lastIndexOf("\'"));
-            }
-            else {
+            } else {
                 continue;
             }
             if(isFeedURL(feedUrl)) {
@@ -262,8 +257,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 while(null != (line = br.readLine())) {
                     content.append(line);
                 }
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             }
         }

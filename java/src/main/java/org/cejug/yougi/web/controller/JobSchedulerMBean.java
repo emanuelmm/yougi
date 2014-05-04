@@ -75,8 +75,7 @@ public class JobSchedulerMBean {
         UserAccount userAccount = jobScheduleMBean.getDefaultOwner();
         if(userAccount != null) {
             return userAccount.getId();
-        }
-        else {
+        } else {
             return null;
         }
     }

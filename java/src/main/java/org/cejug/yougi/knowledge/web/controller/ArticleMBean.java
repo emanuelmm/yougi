@@ -100,11 +100,9 @@ public class ArticleMBean {
     public void load() {
         if(id != null && !id.isEmpty()) {
             this.article = articleBean.find(id);
-        }
-        else if(permanentLink != null && !permanentLink.isEmpty()) {
+        } else if(permanentLink != null && !permanentLink.isEmpty()) {
             this.article = this.unpublishedArticlesMBean.getArticle(this.permanentLink);
-        }
-        else {
+        } else {
             this.article = new Article();
         }
     }

@@ -42,8 +42,7 @@ public class CountryBean {
     public Country findCountry(String acronym) {
         if(acronym != null) {
             return em.find(Country.class, acronym);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -62,8 +61,7 @@ public class CountryBean {
         Country existing = em.find(Country.class, country.getAcronym());
         if(existing == null) {
             em.persist(country);
-        }
-        else {
+        } else {
             em.merge(country);
         }
     }

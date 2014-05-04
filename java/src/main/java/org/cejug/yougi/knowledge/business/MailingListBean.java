@@ -61,8 +61,7 @@ public class MailingListBean extends AbstractBean<MailingList> {
             return (MailingList) em.createQuery("select ml from MailingList ml where ml.email = :email")
                                    .setParameter("email", email)
                                    .getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
             return null;
         }
     }

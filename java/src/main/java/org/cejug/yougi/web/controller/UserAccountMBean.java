@@ -42,6 +42,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -49,6 +51,8 @@ import java.io.Serializable;
 @ManagedBean
 @RequestScoped
 public class UserAccountMBean implements Serializable {
+
+    static final Logger LOGGER = Logger.getLogger(UserAccountMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 
@@ -200,30 +204,26 @@ public class UserAccountMBean implements Serializable {
 
             if(this.userAccount.getCountry() != null) {
                 locationMBean.setSelectedCountry(this.userAccount.getCountry().getAcronym());
-            }
-            else {
+            } else {
                 locationMBean.setSelectedCountry(null);
             }
 
             if(this.userAccount.getProvince() != null) {
                 locationMBean.setSelectedProvince(this.userAccount.getProvince().getId());
-            }
-            else {
+            } else {
                 locationMBean.setSelectedProvince(null);
             }
 
             if(this.userAccount.getCity() != null) {
                 locationMBean.setSelectedCity(this.userAccount.getCity().getId());
-            }
-            else {
+            } else {
                 locationMBean.setSelectedCity(null);
             }
 
             if(this.userAccount.getTimeZone() != null) {
                 locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
             }
-        }
-        else {
+        } else {
             this.userAccount = new UserAccount();
         }
     }
@@ -241,8 +241,8 @@ public class UserAccountMBean implements Serializable {
             authentication.setUsername(userAccount.getUnverifiedEmail());
             authentication.setPassword(this.password);
             userAccountBean.register(userAccount, authentication);
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.addMessage(userId, new FacesMessage(e.getCause().getMessage()));
             return "registration";
         }
@@ -250,8 +250,7 @@ public class UserAccountMBean implements Serializable {
         if(isFirstUser) {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoSuccessfulRegistration"), ""));
             return "login";
-        }
-        else {
+        } else {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoRegistrationConfirmationRequest"), ""));
             return "registration_confirmation";
         }
@@ -306,8 +305,9 @@ public class UserAccountMBean implements Serializable {
         try {
             request.logout();
             session.invalidate();
+        } catch(ServletException se) {
+            LOGGER.log(Level.INFO, se.getMessage(), se);
         }
-        catch(ServletException se) {}
 
         return "/index?faces-redirect=true";
     }

@@ -64,8 +64,7 @@ public class CityBean extends AbstractBean<City> {
             return em.createQuery("select c from City c where c.country = :country order by c.name asc", City.class)
                  .setParameter("country", country)
                  .getResultList();
-        }
-        else {
+        } else {
             return em.createQuery("select c from City c where c.country = :country and c.valid = :valid order by c.name asc", City.class)
                  .setParameter("country", country)
                  .setParameter("valid", Boolean.TRUE)
@@ -78,8 +77,7 @@ public class CityBean extends AbstractBean<City> {
             return em.createQuery("select c from City c where c.province = :province order by c.name asc", City.class)
                  .setParameter("province", province)
                  .getResultList();
-        }
-        else {
+        } else {
             return em.createQuery("select c from City c where c.province = :province and c.valid = :valid order by c.name asc", City.class)
                  .setParameter("province", province)
                  .setParameter("valid", Boolean.TRUE)

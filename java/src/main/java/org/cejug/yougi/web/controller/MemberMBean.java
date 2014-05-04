@@ -44,6 +44,8 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -51,6 +53,8 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class MemberMBean implements Serializable {
+
+    static final Logger LOGGER = Logger.getLogger(MemberMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 
@@ -290,6 +294,7 @@ public class MemberMBean implements Serializable {
         try {
             userAccountBean.confirmUser(userAccount.getConfirmationCode());
         } catch (IllegalArgumentException iae) {
+            LOGGER.log(Level.INFO, iae.getMessage(), iae);
             context.addMessage(null, new FacesMessage(iae.getMessage()));
             return "user";
         }

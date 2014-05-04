@@ -30,13 +30,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * @author Hildeberto Mendonça
+ * @author Daniel Cunha - danielsoro@gmail.com
  */
 @ManagedBean
 @RequestScoped
 public class ProfilePictureFinder {
+
+    static final Logger LOGGER = Logger.getLogger(ProfilePictureFinder.class.getSimpleName());
 
     public String getPictureFromEmail(String email) throws IOException {
         return this.validateUrl( getGravatarImageUrl(email , 85) );
@@ -58,7 +62,8 @@ public class ProfilePictureFinder {
     private String validateUrl(String gravataUrl) throws IOException {
     	try{
     		return isNotFound(new URL(gravataUrl)) ? this.getDefaultAvatar() : gravataUrl;
-    	}catch(UnknownHostException uhe){
+    	} catch(UnknownHostException uhe){
+            LOGGER.log(Level.INFO, uhe.getMessage(), uhe);
     		return this.getDefaultAvatar();
     	}
     }
