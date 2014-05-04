@@ -92,12 +92,12 @@ public class Authentication implements Serializable {
      */
     public String hashPassword(String rawPassword) {
         MessageDigest md;
-        byte stringBytes[];
+        byte[] stringBytes;
         try {
             md = MessageDigest.getInstance("SHA-256");
             stringBytes = rawPassword.getBytes("UTF8");
 
-            byte stringCriptBytes[] = md.digest(stringBytes);
+            byte[] stringCriptBytes = md.digest(stringBytes);
             char[] encoded = Base64Encoder.encode(stringCriptBytes);
             return String.valueOf(encoded);
         } catch(NoSuchAlgorithmException nsae) {
