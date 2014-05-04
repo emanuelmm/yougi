@@ -26,7 +26,6 @@ import javax.batch.api.chunk.ItemProcessor;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 import javax.mail.Message;
-import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

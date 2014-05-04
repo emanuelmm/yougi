@@ -30,7 +30,6 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

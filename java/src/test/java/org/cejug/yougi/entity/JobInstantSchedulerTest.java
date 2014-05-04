@@ -20,13 +20,13 @@
  * */
 package org.cejug.yougi.entity;
 
-import java.text.DateFormat;
-import org.cejug.yougi.exception.BusinessLogicException;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import org.junit.Assert;
 
 /**
  * @Author Hildeberto Mendonca - http://www.hildeberto.com

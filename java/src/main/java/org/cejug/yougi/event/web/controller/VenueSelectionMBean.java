@@ -31,7 +31,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * This class is used to manage the selection of the venue and room of an event

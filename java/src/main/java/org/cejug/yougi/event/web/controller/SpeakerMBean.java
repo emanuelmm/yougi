@@ -22,7 +22,6 @@ package org.cejug.yougi.event.web.controller;
 
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.event.business.EventBean;
 import org.cejug.yougi.event.business.SessionBean;
 import org.cejug.yougi.event.business.SpeakerBean;
 import org.cejug.yougi.event.entity.Event;
@@ -48,9 +47,6 @@ public class SpeakerMBean implements Serializable {
 
     @EJB
     private SpeakerBean speakerBean;
-
-    @EJB
-    private EventBean eventBean;
 
     @EJB
     private SessionBean sessionBean;

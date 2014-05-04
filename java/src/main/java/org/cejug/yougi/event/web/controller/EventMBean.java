@@ -20,7 +20,6 @@
  * */
 package org.cejug.yougi.event.web.controller;
 
-import org.cejug.yougi.business.ApplicationPropertyBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.business.*;
@@ -39,7 +38,6 @@ import javax.inject.Inject;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -71,9 +69,6 @@ public class EventMBean {
 
     @EJB
     private SponsorshipEventBean sponsorshipEventBean;
-
-    @EJB
-    private ApplicationPropertyBean applicationPropertyBean;
 
     @ManagedProperty(value = "#{param.id}")
     private String id;

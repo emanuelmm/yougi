@@ -20,8 +20,8 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author Felipe W. M. Martins - https://github.com/felipewmartins

@@ -21,7 +21,6 @@
 package org.cejug.yougi.entity;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 
 /**

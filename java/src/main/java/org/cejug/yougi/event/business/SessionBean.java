@@ -22,7 +22,6 @@ package org.cejug.yougi.event.business;
 
 import org.cejug.yougi.business.AbstractBean;
 import org.cejug.yougi.event.entity.*;
-import org.cejug.yougi.knowledge.business.TopicBean;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -38,9 +37,6 @@ public class SessionBean extends AbstractBean<SessionEvent> {
 
     @PersistenceContext
     private EntityManager em;
-
-    @EJB
-    private TopicBean topicBean;
 
     @EJB
     private SpeakerBean speakerBean;

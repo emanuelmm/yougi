@@ -33,7 +33,6 @@ import javax.faces.bean.RequestScoped;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * This class feeds the bar chart that shows the growth of the user group in a
