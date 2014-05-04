@@ -126,15 +126,15 @@ public class ApplicationPropertiesMBean implements Serializable {
             applicationProperties.put(Properties.URL.getKey(), getUrl());
         }
 
-        if (applicationProperties.get(Properties.SEND_EMAILS.getKey()).equals("true")) {
+        if ("true".equals(applicationProperties.get(Properties.SEND_EMAILS.getKey()))) {
             sendEmails = true;
         }
 
-        if (applicationProperties.get(Properties.RECEIVE_EMAILS.getKey()).equals("true")) {
+        if ("true".equals(applicationProperties.get(Properties.RECEIVE_EMAILS.getKey()))) {
             receiveEmails = true;
         }
 
-        if (applicationProperties.get(Properties.CAPTCHA_ENABLED.getKey()).equals("true")) {
+        if ("true".equals(applicationProperties.get(Properties.CAPTCHA_ENABLED.getKey()))) {
             captchaEnabled = true;
         }
         
@@ -160,6 +160,6 @@ public class ApplicationPropertiesMBean implements Serializable {
         String serverName = request.getServerName();
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();
-        return serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath);
+        return serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.isEmpty() ? "" : contextPath);
     }
 }

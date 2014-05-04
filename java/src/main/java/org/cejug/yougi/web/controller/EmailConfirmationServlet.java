@@ -76,7 +76,7 @@ public class EmailConfirmationServlet extends HttpServlet {
                 out = response.getWriter();
                 out.println(sb.toString());
                 out.println("<p>This email confirmation is invalid. Check if the address on the browser coincides with the address sent by email.</p>");
-                out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath) + "\">Go to Homepage</a>.");
+                out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.isEmpty() ? "" : contextPath) + "\">Go to Homepage</a>.");
                 out.println("</body>");
                 out.println("</html>");
             } finally {
@@ -101,7 +101,7 @@ public class EmailConfirmationServlet extends HttpServlet {
                 out.println("<p>This email confirmation '"+ confirmationCode +"' is invalid.</p>");
                 out.println("<p class=\"alertMessage\">Cause: " + e.getCause().getMessage() + "</p>");
                 out.println("<p>Check if the address on the browser coincides with the address sent my email.</p>");
-                out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.equals("") ? "" : contextPath) + "\">Go to website</a>");
+                out.println("<p><a href=\"" + scheme + "://" + serverName + (serverPort != 80 ? ":" + serverPort : "") + (contextPath.isEmpty() ? "" : contextPath) + "\">Go to website</a>");
                 out.println("</body>");
                 out.println("</html>");
             } finally {
