@@ -58,13 +58,13 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     @EJB
     private JobExecutionBean jobExecutionBean;
 
+    public JobSchedulerBean() {
+        super(JobScheduler.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
-	}
-
-    public JobSchedulerBean() {
-        super(JobScheduler.class);
 	}
 
     public List<JobScheduler> findAllActive() {

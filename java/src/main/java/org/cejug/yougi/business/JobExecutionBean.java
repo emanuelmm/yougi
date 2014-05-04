@@ -42,13 +42,13 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
     @Resource
     TimerService timerService;
 
+    public JobExecutionBean() {
+        super(JobExecution.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
-	}
-
-    public JobExecutionBean() {
-        super(JobExecution.class);
 	}
 
     @Override

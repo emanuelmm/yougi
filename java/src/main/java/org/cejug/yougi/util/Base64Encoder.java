@@ -72,6 +72,11 @@ public final class Base64Encoder {
         }
     }
 
+
+    // Dummy constructor.
+    private Base64Encoder() {}
+
+
     /**
      * Encodes a string into Base64 format. No blanks or line breaks are
      * inserted.
@@ -201,7 +206,4 @@ public final class Base64Encoder {
         }
         return out;
     }
-
-    // Dummy constructor.
-    private Base64Encoder() {}
 }

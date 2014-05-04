@@ -36,14 +36,14 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
     private ExceptionHandler parent;
 
-    public CustomExceptionHandler(ExceptionHandler parent) {
-        this.parent = parent;
-    }
-
     @Inject
     private FacesContext context;
 
     public CustomExceptionHandler() {}
+
+    public CustomExceptionHandler(ExceptionHandler parent) {
+        this.parent = parent;
+    }
 
     @Override
     public ExceptionHandler getWrapped() {

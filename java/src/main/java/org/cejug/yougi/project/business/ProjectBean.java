@@ -37,13 +37,13 @@ public class ProjectBean extends AbstractBean<Project> {
 	@PersistenceContext
     private EntityManager em;
 
+    public ProjectBean() {
+        super(Project.class);
+    }
+
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
-	}
-
-	public ProjectBean() {
-		super(Project.class);
 	}
 	
 	public List<Project> findProjects() {
