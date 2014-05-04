@@ -29,8 +29,6 @@ import org.jboss.vfs.VirtualFile;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Closeable;
@@ -205,10 +203,5 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         }
 
         return persistentJobScheduler;
-    }
-
-    @Timeout
-    public void startJob(Timer timer) {
-        String jobExecutionId = (String) timer.getInfo();
     }
 }

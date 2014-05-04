@@ -55,7 +55,7 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
     public JobExecution save(JobExecution jobExecution) {
         JobExecution persistentJobExecution = super.save(jobExecution);
 
-        Timer timer = timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
+        timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
 
         return persistentJobExecution;
     }
