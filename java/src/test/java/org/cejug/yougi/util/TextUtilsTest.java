@@ -20,29 +20,47 @@
  * */
 package org.cejug.yougi.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class TextUtilsTest {
+	private Date date = new Date();
+	
     @Test
     public void testCapitalizeFirstCharWords() throws Exception {
+    	Assert.assertEquals("First Char", TextUtils.INSTANCE.capitalizeFirstCharWords("first char"));
 
     }
 
     @Test
     public void testGetFormattedDate() throws Exception {
+    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), TextUtils.INSTANCE.getFormattedDate(date, "dd-L-Y"));
 
     }
 
     @Test
     public void testGetFormattedTime() throws Exception {
+    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    	Assert.assertEquals(sdf.format(date), TextUtils.INSTANCE.getFormattedTime(date, "HH:mm:ss", "UTC"));
 
     }
 
     @Test
     public void testGetFormattedDateTime() throws Exception {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        TimeZone timeZone = TimeZone.getTimeZone("GMT-8:00");
+        sdf.setTimeZone(timeZone);
+    	Assert.assertEquals(sdf.format(date), TextUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
+
 
     }
 }
