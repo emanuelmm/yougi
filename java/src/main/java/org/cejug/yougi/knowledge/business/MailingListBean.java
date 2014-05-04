@@ -28,6 +28,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implements the business logic related to the management of mailing lists.
@@ -36,6 +38,7 @@ import java.util.List;
  */
 @Stateless
 public class MailingListBean extends AbstractBean<MailingList> {
+    private static final Logger LOGGER = Logger.getLogger(MailingListBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -59,6 +62,7 @@ public class MailingListBean extends AbstractBean<MailingList> {
                                    .setParameter("email", email)
                                    .getSingleResult();
         } catch(NoResultException nre) {
+            LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return null;
         }
     }

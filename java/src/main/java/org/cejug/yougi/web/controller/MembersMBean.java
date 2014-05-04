@@ -49,7 +49,7 @@ public class MembersMBean {
 		membersRows = new ArrayList<>();
 		List<UserAccount> userAccounts = new ArrayList<>();
 		for (UserAccount account : userAccountBean.findActiveWithPublicProfile() ) {
-			if(membersRows.size() == 0) {
+			if(membersRows.isEmpty()) {
                 membersRows.add(userAccounts);
             }
 

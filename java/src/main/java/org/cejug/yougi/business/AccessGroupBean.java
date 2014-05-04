@@ -151,6 +151,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                     throw new PersistenceException("A group named '"+ accessGroup.getName() +"' already exists.");
                 }
             } catch(NoResultException nre) {
+                LOGGER.log(Level.INFO, nre.getMessage(), nre);
                 accessGroup.setId(EntitySupport.INSTANCE.generateEntityId());
                 em.persist(accessGroup);
             }
