@@ -46,14 +46,11 @@ public class GenderToString implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         Gender gender = (Gender) value;
-        String genderStr = null;
-        switch(gender) {
-            case FEMALE:
-                genderStr = ResourceBundleHelper.INSTANCE.getMessage("female");
-                break;
-            case MALE:
-                genderStr = ResourceBundleHelper.INSTANCE.getMessage("male");
-                break;
+        String genderStr;
+        if(gender == Gender.FEMALE) {
+            genderStr = ResourceBundleHelper.INSTANCE.getMessage("female");
+        } else {
+            genderStr = ResourceBundleHelper.INSTANCE.getMessage("male");
         }
         return genderStr;
     }

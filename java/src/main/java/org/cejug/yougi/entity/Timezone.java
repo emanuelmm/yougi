@@ -99,17 +99,14 @@ public class Timezone implements Serializable {
     }
 
     public void setSign(String sign) {
-        switch(sign) {
-            case "+":
-                if(this.rawOffset < 0) {
-                    this.rawOffset *= -1;
-                }
-                break;
-            case "-":
-                if(this.rawOffset >= 0) {
-                    this.rawOffset *= -1;
-                }
-                break;
+        if ("-".equals(sign)) {
+            if (this.rawOffset < 0) {
+                this.rawOffset *= -1;
+            }
+        } else {
+            if(this.rawOffset >= 0) {
+                this.rawOffset *= +1;
+            }
         }
     }
 
@@ -189,10 +186,7 @@ public class Timezone implements Serializable {
             return false;
         }
         Timezone other = (Timezone) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
