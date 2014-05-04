@@ -49,7 +49,7 @@ public class UserAccountTest {
     @Test
     public void testSetUnverifiedEmail() throws Exception {
     	user.setUnverifiedEmail("");
-    	Assert.assertNotNull(user);
+    	Assert.assertNotNull(user.getUnverifiedEmail());
     	user.setUnverifiedEmail("DARTHVADER@TEST.COM");
     	Assert.assertEquals("darthvader@test.com", user.getUnverifiedEmail());
 
