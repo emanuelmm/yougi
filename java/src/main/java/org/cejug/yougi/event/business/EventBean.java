@@ -72,8 +72,7 @@ public class EventBean extends AbstractBean<Event> {
 
     @Override
     public Event find(String id) {
-        Event event = em.find(Event.class, id);
-        return event;
+        return em.find(Event.class, id);
     }
 
     public List<Event> findParentEvents() {

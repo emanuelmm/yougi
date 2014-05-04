@@ -36,8 +36,7 @@ public class JobFrequencyTypeConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        JobFrequencyType jobFrequencyType = JobFrequencyType.valueOf(value);
-        return jobFrequencyType;
+        return JobFrequencyType.valueOf(value);
     }
 
     @Override

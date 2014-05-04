@@ -52,8 +52,7 @@ public class JobOnceScheduler extends JobScheduler {
 	@Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar startTime = getJobExecutionStartTime();
-        JobExecution jobExecution = new JobExecution(this, owner, startTime.getTime());
-        return jobExecution;
+        return new JobExecution(this, owner, startTime.getTime());
     }
 
     @Override
