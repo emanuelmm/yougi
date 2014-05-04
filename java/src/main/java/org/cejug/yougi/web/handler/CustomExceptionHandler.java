@@ -22,7 +22,6 @@ package org.cejug.yougi.web.handler;
 
 import org.cejug.yougi.util.ResourceBundleHelper;
 
-import javax.faces.FacesException;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
@@ -44,13 +43,15 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     @Inject
     private FacesContext context;
 
+    public CustomExceptionHandler() {}
+
     @Override
     public ExceptionHandler getWrapped() {
         return this.parent;
     }
 
     @Override
-    public void handle() throws FacesException {
+    public void handle() {
         ExceptionQueuedEvent event;
         ExceptionQueuedEventContext eventContext;
         Throwable t;

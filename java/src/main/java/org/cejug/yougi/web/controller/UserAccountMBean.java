@@ -190,7 +190,7 @@ public class UserAccountMBean implements Serializable {
         return false;
     }
 
-    public void validateUserId(FacesContext context, UIComponent toValidate, Object value) throws ValidatorException {
+    public void validateUserId(FacesContext context, UIComponent toValidate, Object value) {
         String usrId = (String) value;
         if(-1 == usrId.indexOf('@')) {
             throw new ValidatorException(new FacesMessage("Invalid email address."));
