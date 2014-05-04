@@ -34,13 +34,13 @@ public class Project implements Serializable, Identified {
 
 	@Id
 	private String id;
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private String website;
-	
+
 	private String source;
 
 	@Override

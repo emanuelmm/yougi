@@ -56,7 +56,7 @@ public class City implements Serializable, Identified {
     private String latitude;
 
     private String longitude;
-    
+
     @Column(name="timezone")
     private String timeZone;
 

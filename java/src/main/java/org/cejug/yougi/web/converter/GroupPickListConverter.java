@@ -39,7 +39,7 @@ public class GroupPickListConverter implements Converter {
         if (StringUtils.INSTANCE.isNullOrBlank(value)) {
             return null;
         }
-        
+
         return new UserAccount(value);
     }
 

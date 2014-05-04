@@ -46,7 +46,7 @@ public class TopicMBean {
 
     @ManagedProperty(value="#{param.topic}")
     private String topicName;
-    
+
     private Boolean topicExistent = Boolean.FALSE;
 
     public TopicMBean() {
@@ -75,7 +75,7 @@ public class TopicMBean {
         }
         return this.topics;
     }
-    
+
     public Boolean getExistent() {
         return this.topicExistent;
     }

@@ -67,7 +67,7 @@ public class VenueBean extends AbstractBean<Venue> {
         if((venues == null || venues.isEmpty()) && event.getParent() != null) {
             venues = findEventVenues(event.getParent());
         }
-        
+
         return venues;
     }
 }

@@ -137,7 +137,7 @@ public class ApplicationPropertiesMBean implements Serializable {
         if ("true".equals(applicationProperties.get(Properties.CAPTCHA_ENABLED.getKey()))) {
             captchaEnabled = true;
         }
-        
+
         String timezoneValue = applicationProperties.get(Properties.TIMEZONE.getKey());
         if(StringUtils.INSTANCE.isNullOrBlank(timezoneValue)) {
             Timezone timezone = timezoneBean.findDefaultTimezone();

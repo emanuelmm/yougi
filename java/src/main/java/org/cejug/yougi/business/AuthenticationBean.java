@@ -133,7 +133,7 @@ public class AuthenticationBean {
 
     public void changeUsername(UserAccount userAccount) {
         Authentication existingAuthentication = findByUserAccount(userAccount);
-        
+
         remove(userAccount);
         em.detach(existingAuthentication);
         existingAuthentication.setUsername(userAccount.getEmail());

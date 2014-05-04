@@ -29,13 +29,14 @@ import java.util.Date;
 
 /**
  * On demand batch job.
+ *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
 @DiscriminatorValue("INSTANT")
 public class JobInstantScheduler extends JobScheduler {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void setStartDate(Date startDate) {
@@ -45,13 +46,16 @@ public class JobInstantScheduler extends JobScheduler {
     }
 
     @Override
-    public void setEndDate(Date endDate) {}
+    public void setEndDate(Date endDate) {
+    }
 
     @Override
-    public void setStartTime(Date startTime) {}
+    public void setStartTime(Date startTime) {
+    }
 
     @Override
-    public void setFrequency(Integer frequency) {}
+    public void setFrequency(Integer frequency) {
+    }
 
 
     @Override

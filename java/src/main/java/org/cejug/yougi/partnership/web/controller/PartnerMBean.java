@@ -141,7 +141,7 @@ public class PartnerMBean implements Serializable {
             }
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
-        	List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
+            List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
             List<UserAccount> reps = new ArrayList<>();
             reps.addAll(representativeBean.findRepresentativePersons(this.partner));
             usersGroup.removeAll(reps);
@@ -150,7 +150,7 @@ public class PartnerMBean implements Serializable {
             this.partner = new Partner();
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
-        	List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
+            List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
             List<UserAccount> reps = new ArrayList<>();
             this.candidates = new DualListModel<>(usersGroup, reps);
         }

@@ -27,9 +27,9 @@ import org.junit.Test;
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserAccountTest {
-	
+
 	private UserAccount user = new UserAccount();
-	
+
     @Test
     public void testSetFirstName() throws Exception {
     	user.setFirstName("testname");
@@ -63,11 +63,11 @@ public class UserAccountTest {
 
     @Test
     public void testGetPostingEmail() throws Exception {
-    	user.setUnverifiedEmail("DARTHVADER@TEST.COM");	
+    	user.setUnverifiedEmail("DARTHVADER@TEST.COM");
     	Assert.assertEquals("darthvader@test.com", user.getPostingEmail());
     	user.setUnverifiedEmail(null);
     	Assert.assertNull(user.getPostingEmail());
-    	
+
 
     }
 

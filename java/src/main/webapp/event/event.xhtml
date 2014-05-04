@@ -266,7 +266,7 @@
 
                         <p:tab title="#{bundle.attendees}" rendered="#{securityBackingMBean.isUserLeader}">
                             <h:panelGrid width="100%">
-                                <p:outputPanel id="raffleInfo" style="display:inline-block">                              
+                                <p:outputPanel id="raffleInfo" style="display:inline-block">
 	                               <h:inputHidden id="eventId" value="#{eventMBean.event.id}" />
 	                               <p:commandButton value="#{bundle.raffle}" type="button" onclick="loadEventAttendees();" />
 	                               <p:remoteCommand name="loadEventAttendees"
@@ -277,7 +277,7 @@
 	                                   <f:setPropertyActionListener target="#{raffleMBean.eventId}"
 	                                            value="#{eventMBean.event.id}" />
 	                                </p:remoteCommand>
-	                                
+
 	                                <h:outputFormat value="&nbsp;#{bundle.numberPeopleAttendingEvent}"
 	                                    style="color: blue;"
 	                                    rendered="#{securityBackingMBean.isUserLeader}">
@@ -357,7 +357,7 @@
                         </p:tab>
                     </p:tabView>
                 </h:form>
-                
+
                 <p:dialog modal="true" width="90%" height="300"
                 header="#{bundle.raffle}" widgetVar="wgtRaffleDlg" closable="false">
 	                <p:outputPanel id="dlgRaffleContent">
@@ -379,7 +379,7 @@
 	                    </div>
 	                </f:facet>
 	            </p:dialog>
-                
+
                 <script src="#{request.contextPath}/resources/js/raffle.js" />
             </ui:define>
             <ui:define name="jquery"></ui:define>

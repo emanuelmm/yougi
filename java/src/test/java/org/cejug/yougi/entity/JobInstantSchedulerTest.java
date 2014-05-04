@@ -46,12 +46,12 @@ public class JobInstantSchedulerTest {
 
         Calendar startDate = Calendar.getInstance();
         jobScheduler.setStartDate(startDate.getTime());
-        
+
         JobExecution jobExecution = jobScheduler.getNextJobExecution();
         Date startTime = jobExecution.getStartTime();
-        
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        
+
         Assert.assertEquals(dateFormat.format(startDate.getTime()), dateFormat.format(startTime));
     }
 }

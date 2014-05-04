@@ -29,7 +29,7 @@ import java.text.MessageFormat;
 @ApplicationException(rollback = true)
 public class BusinessLogicException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public BusinessLogicException(String message) {
         super(message);

@@ -55,7 +55,7 @@ public class CityBean extends AbstractBean<City> {
 
     public List<City> findValidatedCities() {
         return em.createQuery("select c from City c where c.valid = :valid", City.class)
-        		 .setParameter("valid", true)
+                 .setParameter("valid", true)
                  .getResultList();
     }
 

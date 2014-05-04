@@ -36,11 +36,11 @@ public class ProjectMBean {
 
 	@EJB
 	private ProjectBean projectBean;
-	
+
 	private List<Project> projects;
-	
+
 	private Project project;
-	
+
 	@ManagedProperty(value="#{param.id}")
     private String id;
 
@@ -62,7 +62,7 @@ public class ProjectMBean {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	@PostConstruct
 	public void load() {
 		if(this.id != null && !this.id.isEmpty()) {
@@ -71,12 +71,12 @@ public class ProjectMBean {
 			this.project = new Project();
 		}
 	}
-	
+
 	public String save() {
 		this.projectBean.save(this.project);
 		return "projects";
 	}
-	
+
 	public String remove() {
 		this.projectBean.remove(this.id);
 		return "projects";

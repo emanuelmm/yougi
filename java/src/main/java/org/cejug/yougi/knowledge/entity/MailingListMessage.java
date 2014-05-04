@@ -37,13 +37,13 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
 
     @Id
     private String id;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "mailing_list", nullable = false)
     private MailingList mailingList;
-    
+
     private String subject;
-    
+
     private String body;
 
     @Transient

@@ -52,12 +52,12 @@ public enum ResourceBundleHelper {
         this.locale = locale;
         return getMessageFromResourceBundle(key);
     }
-    
+
     public String getMessage(String key, Object ... params) {
         String message = getMessageFromResourceBundle(key);
         return MessageFormat.format(message, params);
     }
-    
+
     public String getMessage(String key, Locale locale, Object ... params) {
         this.locale = locale;
         String message = getMessageFromResourceBundle(key);

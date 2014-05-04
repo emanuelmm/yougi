@@ -33,7 +33,7 @@ public class UserGroupId implements Serializable {
 
     @Column(name = "group_id", nullable = false)
     private String groupId;
-    
+
     @Column(name = "user_id", nullable= false)
     private String userId;
 

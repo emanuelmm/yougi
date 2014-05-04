@@ -29,7 +29,7 @@
 		<ui:define name="title">#{bundle.members}</ui:define>
 		<ui:define name="content">
 			<h1>#{bundle.members}</h1>
-    
+
             <c:forEach items="#{membersMBean.membersRows}" var="members">
                 <div class="row member-row">
                     <c:forEach items="${members}" var="member">
@@ -56,7 +56,7 @@
                     </c:forEach>
                 </div>
             </c:forEach>
-            
+
 		</ui:define>
 	</ui:composition>
 </h:body>

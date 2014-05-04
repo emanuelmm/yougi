@@ -42,18 +42,18 @@ import java.util.List;
 public class RaffleMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-	
+
 	@EJB
     private AttendeeBean attendeeBean;
-	
+
 	private String eventId;
-	
+
 	public void loadAttendees( ){
 		RequestContext context = RequestContext.getCurrentInstance();
 		List<Attendee> attendees = attendeeBean.findAttendees( new Event(eventId) );
 		context.addCallbackParam("attendees",  toJsonString(attendees) );
 	}
-	
+
 	protected String toJsonString( List<Attendee> attendees ){
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 		JsonObjectBuilder builder = Json.createObjectBuilder();

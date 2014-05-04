@@ -156,7 +156,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
     }
-    
+
     public List<UserAccount> findActiveWithPublicProfile() {
         return em.createQuery("select ua from UserAccount ua where ua.deactivated = false and ua.confirmationCode is null and ua.publicProfile = true order by ua.firstName", UserAccount.class)
                  .getResultList();

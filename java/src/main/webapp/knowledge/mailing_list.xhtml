@@ -53,7 +53,7 @@
 						<h:outputLabel for="description" value="#{bundle.description}" styleClass="control-label"/>
                        	<h:inputTextarea id="description" value="#{mailingListMBean.mailingList.description}" rows="3" cols="40" styleClass="form-control"/>
 					</div>
-							
+
                     <h:inputHidden id="id" value="#{mailingListMBean.mailingList.id}"/>
 
                     <h:commandButton value="#{bundle.save}" action="#{mailingListMBean.save}" styleClass="btn btn-primary"/>

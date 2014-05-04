@@ -62,7 +62,7 @@ public class EventVenueMBean implements Serializable {
 
     private List<Venue> venues;
     private List<Event> events;
-    
+
     private String selectedVenue;
     private String selectedEvent;
 
@@ -142,11 +142,11 @@ public class EventVenueMBean implements Serializable {
 
         return getNextPage();
     }
-    
+
     public String cancel() {
         return getNextPage();
     }
-    
+
     private String getNextPage() {
         if (this.eventId != null && !this.eventId.isEmpty()) {
             return "event?faces-redirect=true&tab=5&id="+ this.selectedEvent;

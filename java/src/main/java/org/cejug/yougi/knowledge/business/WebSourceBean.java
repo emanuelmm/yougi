@@ -55,12 +55,12 @@ import java.util.regex.Pattern;
  */
 @Stateless
 public class WebSourceBean extends AbstractBean<WebSource> {
-    
+
     private static final Logger LOGGER = Logger.getLogger(WebSourceBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @EJB
     private ArticleBean articleBean;
 
@@ -72,7 +72,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public List<WebSource> findWebResources() {
     	return em.createQuery("select ws from WebSource ws order by ws.title asc", WebSource.class).getResultList();
     }
@@ -246,7 +246,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
     private String retrieveWebsiteContent(String url) {
         StringBuilder content = null;
         String fullUrl = UrlUtils.INSTANCE.setProtocol(url);
-        
+
         if(fullUrl != null) {
             try {
                 URL theUrl = new URL(fullUrl);

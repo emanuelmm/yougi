@@ -37,7 +37,7 @@ public class ApplicationProperty implements Serializable {
     @Id
     @Column(name="property_key", nullable=false)
     private String propertyKey;
-    
+
     @Column(name="property_value")
     private String propertyValue;
 

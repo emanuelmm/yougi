@@ -27,13 +27,13 @@ import java.util.Date;
  */
 public class Certificate {
     private String certificateFullname;
-    
+
     private String certificateEvent;
-    
+
     private String certificateVenue;
-    
+
     private Date certificateDate;
-    
+
     private String certificateCode;
 
     public String getCertificateFullname() {

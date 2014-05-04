@@ -33,8 +33,8 @@ import java.util.Calendar;
 @Entity
 @DiscriminatorValue("WEEKLY")
 public class JobWeeklyScheduler extends JobScheduler {
-	
-	private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {

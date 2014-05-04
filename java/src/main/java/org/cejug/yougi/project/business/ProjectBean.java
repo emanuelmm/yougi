@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Stateless
 public class ProjectBean extends AbstractBean<Project> {
-	
+
 	@PersistenceContext
     private EntityManager em;
 
@@ -45,7 +45,7 @@ public class ProjectBean extends AbstractBean<Project> {
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-	
+
 	public List<Project> findProjects() {
 		return em.createQuery("select p from Project p order by p.name asc", Project.class).getResultList();
 	}

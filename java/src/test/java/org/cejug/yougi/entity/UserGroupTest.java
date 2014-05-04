@@ -27,12 +27,12 @@ import org.junit.Test;
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserGroupTest {
-	
+
 	UserGroup usergrp = new UserGroup();
 	UserAccount user = new UserAccount();
 	AccessGroup access = new AccessGroup();
 	Authentication auth = new Authentication();
-	
+
     @Test
     public void testSetAuthentication() throws Exception {
     	auth.setPassword("abc");

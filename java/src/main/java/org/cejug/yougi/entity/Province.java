@@ -30,12 +30,12 @@ import java.io.Serializable;
 @Table(name = "province")
 public class Province implements Serializable, Identified {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String id;
-    
+
     private String name;
-    
+
     @JoinColumn(name = "country")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Country country;
@@ -51,7 +51,7 @@ public class Province implements Serializable, Identified {
         this.id = id;
         this.name = name;
     }
-    
+
     @Override
     public String getId() {
         return id;

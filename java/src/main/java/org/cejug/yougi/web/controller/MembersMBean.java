@@ -38,61 +38,61 @@ import java.util.List;
 @Named
 @RequestScoped
 public class MembersMBean {
-	
-	private List<List<UserAccount>> membersRows;
-	
-	@EJB
-	private UserAccountBean userAccountBean;
-	
-	@PostConstruct
-	public void init(){
-		membersRows = new ArrayList<>();
-		List<UserAccount> userAccounts = new ArrayList<>();
-		for (UserAccount account : userAccountBean.findActiveWithPublicProfile() ) {
-			if(membersRows.isEmpty()) {
+
+    private List<List<UserAccount>> membersRows;
+
+    @EJB
+    private UserAccountBean userAccountBean;
+
+    @PostConstruct
+    public void init() {
+        membersRows = new ArrayList<>();
+        List<UserAccount> userAccounts = new ArrayList<>();
+        for (UserAccount account : userAccountBean.findActiveWithPublicProfile()) {
+            if (membersRows.isEmpty()) {
                 membersRows.add(userAccounts);
             }
 
-			if(userAccounts.size() < 3) {
+            if (userAccounts.size() < 3) {
                 userAccounts.add(account);
             } else {
-				userAccounts = new ArrayList<>();
-				membersRows.add( userAccounts );
-				userAccounts.add(account);
-			}
-		}
-	}
-	
-	public String formatedAddress(UserAccount member){
-		StringBuilder sb = new StringBuilder();
-		City city = member.getCity();
-		if(city != null){
-			sb.append( city.getName() );
-		}
-		Province province = member.getProvince();
-		if(province != null){
-			if(city != null){
-				sb.append(", ");
-			}
-			sb.append(province.getName());
-		}
-		return sb.toString();
-	}
-	
-	public boolean showAddress(UserAccount member){
-		return member.getCity() != null || member.getCountry() != null || member.getProvince() != null;
-	}
-	
-	public boolean showWebsite(UserAccount member){
-		return member.getWebsite() != null;
-	}
-	
-	public boolean showTwitter(UserAccount member){
-		return member.getTwitter() != null;
-	}
-	
-	public List<List<UserAccount>> getMembersRows() {
-		return membersRows;
-	}
+                userAccounts = new ArrayList<>();
+                membersRows.add(userAccounts);
+                userAccounts.add(account);
+            }
+        }
+    }
+
+    public String formatedAddress(UserAccount member) {
+        StringBuilder sb = new StringBuilder();
+        City city = member.getCity();
+        if (city != null) {
+            sb.append(city.getName());
+        }
+        Province province = member.getProvince();
+        if (province != null) {
+            if (city != null) {
+                sb.append(", ");
+            }
+            sb.append(province.getName());
+        }
+        return sb.toString();
+    }
+
+    public boolean showAddress(UserAccount member) {
+        return member.getCity() != null || member.getCountry() != null || member.getProvince() != null;
+    }
+
+    public boolean showWebsite(UserAccount member) {
+        return member.getWebsite() != null;
+    }
+
+    public boolean showTwitter(UserAccount member) {
+        return member.getTwitter() != null;
+    }
+
+    public List<List<UserAccount>> getMembersRows() {
+        return membersRows;
+    }
 
 }

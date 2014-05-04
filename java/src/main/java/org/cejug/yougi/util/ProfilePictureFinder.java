@@ -45,11 +45,11 @@ public class ProfilePictureFinder {
     public String getPictureFromEmail(String email) throws IOException {
         return this.validateUrl( getGravatarImageUrl(email , 85) );
     }
-    
+
     public String getPictureForMembersList(String email) throws IOException {
         return this.validateUrl( getGravatarImageUrl(email , 100) );
     }
-    
+
     public String getGravatarImageUrl(String email , int size){
     	return new Gravatar()
         .setHttps(true)
@@ -67,7 +67,7 @@ public class ProfilePictureFinder {
     		return this.getDefaultAvatar();
     	}
     }
-    
+
     private boolean isNotFound(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.connect();

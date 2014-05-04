@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Stateless
 public class ArticleBean extends AbstractBean<Article> {
-    
+
     @PersistenceContext
     private EntityManager em;
 

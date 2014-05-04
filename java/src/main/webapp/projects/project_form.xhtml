@@ -34,22 +34,22 @@
                     <label for="name">#{bundle.name}</label><br/>
                     <h:inputText id="name" value="#{projectMBean.project.name}" styleClass="form-control"/>
                 </div>
-			
+
 			<div class="form-group">
                     <label for="description">#{bundle.description}</label><br/>
                     <h:inputTextarea id="description" value="#{projectMBean.project.description}" styleClass="form-control"/>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="website">#{bundle.website}</label><br/>
                     <h:inputText id="website" value="#{projectMBean.project.website}" styleClass="form-control"/>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="source">#{bundle.source}</label><br/>
                     <h:inputText id="source" value="#{projectMBean.project.source}" styleClass="form-control"/>
                 </div>
-           
+
            	<h:inputHidden value="#{projectMBean.project.id}"/>
 
             <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{projectMBean.save}"/>&nbsp;
