@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 @Stateless
 public class UserGroupBean {
 
-    static final Logger LOGGER = Logger.getLogger(UserGroupBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(UserGroupBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

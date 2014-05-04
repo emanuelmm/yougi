@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 @Stateless
 public class RepresentativeBean extends AbstractBean<Representative> {
 
-    static final Logger LOGGER = Logger.getLogger(RepresentativeBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(RepresentativeBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

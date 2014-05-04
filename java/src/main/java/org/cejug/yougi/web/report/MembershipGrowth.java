@@ -50,8 +50,6 @@ public class MembershipGrowth {
     private CartesianChartModel membershipGrowthModel;
     private CartesianChartModel membershipCumulativeGrowthModel;
 
-    static final Logger LOGGER = Logger.getLogger(MembershipGrowth.class.getSimpleName());
-
     public MembershipGrowth() {}
 
     public CartesianChartModel getMembershipGrowthModel() {

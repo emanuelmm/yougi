@@ -37,8 +37,7 @@ import java.util.logging.Logger;
 public class JobDailyScheduler extends JobScheduler {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(JobDailyScheduler.class.getSimpleName());
-	
+
     @Column(name = "working_day")
     private Boolean workingDaysOnly;
 

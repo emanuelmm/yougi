@@ -37,8 +37,6 @@ import java.util.logging.Logger;
 @Stateless
 public class JobExecutionBean extends AbstractBean<JobExecution> {
 
-    private static final Logger LOGGER = Logger.getLogger(JobExecutionBean.class.getSimpleName());
-
     @PersistenceContext
     private EntityManager em;
 

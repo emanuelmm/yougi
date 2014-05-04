@@ -71,8 +71,6 @@ public class UserProfileMBean implements Serializable {
     private UserAccount userAccount;
     private String timezone;
 
-    static final Logger LOGGER = Logger.getLogger(UserProfileMBean.class.getSimpleName());
-
     public UserProfileMBean() {
         this.language = new Language();
     }

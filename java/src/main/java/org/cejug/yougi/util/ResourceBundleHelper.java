@@ -20,8 +20,6 @@
  * */
 package org.cejug.yougi.util;
 
-import sun.rmi.runtime.Log;
-
 import javax.faces.context.FacesContext;
 import java.text.MessageFormat;
 import java.util.Locale;

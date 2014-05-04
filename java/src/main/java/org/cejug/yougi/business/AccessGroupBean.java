@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 @Stateless
 public class AccessGroupBean extends AbstractBean<AccessGroup> {
 
-    static final Logger LOGGER = Logger.getLogger(AccessGroupBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(AccessGroupBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

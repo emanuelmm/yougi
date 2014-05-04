@@ -60,7 +60,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class AttendeeMBean implements Serializable {
 
-    static final Logger LOGGER = Logger.getLogger(AttendeeMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(AttendeeMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 

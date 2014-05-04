@@ -38,8 +38,6 @@ import java.util.logging.Logger;
 @RequestScoped
 public class CertificateMBean {
 
-    static final Logger LOGGER = Logger.getLogger(CertificateMBean.class.getSimpleName());
-
     @EJB
     private AttendeeBean attendeeBean;
 

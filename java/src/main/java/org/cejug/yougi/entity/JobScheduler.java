@@ -37,7 +37,6 @@ import java.util.logging.Logger;
 @DiscriminatorColumn(name = "frequency_type")
 public abstract class JobScheduler implements Serializable, Identified {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(JobScheduler.class.getSimpleName());
 
     @Id
     private String id;

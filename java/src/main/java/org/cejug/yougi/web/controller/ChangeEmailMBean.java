@@ -25,7 +25,6 @@ import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.util.StringUtils;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -45,7 +44,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ChangeEmailMBean {
 
-    static final Logger LOGGER = Logger.getLogger(ChangeEmailMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ChangeEmailMBean.class.getSimpleName());
 
     @EJB
     private UserAccountBean userAccountBean;

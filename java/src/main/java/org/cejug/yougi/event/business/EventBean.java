@@ -47,6 +47,8 @@ import java.util.logging.Logger;
 @Stateless
 public class EventBean extends AbstractBean<Event> {
 
+    private static final Logger LOGGER = Logger.getLogger(EventBean.class.getSimpleName());
+
     @PersistenceContext
     private EntityManager em;
 
@@ -58,8 +60,6 @@ public class EventBean extends AbstractBean<Event> {
 
     @EJB
     private MessageTemplateBean messageTemplateBean;
-
-    static final Logger LOGGER = Logger.getLogger(EventBean.class.getSimpleName());
 
     public EventBean() {
         super(Event.class);

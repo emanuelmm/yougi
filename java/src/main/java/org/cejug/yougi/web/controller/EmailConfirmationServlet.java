@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  */
 public class EmailConfirmationServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(EmailConfirmationServlet.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(EmailConfirmationServlet.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 

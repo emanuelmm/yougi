@@ -35,8 +35,6 @@ import java.util.logging.Logger;
 @Dependent
 public class MailingListProcessor implements ItemProcessor {
 
-    private static final Logger LOGGER = Logger.getLogger(MailingListProcessor.class.getSimpleName());
-
     @Override
     public MailingListMessage processItem(Object msg) throws Exception {
         Message message = (Message) msg;

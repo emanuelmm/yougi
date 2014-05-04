@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 @Stateless
 public class AuthenticationBean {
 
-    static final Logger LOGGER = Logger.getLogger(AuthenticationBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(AuthenticationBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

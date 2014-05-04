@@ -52,7 +52,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class UserAccountMBean implements Serializable {
 
-    static final Logger LOGGER = Logger.getLogger(UserAccountMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(UserAccountMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 

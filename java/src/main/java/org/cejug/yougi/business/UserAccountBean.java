@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 @Stateless
 public class UserAccountBean extends AbstractBean<UserAccount> {
 
-    static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
 
     @EJB
     private AccessGroupBean accessGroupBean;

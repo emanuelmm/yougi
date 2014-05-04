@@ -41,8 +41,6 @@ public class MailingListBean extends AbstractBean<MailingList> {
     @PersistenceContext
     private EntityManager em;
 
-    static final Logger LOGGER = Logger.getLogger(MailingListBean.class.getSimpleName());
-
     public MailingListBean() {
         super(MailingList.class);
     }

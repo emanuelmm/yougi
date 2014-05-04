@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 @Stateless
 public class AttendeeBean extends AbstractBean<Attendee> {
 
-    static final Logger LOGGER = Logger.getLogger(AttendeeBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(AttendeeBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

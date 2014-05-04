@@ -54,7 +54,7 @@ import java.util.logging.Logger;
 @SessionScoped
 public class MemberMBean implements Serializable {
 
-    static final Logger LOGGER = Logger.getLogger(MemberMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(MemberMBean.class.getSimpleName());
 
     private static final long serialVersionUID = 1L;
 

@@ -43,8 +43,6 @@ import java.util.logging.Logger;
 @ViewScoped
 public class VenueSelectionMBean {
 
-    static final Logger LOGGER = Logger.getLogger(VenueSelectionMBean.class.getSimpleName());
-
     @EJB
     private VenueBean venueBean;
 

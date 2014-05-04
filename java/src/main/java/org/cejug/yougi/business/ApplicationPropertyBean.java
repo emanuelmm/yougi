@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 @Stateless
 public class ApplicationPropertyBean {
 
-    static final Logger LOGGER = Logger.getLogger(ApplicationPropertyBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ApplicationPropertyBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;

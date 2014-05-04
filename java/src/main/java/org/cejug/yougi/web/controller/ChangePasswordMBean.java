@@ -52,7 +52,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ChangePasswordMBean {
 
-    static final Logger LOGGER = Logger.getLogger(ChangePasswordMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ChangePasswordMBean.class.getSimpleName());
 
     @EJB
     private UserAccountBean userAccountBean;

@@ -48,8 +48,6 @@ import java.util.logging.Logger;
 @RequestScoped
 public class EventMBean {
 
-    static final Logger LOGGER = Logger.getLogger(EventMBean.class.getSimpleName());
-
     @EJB
     private EventBean eventBean;
 

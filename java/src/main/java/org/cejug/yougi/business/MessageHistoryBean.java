@@ -35,8 +35,6 @@ import java.util.logging.Logger;
 @Stateless
 public class MessageHistoryBean extends AbstractBean<MessageHistory> {
 
-    static final Logger LOGGER = Logger.getLogger(MessageHistoryBean.class.getSimpleName());
-
     @PersistenceContext
     private EntityManager em;
 

@@ -54,7 +54,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class PartnershipMBean {
 
-    static final Logger LOGGER = Logger.getLogger(PartnershipMBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(PartnershipMBean.class.getSimpleName());
 
     @EJB
     private RepresentativeBean representativeBean;

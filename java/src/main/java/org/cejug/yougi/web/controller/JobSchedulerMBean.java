@@ -39,8 +39,6 @@ import java.util.logging.Logger;
 @RequestScoped
 public class JobSchedulerMBean {
 
-    private static final Logger LOGGER = Logger.getLogger(JobSchedulerMBean.class.getSimpleName());
-
     @EJB
     private JobSchedulerBean jobSchedulerBean;
 

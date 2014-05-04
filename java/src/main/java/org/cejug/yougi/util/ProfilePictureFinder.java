@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 @RequestScoped
 public class ProfilePictureFinder {
 
-    static final Logger LOGGER = Logger.getLogger(ProfilePictureFinder.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ProfilePictureFinder.class.getSimpleName());
 
     public String getPictureFromEmail(String email) throws IOException {
         return this.validateUrl( getGravatarImageUrl(email , 85) );
