@@ -178,7 +178,7 @@ public class AttendeeMBean implements Serializable {
             }
 
             List<Venue> venues = eventVenueBean.findEventVenues(this.attendee.getEvent());
-            System.out.println("Venues: " + venues);
+
             this.attendee.getEvent().setVenues(venues);
             this.attendee.generateCertificateData();
             this.attendeeBean.save(this.attendee);
