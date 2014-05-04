@@ -21,18 +21,36 @@
 package org.cejug.yougi.entity;
 
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UserGroupTest {
+	
+	UserGroup usergrp = new UserGroup();
+	UserAccount user = new UserAccount();
+	AccessGroup access = new AccessGroup();
+	Authentication auth = new Authentication();
+	
     @Test
     public void testSetAuthentication() throws Exception {
+    	auth.setPassword("abc");
+    	auth.setUserAccount(user);
+    	auth.setUsername("Test");
+    	usergrp.setAuthentication(auth);
+    	Assert.assertNotNull(usergrp);
 
     }
 
     @Test
     public void testGetAccessGroup() throws Exception {
+    	access.setId("01");
+    	access.setName("admin");
+    	access.setDescription("admin");
+    	access.setUserDefault(true);
+    	usergrp.setAccessGroup(access);
+    	Assert.assertNotNull(usergrp.getAccessGroup());
 
     }
 }
