@@ -77,7 +77,7 @@ public class UserGroupBean {
                     .setParameter("userAccount", userAccount)
                     .setParameter("accessGroup", accessGroup)
                     .getSingleResult();
-            return (userGroup != null);
+            return userGroup != null;
         } catch (NoResultException nre) {
             LOGGER.log(Level.INFO, nre.getMessage(), nre);
             return false;

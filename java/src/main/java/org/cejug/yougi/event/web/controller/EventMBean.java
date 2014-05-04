@@ -144,7 +144,7 @@ public class EventMBean {
      * not mean that s(he) actually attended it.
      */
     public Boolean getIsAttending() {
-        return (this.attendee != null && this.attendee.getId() != null);
+        return this.attendee != null && this.attendee.getId() != null;
     }
 
     /**

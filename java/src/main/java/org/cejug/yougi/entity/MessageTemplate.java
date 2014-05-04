@@ -149,7 +149,7 @@ public class MessageTemplate implements Serializable, Identified {
             return false;
         }
         final MessageTemplate other = (MessageTemplate) obj;
-        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
+        if (this.id == null ? other.id != null : !this.id.equals(other.id)) {
             return false;
         }
         return true;

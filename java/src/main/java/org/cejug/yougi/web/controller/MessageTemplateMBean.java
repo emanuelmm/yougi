@@ -87,6 +87,6 @@ public class MessageTemplateMBean {
     }
 
     public Boolean getExistent() {
-        return (messageTemplate.getId() != null && !messageTemplate.getId().isEmpty());
+        return messageTemplate.getId() != null && !messageTemplate.getId().isEmpty();
     }
 }

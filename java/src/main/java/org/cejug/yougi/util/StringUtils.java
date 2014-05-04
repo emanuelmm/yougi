@@ -30,6 +30,6 @@ public enum StringUtils {
     INSTANCE;
 
     public boolean isNullOrBlank(String property) {
-        return (property == null || property.trim().isEmpty());
+        return property == null || property.trim().isEmpty();
     }
 }

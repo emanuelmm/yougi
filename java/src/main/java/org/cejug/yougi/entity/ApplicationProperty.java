@@ -81,7 +81,7 @@ public class ApplicationProperty implements Serializable {
             return false;
         }
         final ApplicationProperty other = (ApplicationProperty) obj;
-        if ((this.propertyKey == null) ? (other.propertyKey != null) : !this.propertyKey.equals(other.propertyKey)) {
+        if (this.propertyKey == null ? other.propertyKey != null : !this.propertyKey.equals(other.propertyKey)) {
             return false;
         }
         return true;

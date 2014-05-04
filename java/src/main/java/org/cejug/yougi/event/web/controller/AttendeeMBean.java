@@ -120,11 +120,11 @@ public class AttendeeMBean implements Serializable {
     }
 
     public Boolean getIsAttending() {
-        return (this.attendee != null && this.attendee.getId() != null);
+        return this.attendee != null && this.attendee.getId() != null;
     }
 
     public Boolean getAttended() {
-        return (this.attendee != null && this.attendee.getAttended() != null && this.attendee.getAttended());
+        return this.attendee != null && this.attendee.getAttended() != null && this.attendee.getAttended();
     }
 
     public List<Event> getAttendedEvents() {

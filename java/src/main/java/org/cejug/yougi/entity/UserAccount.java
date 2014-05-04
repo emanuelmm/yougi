@@ -474,7 +474,7 @@ public class UserAccount implements Serializable, Identified {
             return false;
         }
         final UserAccount other = (UserAccount) obj;
-        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
+        if (this.id == null ? other.id != null : !this.id.equals(other.id)) {
             return false;
         }
         return true;
