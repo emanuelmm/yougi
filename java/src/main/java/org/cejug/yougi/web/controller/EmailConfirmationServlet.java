@@ -22,6 +22,7 @@ package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.StringUtils;
 
 import javax.ejb.EJB;
@@ -90,7 +91,7 @@ public class EmailConfirmationServlet extends HttpServlet {
             if(userAccount != null) {
                 response.sendRedirect("login.xhtml");
             } else {
-                throw new Exception();
+                throw new BusinessLogicException("User account is null");
             }
         } catch (Exception e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
