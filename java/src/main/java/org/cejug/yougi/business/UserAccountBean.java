@@ -32,6 +32,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -218,7 +219,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      */
     public List<UserAccount> findInhabitantsFrom(City city) {
         if(EntitySupport.INSTANCE.isIdNotValid(city)) {
-            return null;
+            return new ArrayList<>();
         }
 
         City existingCity = cityBean.find(city.getId());

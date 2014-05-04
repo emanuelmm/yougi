@@ -27,6 +27,7 @@ import org.cejug.yougi.event.entity.Venue;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class VenueBean extends AbstractBean<Venue> {
 
     public List<Venue> findEventVenues(Event event) {
         if(event == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         List<Venue> venues = em.createQuery("select ev.venue from EventVenue ev where ev.event = :event", Venue.class)

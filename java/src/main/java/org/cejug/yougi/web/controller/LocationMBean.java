@@ -101,7 +101,7 @@ public class LocationMBean implements Serializable {
             this.provinces = provinceBean.findByCountry(country);
             return this.provinces;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

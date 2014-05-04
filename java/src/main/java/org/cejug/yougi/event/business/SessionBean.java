@@ -188,7 +188,7 @@ public class SessionBean extends AbstractBean<SessionEvent> {
     public List<SessionEvent> findRelatedSessions(SessionEvent session) {
         String strTopics = session.getTopics();
         if(strTopics == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         StringTokenizer st = new StringTokenizer(strTopics, ",");
