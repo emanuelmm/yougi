@@ -65,12 +65,12 @@ public class JobDailyScheduler extends JobScheduler {
 
         /* If the updated start time falls down in the weekend and the scheduler only considers working days, then the
         * start time is incremented until it reaches the first working day of the week, which is monday. */
-        if(workingDaysOnly) {
-            if(startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
-               startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-                    startTime.add(Calendar.DAY_OF_YEAR, 1);
-                }
+        if(workingDaysOnly &&
+           (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+           startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+
+            while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                startTime.add(Calendar.DAY_OF_YEAR, 1);
             }
         }
 

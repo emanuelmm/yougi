@@ -136,10 +136,8 @@ public class SpeakerMBean implements Serializable {
     }
 
     public List<Event> getEvents() {
-        if (this.events == null) {
-            if(this.speaker != null) {
-                this.events = sessionBean.findEventsSpeaker(this.speaker);
-            }
+        if(this.events == null && this.speaker != null) {
+            this.events = sessionBean.findEventsSpeaker(this.speaker);
         }
         return this.events;
     }
