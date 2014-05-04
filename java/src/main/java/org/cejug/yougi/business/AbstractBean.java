@@ -47,13 +47,15 @@ public abstract class AbstractBean<T extends Identified> {
      * @param entity Any entity class that implements Identified.
      */
     public T save(T entity) {
+        T persistedEntity;
         if(EntitySupport.INSTANCE.isIdNotValid(entity)) {
             entity.setId(EntitySupport.INSTANCE.generateEntityId());
             getEntityManager().persist(entity);
+            persistedEntity = entity;
         } else {
-            entity = getEntityManager().merge(entity);
+            persistedEntity = getEntityManager().merge(entity);
         }
-        return entity;
+        return persistedEntity;
     }
 
     public void remove(String id) {

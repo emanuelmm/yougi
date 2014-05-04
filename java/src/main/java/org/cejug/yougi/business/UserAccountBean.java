@@ -126,9 +126,9 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
     public UserAccount findByWebsite(String website) {
         try {
-            website = UrlUtils.INSTANCE.removeProtocol(website);
+            String websiteWithoutProtocol = UrlUtils.INSTANCE.removeProtocol(website);
             return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.website like :website")
-                    .setParameter("website", "%" + website + "%")
+                    .setParameter("website", "%" + websiteWithoutProtocol + "%")
                     .getSingleResult();
         } catch(NoResultException nre) {
             LOGGER.log(Level.INFO, nre.getMessage(), nre);

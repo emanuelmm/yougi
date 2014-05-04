@@ -30,31 +30,34 @@ public enum UrlUtils {
     private static final String HTTPS = "https://";
 
     public String setProtocol(String url) {
+        String urlWithProtocol = url;
         if(url != null && !(url.contains(HTTP) || url.contains(HTTPS))) {
-            url = HTTP + url;
+            urlWithProtocol = HTTP + url;
         }
-        return url;
+        return urlWithProtocol;
     }
 
     public String removeProtocol(String url) {
+        String urlWithoutProtocol = url;
         if(url.contains(HTTP)) {
-            url = url.replace(HTTP, "");
+            urlWithoutProtocol = url.replace(HTTP, "");
         } else if(url.contains(HTTPS)) {
-            url = url.replace(HTTPS, "");
+            urlWithoutProtocol = url.replace(HTTPS, "");
         }
-        return url;
+        return urlWithoutProtocol;
     }
 
     public String concatUrlFragment(String url, String fragment) {
+        String urlWithFragment = url;
         if(url.endsWith("/") && fragment.startsWith("/")) {
-            url = url + fragment.substring(1);
+            urlWithFragment = url + fragment.substring(1);
         } else if((url.endsWith("/") && !fragment.startsWith("/")) ||
                 (!url.endsWith("/") && fragment.startsWith("/"))) {
-            url = url + fragment;
+            urlWithFragment = url + fragment;
         } else {
-            url = url + "/" + fragment;
+            urlWithFragment = url + "/" + fragment;
         }
-        return url;
+        return urlWithFragment;
     }
 
     public boolean isRelative(String url) {

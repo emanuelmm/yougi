@@ -194,17 +194,17 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
     @Override
     public JobScheduler save(JobScheduler jobScheduler) {
-        jobScheduler = super.save(jobScheduler);
+        JobScheduler persistentJobScheduler = super.save(jobScheduler);
 
         try {
-            JobExecution jobExecution = jobScheduler.getNextJobExecution();
+            JobExecution jobExecution = persistentJobScheduler.getNextJobExecution();
             LOGGER.log(Level.INFO, "Job execution: {0}", jobExecution);
             jobExecutionBean.save(jobExecution);
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
 
-        return jobScheduler;
+        return persistentJobScheduler;
     }
 
     @Timeout

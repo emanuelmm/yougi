@@ -53,11 +53,11 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     @Override
     public JobExecution save(JobExecution jobExecution) {
-        jobExecution = super.save(jobExecution);
+        JobExecution persistentJobExecution = super.save(jobExecution);
 
-        Timer timer = timerService.createTimer(jobExecution.getStartTime(), jobExecution.getId());
+        Timer timer = timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
 
-        return jobExecution;
+        return persistentJobExecution;
     }
 
     @Timeout

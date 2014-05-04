@@ -219,8 +219,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
             }
             if(isFeedURL(feedUrl)) {
                 if(UrlUtils.INSTANCE.isRelative(feedUrl)) {
-                    urlWebsite = UrlUtils.INSTANCE.setProtocol(urlWebsite);
-                    feedUrl = UrlUtils.INSTANCE.concatUrlFragment(urlWebsite, feedUrl);
+                    feedUrl = UrlUtils.INSTANCE.concatUrlFragment(UrlUtils.INSTANCE.setProtocol(urlWebsite), feedUrl);
                 }
                 break;
             }
