@@ -206,12 +206,12 @@ public abstract class JobScheduler implements Serializable, Identified {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof JobScheduler)) return false;
+        if (this == o) { return true; }
+        if (!(o instanceof JobScheduler)) { return false; }
 
         JobScheduler that = (JobScheduler) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) { return false; }
 
         return true;
     }
