@@ -26,13 +26,22 @@ import java.util.TimeZone;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class TextUtilsTest {
-	private Date date = new Date();
+	Date date;
+	SimpleDateFormat sdf, sdft;
+	
+	@Before
+	public void setUp(){
+		date = new Date();
+		sdf = new SimpleDateFormat("HH:mm:ss");
+		sdft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	}
 	
     @Test
     public void testCapitalizeFirstCharWords() throws Exception {
@@ -48,7 +57,6 @@ public class TextUtilsTest {
 
     @Test
     public void testGetFormattedTime() throws Exception {
-    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     	Assert.assertEquals(sdf.format(date), TextUtils.INSTANCE.getFormattedTime(date, "HH:mm:ss", "UTC"));
 
@@ -56,10 +64,8 @@ public class TextUtilsTest {
 
     @Test
     public void testGetFormattedDateTime() throws Exception {
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        TimeZone timeZone = TimeZone.getTimeZone("GMT-8:00");
-        sdf.setTimeZone(timeZone);
-    	Assert.assertEquals(sdf.format(date), TextUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
+        sdft.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
+    	Assert.assertEquals(sdft.format(date), TextUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
 
 
     }
