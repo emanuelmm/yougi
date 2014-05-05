@@ -51,7 +51,7 @@ public class TextUtilsTest {
 
     @Test
     public void testGetFormattedDate() throws Exception {
-    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), TextUtils.INSTANCE.getFormattedDate(date, "dd-L-Y"));
+    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), TextUtils.INSTANCE.getFormattedDate(date, "dd-M-yyyy"));
 
     }
 
