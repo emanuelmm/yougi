@@ -20,29 +20,40 @@
  * */
 package org.cejug.yougi.util;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class UrlUtilsTest {
     @Test
     public void testSetProtocol() throws Exception {
+    	Assert.assertEquals("http://newurltest.com", UrlUtils.INSTANCE.setProtocol("newurltest.com"));
 
     }
 
     @Test
     public void testRemoveProtocol() throws Exception {
+    	Assert.assertEquals("newurltest.com", UrlUtils.INSTANCE.removeProtocol("http://newurltest.com"));
+    	Assert.assertEquals("newurltest.com", UrlUtils.INSTANCE.removeProtocol("https://newurltest.com"));
 
     }
 
     @Test
     public void testConcatUrlFragment() throws Exception {
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com/", "/yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com/", "yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com", "/yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com", "yougi"));
 
     }
 
     @Test
     public void testIsRelative() throws Exception {
+    	Assert.assertFalse(UrlUtils.INSTANCE.isRelative("http://newurltest.com"));
+    	Assert.assertTrue(UrlUtils.INSTANCE.isRelative("newurltest.com"));
 
     }
 }
