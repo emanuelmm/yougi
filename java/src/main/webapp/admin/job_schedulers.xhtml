@@ -70,6 +70,10 @@
                                 <f:convertDateTime pattern="HH:mm"/>
                             </h:outputText>
                         </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
+                            <h:graphicImage rendered="#{jobScheduler.active}" url="/images/success-icon.png"/>
+                        </h:column>
                     </h:dataTable>
                 </h:form>
             </ui:define>

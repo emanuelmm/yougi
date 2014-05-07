@@ -36,15 +36,17 @@
             <div class="jumbotron">
                 <div class="container">
                     <h2 class="text-primary">
-                        <h:link value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}">
+                        <h:link id="titleMainPublicContent" value="#{frontPageMBean.mainPublicContent.title}" outcome="#{frontPageMBean.mainPublicContent.url}" rendered="#{! empty frontPageMBean.mainPublicContent}">
                             <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
                         </h:link>
-                        <small><h:outputText value="#{bundle.by} " rendered="#{! empty frontPageMBean.mainPublicContent.author}"/>
-                            <h:outputText value="#{frontPageMBean.mainPublicContent.author}" rendered="#{! empty frontPageMBean.mainPublicContent.author}"/></small>
+                        <small>
+                            <h:outputText value="#{bundle.by} " rendered="#{! empty frontPageMBean.mainPublicContent.author}"/>
+                            <h:outputText value="#{frontPageMBean.mainPublicContent.author}" rendered="#{! empty frontPageMBean.mainPublicContent.author}"/>
+                        </small>
                     </h2>
                     <p><h:outputText value="#{frontPageMBean.mainPublicContent.summary}" escape="false"/></p>
                     <p class="text-right">
-                        <h:link value="#{bundle.readMore}..." outcome="#{frontPageMBean.mainPublicContent.url}">
+                        <h:link id="readMoreMainPublicContent" value="#{bundle.readMore}..." outcome="#{frontPageMBean.mainPublicContent.url}" rendered="#{! empty frontPageMBean.mainPublicContent}">
                             <f:param name="id" value="#{frontPageMBean.mainPublicContent.id}"/>
                         </h:link>
                     </p>
