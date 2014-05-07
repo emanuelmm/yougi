@@ -31,7 +31,7 @@
                 <h1>#{bundle.venues}</h1>
                 <h:form>
                     <p><h:link outcome="venue_form" value="#{bundle.newVenue}" rendered="#{securityBackingMBean.isUserLeader}"/></p>
-                    <h:dataTable value="#{venueMBean.venues}" var="venue" styleClass="table table-striped table-bordered">
+                    <h:dataTable value="#{venueMBean.venues}" var="venue" styleClass="table table-striped">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="venue" value="#{venue.name}">

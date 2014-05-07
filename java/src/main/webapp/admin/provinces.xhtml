@@ -33,7 +33,7 @@
                 <p><h:link outcome="province" value="#{bundle.new} #{bundle.province}"/></p>
 
                 <h:form>
-                    <h:dataTable id="provinces" value="#{provinceMBean.provinces}" var="province" styleClass="table table-striped table-bordered">
+                    <h:dataTable id="provinces" value="#{provinceMBean.provinces}" var="province" styleClass="table table-striped">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="province" value="#{province.name}">
@@ -48,7 +48,6 @@
                     </h:dataTable>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
         </ui:composition>
     </h:body>
 </html>

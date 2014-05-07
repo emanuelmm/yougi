@@ -32,7 +32,7 @@
                 <h1>#{bundle.mailingLists}</h1>
             </div>
                 <h:form>
-                    <h:dataTable value="#{mailingListMBean.mailingLists}" var="mailingList" styleClass="table">
+                    <h:dataTable value="#{mailingListMBean.mailingLists}" var="mailingList" styleClass="table table-striped">
                         <f:facet name="header">
                             <h:button outcome="mailing_list" value="#{bundle.new}" styleClass="btn btn-default pull-right" rendered="#{securityBackingMBean.isUserLeader}"/>
                         </f:facet>

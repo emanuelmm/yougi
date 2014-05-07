@@ -136,19 +136,19 @@
                                             <h:outputLabel for="event" value="#{bundle.activated}"/>
                                         </h:panelGrid>
 
-                                        <p:dataTable var="evt" value="#{memberMBean.attendedEvents}">
+                                        <h:dataTable var="evt" value="#{memberMBean.attendedEvents}" styleClass="table table-striped">
                                             <f:facet name="header"><h:outputText value="#{bundle.attendedEvents}"/></f:facet>
-                                            <p:column>
+                                            <h:column>
                                                 <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                                 <h:outputText value="#{evt.name}"/>
-                                            </p:column>
-                                            <p:column>
+                                            </h:column>
+                                            <h:column>
                                                 <f:facet name="header"><h:outputText value="#{bundle.date}"/></f:facet>
                                                 <h:outputText value="#{evt.startDate}">
                                                     <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
                                                 </h:outputText>
-                                            </p:column>
-                                        </p:dataTable>
+                                            </h:column>
+                                        </h:dataTable>
                                     </p:tab>
                                     <p:tab title="#{bundle.news}" rendered="#{memberMBean.userAccount.news}">
                                         <h:selectBooleanCheckbox id="news" label="#{bundle.news}" value="#{memberMBean.userAccount.news}"/>
@@ -203,18 +203,18 @@
                             <h:inputHidden id="id" value="#{memberMBean.userAccount.id}"/>
                         </p:tab>
                         <p:tab title="#{bundle.messages}">
-                            <p:dataTable var="historicMessage" value="#{memberMBean.historicMessages}">
-                                <p:column>
+                            <h:dataTable var="historicMessage" value="#{memberMBean.historicMessages}" styleClass="table table-striped">
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.subject}"/></f:facet>
                                     <h:outputText value="#{historicMessage.subject}"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.date}"/></f:facet>
                                     <h:outputText value="#{historicMessage.dateSent}">
                                         <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
                                     </h:outputText>
-                                </p:column>
-                            </p:dataTable>
+                                </h:column>
+                            </h:dataTable>
                         </p:tab>
                     </p:tabView>
 

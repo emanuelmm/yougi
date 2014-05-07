@@ -68,60 +68,60 @@
                                 <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Z'}" value="Z" action="#{memberMBean.findUserAccountByFirstLetter('Z')}" styleClass="btn btn-default"/>
                             </div>
                             <p/>
-                            <p:dataTable value="#{memberMBean.userAccounts}" var="member">
-                                <p:column>
+                            <h:dataTable value="#{memberMBean.userAccounts}" var="member" styleClass="table table-striped">
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
                                     <h:commandLink value="#{member.firstName} #{member.lastName}" action="#{memberMBean.load(member.id)}"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
                                     <h:outputText value="#{member.postingEmail}"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.confirmed}"/></f:facet>
                                     <h:graphicImage rendered="#{member.confirmed}" url="/images/success-icon.png"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
                                     <h:outputText value="#{member.registrationDate}">
                                         <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                     </h:outputText>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.lastUpdate}"/></f:facet>
                                     <h:outputText value="#{member.lastUpdate}">
                                         <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                     </h:outputText>
-                                </p:column>
-                            </p:dataTable>
+                                </h:column>
+                            </h:dataTable>
                         </p:tab>
                         <p:tab title="#{bundle.deactivatedMembers}">
-                            <p:dataTable value="#{memberMBean.deactivatedUserAccounts}" var="deactivated">
-                                <p:column>
+                            <h:dataTable value="#{memberMBean.deactivatedUserAccounts}" var="deactivated">
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
                                     <h:commandLink value="#{deactivated.firstName} #{deactivated.lastName}" action="#{memberMBean.load(deactivated.id)}"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
                                     <h:outputText value="#{deactivated.email}"/>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.type}"/></f:facet>
                                     <h:outputText value="#{deactivated.deactivationType}">
                                         <f:converter converterId="DeactivationTypeEnumToString"/>
                                     </h:outputText>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.date}"/></f:facet>
                                     <h:outputText value="#{deactivated.deactivationDate}">
                                         <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
                                     </h:outputText>
-                                </p:column>
-                                <p:column>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.reason}"/></f:facet>
                                     <h:outputText value="#{deactivated.deactivationReason}"/>
-                                </p:column>
-                            </p:dataTable>
+                                </h:column>
+                            </h:dataTable>
                         </p:tab>
                         <p:tab title="#{bundle.privacy}">
                             <!--<p:barChart value="#{communicationPrivacyRange.communicationPrivacyModel}" legendPosition="ne" stacked="true" xaxisLabel="#{range.rangeName}"/>-->

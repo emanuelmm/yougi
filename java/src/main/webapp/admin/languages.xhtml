@@ -30,7 +30,7 @@
             <ui:define name="content">
                 <h1>#{bundle.languages}</h1>
                 <h:form>
-                    <h:dataTable value="#{languageMBean.languages}" var="language" styleClass="table">
+                    <h:dataTable value="#{languageMBean.languages}" var="language" styleClass="table table-striped">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                             <h:link outcome="language" value="#{language.name}">

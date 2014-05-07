@@ -32,7 +32,7 @@
                     <h1>#{bundle.projects}</h1>
                 </div>
                 <h:form>
-                    <h:dataTable value="#{projectMBean.projects}" var="project" styleClass="table">
+                    <h:dataTable value="#{projectMBean.projects}" var="project" styleClass="table table-striped">
                         <f:facet name="header">
                             <h:button outcome="project_form" value="#{bundle.new}" styleClass="btn btn-default pull-right"/>
                         </f:facet>

@@ -32,7 +32,7 @@
                     <h1>#{bundle.webSources}</h1>
                 </div>
                 <h:form>
-                    <h:dataTable value="#{webSourceMBean.webSources}" var="webSource" styleClass="table">
+                    <h:dataTable value="#{webSourceMBean.webSources}" var="webSource" styleClass="table table-striped">
                         <f:facet name="header">
                             <h:button outcome="web_source_form" value="#{bundle.new}" styleClass="btn btn-default" rendered="#{securityBackingMBean.isUserLeader}"/>
                         </f:facet>

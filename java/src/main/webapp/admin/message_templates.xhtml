@@ -30,7 +30,7 @@
             <ui:define name="content">
                 <h1>#{bundle.messageTemplates}</h1>
                 <h:form>
-                    <h:dataTable value="#{messageTemplateMBean.messageTemplates}" var="messageTemplate" styleClass="table">
+                    <h:dataTable value="#{messageTemplateMBean.messageTemplates}" var="messageTemplate" styleClass="table table-striped">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.title}"/></f:facet>
                             <h:link outcome="message_template" value="#{messageTemplate.title}">

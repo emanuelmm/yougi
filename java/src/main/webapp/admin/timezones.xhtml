@@ -31,7 +31,7 @@
                 <h1>#{bundle.timeZones}</h1>
                 <h:form>
                     <p><h:link outcome="timezone" value="#{bundle.newTimeZone}"/></p>
-                    <h:dataTable value="#{timezoneMBean.timezones}" var="tz" styleClass="table table-striped table-bordered">
+                    <h:dataTable value="#{timezoneMBean.timezones}" var="tz" styleClass="table table-striped">
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.id}"/></f:facet>
                             <h:link outcome="timezone" value="#{tz.id}">
