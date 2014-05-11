@@ -1,12 +1,13 @@
+# General
+/java/target/
+
 # Netbeans
 nbactions.xml
 
 # IntelliJ IDEA
-/.idea/
+/java/.idea/
 /scala/.idea
-/yougi.iml
-/.project
-/target/
+/java/yougi.iml
 
 # eclipse
 .classpath
@@ -28,4 +29,3 @@ nbactions.xml
 *~
 
 !/.gitignore
-src/main/resources/rebel.xml
