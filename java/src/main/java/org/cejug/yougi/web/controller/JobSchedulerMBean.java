@@ -23,12 +23,18 @@ package org.cejug.yougi.web.controller;
 import org.cejug.yougi.business.JobSchedulerBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
+import org.cejug.yougi.util.ResourceBundleHelper;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import java.util.List;
 
 /**
@@ -116,6 +122,20 @@ public class JobSchedulerMBean {
             this.userAccounts = userAccountBean.findAllActiveAccounts();
         }
         return this.userAccounts;
+    }
+
+    public void validateEndDate(FacesContext context, UIComponent component, Object value) {
+        String endDate = value.toString();
+
+        UIInput uiInputStartDate = (UIInput) component.getAttributes().get("startDate");
+        String startDate = uiInputStartDate.getSubmittedValue().toString();
+
+        UIInput uiInputStartTime = (UIInput) component.getAttributes().get("startTime");
+        String startTime = uiInputStartTime.getSubmittedValue().toString();
+
+
+
+        throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0005"), null));
     }
 
     @PostConstruct

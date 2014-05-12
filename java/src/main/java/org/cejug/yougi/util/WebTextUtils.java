@@ -64,7 +64,7 @@ public enum WebTextUtils {
             return "";
         }
 
-        return TextUtils.INSTANCE.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
+        return DateTimeUtils.INSTANCE.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
     }
 
     public String getFormattedTime(Date time, String timeZone) {
@@ -72,7 +72,7 @@ public enum WebTextUtils {
             return "";
         }
 
-        return TextUtils.INSTANCE.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
+        return DateTimeUtils.INSTANCE.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
     }
 
     public String getFormattedDateTime(Date dateTime, String timeZone) {
@@ -80,7 +80,7 @@ public enum WebTextUtils {
             return "";
         }
 
-        return TextUtils.INSTANCE.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
+        return DateTimeUtils.INSTANCE.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
     }
 
     public String printAddress(String address, Country country, Province province, City city, String postalCode) {

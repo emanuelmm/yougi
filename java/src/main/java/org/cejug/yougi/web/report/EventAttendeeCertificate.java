@@ -23,7 +23,7 @@ package org.cejug.yougi.web.report;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.cejug.yougi.event.entity.Attendee;
-import org.cejug.yougi.util.TextUtils;
+import org.cejug.yougi.util.DateTimeUtils;
 
 import java.io.IOException;
 
@@ -62,7 +62,7 @@ public class EventAttendeeCertificate extends PdfPageEventHelper {
         contentLine[3] = attendee.getCertificateEvent();
         contentLine[4] = "realizado na";
         contentLine[5] = attendee.getCertificateVenue();
-        contentLine[6] = "no dia " + TextUtils.INSTANCE.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
+        contentLine[6] = "no dia " + DateTimeUtils.INSTANCE.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
 
         Font normalFont = new Font(Font.FontFamily.HELVETICA, 24);
         Font largeFont = new Font(Font.FontFamily.HELVETICA, 28, Font.FontStyle.BOLD.ordinal());

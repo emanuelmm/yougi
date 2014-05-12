@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.cejug.yougi</groupId>
     <artifactId>yougi</artifactId>
-    <version>14.5.1</version>
+    <version>14.5.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Yougi</name>
@@ -39,11 +39,11 @@
     </description>
 
     <licenses>
-  		<license>
-    		<name>THE GNU LESSER GENERAL PUBLIC LICENSE, VERSION 2.1 (LGPL-2.1)</name>
-    		<url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
-  		</license>
-	</licenses>
+        <license>
+            <name>THE GNU LESSER GENERAL PUBLIC LICENSE, VERSION 2.1 (LGPL-2.1)</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

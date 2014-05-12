@@ -27,7 +27,7 @@ import org.cejug.yougi.entity.EmailMessage;
 import org.cejug.yougi.entity.MessageTemplate;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.event.entity.Event;
-import org.cejug.yougi.util.TextUtils;
+import org.cejug.yougi.util.DateTimeUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -111,9 +111,9 @@ public class EventBean extends AbstractBean<Event> {
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("event.name", event.getName());
         messageTemplate.setVariable("event.venue", "");
-        messageTemplate.setVariable("event.startDate", TextUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
-        messageTemplate.setVariable("event.startTime", TextUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
-        messageTemplate.setVariable("event.endTime", TextUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
+        messageTemplate.setVariable("event.startDate", DateTimeUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
+        messageTemplate.setVariable("event.startTime", DateTimeUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
+        messageTemplate.setVariable("event.endTime", DateTimeUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 

@@ -63,8 +63,8 @@
                     <div class="form-group">
                         <h:outputLabel for="emailConfirmation" value="#{bundle.confirmEmail}" class="col-md-2 control-label"/>
                         <div class="col-md-10">
-                            <h:inputText id="mailConfirmation" label="#{bundle.confirmEmail}" required="true" maxlength="100" value="#{userAccountMBean.userAccount.emailConfirmation}" onchange="formatEmail(this);" validator="#{userAccountMBean.validateEmailConfirmation}" style="width: 400px;" styleClass="form-control"/>
-                            <h:message for="mailConfirmation" errorClass="errorMessage"/>
+                            <h:inputText id="emailConfirmation" label="#{bundle.confirmEmail}" required="true" maxlength="100" value="#{userAccountMBean.userAccount.emailConfirmation}" onchange="formatEmail(this);" validator="#{userAccountMBean.validateEmailConfirmation}" style="width: 400px;" styleClass="form-control"/>
+                            <h:message for="emailConfirmation" errorClass="errorMessage"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,7 +89,6 @@
                         </div>
                     </div>
                 </h:form>
-                <script src="#{request.contextPath}/resources/js/jquery-1.10.2.min.js"></script>
             </ui:define>
         </ui:composition>
     </body>

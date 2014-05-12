@@ -20,34 +20,42 @@
  * */
 package org.cejug.yougi.util;
 
+import junit.framework.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * This class groups a set of methods to deal with special text requirements
- * that are not already covered by the Java API.
- *
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
-public enum TextUtils {
+public class DateTimeUtilsTest {
+	Date date;
+	SimpleDateFormat sdf, sdft;
+	
+	@Before
+	public void setUp(){
+		date = new Date();
+		sdf = new SimpleDateFormat("HH:mm:ss");
+		sdft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	}
 
-    INSTANCE;
+    @Test
+    public void testGetFormattedDate() throws Exception {
+    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), DateTimeUtils.INSTANCE.getFormattedDate(date, "dd-M-yyyy"));
+    }
 
-    /**
-     * Receives a sentence and converts the first letter of each word to a
-     * capital letter and the rest of each word to lowercase.
-     */
-    public String capitalizeFirstCharWords(String sentence) {
-        final StringBuilder result = new StringBuilder(sentence.length());
-        String[] words = sentence.split("\\s");
-        for (int i = 0, length = words.length; i < length; ++i) {
-            if (i > 0) {
-                result.append(" ");
-            }
-            result.append(Character.toUpperCase(words[i].charAt(0)))
-                    .append(words[i].substring(1).toLowerCase());
-        }
-        return result.toString();
+    @Test
+    public void testGetFormattedTime() throws Exception {
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    	Assert.assertEquals(sdf.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "HH:mm:ss", "UTC"));
+    }
+
+    @Test
+    public void testGetFormattedDateTime() throws Exception {
+        sdft.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
+    	Assert.assertEquals(sdft.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
     }
 }
