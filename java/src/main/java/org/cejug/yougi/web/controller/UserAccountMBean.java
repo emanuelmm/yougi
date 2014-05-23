@@ -20,8 +20,10 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import org.cejug.yougi.business.CommunityBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.Authentication;
+import org.cejug.yougi.entity.Community;
 import org.cejug.yougi.entity.DeactivationType;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.qualifier.UserName;
@@ -42,6 +44,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +63,9 @@ public class UserAccountMBean implements Serializable {
 
     @EJB
     private UserAccountBean userAccountBean;
+
+    @EJB
+    private CommunityBean communityBean;
 
     @ManagedProperty(value="#{locationMBean}")
     private LocationMBean locationMBean;
@@ -80,6 +88,10 @@ public class UserAccountMBean implements Serializable {
     private String validationEmail;
 
     private Boolean validationPrivacy = false;
+    private Boolean hasMultipleCommunities;
+
+    private List<Community> existingCommunities;
+    private Map<String, Boolean> selectedCommunities;
 
     public UserAccountMBean() {
     }
@@ -124,6 +136,25 @@ public class UserAccountMBean implements Serializable {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public Map<String, Boolean> getSelectedCommunities() {
+        if(this.selectedCommunities == null) {
+            this.selectedCommunities = new HashMap<>();
+
+            if(this.existingCommunities == null) {
+                this.existingCommunities = communityBean.findAll();
+            }
+
+            for(Community community: this.existingCommunities) {
+                this.selectedCommunities.put(community.getName(), false);
+            }
+        }
+        return selectedCommunities;
+    }
+
+    public void setSelectedCommunities(Map<String, Boolean> selectedCommunities) {
+        this.selectedCommunities = selectedCommunities;
     }
 
     // Beginning of mail validation
@@ -250,6 +281,8 @@ public class UserAccountMBean implements Serializable {
         if(isFirstUser) {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoSuccessfulRegistration"), ""));
             return "login";
+        } else if(hasMultipleCommunities) {
+            return "registration_communities";
         } else {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoRegistrationConfirmationRequest"), ""));
             return "registration_confirmation";
@@ -323,5 +356,19 @@ public class UserAccountMBean implements Serializable {
              userAccount.getSponsor() ||
              userAccount.getSpeaker()) { return true; }
         return false;
+    }
+
+    public List<Community> getExistingCommunities() {
+        if(this.existingCommunities == null) {
+            this.existingCommunities = communityBean.findAll();
+        }
+        return this.existingCommunities;
+    }
+
+    public Boolean getHasMultipleCommunities() {
+        if(hasMultipleCommunities == null) {
+            this.hasMultipleCommunities = communityBean.hasMultipleCommunities();
+        }
+        return this.hasMultipleCommunities;
     }
 }
