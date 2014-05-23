@@ -3,7 +3,7 @@
 create table community (
   id          char(32)     not null,
   name        varchar(255) not null,
-  description text             null,
+  description text             null
 ) engine = innodb;
 
 alter table community add constraint pk_community primary key (id);
