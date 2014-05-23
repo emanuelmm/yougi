@@ -106,7 +106,7 @@
                                 <h:panelGroup id="panelStartDate" rendered="#{jobSchedulerMBean.frequencyType != 'INSTANT'}">
                                     <div class="form-group">
                                         <label for="startDate">#{bundle.startDate}</label><br/>
-                                        <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10"/>
+                                        <p:calendar id="startDate" label="#{bundle.startDate}" value="#{jobSchedulerMBean.jobScheduler.startDate}" pattern="#{bundle.formatDate}" required="true" size="10" validator="#{jobSchedulerMBean.validateStartDate}"/>
                                         <h:message for="startDate" errorClass="errorMessage"/>
                                     </div>
                                 </h:panelGroup>
@@ -115,8 +115,8 @@
                                 <h:panelGroup id="panelStartTime" rendered="#{jobSchedulerMBean.frequencyType != 'INSTANT'}">
                                     <div class="form-group">
                                         <label for="startTime">#{bundle.startHour}</label><br/>
-                                        <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true"/>
-                                        <h:message for="endDate" errorClass="errorMessage"/>
+                                        <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true" validator="#{jobSchedulerMBean.validateStartTime}"/>
+                                        <h:message for="startTime" errorClass="errorMessage"/>
                                     </div>
                                 </h:panelGroup>
                             </div>
@@ -124,7 +124,7 @@
                                 <h:panelGroup id="panelEndDate" rendered="#{jobSchedulerMBean.frequencyType != 'INSTANT' and jobSchedulerMBean.frequencyType != 'ONCE'}">
                                     <div class="form-group">
                                         <label for="endDate">#{bundle.endDate}</label><br/>
-                                        <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10"/>
+                                        <p:calendar id="endDate" label="#{bundle.endDate}" value="#{jobSchedulerMBean.jobScheduler.endDate}" pattern="#{bundle.formatDate}" size="10" validator="#{jobSchedulerMBean.validateEndDate}"/>
                                         <h:message for="endDate" errorClass="errorMessage"/>
                                     </div>
                                 </h:panelGroup>

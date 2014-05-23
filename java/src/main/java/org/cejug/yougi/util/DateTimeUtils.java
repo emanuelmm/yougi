@@ -20,7 +20,9 @@
  * */
 package org.cejug.yougi.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -60,5 +62,50 @@ public enum DateTimeUtils {
         TimeZone tz = TimeZone.getTimeZone(timezone);
         sdf.setTimeZone(tz);
         return sdf.format(dateTime);
+    }
+
+    /**
+     * @param date A date.
+     * @param dateFormat The expected format of the date.
+     * @return an instance of date equivalent to the informed string.
+     * */
+    public Date getDate(String date, String dateFormat) throws ParseException {
+        return new SimpleDateFormat(dateFormat).parse(date);
+    }
+
+    /**
+     * If date and time are treated separately, this method take both and return an instance of Date with the date and
+     * time defined as informed.
+     * @param date A date.
+     * @param dateFormat The expected format of the date.
+     * @param time A time.
+     * @param timeFormat The expected format of the time.
+     * @return an instance of date equivalent to the informed date and time.
+     * */
+    public Date getDateAndTime(String date, String dateFormat, String time, String timeFormat) throws ParseException {
+        SimpleDateFormat formatDate = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat formatTime = new SimpleDateFormat(timeFormat);
+
+        return mergeDateAndTime(formatDate.parse(date), formatTime.parse(time));
+    }
+
+    /**
+     * If date and time are treated separately, this method merge both and return an instance of Date with the date and
+     * time defined as informed.
+     * @param date A date.
+     * @param time A time.
+     * @return an instance of date equivalent to the informed date and time.
+     * */
+    public Date mergeDateAndTime(Date date, Date time) {
+        Calendar dateAndTime = Calendar.getInstance();
+        dateAndTime.setTime(date);
+
+        Calendar calTime = Calendar.getInstance();
+        calTime.setTime(time);
+
+        dateAndTime.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
+        dateAndTime.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+
+        return dateAndTime.getTime();
     }
 }

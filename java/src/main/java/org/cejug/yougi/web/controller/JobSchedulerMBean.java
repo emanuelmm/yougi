@@ -23,6 +23,7 @@ package org.cejug.yougi.web.controller;
 import org.cejug.yougi.business.JobSchedulerBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
+import org.cejug.yougi.util.DateTimeUtils;
 import org.cejug.yougi.util.ResourceBundleHelper;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -43,6 +48,8 @@ import java.util.List;
 @ManagedBean
 @RequestScoped
 public class JobSchedulerMBean {
+
+    private static final Logger LOGGER = Logger.getLogger(JobSchedulerMBean.class.getSimpleName());
 
     @EJB
     private JobSchedulerBean jobSchedulerBean;
@@ -61,6 +68,9 @@ public class JobSchedulerMBean {
 
     @ManagedProperty(value = "#{jobScheduleMBean}")
     private JobScheduleMBean jobScheduleMBean;
+
+    private Date startDate;
+    private Date startTime;
 
     public void setId(String userId) {
         this.id = userId;
@@ -124,18 +134,25 @@ public class JobSchedulerMBean {
         return this.userAccounts;
     }
 
+    public void validateStartDate(FacesContext context, UIComponent component, Object value) {
+        this.startDate = (Date)value;
+        LOGGER.log(Level.INFO, "startDate {0}", this.startDate);
+    }
+
+    public void validateStartTime(FacesContext context, UIComponent component, Object value) {
+        this.startTime = (Date)value;
+        LOGGER.log(Level.INFO, "startTime {0}", this.startTime);
+    }
+
     public void validateEndDate(FacesContext context, UIComponent component, Object value) {
-        String endDate = value.toString();
+        Date endDate = (Date)value;
 
-        UIInput uiInputStartDate = (UIInput) component.getAttributes().get("startDate");
-        String startDate = uiInputStartDate.getSubmittedValue().toString();
-
-        UIInput uiInputStartTime = (UIInput) component.getAttributes().get("startTime");
-        String startTime = uiInputStartTime.getSubmittedValue().toString();
-
-
-
-        throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0005"), null));
+        Date startDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(startDate, startTime);
+        LOGGER.log(Level.INFO, "startDateAndTime {0}", startDateAndTime);
+        LOGGER.log(Level.INFO, "endDate {0}", endDate);
+        if (startDateAndTime.compareTo(endDate) > 0) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0015"), null));
+        }
     }
 
     @PostConstruct

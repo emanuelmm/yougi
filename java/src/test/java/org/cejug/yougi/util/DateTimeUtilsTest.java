@@ -20,10 +20,11 @@
  * */
 package org.cejug.yougi.util;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -32,30 +33,43 @@ import java.util.TimeZone;
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class DateTimeUtilsTest {
-	Date date;
-	SimpleDateFormat sdf, sdft;
-	
-	@Before
-	public void setUp(){
-		date = new Date();
-		sdf = new SimpleDateFormat("HH:mm:ss");
-		sdft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	}
 
     @Test
     public void testGetFormattedDate() throws Exception {
+        Date date = new Date();
     	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), DateTimeUtils.INSTANCE.getFormattedDate(date, "dd-M-yyyy"));
     }
 
     @Test
     public void testGetFormattedTime() throws Exception {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     	Assert.assertEquals(sdf.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "HH:mm:ss", "UTC"));
     }
 
     @Test
     public void testGetFormattedDateTime() throws Exception {
+        Date date = new Date();
+        SimpleDateFormat sdft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         sdft.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
     	Assert.assertEquals(sdft.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
+    }
+
+    @Test
+    public void testGetDate() throws  Exception {
+        Date date = DateTimeUtils.INSTANCE.getDate("2014/09/12", "yyyy/MM/dd");
+        Assert.assertEquals(date.getTime(), 1410472800000L);
+        date = DateTimeUtils.INSTANCE.getDate("12/09/2014", "dd/MM/yyyy");
+        Assert.assertEquals(date.getTime(), 1410472800000L);
+    }
+
+    @Test
+    public void testGetDateAndTime() throws  Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date expectedDate = sdf.parse("2014/09/12 14:30");
+
+        Date date = DateTimeUtils.INSTANCE.getDateAndTime("12/09/2014", "dd/MM/yyyy", "14:30", "HH:mm");
+        Assert.assertEquals(date.getTime(), expectedDate.getTime());
     }
 }
