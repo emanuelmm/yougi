@@ -43,23 +43,23 @@
                                 <f:param name="eventId" value="#{sess.event.id}"/>
                             </h:link>
                         </h:column>
-                        <h:column style="text-align: right">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.room}"/></f:facet>
                             <h:outputText value="#{sess.room}"/>
                         </h:column>
-                        <h:column style="text-align: right">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.date}"/></f:facet>
                             <h:outputText value="#{sess.sessionDate}">
                                 <f:convertDateTime pattern="#{bundle.formatDate}" timeZone="#{userProfileMBean.timeZone}"/>
                             </h:outputText>
                         </h:column>
-                        <h:column style="text-align: right">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.start}"/></f:facet>
                             <h:outputText value="#{sess.startTime}">
                                 <f:convertDateTime pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
                             </h:outputText>
                         </h:column>
-                        <h:column style="text-align: right">
+                        <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.end}"/></f:facet>
                             <h:outputText value="#{sess.endTime}">
                                 <f:convertDateTime pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
