@@ -21,7 +21,9 @@
 package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.CommunityBean;
+import org.cejug.yougi.business.CommunityMemberBean;
 import org.cejug.yougi.entity.Community;
+import org.cejug.yougi.entity.CommunityMember;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -40,12 +42,16 @@ public class CommunityMBean {
     @EJB
     private CommunityBean communityBean;
 
+    @EJB
+    private CommunityMemberBean communityMemberBean;
+
     @ManagedProperty(value = "#{param.id}")
     private String id;
 
     private Community community;
 
     private List<Community> communities;
+    private List<CommunityMember> communityMembers;
 
     public CommunityMBean() {
     }
@@ -67,6 +73,13 @@ public class CommunityMBean {
             this.communities = communityBean.findAll();
         }
         return this.communities;
+    }
+
+    public List<CommunityMember> getCommunityMembers() {
+        if(this.communityMembers == null) {
+            this.communityMembers = communityMemberBean.findBy(this.community);
+        }
+        return this.communityMembers;
     }
 
     @PostConstruct

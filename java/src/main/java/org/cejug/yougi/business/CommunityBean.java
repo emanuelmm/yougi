@@ -26,7 +26,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -55,9 +54,16 @@ public class CommunityBean extends AbstractBean<Community> {
                  .getResultList();
     }
 
+    public Community findMainCommunity() {
+        List<Community> communities = em.createQuery("select c from Community c order by c.name asc", Community.class).getResultList();
+        if(!communities.isEmpty()) {
+            return communities.get(0);
+        }
+        return null;
+    }
+
     public boolean hasMultipleCommunities() {
         Long count = em.createQuery("select count(*) from Community", Long.class).getSingleResult();
-        LOGGER.log(Level.INFO, "Count: {0}", count);
         return count > 1L;
     }
 }

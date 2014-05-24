@@ -21,11 +21,9 @@
 package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.CommunityBean;
+import org.cejug.yougi.business.CommunityMemberBean;
 import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.Authentication;
-import org.cejug.yougi.entity.Community;
-import org.cejug.yougi.entity.DeactivationType;
-import org.cejug.yougi.entity.UserAccount;
+import org.cejug.yougi.entity.*;
 import org.cejug.yougi.qualifier.UserName;
 import org.cejug.yougi.util.ResourceBundleHelper;
 import org.cejug.yougi.util.StringUtils;
@@ -67,8 +65,14 @@ public class UserAccountMBean implements Serializable {
     @EJB
     private CommunityBean communityBean;
 
+    @EJB
+    private CommunityMemberBean communityMemberBean;
+
     @ManagedProperty(value="#{locationMBean}")
     private LocationMBean locationMBean;
+
+    @ManagedProperty(value = "#{param.id}")
+    private String id;
 
     @Inject
     private FacesContext context;
@@ -102,6 +106,10 @@ public class UserAccountMBean implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public UserAccount getUserAccount() {
@@ -141,20 +149,13 @@ public class UserAccountMBean implements Serializable {
     public Map<String, Boolean> getSelectedCommunities() {
         if(this.selectedCommunities == null) {
             this.selectedCommunities = new HashMap<>();
-
-            if(this.existingCommunities == null) {
-                this.existingCommunities = communityBean.findAll();
-            }
+            this.existingCommunities = getExistingCommunities();
 
             for(Community community: this.existingCommunities) {
-                this.selectedCommunities.put(community.getName(), false);
+                this.selectedCommunities.put(community.getId(), false);
             }
         }
         return selectedCommunities;
-    }
-
-    public void setSelectedCommunities(Map<String, Boolean> selectedCommunities) {
-        this.selectedCommunities = selectedCommunities;
     }
 
     // Beginning of mail validation
@@ -254,6 +255,8 @@ public class UserAccountMBean implements Serializable {
             if(this.userAccount.getTimeZone() != null) {
                 locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
             }
+        } else if(!StringUtils.INSTANCE.isNullOrBlank(this.id)) {
+            this.userAccount = userAccountBean.find(this.id);
         } else {
             this.userAccount = new UserAccount();
         }
@@ -278,15 +281,40 @@ public class UserAccountMBean implements Serializable {
             return "registration";
         }
 
+        if(!hasMultipleCommunities) {
+            Community community = communityBean.findMainCommunity();
+            if (community != null) {
+                CommunityMember communityMember = new CommunityMember(community, this.userAccount);
+                communityMemberBean.save(communityMember);
+            }
+        }
+
         if(isFirstUser) {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoSuccessfulRegistration"), ""));
             return "login";
         } else if(hasMultipleCommunities) {
-            return "registration_communities";
+            return "registration_communities?id=" + userAccount.getId();
         } else {
             context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoRegistrationConfirmationRequest"), ""));
             return "registration_confirmation";
         }
+    }
+
+    public String registerToCommunities() {
+        Community community;
+        CommunityMember communityMember;
+        this.userAccount = userAccountBean.find(this.userAccount.getId());
+
+        for (Map.Entry<String, Boolean> entry : this.selectedCommunities.entrySet()) {
+            if(entry.getValue()) {
+                community = communityBean.find(entry.getKey());
+                communityMember = new CommunityMember(community, this.userAccount);
+                communityMemberBean.save(communityMember);
+            }
+        }
+
+        context.addMessage(userId, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoRegistrationConfirmationRequest"), ""));
+        return "registration_confirmation";
     }
 
     public String savePersonalData() {

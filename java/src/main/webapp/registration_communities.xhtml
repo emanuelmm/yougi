@@ -29,25 +29,34 @@
             <ui:define name="title">#{bundle.registration}</ui:define>
             <ui:define name="content">
                 <div class="page-header">
-                    <h1>#{bundle.registration}</h1>
+                    <h1>#{bundle.communitiesRegistration}</h1>
                 </div>
 
                 <h:form class="form-horizontal">
                     <h:messages styleClass="alertMessage" globalOnly="true" infoClass="infoMessage" errorClass="errorMessage"/>
 
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>#{bundle.member}</dt>
+                            <dd>#{userAccountMBean.userAccount.fullName}</dd>
+                        </dl>
+                    </div>
+
+                    <h4>#{bundle.communitiesRegistrationMessage}</h4>
+
                     <div class="list-group">
                         <c:forEach var="community" items="#{userAccountMBean.existingCommunities}">
-                            <div class="row list-group-item">
-                                <div class="col-md-1"><h:selectBooleanCheckbox id="captchaEnabled" label="#{bundle.captchaEnabled}" value="#{userAccountMBean.selectedCommunities[community.name]}"/></div>
-                                <div class="col-md-11">
-                                    <h4 class="list-group-item-heading">#{community.name}</h4>
-                                    <p class="list-group-item-text">#{community.description}</p>
-                                </div>
+                            <div class="list-group-item checkbox">
+                                <h:selectBooleanCheckbox id="captchaEnabled" label="#{bundle.captchaEnabled}" value="#{userAccountMBean.selectedCommunities[community.id]}" style="margin-left: 2px; margin-right: 5px;"/>
+                                <h4 class="list-group-item-heading">#{community.name}</h4>
+                                <p class="list-group-item-text">#{community.description}</p>
                             </div>
                         </c:forEach>
                     </div>
 
-                    <h:commandButton value="#{bundle.register}" action="#{userAccountMBean.register}" styleClass="btn btn-primary"/>&nbsp;
+                    <h:inputHidden value="#{userAccountMBean.userAccount.id}"/>
+
+                    <h:commandButton value="#{bundle.finish}" action="#{userAccountMBean.registerToCommunities}" styleClass="btn btn-primary"/>
                     <h:button outcome="index" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>

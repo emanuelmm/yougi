@@ -22,6 +22,7 @@ package org.cejug.yougi.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -49,6 +50,13 @@ public class CommunityMember implements Serializable, Identified {
     private Boolean leader;
 
     public CommunityMember() {
+    }
+
+    public CommunityMember(Community community, UserAccount member) {
+        this.community = community;
+        this.member = member;
+        this.since = Calendar.getInstance().getTime();
+        this.leader = false;
     }
 
     public CommunityMember(String id) {
