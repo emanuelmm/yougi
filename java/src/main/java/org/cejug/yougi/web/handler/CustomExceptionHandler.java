@@ -22,6 +22,7 @@ package org.cejug.yougi.web.handler;
 
 import org.cejug.yougi.util.ResourceBundleHelper;
 
+import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
@@ -29,15 +30,11 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
-import javax.inject.Inject;
 import java.util.Iterator;
 
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
     private ExceptionHandler parent;
-
-    @Inject
-    private FacesContext context;
 
     public CustomExceptionHandler() {}
 
@@ -60,13 +57,17 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             eventContext = (ExceptionQueuedEventContext) event.getSource();
             t = eventContext.getException();
             if (t instanceof ViewExpiredException) {
-                NavigationHandler nav = context.getApplication().getNavigationHandler();
-                try {
-                    context.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.INSTANCE.getMessage("warnCode0004"));
-                    nav.handleNavigation(context, null, "/login?faces-redirect=true");
-                    context.renderResponse();
-                } finally {
-                    i.remove();
+                FacesContext context = FacesContext.getCurrentInstance();
+                Application app = context.getApplication();
+                if(app != null) {
+                    NavigationHandler nav = app.getNavigationHandler();
+                    try {
+                        context.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.INSTANCE.getMessage("warnCode0004"));
+                        nav.handleNavigation(context, null, "/login?faces-redirect=true");
+                        context.renderResponse();
+                    } finally {
+                        i.remove();
+                    }
                 }
             }
         }

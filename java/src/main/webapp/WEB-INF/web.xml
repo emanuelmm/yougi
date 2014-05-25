@@ -131,8 +131,7 @@
             <url-pattern>/event/sponsor_form.xhtml</url-pattern>
             <url-pattern>/event/track_form.xhtml</url-pattern>
             <url-pattern>/event/venue_form.xhtml</url-pattern>
-            <url-pattern>/knowledge/web_source_form.xhtml</url-pattern>
-            <url-pattern>/knowledge/article_form.xhtml</url-pattern>
+            <url-pattern>/knowledge/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
@@ -148,6 +147,7 @@
             <url-pattern>/profile/*</url-pattern>
             <url-pattern>/event/attendee.xhtml</url-pattern>
             <url-pattern>/members/members.xhtml</url-pattern>
+            <url-pattern>/knowledge/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
