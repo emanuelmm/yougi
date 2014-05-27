@@ -58,11 +58,11 @@ public class MailingListBean extends AbstractBean<MailingList> {
 
     public MailingList findMailingListByEmail(String email) {
         try {
-            return (MailingList) em.createQuery("select ml from MailingList ml where ml.email = :email")
+            return em.createQuery("select ml from MailingList ml where ml.email = :email", MailingList.class)
                                    .setParameter("email", email)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }

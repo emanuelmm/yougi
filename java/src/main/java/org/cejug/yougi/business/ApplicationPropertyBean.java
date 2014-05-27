@@ -93,11 +93,11 @@ public class ApplicationPropertyBean {
     public ApplicationProperty findApplicationProperty(Properties properties) {
         ApplicationProperty applicationProperty;
         try {
-            applicationProperty = (ApplicationProperty)em.createQuery("select ap from ApplicationProperty ap where ap.propertyKey = :key")
+            applicationProperty = em.createQuery("select ap from ApplicationProperty ap where ap.propertyKey = :key", ApplicationProperty.class)
                                                                          .setParameter("key", properties.getKey())
                                                                          .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             Map<String, String> applicationProperties = findApplicationProperties();
             String key = properties.getKey();
             applicationProperty = new ApplicationProperty(key, applicationProperties.get(key));

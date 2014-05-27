@@ -79,7 +79,7 @@ public class UserGroupBean {
                     .getSingleResult();
             return userGroup != null;
         } catch (NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return false;
         }
     }

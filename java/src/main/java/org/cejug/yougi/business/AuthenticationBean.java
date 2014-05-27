@@ -49,11 +49,11 @@ public class AuthenticationBean {
      */
     public Authentication findByUserAccount(UserAccount userAccount) {
         try {
-            return (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount")
+            return em.createQuery("select a from Authentication a where a.userAccount = :userAccount", Authentication.class)
                                       .setParameter("userAccount", userAccount)
                                       .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -64,11 +64,11 @@ public class AuthenticationBean {
      */
     public Authentication findByUserId(String userAccount) {
         try {
-            return (Authentication) em.createQuery("select a from Authentication a where a.userAccount.id = :userAccount")
+            return em.createQuery("select a from Authentication a where a.userAccount.id = :userAccount", Authentication.class)
                                    .setParameter("userAccount", userAccount)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class AuthenticationBean {
     public Boolean passwordMatches(UserAccount userAccount, String passwordToCheck) {
         try {
             Authentication authentication = new Authentication();
-            authentication = (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount and a.password = :password")
+            authentication = em.createQuery("select a from Authentication a where a.userAccount = :userAccount and a.password = :password", Authentication.class)
                                                 .setParameter("userAccount", userAccount)
                                                 .setParameter("password", authentication.hashPassword(passwordToCheck))
                                                 .getSingleResult();
@@ -90,7 +90,7 @@ public class AuthenticationBean {
                 return Boolean.TRUE;
             }
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return Boolean.FALSE;
         }
 
@@ -105,7 +105,7 @@ public class AuthenticationBean {
     public void changePassword(UserAccount userAccount, String newPassword) throws BusinessLogicException {
         try {
             // Retrieve the user authentication where the password is saved.
-            Authentication authentication = (Authentication) em.createQuery("select a from Authentication a where a.userAccount = :userAccount")
+            Authentication authentication = em.createQuery("select a from Authentication a where a.userAccount = :userAccount", Authentication.class)
                                             .setParameter("userAccount", userAccount)
                                             .getSingleResult();
             if(authentication != null) {
