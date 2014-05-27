@@ -105,22 +105,22 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      */
     public UserAccount findByUsername(String username) {
         try {
-            return (UserAccount) em.createQuery("select a.userAccount from Authentication a where a.username = :username")
+            return em.createQuery("select a.userAccount from Authentication a where a.username = :username", UserAccount.class)
                                    .setParameter("username", username)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
 
     public UserAccount findByEmail(String email) {
         try {
-            return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.email = :email")
+            return em.createQuery("select ua from UserAccount ua where ua.email = :email", UserAccount.class)
                                    .setParameter("email", email)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -128,22 +128,22 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
     public UserAccount findByWebsite(String website) {
         try {
             String websiteWithoutProtocol = UrlUtils.INSTANCE.removeProtocol(website);
-            return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.website like :website")
+            return em.createQuery("select ua from UserAccount ua where ua.website like :website", UserAccount.class)
                     .setParameter("website", "%" + websiteWithoutProtocol + "%")
                     .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
 
     public UserAccount findByConfirmationCode(String confirmationCode) {
         try {
-            return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :confirmationCode")
+            return em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :confirmationCode", UserAccount.class)
                                    .setParameter("confirmationCode", confirmationCode)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -204,11 +204,11 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      */
     public UserAccount findDeactivatedUserAccount(String email) {
         try {
-            return (UserAccount) em.createQuery("select ua from UserAccount ua where ua.email = :email and ua.deactivationType is not null")
+            return em.createQuery("select ua from UserAccount ua where ua.email = :email and ua.deactivationType is not null", UserAccount.class)
                                    .setParameter("email", email)
                                    .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -235,7 +235,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
      * container.</p>
      * <p>When there is no user, the first registration creates a super user
      * with administrative rights.</p> */
-    public void register(UserAccount newUserAccount, Authentication authentication) throws BusinessLogicException {
+    public UserAccount register(UserAccount newUserAccount, Authentication authentication) throws BusinessLogicException {
 
         // true if there is no account registered so far.
         boolean noAccount = thereIsNoAccount();
@@ -279,7 +279,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
         if(!existingAccount) {
             userAccount.setId(EntitySupport.INSTANCE.generateEntityId());
-            em.persist(userAccount);
+            userAccount = em.merge(userAccount);
         }
 
         authentication.setUserAccount(userAccount);
@@ -300,6 +300,8 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
                 sendEmailConfirmationRequest(userAccount, url.getPropertyValue());
             }
         }
+
+        return userAccount;
     }
 
     public void sendEmailConfirmationRequest(UserAccount userAccount, String serverAddress) throws BusinessLogicException {
@@ -330,7 +332,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
         }
 
         try {
-            UserAccount userAccount = (UserAccount)em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :code", UserAccount.class)
+            UserAccount userAccount = em.createQuery("select ua from UserAccount ua where ua.confirmationCode = :code", UserAccount.class)
                                                      .setParameter("code", confirmationCode)
                                                      .getSingleResult();
             if(userAccount != null) {
@@ -356,7 +358,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> {
 
             return userAccount;
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }

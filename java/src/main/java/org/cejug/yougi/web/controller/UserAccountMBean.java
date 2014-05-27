@@ -270,11 +270,12 @@ public class UserAccountMBean implements Serializable {
         }
 
         Authentication authentication = new Authentication();
+        final UserAccount newUserAccount;
         try {
             authentication.setUserAccount(this.userAccount);
             authentication.setUsername(userAccount.getUnverifiedEmail());
             authentication.setPassword(this.password);
-            userAccountBean.register(userAccount, authentication);
+            newUserAccount = userAccountBean.register(userAccount, authentication);
         } catch(Exception e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
             context.addMessage(userId, new FacesMessage(e.getCause().getMessage()));
@@ -284,7 +285,7 @@ public class UserAccountMBean implements Serializable {
         if(!hasMultipleCommunities) {
             Community community = communityBean.findMainCommunity();
             if (community != null) {
-                CommunityMember communityMember = new CommunityMember(community, this.userAccount);
+                CommunityMember communityMember = new CommunityMember(community, newUserAccount);
                 communityMemberBean.save(communityMember);
             }
         }

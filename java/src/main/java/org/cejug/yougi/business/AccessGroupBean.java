@@ -77,7 +77,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                      .setParameter("name", name)
                      .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return null;
         }
     }
@@ -85,11 +85,11 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
     public AccessGroup findDefaultAccessGroup() {
         AccessGroup defaultUserGroup;
         try {
-            defaultUserGroup = (AccessGroup) em.createQuery("select ag from AccessGroup ag where ag.userDefault = :default")
+            defaultUserGroup = em.createQuery("select ag from AccessGroup ag where ag.userDefault = :default", AccessGroup.class)
                                         .setParameter("default", Boolean.TRUE)
                                         .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             defaultUserGroup = new AccessGroup(DEFAULT_GROUP,"Default Members Group");
             defaultUserGroup.setId(EntitySupport.INSTANCE.generateEntityId());
             defaultUserGroup.setUserDefault(Boolean.TRUE);
@@ -107,7 +107,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                       .setParameter("name", ADMIN_GROUP)
                       .getSingleResult();
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             group = new AccessGroup(ADMIN_GROUP,"Administrators Group");
             group.setId(EntitySupport.INSTANCE.generateEntityId());
             em.persist(group);
@@ -151,7 +151,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                     throw new PersistenceException("A group named '"+ accessGroup.getName() +"' already exists.");
                 }
             } catch(NoResultException nre) {
-                LOGGER.log(Level.INFO, nre.getMessage(), nre);
+                LOGGER.log(Level.INFO, nre.getMessage());
                 accessGroup.setId(EntitySupport.INSTANCE.generateEntityId());
                 em.persist(accessGroup);
             }

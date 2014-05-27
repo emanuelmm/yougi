@@ -83,10 +83,13 @@ public class AttendeeBean extends AbstractBean<Attendee> {
 
     public Boolean isAttending(Event event, UserAccount person) {
         try {
-            Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event").setParameter("person", person).setParameter("event", event).getSingleResult();
+            Attendee attendee = em.createQuery("select a from Attendee a where a.userAccount = :person and a.event = :event", Attendee.class)
+                    .setParameter("person", person)
+                    .setParameter("event", event)
+                    .getSingleResult();
             return attendee != null;
         } catch (NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return false;
         }
     }
@@ -173,7 +176,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
      */
     public Boolean verifyCertificateAuthenticity(Certificate certificate) {
         try {
-            Attendee attendee = (Attendee) em.createQuery("select a from Attendee a where a.certificateCode = :certificateCode and a.certificateFullname = :certificateFullname and a.certificateEvent = :certificateEvent and a.certificateVenue = :certificateVenue")
+            Attendee attendee = em.createQuery("select a from Attendee a where a.certificateCode = :certificateCode and a.certificateFullname = :certificateFullname and a.certificateEvent = :certificateEvent and a.certificateVenue = :certificateVenue", Attendee.class)
                                             .setParameter("certificateCode", certificate.getCertificateCode())
                                             .setParameter("certificateFullname", certificate.getCertificateFullname())
                                             .setParameter("certificateEvent", certificate.getCertificateEvent())
@@ -182,7 +185,7 @@ public class AttendeeBean extends AbstractBean<Attendee> {
 
             return attendee != null;
         } catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
             return false;
         }
     }
