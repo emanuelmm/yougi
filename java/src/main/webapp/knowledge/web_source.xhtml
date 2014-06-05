@@ -44,10 +44,13 @@
                                 <dd><a href="#{webSourceMBean.webSource.provider.website}" target="_blank">#{webSourceMBean.webSource.provider.website}</a></dd>
                             </dl>
 
+                            <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
                             <h:button outcome="web_source_form" value="#{bundle.edit}" styleClass="btn btn-default" rendered="#{securityBackingMBean.isUserLeader}">
                                 <f:param name="id" value="#{webSourceMBean.webSource.id}"/>
                             </h:button>
-                            <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
+                            <h:commandButton value="#{bundle.remove}" action="#{webSourceMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');" rendered="#{securityBackingMBean.isUserLeader}">
+                                <f:param name="id" value="#{webSourceMBean.webSource.id}"/>
+                            </h:commandButton>
                         </div>
                     </div>
 

@@ -89,7 +89,7 @@ public class EmailConfirmationServlet extends HttpServlet {
         try {
             UserAccount userAccount = userAccountBean.confirmUser(confirmationCode);
             if(userAccount != null) {
-                response.sendRedirect("login.xhtml");
+                response.sendRedirect("registration_confirmed.xhtml");
             } else {
                 throw new BusinessLogicException("User account is null");
             }

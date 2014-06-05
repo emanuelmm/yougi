@@ -182,9 +182,8 @@ public class WebSourceMBean {
         return "web_sources";
     }
 
-    public String undoReference() {
+    public String remove() {
         webSourceBean.remove(this.webSource.getId());
-        this.webSource.setId(null);
-        return "web_sources";
+        return "web_sources?faces-redirect=true";
     }
 }

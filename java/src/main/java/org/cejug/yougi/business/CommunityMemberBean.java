@@ -47,14 +47,14 @@ public class CommunityMemberBean extends AbstractBean<CommunityMember> {
     }
 
     public List<CommunityMember> findBy(Community community) {
-        return em.createQuery("select cm from CommunityMember cm where cm.community = :community", CommunityMember.class)
-                 .setParameter("community", community)
+        return em.createQuery("select cm from CommunityMember cm where cm.community.id = :community", CommunityMember.class)
+                 .setParameter("community", community.getId())
                  .getResultList();
     }
 
     public List<CommunityMember> findBy(UserAccount member) {
-        return em.createQuery("select cm from CommunityMember cm where cm.member = :member", CommunityMember.class)
-                .setParameter("member", member)
+        return em.createQuery("select cm from CommunityMember cm where cm.member.id = :member", CommunityMember.class)
+                .setParameter("member", member.getId())
                 .getResultList();
     }
 }

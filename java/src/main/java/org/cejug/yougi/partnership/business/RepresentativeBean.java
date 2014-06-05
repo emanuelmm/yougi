@@ -63,11 +63,11 @@ public class RepresentativeBean extends AbstractBean<Representative> {
 
     public Representative findRepresentative(UserAccount person) {
     	try {
-            return (Representative) em.createQuery("select r from Representative r where r.person = :person")
+            return em.createQuery("select r from Representative r where r.person = :person", Representative.class)
                                       .setParameter("person", person)
                                       .getSingleResult();
     	} catch(NoResultException nre) {
-            LOGGER.log(Level.INFO, nre.getMessage(), nre);
+            LOGGER.log(Level.INFO, nre.getMessage());
     		return null;
     	}
     }
