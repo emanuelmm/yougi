@@ -20,14 +20,33 @@
  * */
 package org.cejug.yougi.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import junit.framework.Assert;
+
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Felipe W. M. Martins - https://github.com/felipewmartins
  */
 public class WebTextUtilsTest {
+  
+  private String paragraph;
+  private Date date;
+  private SimpleDateFormat sdf;
+  
+  @Before
+  public void initialize(){
+    paragraph = "<p>This is a Test</p>";
+    date = new Date();
+    sdf = new SimpleDateFormat("yyyy-MM-dd");
+  }
+  
     @Test
     public void testConvertLineBreakToHTMLParagraph() throws Exception {
+      Assert.assertEquals(paragraph, WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph("This is a Test"));
 
     }
 
