@@ -20,23 +20,20 @@
  * */
 package org.cejug.yougi.util;
 
-
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.UserAccount;
 import org.cejug.yougi.qualifier.UserName;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public class ProducesUtil {
+public class UserProduce {
 
     @Inject
     private UserAccountBean userAccountBean;
@@ -45,20 +42,7 @@ public class ProducesUtil {
     private FacesContext facesContext;
 
     @Inject
-    private HttpServletResponse httpServletResponse;
-
-    @Inject
     private HttpServletRequest httpServletRequest;
-
-    @Produces @RequestScoped
-    public FacesContext getFacesContext() {
-        return FacesContext.getCurrentInstance();
-    }
-
-    @Produces @RequestScoped
-    public HttpServletResponse getHttpServletResponse() {
-        return (HttpServletResponse) facesContext.getExternalContext().getResponse();
-    }
 
     @Produces @Named @UserName
     public String getUserName() {
