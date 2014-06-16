@@ -22,19 +22,34 @@ package org.cejug.yougi.entity;
 
 import org.cejug.yougi.exception.BusinessLogicException;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
 
 /**
- * Yearly scheduled batch job.
+ * Daily scheduled batch job.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
-@DiscriminatorValue("YEARLY")
-public class JobYearlyScheduler extends JobScheduler {
+@DiscriminatorValue("HOURLY")
+public class JobHourlyScheduler extends JobScheduler {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "working_time")
+    private Boolean workingHoursOnly;
+
+    /**
+     * If true, the job will run only during working days, never during the weekend.
+     * */
+    public Boolean getWorkingHoursOnly() {
+        return workingHoursOnly;
+    }
+
+    public void setWorkingHoursOnly(Boolean workingHoursOnly) {
+        this.workingHoursOnly = workingHoursOnly;
+    }
 
     @Override
     public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
@@ -50,7 +65,18 @@ public class JobYearlyScheduler extends JobScheduler {
 
         // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
         if(today.compareTo(startTime) > 0) {
-            startTime.add(Calendar.YEAR, this.getFrequency());
+            startTime.add(Calendar.DAY_OF_YEAR, this.getFrequency());
+        }
+
+        /* If the updated start time falls down in the weekend and the scheduler only considers working days, then the
+        * start time is incremented until it reaches the first working day of the week, which is monday. */
+        if(workingHoursOnly &&
+           (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+           startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+
+            while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                startTime.add(Calendar.DAY_OF_YEAR, 1);
+            }
         }
 
         // A business exception is thrown if the start time is bigger than the end date.
@@ -63,6 +89,6 @@ public class JobYearlyScheduler extends JobScheduler {
 
     @Override
     public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.YEARLY;
+        return JobFrequencyType.DAILY;
     }
 }

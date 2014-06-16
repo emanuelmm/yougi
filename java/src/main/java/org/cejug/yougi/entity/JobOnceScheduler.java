@@ -49,10 +49,15 @@ public class JobOnceScheduler extends JobScheduler {
     @Override
     public void setFrequency(Integer frequency) {}
 
-	@Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+    @Override
+    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar startTime = getJobExecutionStartTime();
         return new JobExecution(this, owner, startTime.getTime());
+    }
+
+	@Override
+    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+        return null;
     }
 
     @Override

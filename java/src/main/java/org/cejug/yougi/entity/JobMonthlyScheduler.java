@@ -37,6 +37,11 @@ public class JobMonthlyScheduler extends JobScheduler {
 	private static final long serialVersionUID = 1L;
 
     @Override
+    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+        return this.getNextJobExecution(owner);
+    }
+
+    @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
 

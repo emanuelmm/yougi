@@ -158,6 +158,12 @@ public abstract class JobScheduler implements Serializable, Identified {
         this.active = active;
     }
 
+    public JobExecution getJobExecution() throws BusinessLogicException {
+        return getJobExecution(this.defaultOwner);
+    }
+
+    public abstract JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException;
+
     public JobExecution getNextJobExecution() throws BusinessLogicException {
         return getNextJobExecution(this.defaultOwner);
     }

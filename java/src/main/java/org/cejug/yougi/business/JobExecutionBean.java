@@ -21,6 +21,7 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -29,12 +30,16 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
 public class JobExecutionBean extends AbstractBean<JobExecution> {
+
+    static final Logger LOGGER = Logger.getLogger(JobExecutionBean.class.getSimpleName());
 
     @PersistenceContext
     private EntityManager em;
@@ -62,8 +67,19 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     @Timeout
     public void startJob(Timer timer) {
+        // Retrieves the job execution from the database.
         String jobExecutionId = (String) timer.getInfo();
-        JobExecution jobExecution = find(jobExecutionId);
-        jobExecution.startJob();
+        JobExecution currentJobExecution = find(jobExecutionId);
+
+        // Starts the job execution.
+        currentJobExecution.startJob();
+
+        // Schedules the next job execution.
+        try {
+            JobExecution nextJobExecution = currentJobExecution.getJobScheduler().getNextJobExecution();
+            timerService.createTimer(nextJobExecution.getStartTime(), nextJobExecution.getId());
+        } catch (BusinessLogicException e) {
+            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.");
+        }
     }
 }

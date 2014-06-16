@@ -190,13 +190,16 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         return jobScheduler;
     }
 
+    /**
+     * Persist a new job scheduler and immediately schedules its first execution. Do not use it to update an existing
+     * job scheduler. Use the method update() instead.
+     * */
     @Override
     public JobScheduler save(JobScheduler jobScheduler) {
         JobScheduler persistentJobScheduler = super.save(jobScheduler);
 
         try {
-            JobExecution jobExecution = persistentJobScheduler.getNextJobExecution();
-            LOGGER.log(Level.INFO, "Job execution: {0}", jobExecution);
+            JobExecution jobExecution = persistentJobScheduler.getJobExecution();
             jobExecutionBean.save(jobExecution);
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);

@@ -33,10 +33,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -167,7 +165,12 @@ public class JobSchedulerMBean {
             JobDailyScheduler jobDailyScheduler = (JobDailyScheduler) jobScheduleMBean.getJobScheduler();
             jobDailyScheduler.setWorkingDaysOnly(this.workingDaysOnly);
         }
-        jobSchedulerBean.save(jobScheduleMBean.getJobScheduler());
+
+        if(EntitySupport.INSTANCE.isIdNotValid(jobScheduleMBean.getJobScheduler())) {
+            jobSchedulerBean.save(jobScheduleMBean.getJobScheduler());
+        } else {
+            jobSchedulerBean.update(jobScheduleMBean.getJobScheduler());
+        }
 
         return "job_schedulers";
     }

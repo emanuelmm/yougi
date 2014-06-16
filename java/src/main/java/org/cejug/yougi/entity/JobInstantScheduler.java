@@ -57,13 +57,17 @@ public class JobInstantScheduler extends JobScheduler {
     public void setFrequency(Integer frequency) {
     }
 
-
     @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar today = Calendar.getInstance();
         JobExecution jobExecution = new JobExecution(this, owner, today.getTime());
         this.setActive(false);
         return jobExecution;
+    }
+
+    @Override
+    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+        return null;
     }
 
     @Override

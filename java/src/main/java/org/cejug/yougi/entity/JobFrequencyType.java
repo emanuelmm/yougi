@@ -26,6 +26,7 @@ package org.cejug.yougi.entity;
 public enum JobFrequencyType {
     INSTANT,
     ONCE,
+    HOURLY,
     DAILY,
     WEEKLY,
     MONTHLY,

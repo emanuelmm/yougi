@@ -37,7 +37,7 @@ public class JobDailyScheduler extends JobScheduler {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "working_day")
+    @Column(name = "working_time")
     private Boolean workingDaysOnly;
 
     /**
@@ -49,6 +49,11 @@ public class JobDailyScheduler extends JobScheduler {
 
     public void setWorkingDaysOnly(Boolean workingDaysOnly) {
         this.workingDaysOnly = workingDaysOnly;
+    }
+
+    @Override
+    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+        return this.getNextJobExecution(owner);
     }
 
     @Override

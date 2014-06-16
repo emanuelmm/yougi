@@ -53,15 +53,42 @@ public abstract class AbstractBean<T extends Identified> {
             getEntityManager().persist(entity);
             persistedEntity = entity;
         } else {
+            persistedEntity = update(entity);
+        }
+        return persistedEntity;
+    }
+
+    /**
+     * Update an entity instance on the database. It only works if the entity
+     * has a valid Id, otherwise it returns null. In general the method save()
+     * already fulfills the need for updating an entity, however sometimes the
+     * method save is overwritten, losing its original behavior. The update()
+     * method helps to cover those exceptions.
+     * @param entity Any entity class that implements Identified.
+     * */
+    public T update(T entity) {
+        T persistedEntity = null;
+        if(EntitySupport.INSTANCE.isIdValid(entity.getId())) {
             persistedEntity = getEntityManager().merge(entity);
         }
         return persistedEntity;
     }
 
+    /**
+     * Remove an entity instance from the database. It's enough to provide the
+     * Id of the entity to be removed.
+     * @param id the id of a persisted entity.
+     * */
     public void remove(String id) {
         getEntityManager().remove(find(id));
     }
 
+    /**
+     * Find a particular entity on the database by its Id.
+     * @param id the id of a persisted entity.
+     * @return a persisted entity correspondent to the informed id. Null if there is
+     * no entity with the informed id.
+     * */
     public T find(String id) {
         return getEntityManager().find(this.entityClass, id);
     }
