@@ -38,6 +38,7 @@ import org.cejug.yougi.web.controller.UserProfileMBean;
 import org.cejug.yougi.web.report.EventAttendeeCertificate;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -85,7 +86,7 @@ public class AttendeeMBean implements Serializable {
     @Inject
     private UserProfileMBean userProfileMBean;
 
-    @Inject
+    @Resource
     private HttpServletResponse response;
 
     @Inject
