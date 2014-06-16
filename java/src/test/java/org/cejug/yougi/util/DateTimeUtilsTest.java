@@ -56,10 +56,9 @@ public class DateTimeUtilsTest {
 
     @Test
     public void testGetDate() throws  Exception {
-        Date date = DateTimeUtils.INSTANCE.getDate("2014/09/12", "yyyy/MM/dd");
-        Assert.assertEquals(date.getTime(), 1410472800000L);
-        date = DateTimeUtils.INSTANCE.getDate("12/09/2014", "dd/MM/yyyy");
-        Assert.assertEquals(date.getTime(), 1410472800000L);
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    	Date expectedDate = sdf.parse("2014/09/12");
+        Assert.assertEquals(DateTimeUtils.INSTANCE.getDate("2014/09/12", "yyyy/MM/dd"), expectedDate);
     }
 
     @Test
