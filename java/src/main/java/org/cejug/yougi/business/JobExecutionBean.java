@@ -66,10 +66,11 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     @Override
     public JobExecution save(JobExecution jobExecution) {
-        JobExecution persistentJobExecution = super.save(jobExecution);
-
-        timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
-
+        JobExecution persistentJobExecution = null;
+        if(jobExecution != null) {
+            persistentJobExecution = super.save(jobExecution);
+            timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
+        }
         return persistentJobExecution;
     }
 
@@ -90,7 +91,7 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
                 this.save(nextJobExecution);
             }
         } catch (BusinessLogicException e) {
-            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.");
+            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.", e);
         }
     }
 }

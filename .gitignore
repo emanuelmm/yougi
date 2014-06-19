@@ -29,3 +29,5 @@ nbactions.xml
 *~
 
 !/.gitignore
+java/src/main/resources/rebel.xml
+src/main/resources/rebel.xml

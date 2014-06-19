@@ -20,55 +20,17 @@
  * */
 package org.cejug.yougi.util;
 
-
-import org.cejug.yougi.business.UserAccountBean;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.qualifier.UserName;
-
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public class ProducesUtil {
-
-    @Inject
-    private UserAccountBean userAccountBean;
-
-    @Inject
-    private FacesContext facesContext;
-
-    @Inject
-    private HttpServletResponse httpServletResponse;
-
-    @Inject
-    private HttpServletRequest httpServletRequest;
+public class FaceContextProduce {
 
     @Produces @RequestScoped
-    public FacesContext getFacesContext() {
+    FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
-    }
-
-    @Produces @RequestScoped
-    public HttpServletResponse getHttpServletResponse() {
-        return (HttpServletResponse) facesContext.getExternalContext().getResponse();
-    }
-
-    @Produces @Named @UserName
-    public String getUserName() {
-        return httpServletRequest.getRemoteUser();
-    }
-
-    @Produces @Named
-    public String getFirstName() {
-        String username = getUserName();
-        UserAccount userAccount = userAccountBean.findByUsername(username);
-        return userAccount == null ? "" : userAccount.getFirstName();
     }
 }
