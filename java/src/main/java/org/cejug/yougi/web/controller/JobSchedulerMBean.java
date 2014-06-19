@@ -20,6 +20,7 @@
  * */
 package org.cejug.yougi.web.controller;
 
+import org.cejug.yougi.business.JobExecutionBean;
 import org.cejug.yougi.business.JobSchedulerBean;
 import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.*;
@@ -53,9 +54,13 @@ public class JobSchedulerMBean {
     private JobSchedulerBean jobSchedulerBean;
 
     @EJB
+    private JobExecutionBean jobExecutionBean;
+
+    @EJB
     private UserAccountBean userAccountBean;
 
     private List<JobScheduler> jobSchedulers;
+    private List<JobExecution> jobExecutions;
     private List<String> jobNames;
     private List<UserAccount> userAccounts;
 
@@ -116,6 +121,14 @@ public class JobSchedulerMBean {
             this.jobSchedulers = jobSchedulerBean.findAllActive();
         }
         return this.jobSchedulers;
+    }
+
+    public List<JobExecution> getJobExecutions() {
+        if(this.jobExecutions == null) {
+            this.jobExecutions = jobExecutionBean.findJobExecutions(this.jobScheduleMBean.getJobScheduler());
+        }
+
+        return jobExecutions;
     }
 
     public List<String> getJobNames() {

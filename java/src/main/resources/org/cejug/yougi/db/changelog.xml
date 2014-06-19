@@ -97,4 +97,7 @@
     <changeSet id="19" author="htmfilho">
         <sqlFile path="org/cejug/yougi/db/changelog/20140615-19-htmfilho.sql" stripComments="true"/>
     </changeSet>
+    <changeSet id="20" author="htmfilho">
+        <sqlFile path="org/cejug/yougi/db/changelog/20140615-20-htmfilho.sql" stripComments="true"/>
+    </changeSet>
 </databaseChangeLog>

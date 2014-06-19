@@ -22,10 +22,9 @@ package org.cejug.yougi.entity;
 
 import org.cejug.yougi.exception.BusinessLogicException;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Daily scheduled batch job.
@@ -40,6 +39,10 @@ public class JobHourlyScheduler extends JobScheduler {
     @Column(name = "working_time")
     private Boolean workingHoursOnly;
 
+    @Temporal(TemporalType.TIME)
+    @Column(name = "end_time")
+    private Date endTime;
+
     /**
      * If true, the job will run only during working days, never during the weekend.
      * */
@@ -49,6 +52,14 @@ public class JobHourlyScheduler extends JobScheduler {
 
     public void setWorkingHoursOnly(Boolean workingHoursOnly) {
         this.workingHoursOnly = workingHoursOnly;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     @Override

@@ -21,6 +21,7 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.entity.JobScheduler;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
@@ -30,6 +31,7 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,6 +58,12 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         return em;
 	}
 
+    public List<JobExecution> findJobExecutions(JobScheduler jobScheduler) {
+        return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler order by je.startTime asc", JobExecution.class)
+                 .setParameter("jobScheduler", jobScheduler)
+                 .getResultList();
+    }
+
     @Override
     public JobExecution save(JobExecution jobExecution) {
         JobExecution persistentJobExecution = super.save(jobExecution);
@@ -70,14 +78,17 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         // Retrieves the job execution from the database.
         String jobExecutionId = (String) timer.getInfo();
         JobExecution currentJobExecution = find(jobExecutionId);
+        JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
 
         // Starts the job execution.
         currentJobExecution.startJob();
 
         // Schedules the next job execution.
         try {
-            JobExecution nextJobExecution = currentJobExecution.getJobScheduler().getNextJobExecution();
-            timerService.createTimer(nextJobExecution.getStartTime(), nextJobExecution.getId());
+            if(jobScheduler.getActive()) {
+                JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
+                this.save(nextJobExecution);
+            }
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.WARNING, "Not possible to create the next job execution.");
         }

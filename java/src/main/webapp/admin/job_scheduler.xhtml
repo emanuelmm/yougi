@@ -35,10 +35,30 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
+                                <dt>#{bundle.type}</dt>
+                                <dd>#{jobSchedulerMBean.jobScheduler.frequencyType}</dd>
                                 <dt>#{bundle.owner}</dt>
                                 <dd>#{jobSchedulerMBean.jobScheduler.defaultOwner}</dd>
                                 <dt>#{bundle.description}</dt>
                                 <dd>#{jobSchedulerMBean.jobScheduler.description}</dd>
+                                <dt>#{bundle.start}</dt>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.startDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText> -
+
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.startTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </dd>
+                                <dt>#{bundle.end}</dt>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.endDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </dd>
+                                <dt>#{bundle.active}</dt>
+                                <dd><h:graphicImage rendered="#{jobSchedulerMBean.jobScheduler.active}" url="/images/success-icon.png"/></dd>
                             </dl>
 
                             <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
@@ -48,6 +68,32 @@
                             </h:button>
                             <h:commandButton value="#{bundle.remove}" action="#{jobSchedulerMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                             <h:button outcome="job_schedulers" value="#{bundle.back}" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h:dataTable value="#{jobSchedulerMBean.jobExecutions}" var="jobExecution" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.startTime}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.startTime}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.endTime}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.endTime}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.owner}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.owner}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.status}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.status}"/>
+                                </h:column>
+                            </h:dataTable>
                         </div>
                     </div>
                 </h:form>
