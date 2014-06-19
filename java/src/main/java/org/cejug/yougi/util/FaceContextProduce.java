@@ -25,7 +25,7 @@ import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 
 /**
- * @author <a href="mailto:danielsoro@gmail.com">Daniel Cunha (soro)</a>
+ * @author Daniel Cunha - danielsoro@gmail.com
  */
 public class FaceContextProduce {
 

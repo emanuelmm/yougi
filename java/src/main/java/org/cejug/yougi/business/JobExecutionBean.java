@@ -21,6 +21,7 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.entity.JobScheduler;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
@@ -58,10 +59,11 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     @Override
     public JobExecution save(JobExecution jobExecution) {
-        JobExecution persistentJobExecution = super.save(jobExecution);
-
-        timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
-
+        JobExecution persistentJobExecution = null;
+        if(jobExecution != null) {
+            persistentJobExecution = super.save(jobExecution);
+            timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
+        }
         return persistentJobExecution;
     }
 
@@ -70,16 +72,17 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         // Retrieves the job execution from the database.
         String jobExecutionId = (String) timer.getInfo();
         JobExecution currentJobExecution = find(jobExecutionId);
+        JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
 
         // Starts the job execution.
         currentJobExecution.startJob();
 
         // Schedules the next job execution.
         try {
-            JobExecution nextJobExecution = currentJobExecution.getJobScheduler().getNextJobExecution();
-            timerService.createTimer(nextJobExecution.getStartTime(), nextJobExecution.getId());
+            JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
+            save(nextJobExecution);
         } catch (BusinessLogicException e) {
-            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.");
+            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.", e);
         }
     }
 }
