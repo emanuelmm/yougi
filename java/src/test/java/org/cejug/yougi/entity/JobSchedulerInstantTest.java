@@ -20,13 +20,7 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * @Author Hildeberto Mendonca - http://www.hildeberto.com
@@ -40,18 +34,6 @@ public class JobSchedulerInstantTest {
      */
     @Test
     public void getNextJobExecutionInCurrentDate() throws Exception {
-        JobScheduler jobScheduler = new JobSchedulerInstant();
-        jobScheduler.setDefaultOwner(new UserAccount("user"));
-        jobScheduler.setDescription("test");
 
-        Calendar startDate = Calendar.getInstance();
-        jobScheduler.setStartDate(startDate.getTime());
-
-        JobExecution jobExecution = jobScheduler.getNextJobExecution();
-        Date startTime = jobExecution.getStartTime();
-
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-        Assert.assertEquals(dateFormat.format(startDate.getTime()), dateFormat.format(startTime));
     }
 }
