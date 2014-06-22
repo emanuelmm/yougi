@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * @author [name of the person who wrote this test] - [github profile url or personal website]
  */
-public class JobOnceSchedulerTest {
+public class JobSchedulerMonthlyTest {
     @Test
     public void testGetNextJobExecution() throws Exception {
 

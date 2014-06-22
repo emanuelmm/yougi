@@ -25,44 +25,43 @@ import org.cejug.yougi.exception.BusinessLogicException;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Yearly scheduled batch job.
+ * Scheduled on demand batch job.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
-@DiscriminatorValue("YEARLY")
-public class JobYearlyScheduler extends JobScheduler {
+@DiscriminatorValue("ONCE")
+public class JobSchedulerOnce extends JobScheduler {
 
 	private static final long serialVersionUID = 1L;
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
-        return this.getNextJobExecution(owner);
+    public void setStartDate(Date startDate) {
+        super.setStartDate(startDate);
+        super.setEndDate(startDate);
     }
 
     @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
-        Calendar today = Calendar.getInstance();
+    public void setEndDate(Date endDate) {}
 
-        // Calculate original start time
+    @Override
+    public void setFrequency(Integer frequency) {}
+
+    @Override
+    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
         Calendar startTime = getJobExecutionStartTime();
-
-        // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
-        if(today.compareTo(startTime) > 0) {
-            startTime.add(Calendar.YEAR, this.getFrequency());
-        }
-
-        // A business exception is thrown if the start time is bigger than the end date.
-        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
-        }
-
         return new JobExecution(this, owner, startTime.getTime());
+    }
+
+	@Override
+    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+        return null;
     }
 
     @Override
     public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.YEARLY;
+        return JobFrequencyType.ONCE;
     }
 }

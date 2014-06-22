@@ -20,14 +20,26 @@
  * */
 package org.cejug.yougi.entity;
 
+import org.cejug.yougi.exception.BusinessLogicException;
 import org.junit.Test;
 
 /**
  * @author [name of the person who wrote this test] - [github profile url or personal website]
  */
-public class JobMonthlySchedulerTest {
+public class JobSchedulerDailyTest {
+
     @Test
     public void testGetNextJobExecution() throws Exception {
+        JobScheduler jobScheduler = new JobSchedulerDaily();
+        jobScheduler.setActive(true);
+        jobScheduler.setDefaultOwner(new UserAccount("Hildeberto", "Mendonca", "me@hildeberto.com"));
+        jobScheduler.setDescription("test");
+        jobScheduler.setFrequency(1);
+    }
 
+    @Test(expected = BusinessLogicException.class)
+    public void testGetNextJobExecutionException() throws Exception {
+        JobScheduler jobScheduler = new JobSchedulerDaily();
+        jobScheduler.setActive(true);
     }
 }

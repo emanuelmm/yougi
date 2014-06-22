@@ -32,7 +32,7 @@ import java.util.Date;
  */
 @Entity
 @DiscriminatorValue("HOURLY")
-public class JobHourlyScheduler extends JobScheduler {
+public class JobSchedulerHourly extends JobScheduler {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class JobHourlyScheduler extends JobScheduler {
     private Date endTime;
 
     /**
-     * If true, the job will run only during working days, never during the weekend.
+     * If true, the job will run only during working hours, never during the night.
      * */
     public Boolean getWorkingHoursOnly() {
         return workingHoursOnly;
@@ -75,17 +75,20 @@ public class JobHourlyScheduler extends JobScheduler {
         Calendar startTime = getJobExecutionStartTime();
 
         // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
-        if(today.compareTo(startTime) > 0) {
+        while(today.compareTo(startTime) > 0) {
             startTime.add(Calendar.DAY_OF_YEAR, this.getFrequency());
         }
 
-        /* If the updated start time falls down in the weekend and the scheduler only considers working days, then the
-        * start time is incremented until it reaches the first working day of the week, which is monday. */
-        if(workingHoursOnly &&
-           (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
-           startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+        /* If the updated start time falls down out of working hours and the scheduler only considers working hours,
+        * then the start time is incremented until it reaches the first working hour, which is 8h. The time is also
+        * incremented until it reaches the first working day of the week, which is Monday. */
+        if(workingHoursOnly) {
+            while (startTime.get(Calendar.HOUR_OF_DAY) > 18 || startTime.get(Calendar.HOUR_OF_DAY) < 8) {
+                startTime.add(Calendar.HOUR_OF_DAY, 1);
+            }
 
-            while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+            while (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+                   startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 startTime.add(Calendar.DAY_OF_YEAR, 1);
             }
         }

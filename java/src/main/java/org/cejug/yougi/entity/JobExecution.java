@@ -22,7 +22,6 @@ package org.cejug.yougi.entity;
 
 import javax.batch.operations.*;
 import javax.batch.runtime.BatchRuntime;
-import javax.batch.runtime.BatchStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -54,7 +53,7 @@ public class JobExecution implements Serializable, Identified {
     private Long instanceId;
 
     @Enumerated(EnumType.STRING)
-    private BatchStatus status;
+    private JobStatus status;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_time")
@@ -70,6 +69,7 @@ public class JobExecution implements Serializable, Identified {
         this.jobScheduler = jobScheduler;
         this.owner = owner;
         this.startTime = startTime;
+        this.status = JobStatus.SCHEDULED;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class JobExecution implements Serializable, Identified {
         return instanceId;
     }
 
-    public BatchStatus getStatus() {
+    public JobStatus getStatus() {
         return status;
     }
 

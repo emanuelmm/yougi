@@ -25,44 +25,53 @@ import org.cejug.yougi.exception.BusinessLogicException;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Weekly scheduled batch job.
+ * On demand batch job.
+ *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Entity
-@DiscriminatorValue("WEEKLY")
-public class JobWeeklyScheduler extends JobScheduler {
+@DiscriminatorValue("INSTANT")
+public class JobSchedulerInstant extends JobScheduler {
 
     private static final long serialVersionUID = 1L;
 
     @Override
+    public void setStartDate(Date startDate) {
+        super.setStartDate(startDate);
+        super.setEndDate(startDate);
+        super.setStartTime(startDate);
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+    }
+
+    @Override
+    public void setFrequency(Integer frequency) {
+    }
+
+    @Override
     public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
-        return this.getNextJobExecution(owner);
+        Calendar today = Calendar.getInstance();
+        JobExecution jobExecution = new JobExecution(this, owner, today.getTime());
+        this.setActive(false);
+        return jobExecution;
     }
 
     @Override
     public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
-        Calendar today = Calendar.getInstance();
-
-        // Calculate original start time
-        Calendar startTime = getJobExecutionStartTime();
-
-        // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
-        if(today.compareTo(startTime) > 0) {
-            startTime.add(Calendar.WEEK_OF_YEAR, this.getFrequency());
-        }
-
-        // A business exception is thrown if the start time is bigger than the end date.
-        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
-        }
-
-        return new JobExecution(this, owner, startTime.getTime());
+        return null;
     }
 
     @Override
     public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.WEEKLY;
+        return JobFrequencyType.INSTANT;
     }
 }

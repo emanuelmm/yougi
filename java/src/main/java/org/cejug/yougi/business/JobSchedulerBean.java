@@ -162,25 +162,25 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         JobScheduler jobScheduler;
         switch (jobFrequencyType) {
             case INSTANT:
-                jobScheduler = new JobInstantScheduler();
+                jobScheduler = new JobSchedulerInstant();
                 break;
             case ONCE:
-                jobScheduler = new JobOnceScheduler();
+                jobScheduler = new JobSchedulerOnce();
                 break;
             case DAILY:
-                jobScheduler = new JobDailyScheduler();
+                jobScheduler = new JobSchedulerDaily();
                 jobScheduler.setFrequency(1);
                 break;
             case WEEKLY:
-                jobScheduler = new JobWeeklyScheduler();
+                jobScheduler = new JobSchedulerWeekly();
                 jobScheduler.setFrequency(1);
                 break;
             case MONTHLY:
-                jobScheduler = new JobMonthlyScheduler();
+                jobScheduler = new JobSchedulerMonthly();
                 jobScheduler.setFrequency(1);
                 break;
             case YEARLY:
-                jobScheduler = new JobYearlyScheduler();
+                jobScheduler = new JobSchedulerYearly();
                 jobScheduler.setFrequency(1);
                 break;
             default: return null;

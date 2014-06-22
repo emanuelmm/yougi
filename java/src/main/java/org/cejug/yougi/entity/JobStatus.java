@@ -20,14 +20,9 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.junit.Test;
-
 /**
- * @author [name of the person who wrote this test] - [github profile url or personal website]
+ * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class JobDailySchedulerTest {
-    @Test
-    public void testGetNextJobExecution() throws Exception {
-
-    }
+public enum JobStatus {
+    SCHEDULED, STARTED, STOPPED, COMPLETED, FAILED, ABANDONED ;
 }

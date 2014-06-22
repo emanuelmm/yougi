@@ -25,9 +25,9 @@ import org.junit.Test;
 /**
  * @author [name of the person who wrote this test] - [github profile url or personal website]
  */
-public class EmailMessageTest {
+public class JobSchedulerOnceTest {
     @Test
-    public void testCreateMimeMessage() throws Exception {
+    public void testGetNextJobExecution() throws Exception {
 
     }
 }

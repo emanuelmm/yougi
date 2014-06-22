@@ -175,8 +175,8 @@ public class JobSchedulerMBean {
 
     public String save() {
         if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
-            JobDailyScheduler jobDailyScheduler = (JobDailyScheduler) jobScheduleMBean.getJobScheduler();
-            jobDailyScheduler.setWorkingDaysOnly(this.workingDaysOnly);
+            JobSchedulerDaily jobSchedulerDaily = (JobSchedulerDaily) jobScheduleMBean.getJobScheduler();
+            jobSchedulerDaily.setWorkingDaysOnly(this.workingDaysOnly);
         }
 
         if(EntitySupport.INSTANCE.isIdNotValid(jobScheduleMBean.getJobScheduler())) {

@@ -31,7 +31,7 @@ import java.util.Date;
 /**
  * @Author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class JobInstantSchedulerTest {
+public class JobSchedulerInstantTest {
 
     /**
      * A JobInstantScheduler create JobExecution instances with the current
@@ -40,7 +40,7 @@ public class JobInstantSchedulerTest {
      */
     @Test
     public void getNextJobExecutionInCurrentDate() throws Exception {
-        JobScheduler jobScheduler = new JobInstantScheduler();
+        JobScheduler jobScheduler = new JobSchedulerInstant();
         jobScheduler.setDefaultOwner(new UserAccount("user"));
         jobScheduler.setDescription("test");
 

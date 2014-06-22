@@ -27,11 +27,10 @@ import org.junit.Test;
  * @author emanuelcordeiro - http://emanuelcordeiro.wordpress.com/
  */
 public class AuthenticationTest {
+
     @Test
     public void testHashPassword() throws Exception {
-
         Assert.assertNotNull(new Authentication().hashPassword(""));
         Assert.assertEquals("ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=", new Authentication().hashPassword("abc"));
-
     }
 }
