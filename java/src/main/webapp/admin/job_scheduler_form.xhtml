@@ -68,6 +68,7 @@
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue=""/>
                                     <f:selectItem itemLabel="#{bundle.instant}" itemValue="INSTANT"/>
                                     <f:selectItem itemLabel="#{bundle.once}" itemValue="ONCE"/>
+                                    <f:selectItem itemLabel="#{bundle.hourly}" itemValue="HOURLY"/>
                                     <f:selectItem itemLabel="#{bundle.daily}" itemValue="DAILY"/>
                                     <f:selectItem itemLabel="#{bundle.weekly}" itemValue="WEEKLY"/>
                                     <f:selectItem itemLabel="#{bundle.monthly}" itemValue="MONTHLY"/>
@@ -118,6 +119,15 @@
                                         <label for="startTime">#{bundle.startHour}</label><br/>
                                         <p:calendar id="startTime" label="#{bundle.startHour}" value="#{jobSchedulerMBean.jobScheduler.startTime}" pattern="#{bundle.formatTime}" size="6" timeOnly="true" required="true" validator="#{jobSchedulerMBean.validateStartTime}"/>
                                         <h:message for="startTime" errorClass="errorMessage"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-md-3">
+                                <h:panelGroup id="panelEndTime" rendered="#{jobSchedulerMBean.frequencyType == 'HOURLY'}">
+                                    <div class="form-group">
+                                        <label for="endDate">#{bundle.endTime}</label><br/>
+                                        <p:calendar id="endTime" label="#{bundle.endTime}" value="#{jobSchedulerMBean.jobScheduler.endTime}" pattern="#{bundle.formatDate}" size="10" validator="#{jobSchedulerMBean.validateEndDate}"/>
+                                        <h:message for="endDate" errorClass="errorMessage"/>
                                     </div>
                                 </h:panelGroup>
                             </div>

@@ -70,18 +70,15 @@ public class JobSchedulerDaily extends JobScheduler {
 
         /* If the updated start time falls down in the weekend and the scheduler only considers working days, then the
         * start time is incremented until it reaches the first working day of the week, which is monday. */
-        if(workingDaysOnly &&
-           (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
-           startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
-
-            while(startTime.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+        if(workingDaysOnly) {
+            while (startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+                    startTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 startTime.add(Calendar.DAY_OF_YEAR, 1);
             }
         }
 
-        // A business exception is thrown if the start time is bigger than the end date.
         if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
+            return null;
         }
 
         return new JobExecution(this, owner, startTime.getTime());

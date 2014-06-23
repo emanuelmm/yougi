@@ -42,7 +42,7 @@ public class JobSchedulerWeekly extends JobScheduler {
     }
 
     @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
 
         // Calculate original start time
@@ -53,9 +53,8 @@ public class JobSchedulerWeekly extends JobScheduler {
             startTime.add(Calendar.WEEK_OF_YEAR, this.getFrequency());
         }
 
-        // A business exception is thrown if the start time is bigger than the end date.
         if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
-            throw new BusinessLogicException("errorCode0014");
+            return null;
         }
 
         return new JobExecution(this, owner, startTime.getTime());

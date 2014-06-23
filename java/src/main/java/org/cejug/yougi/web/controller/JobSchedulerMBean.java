@@ -74,6 +74,7 @@ public class JobSchedulerMBean {
 
     private Date startDate;
     private Date startTime;
+    private Date endTime;
 
     public void setId(String userId) {
         this.id = userId;
@@ -114,6 +115,14 @@ public class JobSchedulerMBean {
 
     public void setWorkingDaysOnly(Boolean workingDaysOnly) {
         this.workingDaysOnly = workingDaysOnly;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public List<JobScheduler> getJobSchedulers() {

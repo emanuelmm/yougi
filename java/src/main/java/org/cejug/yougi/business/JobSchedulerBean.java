@@ -143,19 +143,19 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         return jobSchedulerClass.cast(jobScheduler);
     }
 
-    private JobScheduler merge(JobScheduler origin, JobScheduler destine) {
-        destine.setId(origin.getId());
-        destine.setName(origin.getName());
-        if(destine.getFrequencyType() != JobFrequencyType.INSTANT) {
-            destine.setStartDate(origin.getStartDate());
+    private JobScheduler merge(JobScheduler origin, JobScheduler destination) {
+        destination.setId(origin.getId());
+        destination.setName(origin.getName());
+        if(destination.getFrequencyType() != JobFrequencyType.INSTANT) {
+            destination.setStartDate(origin.getStartDate());
         }
-        destine.setEndDate(origin.getEndDate());
-        destine.setStartTime(origin.getStartTime());
-        destine.setDescription(origin.getDescription());
-        destine.setDefaultOwner(origin.getDefaultOwner());
-        destine.setFrequency(origin.getFrequency());
-        destine.setActive(origin.getActive());
-        return destine;
+        destination.setEndDate(origin.getEndDate());
+        destination.setStartTime(origin.getStartTime());
+        destination.setDescription(origin.getDescription());
+        destination.setDefaultOwner(origin.getDefaultOwner());
+        destination.setFrequency(origin.getFrequency());
+        destination.setActive(origin.getActive());
+        return destination;
     }
 
     public JobScheduler getInstance(JobFrequencyType jobFrequencyType) {
@@ -166,6 +166,10 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
                 break;
             case ONCE:
                 jobScheduler = new JobSchedulerOnce();
+                break;
+            case HOURLY:
+                jobScheduler = new JobSchedulerHourly();
+                jobScheduler.setFrequency(1);
                 break;
             case DAILY:
                 jobScheduler = new JobSchedulerDaily();

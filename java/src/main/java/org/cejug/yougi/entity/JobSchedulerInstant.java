@@ -58,7 +58,7 @@ public class JobSchedulerInstant extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
         JobExecution jobExecution = new JobExecution(this, owner, today.getTime());
         this.setActive(false);
