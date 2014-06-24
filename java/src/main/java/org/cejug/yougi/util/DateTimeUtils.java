@@ -94,17 +94,28 @@ public enum DateTimeUtils {
      * time defined as informed.
      * @param date A date.
      * @param time A time.
-     * @return an instance of date equivalent to the informed date and time.
+     * @return an instance of date equivalent to the informed date and time. If both parameters are null then the return
+     * is also null.
      * */
     public Date mergeDateAndTime(Date date, Date time) {
         Calendar dateAndTime = Calendar.getInstance();
-        dateAndTime.setTime(date);
 
-        Calendar calTime = Calendar.getInstance();
-        calTime.setTime(time);
-
-        dateAndTime.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
-        dateAndTime.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+        if(date != null) {
+            dateAndTime.setTime(date);
+            if(time != null) {
+                Calendar calTime = Calendar.getInstance();
+                calTime.setTime(time);
+                dateAndTime.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
+                dateAndTime.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+            } else {
+                dateAndTime.set(Calendar.HOUR_OF_DAY, 0);
+                dateAndTime.set(Calendar.MINUTE, 0);
+            }
+        } else if(time != null) {
+            dateAndTime.setTime(time);
+        } else {
+            return null;
+        }
 
         return dateAndTime.getTime();
     }

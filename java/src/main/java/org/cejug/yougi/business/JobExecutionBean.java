@@ -22,15 +22,25 @@ package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.JobExecution;
 import org.cejug.yougi.entity.JobScheduler;
+import org.cejug.yougi.entity.JobStatus;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
+import javax.batch.api.listener.JobListener;
+import javax.batch.operations.JobExecutionNotRunningException;
+import javax.batch.operations.JobOperator;
+import javax.batch.operations.JobRestartException;
+import javax.batch.operations.JobStartException;
+import javax.batch.operations.NoSuchJobExecutionException;
+import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +49,7 @@ import java.util.logging.Logger;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-public class JobExecutionBean extends AbstractBean<JobExecution> {
+public class JobExecutionBean extends AbstractBean<JobExecution> implements JobListener {
 
     static final Logger LOGGER = Logger.getLogger(JobExecutionBean.class.getSimpleName());
 
@@ -69,7 +79,9 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         JobExecution persistentJobExecution = null;
         if(jobExecution != null) {
             persistentJobExecution = super.save(jobExecution);
-            timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
+            Timer timer = timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            LOGGER.log(Level.INFO, "Execution scheduled to {0}.", df.format(timer.getNextTimeout()));
         }
         return persistentJobExecution;
     }
@@ -82,7 +94,7 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
 
         // Starts the job execution.
-        currentJobExecution.startJob();
+        startJob(currentJobExecution);
 
         // Schedules the next job execution.
         try {
@@ -93,5 +105,56 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.WARNING, "Not possible to create the next job execution.", e);
         }
+    }
+
+    public void startJob(JobExecution jobExecution) {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            long instanceId = jo.start(jobExecution.getJobScheduler().getName(), new java.util.Properties());
+            LOGGER.log(Level.INFO, "Started job: {0}", instanceId);
+            jobExecution.setInstanceId(instanceId);
+            jobExecution.setStatus(JobStatus.STARTED);
+            em.merge(jobExecution);
+        } catch (JobStartException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void beforeJob() throws Exception {}
+
+    @Override
+    public void afterJob() throws Exception {}
+
+    public void stopJob(JobExecution jobExecution) {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            jo.stop(jobExecution.getInstanceId());
+            LOGGER.log(Level.INFO, "Stopped job: {0}", jobExecution.getInstanceId());
+            jobExecution.setStatus(JobStatus.STOPPED);
+            em.merge(jobExecution);
+        } catch (JobExecutionNotRunningException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
+    }
+
+    public void restartJob(JobExecution jobExecution) {
+        try {
+            JobOperator jo = BatchRuntime.getJobOperator();
+            jobExecution.setInstanceId(jo.restart(jobExecution.getInstanceId(), new java.util.Properties()));
+            LOGGER.log(Level.INFO, "Restarted job: {0}", jobExecution.getInstanceId());
+            jobExecution.setStatus(JobStatus.STARTED);
+            em.merge(jobExecution);
+        } catch (NoSuchJobExecutionException | JobRestartException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
+    }
+
+    public void abandonJob(JobExecution jobExecution) {
+        JobOperator jo = BatchRuntime.getJobOperator();
+        jo.abandon(jobExecution.getInstanceId());
+        LOGGER.log(Level.INFO, "Abandoned job: {0}", jobExecution.getInstanceId());
+        jobExecution.setStatus(JobStatus.ABANDONED);
+        em.merge(jobExecution);
     }
 }

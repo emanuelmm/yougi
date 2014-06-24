@@ -21,6 +21,7 @@
 package org.cejug.yougi.entity;
 
 import org.cejug.yougi.exception.BusinessLogicException;
+import org.cejug.yougi.util.DateTimeUtils;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -76,7 +77,7 @@ public class JobSchedulerHourly extends JobScheduler {
 
         // If startTime is a date in the past then frequency is applied to it until it becomes bigger than today.
         while(today.compareTo(startTime) > 0) {
-            startTime.add(Calendar.DAY_OF_YEAR, this.getFrequency());
+            startTime.add(Calendar.HOUR, this.getFrequency());
         }
 
         /* If the updated start time falls down out of working hours and the scheduler only considers working hours,
@@ -93,7 +94,9 @@ public class JobSchedulerHourly extends JobScheduler {
             }
         }
 
-        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
+        Date endDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.getEndDate(), this.getEndTime());
+
+        if(this.getEndDate() != null && startTime.getTime().compareTo(endDateAndTime) > 0) {
             return null;
         }
 
@@ -102,6 +105,6 @@ public class JobSchedulerHourly extends JobScheduler {
 
     @Override
     public JobFrequencyType getFrequencyType() {
-        return JobFrequencyType.DAILY;
+        return JobFrequencyType.HOURLY;
     }
 }

@@ -20,12 +20,9 @@
  * */
 package org.cejug.yougi.entity;
 
-import javax.batch.operations.*;
-import javax.batch.runtime.BatchRuntime;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -94,8 +91,16 @@ public class JobExecution implements Serializable, Identified {
         return instanceId;
     }
 
+    public void setInstanceId(Long instanceId) {
+        this.instanceId = instanceId;
+    }
+
     public JobStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(JobStatus status) {
+        this.status = status;
     }
 
     public Date getStartTime() {
@@ -108,42 +113,6 @@ public class JobExecution implements Serializable, Identified {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public void startJob() {
-        try {
-            JobOperator jo = BatchRuntime.getJobOperator();
-            this.instanceId = jo.start(jobScheduler.getName(), new java.util.Properties());
-            LOGGER.log(Level.INFO, "Started job: {0}", this.instanceId);
-        } catch (JobStartException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-    }
-
-    public void stopJob() {
-        try {
-            JobOperator jo = BatchRuntime.getJobOperator();
-            jo.stop(this.instanceId);
-            LOGGER.log(Level.INFO, "Stopped job: {0}", this.instanceId);
-        } catch (JobExecutionNotRunningException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-        }
-    }
-
-    public void restartJob() {
-        try {
-            JobOperator jo = BatchRuntime.getJobOperator();
-            this.instanceId = jo.restart(this.instanceId, new java.util.Properties());
-            LOGGER.log(Level.INFO, "Restarted job: {0}", this.instanceId);
-        } catch (NoSuchJobExecutionException | JobRestartException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-        }
-    }
-
-    public void abandonJob() {
-        JobOperator jo = BatchRuntime.getJobOperator();
-        jo.abandon(this.instanceId);
-        LOGGER.log(Level.INFO, "Abandoned job: {0}", this.instanceId);
     }
 
     public String toString() {

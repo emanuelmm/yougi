@@ -74,6 +74,7 @@ public class JobSchedulerMBean {
 
     private Date startDate;
     private Date startTime;
+    private Date endDate;
     private Date endTime;
 
     public void setId(String userId) {
@@ -165,12 +166,21 @@ public class JobSchedulerMBean {
     }
 
     public void validateEndDate(FacesContext context, UIComponent component, Object value) {
-        Date endDate = (Date)value;
-
-        Date startDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(startDate, startTime);
-        LOGGER.log(Level.INFO, "startDateAndTime {0}", startDateAndTime);
+        this.endDate = (Date)value;
         LOGGER.log(Level.INFO, "endDate {0}", endDate);
-        if (startDateAndTime.compareTo(endDate) > 0) {
+    }
+
+    public void validateEndTime(FacesContext context, UIComponent component, Object value) {
+        this.endTime = (Date) value;
+        LOGGER.log(Level.INFO, "endTime {0}", this.endTime);
+
+        Date startDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.startDate, this.startTime);
+        LOGGER.log(Level.INFO, "startDateAndTime {0}", startDateAndTime);
+
+        Date endDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.endDate, this.endTime);
+        LOGGER.log(Level.INFO, "endDateAndTime {0}", endDateAndTime);
+
+        if (startDateAndTime.compareTo(endDateAndTime) > 0) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0015"), null));
         }
     }
@@ -183,7 +193,12 @@ public class JobSchedulerMBean {
     }
 
     public String save() {
-        if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
+        if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.HOURLY) {
+            JobSchedulerHourly jobSchedulerHourly = (JobSchedulerHourly) jobScheduleMBean.getJobScheduler();
+            jobSchedulerHourly.setWorkingHoursOnly(this.workingDaysOnly);
+            jobSchedulerHourly.setEndTime(this.endTime);
+        }
+        else if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
             JobSchedulerDaily jobSchedulerDaily = (JobSchedulerDaily) jobScheduleMBean.getJobScheduler();
             jobSchedulerDaily.setWorkingDaysOnly(this.workingDaysOnly);
         }

@@ -204,6 +204,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
 
         try {
             JobExecution jobExecution = persistentJobScheduler.getJobExecution();
+            LOGGER.log(Level.INFO, "Job Execution: {0}.", jobExecution.toString());
             jobExecutionBean.save(jobExecution);
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);

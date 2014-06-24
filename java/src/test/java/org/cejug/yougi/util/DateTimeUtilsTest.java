@@ -29,6 +29,7 @@ import java.util.TimeZone;
 
 /**
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
+ * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 public class DateTimeUtilsTest {
 
@@ -68,5 +69,27 @@ public class DateTimeUtilsTest {
 
         Date date = DateTimeUtils.INSTANCE.getDateAndTime("12/09/2014", "dd/MM/yyyy", "14:30", "HH:mm");
         Assert.assertEquals(date.getTime(), expectedDate.getTime());
+    }
+
+    @Test
+    public void testMergeDateAndTime() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse("23/06/2014");
+
+        sdf = new SimpleDateFormat("HH:mm");
+        Date time = sdf.parse("14:30");
+
+        sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(date, time);
+        Assert.assertEquals(sdf.format(mergedDate), "23/06/2014 14:30");
+
+        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(date, null);
+        Assert.assertEquals(sdf.format(mergedDate), "23/06/2014 00:00");
+
+        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(null, time);
+        Assert.assertEquals(sdf.format(mergedDate), "01/01/1970 14:30");
+
+        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(null, null);
+        Assert.assertNull(mergedDate);
     }
 }
