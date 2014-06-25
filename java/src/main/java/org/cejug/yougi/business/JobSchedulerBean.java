@@ -65,10 +65,26 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         return em;
 	}
 
-    public List<JobScheduler> findAllActive() {
-        return em.createQuery("select js from JobScheduler js where js.active = :active order by js.name asc", JobScheduler.class)
-                 .setParameter("active", Boolean.TRUE)
+    public List<JobScheduler> findAllScheduled() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+        return em.createQuery("select js from JobScheduler js where js.endDate is null or js.endDate >= :today order by js.startDate, js.startTime desc", JobScheduler.class)
+                 .setParameter("today", today.getTime())
                  .getResultList();
+    }
+
+    public List<JobScheduler> findAllExpired() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 23);
+        today.set(Calendar.MINUTE, 59);
+        today.set(Calendar.SECOND, 59);
+
+        return em.createQuery("select js from JobScheduler js where js.endDate is not null or js.endDate < :today order by js.startDate, js.startTime desc", JobScheduler.class)
+                .setParameter("today", today.getTime())
+                .getResultList();
     }
 
     /**

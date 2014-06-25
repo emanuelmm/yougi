@@ -26,7 +26,6 @@ import org.cejug.yougi.entity.JobStatus;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
-import javax.batch.api.listener.JobListener;
 import javax.batch.operations.JobExecutionNotRunningException;
 import javax.batch.operations.JobOperator;
 import javax.batch.operations.JobRestartException;
@@ -49,7 +48,7 @@ import java.util.logging.Logger;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-public class JobExecutionBean extends AbstractBean<JobExecution> implements JobListener {
+public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     static final Logger LOGGER = Logger.getLogger(JobExecutionBean.class.getSimpleName());
 
@@ -119,12 +118,6 @@ public class JobExecutionBean extends AbstractBean<JobExecution> implements JobL
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
-
-    @Override
-    public void beforeJob() throws Exception {}
-
-    @Override
-    public void afterJob() throws Exception {}
 
     public void stopJob(JobExecution jobExecution) {
         try {

@@ -59,12 +59,13 @@ public class JobSchedulerMBean {
     @EJB
     private UserAccountBean userAccountBean;
 
-    private List<JobScheduler> jobSchedulers;
+    private List<JobScheduler> jobsScheduled;
+    private List<JobScheduler> jobsExpired;
     private List<JobExecution> jobExecutions;
     private List<String> jobNames;
     private List<UserAccount> userAccounts;
 
-    private Boolean workingDaysOnly;
+    private Boolean workingHoursOnly;
 
     @ManagedProperty(value="#{param.id}")
     private String id;
@@ -89,6 +90,22 @@ public class JobSchedulerMBean {
         return this.jobScheduleMBean.getJobScheduler();
     }
 
+    public JobSchedulerHourly getJobSchedulerHourly() {
+        JobScheduler jobScheduler = this.getJobScheduler();
+        if(jobScheduler instanceof JobSchedulerHourly) {
+            return (JobSchedulerHourly) jobScheduler;
+        }
+        return null;
+    }
+
+    public JobSchedulerDaily getJobSchedulerDaily() {
+        JobScheduler jobScheduler = this.getJobScheduler();
+        if(jobScheduler instanceof JobSchedulerDaily) {
+            return (JobSchedulerDaily) jobScheduler;
+        }
+        return null;
+    }
+
     public String getSelectedOwner() {
         UserAccount userAccount = jobScheduleMBean.getDefaultOwner();
         if(userAccount != null) {
@@ -110,12 +127,12 @@ public class JobSchedulerMBean {
         this.jobScheduleMBean.changeJobFrequencyType(frequencyType);
     }
 
-    public Boolean getWorkingDaysOnly() {
-        return workingDaysOnly;
+    public Boolean getWorkingHoursOnly() {
+        return workingHoursOnly;
     }
 
-    public void setWorkingDaysOnly(Boolean workingDaysOnly) {
-        this.workingDaysOnly = workingDaysOnly;
+    public void setWorkingHoursOnly(Boolean workingHoursOnly) {
+        this.workingHoursOnly = workingHoursOnly;
     }
 
     public Date getEndTime() {
@@ -126,11 +143,18 @@ public class JobSchedulerMBean {
         this.endTime = endTime;
     }
 
-    public List<JobScheduler> getJobSchedulers() {
-        if(this.jobSchedulers == null) {
-            this.jobSchedulers = jobSchedulerBean.findAllActive();
+    public List<JobScheduler> getJobsScheduled() {
+        if(this.jobsScheduled == null) {
+            this.jobsScheduled = jobSchedulerBean.findAllScheduled();
         }
-        return this.jobSchedulers;
+        return this.jobsScheduled;
+    }
+
+    public List<JobScheduler> getJobsExpired() {
+        if(this.jobsExpired == null) {
+            this.jobsExpired = jobSchedulerBean.findAllExpired();
+        }
+        return this.jobsExpired;
     }
 
     public List<JobExecution> getJobExecutions() {
@@ -195,12 +219,12 @@ public class JobSchedulerMBean {
     public String save() {
         if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.HOURLY) {
             JobSchedulerHourly jobSchedulerHourly = (JobSchedulerHourly) jobScheduleMBean.getJobScheduler();
-            jobSchedulerHourly.setWorkingHoursOnly(this.workingDaysOnly);
+            jobSchedulerHourly.setWorkingHoursOnly(this.workingHoursOnly);
             jobSchedulerHourly.setEndTime(this.endTime);
         }
         else if(this.jobScheduleMBean.getJobScheduler().getFrequencyType() == JobFrequencyType.DAILY) {
             JobSchedulerDaily jobSchedulerDaily = (JobSchedulerDaily) jobScheduleMBean.getJobScheduler();
-            jobSchedulerDaily.setWorkingDaysOnly(this.workingDaysOnly);
+            jobSchedulerDaily.setWorkingDaysOnly(this.workingHoursOnly);
         }
 
         if(EntitySupport.INSTANCE.isIdNotValid(jobScheduleMBean.getJobScheduler())) {

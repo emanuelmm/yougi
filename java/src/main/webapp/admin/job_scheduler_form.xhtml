@@ -95,8 +95,8 @@
                                             <h:outputText value="&nbsp;#{bundle.weeks}" rendered="#{jobSchedulerMBean.frequencyType == 'WEEKLY'}"/>
                                             <h:outputText value="&nbsp;#{bundle.months}" rendered="#{jobSchedulerMBean.frequencyType == 'MONTHLY'}"/>
                                             <h:outputText value="&nbsp;#{bundle.years}" rendered="#{jobSchedulerMBean.frequencyType == 'YEARLY'}"/>
-                                            <h:selectBooleanCheckbox id="workingDaysOnly" label="#{bundle.workingDaysOnly}" value="#{jobSchedulerMBean.workingDaysOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
-                                            <h:outputLabel for="workingDaysOnly" value="&nbsp;#{bundle.workingDaysOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
+                                            <h:selectBooleanCheckbox id="workingHoursOnly" label="#{bundle.workingHoursOnly}" value="#{jobSchedulerMBean.workingHoursOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
+                                            <h:outputLabel for="workingHoursOnly" value="&nbsp;#{bundle.workingHoursOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
                                         </div>
                                     </div>
                                 </div>

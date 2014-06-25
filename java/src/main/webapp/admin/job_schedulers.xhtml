@@ -32,49 +32,100 @@
                     <h1>#{bundle.jobScheduling}</h1>
                 </div>
                 <h:form>
-                    <h:dataTable value="#{jobSchedulerMBean.jobSchedulers}" var="jobScheduler" styleClass="table table-striped">
-                        <f:facet name="header">
-                            <h:button outcome="job_scheduler_form" value="#{bundle.new}" styleClass="btn btn-default"/>
-                        </f:facet>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
-                            <h:link outcome="job_scheduler" value="#{jobScheduler.name}">
-                                <f:param name="id" value="#{jobScheduler.id}"/>
-                            </h:link>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.type}"/></f:facet>
-                            <h:outputText value="#{jobScheduler.frequencyType}">
-                                <f:converter converterId="JobFrequencyTypeConverter"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.owner}"/></f:facet>
-                            <h:outputText value="#{jobScheduler.defaultOwner}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.startDate}"/></f:facet>
-                            <h:outputText value="#{jobScheduler.startDate}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.endDate}"/></f:facet>
-                            <h:outputText value="#{jobScheduler.endDate}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.time}"/></f:facet>
-                            <h:outputText value="#{jobScheduler.startTime}">
-                                <f:convertDateTime pattern="HH:mm"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
-                            <h:graphicImage rendered="#{jobScheduler.active}" url="/images/success-icon.png"/>
-                        </h:column>
-                    </h:dataTable>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#scheduled" data-toggle="tab">#{bundle.scheduled}</a></li>
+                        <li><a href="#expired" data-toggle="tab">#{bundle.expired}</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="scheduled">
+                            <h:dataTable id="jobsScheduled" value="#{jobSchedulerMBean.jobsScheduled}" var="jobScheduled" styleClass="table table-striped">
+                                <f:facet name="header">
+                                    <h:button outcome="job_scheduler_form" value="#{bundle.new}" styleClass="btn btn-default"/>
+                                </f:facet>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="job_scheduler" value="#{jobScheduled.name}">
+                                        <f:param name="id" value="#{jobScheduled.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.type}"/></f:facet>
+                                    <h:outputText value="#{jobScheduled.frequencyType}">
+                                        <f:converter converterId="JobFrequencyTypeConverter"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.owner}"/></f:facet>
+                                    <h:outputText value="#{jobScheduled.defaultOwner}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.startDate}"/></f:facet>
+                                    <h:outputText value="#{jobScheduled.startDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.endDate}"/></f:facet>
+                                    <h:outputText value="#{jobScheduled.endDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.time}"/></f:facet>
+                                    <h:outputText value="#{jobScheduled.startTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
+                                    <h:graphicImage rendered="#{jobScheduled.active}" url="/images/success-icon.png"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                        <div class="tab-pane" id="expired">
+                            <h:dataTable id="jobsExpired" value="#{jobSchedulerMBean.jobsExpired}" var="jobExpired" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="job_scheduler" value="#{jobExpired.name}">
+                                        <f:param name="id" value="#{jobExpired.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.type}"/></f:facet>
+                                    <h:outputText value="#{jobExpired.frequencyType}">
+                                        <f:converter converterId="JobFrequencyTypeConverter"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.owner}"/></f:facet>
+                                    <h:outputText value="#{jobExpired.defaultOwner}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.startDate}"/></f:facet>
+                                    <h:outputText value="#{jobExpired.startDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.endDate}"/></f:facet>
+                                    <h:outputText value="#{jobExpired.endDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.time}"/></f:facet>
+                                    <h:outputText value="#{jobExpired.startTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
+                                    <h:graphicImage rendered="#{jobExpired.active}" url="/images/success-icon.png"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </div>
                 </h:form>
             </ui:define>
         </ui:composition>

@@ -28,6 +28,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,5 +52,15 @@ public class MailingListWriter extends AbstractItemWriter {
             LOGGER.log(Level.INFO, "Message: {0} - {1}", new String[]{mailingListMessage.getSubject(),
                                                                       mailingListMessage.getContentType()});
         }
+    }
+
+    @Override
+    public void open(Serializable checkpoint) throws Exception {
+        LOGGER.log(Level.INFO, "Open");
+    }
+
+    @Override
+    public void close() throws Exception {
+        LOGGER.log(Level.INFO, "Close");
     }
 }

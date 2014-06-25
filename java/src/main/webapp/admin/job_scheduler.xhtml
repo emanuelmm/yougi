@@ -36,7 +36,11 @@
                         <div class="panel-body">
                             <dl class="dl-horizontal">
                                 <dt>#{bundle.type}</dt>
-                                <dd>#{jobSchedulerMBean.jobScheduler.frequencyType}</dd>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.frequencyType}">
+                                        <f:converter converterId="JobFrequencyTypeConverter"/>
+                                    </h:outputText>
+                                </dd>
                                 <dt>#{bundle.owner}</dt>
                                 <dd>#{jobSchedulerMBean.jobScheduler.defaultOwner}</dd>
                                 <dt>#{bundle.description}</dt>
@@ -45,8 +49,8 @@
                                 <dd>
                                     <h:outputText value="#{jobSchedulerMBean.jobScheduler.startDate}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                    </h:outputText> -
-
+                                    </h:outputText>
+                                    &nbsp;
                                     <h:outputText value="#{jobSchedulerMBean.jobScheduler.startTime}">
                                         <f:convertDateTime pattern="HH:mm"/>
                                     </h:outputText>
@@ -56,9 +60,18 @@
                                     <h:outputText value="#{jobSchedulerMBean.jobScheduler.endDate}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                     </h:outputText>
+                                    &nbsp;
+                                    <h:outputText value="#{jobSchedulerMBean.jobSchedulerHourly.endTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
                                 </dd>
                                 <dt>#{bundle.active}</dt>
                                 <dd><h:graphicImage rendered="#{jobSchedulerMBean.jobScheduler.active}" url="/images/success-icon.png"/></dd>
+                                <dt>#{bundle.workingHours}</dt>
+                                <dd>
+                                    <h:graphicImage rendered="#{jobSchedulerMBean.jobSchedulerHourly.workingHoursOnly}" url="/images/success-icon.png"/>
+                                    <h:graphicImage rendered="#{jobSchedulerMBean.jobSchedulerDaily.workingDaysOnly}" url="/images/success-icon.png"/>
+                                </dd>
                             </dl>
 
                             <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
@@ -91,7 +104,9 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.status}"/></f:facet>
-                                    <h:outputText value="#{jobExecution.status}"/>
+                                    <h:outputText value="#{jobExecution.status}">
+                                        <f:converter converterId="JobStatusConverter"/>
+                                    </h:outputText>
                                 </h:column>
                             </h:dataTable>
                         </div>
