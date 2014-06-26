@@ -160,6 +160,9 @@ public class JobSchedulerMBean {
     public List<JobExecution> getJobExecutions() {
         if(this.jobExecutions == null) {
             this.jobExecutions = jobExecutionBean.findJobExecutions(this.jobScheduleMBean.getJobScheduler());
+            for(JobExecution jobExecution : this.jobExecutions) {
+                jobExecution.setTimeout(jobExecutionBean.findTimeout(jobExecution));
+            }
         }
 
         return jobExecutions;

@@ -60,6 +60,9 @@ public class JobExecution implements Serializable, Identified {
     @Column(name = "end_time")
     private Date endTime;
 
+    @Transient
+    private Date timeout;
+
     public JobExecution() {}
 
     public JobExecution(JobScheduler jobScheduler, UserAccount owner, Date startTime) {
@@ -113,6 +116,14 @@ public class JobExecution implements Serializable, Identified {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Date timeout) {
+        this.timeout = timeout;
     }
 
     public String toString() {

@@ -53,9 +53,16 @@ public class JobSchedulerMonthly extends JobScheduler {
             startTime.add(Calendar.MONTH, this.getFrequency());
         }
 
-        // A business exception is thrown if the start time is bigger than the end date.
-        if(this.getEndDate() != null && startTime.getTime().compareTo(this.getEndDate()) > 0) {
-            return null;
+        if(this.getEndDate() != null) {
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(this.getEndDate());
+            endDate.set(Calendar.HOUR_OF_DAY, 23);
+            endDate.set(Calendar.MINUTE, 59);
+            endDate.set(Calendar.SECOND, 59);
+
+            if(startTime.getTime().compareTo(endDate.getTime()) > 0) {
+                return null;
+            }
         }
 
         return new JobExecution(this, owner, startTime.getTime());

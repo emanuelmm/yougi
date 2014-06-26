@@ -40,6 +40,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,7 +101,10 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         try {
             if(jobScheduler.getActive()) {
                 JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
-                this.save(nextJobExecution);
+                JobExecution persistentJobExecution = this.save(nextJobExecution);
+                if(persistentJobExecution == null) {
+                    jobScheduler.setActive(Boolean.FALSE);
+                }
             }
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.WARNING, "Not possible to create the next job execution.", e);
@@ -149,5 +154,17 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         LOGGER.log(Level.INFO, "Abandoned job: {0}", jobExecution.getInstanceId());
         jobExecution.setStatus(JobStatus.ABANDONED);
         em.merge(jobExecution);
+    }
+
+    public Date findTimeout(JobExecution jobExecution) {
+        Collection<Timer> timers = timerService.getTimers();
+        LOGGER.log(Level.INFO, "Timers: {0}", timers.size());
+        for(Timer timer : timers) {
+            LOGGER.log(Level.INFO, "Info: {0} Timeout: {1}", new Object[]{timer.getInfo(),timer.getNextTimeout()});
+            if(jobExecution.getId().compareTo((String) timer.getInfo()) == 0) {
+                return timer.getNextTimeout();
+            }
+        }
+        return null;
     }
 }
