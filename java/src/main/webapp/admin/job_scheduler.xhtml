@@ -88,9 +88,12 @@
                             <h:dataTable value="#{jobSchedulerMBean.jobExecutions}" var="jobExecution" styleClass="table table-striped">
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.startTime}"/></f:facet>
-                                    <h:outputText value="#{jobExecution.startTime}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                                    </h:outputText>
+                                    <h:link outcome="job_execution">
+                                        <f:param name="id" value="#{jobExecution.id}"/>
+                                        <h:outputText  value="#{jobExecution.startTime}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputText>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.endTime}"/></f:facet>

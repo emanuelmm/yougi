@@ -241,4 +241,9 @@ public abstract class JobScheduler implements Serializable, Identified {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
