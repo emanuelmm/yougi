@@ -82,7 +82,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         today.set(Calendar.MINUTE, 59);
         today.set(Calendar.SECOND, 59);
 
-        return em.createQuery("select js from JobScheduler js where js.endDate is not null or js.endDate < :today order by js.startDate, js.startTime desc", JobScheduler.class)
+        return em.createQuery("select js from JobScheduler js where js.endDate is not null and js.endDate < :today order by js.startDate, js.startTime desc", JobScheduler.class)
                 .setParameter("today", today.getTime())
                 .getResultList();
     }

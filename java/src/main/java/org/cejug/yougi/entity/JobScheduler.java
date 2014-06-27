@@ -172,6 +172,15 @@ public abstract class JobScheduler implements Serializable, Identified {
 
     public abstract JobFrequencyType getFrequencyType();
 
+    public Boolean getExpired() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 23);
+        today.set(Calendar.MINUTE, 59);
+        today.set(Calendar.SECOND, 59);
+
+        return (endDate != null) && (endDate.compareTo(today.getTime()) > 0);
+    }
+
     /**
      * Checks whether the scheduler interval is valid.
      * @return true the start date is greater than or equal to now and start date is less than or equal to end date.
