@@ -108,6 +108,12 @@
                                         <f:converter converterId="JobStatusConverter"/>
                                     </h:outputText>
                                 </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.timeout}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.timeout}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
                             </h:dataTable>
                         </div>
                     </div>
