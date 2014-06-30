@@ -161,7 +161,9 @@ public class JobSchedulerMBean {
         if(this.jobExecutions == null) {
             this.jobExecutions = jobExecutionBean.findJobExecutions(this.jobScheduleMBean.getJobScheduler());
             for(JobExecution jobExecution : this.jobExecutions) {
-                jobExecution.setTimeout(jobExecutionBean.findTimeout(jobExecution));
+                if(jobExecution.getStatus().equals(JobStatus.SCHEDULED)) {
+                    jobExecution.setTimeout(jobExecutionBean.findTimeout(jobExecution));
+                }
             }
         }
 

@@ -84,6 +84,9 @@
                         </div>
                     </div>
                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">#{bundle.executions}</h3>
+                        </div>
                         <div class="panel-body">
                             <h:dataTable value="#{jobSchedulerMBean.jobExecutions}" var="jobExecution" styleClass="table table-striped">
                                 <h:column>
@@ -116,6 +119,10 @@
                                     <h:outputText value="#{jobExecution.timeout}">
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                     </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.id}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.instanceId}"/>
                                 </h:column>
                             </h:dataTable>
                         </div>

@@ -26,11 +26,7 @@ import org.cejug.yougi.entity.JobStatus;
 import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
-import javax.batch.operations.JobExecutionNotRunningException;
-import javax.batch.operations.JobOperator;
-import javax.batch.operations.JobRestartException;
-import javax.batch.operations.JobStartException;
-import javax.batch.operations.NoSuchJobExecutionException;
+import javax.batch.operations.*;
 import javax.batch.runtime.BatchRuntime;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
@@ -73,6 +69,13 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler order by je.startTime asc", JobExecution.class)
                  .setParameter("jobScheduler", jobScheduler)
                  .getResultList();
+    }
+
+    public JobExecution findJobExecution(Long instanceId) {
+        return em.createQuery("select je from JobExecution je where je.instanceId = :instanceId and je.status = :status", JobExecution.class)
+                 .setParameter("instanceId", instanceId)
+                 .setParameter("status", JobStatus.STARTED)
+                 .getSingleResult();
     }
 
     @Override
@@ -158,9 +161,7 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
     public Date findTimeout(JobExecution jobExecution) {
         Collection<Timer> timers = timerService.getTimers();
-        LOGGER.log(Level.INFO, "Timers: {0}", timers.size());
         for(Timer timer : timers) {
-            LOGGER.log(Level.INFO, "Info: {0} Timeout: {1}", new Object[]{timer.getInfo(),timer.getNextTimeout()});
             if(jobExecution.getId().compareTo((String) timer.getInfo()) == 0) {
                 return timer.getNextTimeout();
             }

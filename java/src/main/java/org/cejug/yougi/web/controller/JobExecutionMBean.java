@@ -21,30 +21,14 @@
 package org.cejug.yougi.web.controller;
 
 import org.cejug.yougi.business.JobExecutionBean;
-import org.cejug.yougi.business.JobSchedulerBean;
-import org.cejug.yougi.business.UserAccountBean;
 import org.cejug.yougi.entity.EntitySupport;
 import org.cejug.yougi.entity.JobExecution;
-import org.cejug.yougi.entity.JobFrequencyType;
-import org.cejug.yougi.entity.JobScheduler;
-import org.cejug.yougi.entity.JobSchedulerDaily;
-import org.cejug.yougi.entity.JobSchedulerHourly;
-import org.cejug.yougi.entity.UserAccount;
-import org.cejug.yougi.util.DateTimeUtils;
-import org.cejug.yougi.util.ResourceBundleHelper;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -83,9 +67,8 @@ public class JobExecutionMBean {
         }
     }
 
-    public
-
     public String remove() {
+        this.jobExecution = this.jobExecutionBean.find(this.jobExecution.getId());
         jobExecutionBean.remove(this.jobExecution.getId());
         return "job_scheduler?id="+ this.jobExecution.getJobScheduler().getId();
     }

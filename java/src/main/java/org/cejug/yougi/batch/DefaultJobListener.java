@@ -20,8 +20,16 @@
  * */
 package org.cejug.yougi.batch;
 
+import org.cejug.yougi.business.JobExecutionBean;
+import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.entity.JobStatus;
+
 import javax.batch.api.listener.JobListener;
+import javax.batch.runtime.context.JobContext;
+import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +41,12 @@ public class DefaultJobListener implements JobListener {
 
     private static final Logger LOGGER = Logger.getLogger(DefaultJobListener.class.getSimpleName());
 
+    @Inject
+    private JobContext jobContext;
+
+    @EJB
+    private JobExecutionBean jobExecutionBean;
+
     @Override
     public void beforeJob() throws Exception {
         LOGGER.log(Level.INFO, "Starting job");
@@ -40,6 +54,9 @@ public class DefaultJobListener implements JobListener {
 
     @Override
     public void afterJob() throws Exception {
-        LOGGER.log(Level.INFO, "Job finished");
+        JobExecution jobExecution = jobExecutionBean.findJobExecution(jobContext.getInstanceId());
+        jobExecution.setEndTime(Calendar.getInstance().getTime());
+        jobExecution.setStatus(JobStatus.COMPLETED);
+        LOGGER.log(Level.INFO, "Job finished: {0}", jobExecution);
     }
 }

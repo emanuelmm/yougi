@@ -69,9 +69,9 @@
                                 </dd>
                             </dl>
 
-                            <h:commandButton value="#{bundle.remove}" action="#{jobExecutionMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
-                                <f:param name="id" value="#{jobExecutionMBean.jobExecution.id}"/>
-                            </h:commandButton>
+                            <h:inputHidden value="#{jobExecutionMBean.jobExecution.id}"/>
+
+                            <h:commandButton value="#{bundle.remove}" action="#{jobExecutionMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                             <h:button outcome="job_scheduler" value="#{bundle.back}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{jobExecutionMBean.jobExecution.jobScheduler.id}"/>
                             </h:button>
