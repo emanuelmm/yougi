@@ -18,54 +18,38 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.cejug.yougi.web.controller;
+package org.cejug.yougi.business;
 
-import org.cejug.yougi.business.JobExecutionBean;
-import org.cejug.yougi.entity.EntitySupport;
 import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.entity.JobStatus;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import java.util.logging.Logger;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
-@RequestScoped
-public class JobExecutionMBean {
-
-    private static final Logger LOGGER = Logger.getLogger(JobExecutionMBean.class.getSimpleName());
+@Startup
+@Singleton
+public class JobExecutionMonitorBean {
 
     @EJB
-    private JobExecutionBean jobExecutionBean;
-
-    private JobExecution jobExecution;
-
-    @ManagedProperty(value="#{param.id}")
-    private String id;
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public JobExecution getJobExecution() {
-        return jobExecution;
-    }
+    private JobExecutionBean executionJobBean;
 
     @PostConstruct
-    public void load() {
-        if(EntitySupport.INSTANCE.isIdValid(this.id)) {
-            this.jobExecution = this.jobExecutionBean.find(this.id);
+    public void init() {
+        List<JobExecution> scheduledJobExecutions = executionJobBean.findExecutionJobs(JobStatus.SCHEDULED);
+        Date timeout;
+        for(JobExecution jobExecution: scheduledJobExecutions) {
+            timeout = executionJobBean.findTimeout(jobExecution);
+            if(timeout == null) {
+                timeout = executionJobBean.schedule(jobExecution);
+                jobExecution.setTimeout(timeout);
+            }
         }
-    }
-
-    public String remove() {
-        this.jobExecution = this.jobExecutionBean.find(this.jobExecution.getId());
-        jobExecutionBean.remove(this.jobExecution.getId());
-        return "job_scheduler?id="+ this.jobExecution.getJobScheduler().getId();
     }
 }
