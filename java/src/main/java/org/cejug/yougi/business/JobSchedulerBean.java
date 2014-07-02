@@ -26,8 +26,7 @@ import org.jboss.vfs.TempFileProvider;
 import org.jboss.vfs.VFS;
 import org.jboss.vfs.VirtualFile;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Closeable;
@@ -36,7 +35,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -227,7 +231,21 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     public void activate(JobScheduler jobScheduler) {
         if(!jobScheduler.getActive()) {
             jobScheduler.setActive(Boolean.TRUE);
+            super.save(jobScheduler);
             this.jobExecutionBean.schedule(jobScheduler);
+        }
+    }
+
+    public void deactivate(JobScheduler jobScheduler) {
+        if(jobScheduler.getActive()) {
+            jobScheduler.setActive(Boolean.FALSE);
+            super.save(jobScheduler);
+
+            List<JobExecution> scheduledExecutions = jobExecutionBean.findExecutionJobs(JobStatus.SCHEDULED);
+            for(JobExecution jobExecution: scheduledExecutions) {
+                Timer timer = jobExecutionBean.findTimer(jobExecution);
+                timer.cancel();
+            }
         }
     }
 }
