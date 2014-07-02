@@ -20,8 +20,6 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.exception.BusinessLogicException;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Calendar;
@@ -37,7 +35,7 @@ public class JobSchedulerYearly extends JobScheduler {
 	private static final long serialVersionUID = 1L;
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getJobExecution(UserAccount owner) {
         return this.getNextJobExecution(owner);
     }
 

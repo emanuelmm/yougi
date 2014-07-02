@@ -23,6 +23,7 @@ package org.cejug.yougi.web.controller;
 import org.cejug.yougi.business.JobExecutionBean;
 import org.cejug.yougi.entity.EntitySupport;
 import org.cejug.yougi.entity.JobExecution;
+import org.cejug.yougi.entity.JobScheduler;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -64,12 +65,15 @@ public class JobExecutionMBean {
     public void load() {
         if(EntitySupport.INSTANCE.isIdValid(this.id)) {
             this.jobExecution = this.jobExecutionBean.find(this.id);
+        } else {
+            this.jobExecution = new JobExecution();
         }
     }
 
     public String remove() {
         this.jobExecution = this.jobExecutionBean.find(this.jobExecution.getId());
+        JobScheduler jobScheduler = this.jobExecution.getJobScheduler();
         jobExecutionBean.remove(this.jobExecution.getId());
-        return "job_scheduler?id="+ this.jobExecution.getJobScheduler().getId();
+        return "job_scheduler?faces-redirect=true&id="+ jobScheduler.getId();
     }
 }

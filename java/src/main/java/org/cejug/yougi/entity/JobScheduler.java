@@ -20,8 +20,6 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.exception.BusinessLogicException;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -158,17 +156,17 @@ public abstract class JobScheduler implements Serializable, Identified {
         this.active = active;
     }
 
-    public JobExecution getJobExecution() throws BusinessLogicException {
+    public JobExecution getJobExecution() {
         return getJobExecution(this.defaultOwner);
     }
 
-    public abstract JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException;
+    public abstract JobExecution getJobExecution(UserAccount owner);
 
-    public JobExecution getNextJobExecution() throws BusinessLogicException {
+    public JobExecution getNextJobExecution() {
         return getNextJobExecution(this.defaultOwner);
     }
 
-    public abstract JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException;
+    public abstract JobExecution getNextJobExecution(UserAccount owner);
 
     public abstract JobFrequencyType getFrequencyType();
 

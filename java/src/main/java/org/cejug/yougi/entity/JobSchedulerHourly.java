@@ -20,7 +20,6 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.util.DateTimeUtils;
 
 import javax.persistence.*;
@@ -64,7 +63,7 @@ public class JobSchedulerHourly extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getJobExecution(UserAccount owner) {
         return this.getNextJobExecution(owner);
     }
 

@@ -20,8 +20,6 @@
  * */
 package org.cejug.yougi.entity;
 
-import org.cejug.yougi.exception.BusinessLogicException;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -52,12 +50,12 @@ public class JobSchedulerDaily extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getJobExecution(UserAccount owner) {
         return this.getNextJobExecution(owner);
     }
 
     @Override
-    public JobExecution getNextJobExecution(UserAccount owner) throws BusinessLogicException {
+    public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
 
         // Calculate original start time

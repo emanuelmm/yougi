@@ -21,7 +21,6 @@
 package org.cejug.yougi.business;
 
 import org.cejug.yougi.entity.*;
-import org.cejug.yougi.exception.BusinessLogicException;
 import org.cejug.yougi.exception.EnvironmentResourceException;
 import org.jboss.vfs.TempFileProvider;
 import org.jboss.vfs.VFS;
@@ -218,14 +217,17 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     public JobScheduler save(JobScheduler jobScheduler) {
         JobScheduler persistentJobScheduler = super.save(jobScheduler);
 
-        try {
-            JobExecution jobExecution = persistentJobScheduler.getJobExecution();
-            LOGGER.log(Level.INFO, "Job Execution: {0}.", jobExecution.toString());
-            jobExecutionBean.save(jobExecution);
-        } catch (BusinessLogicException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-        }
+        JobExecution jobExecution = persistentJobScheduler.getJobExecution();
+        LOGGER.log(Level.INFO, "Job Execution: {0}.", jobExecution.toString());
+        jobExecutionBean.save(jobExecution);
 
         return persistentJobScheduler;
+    }
+
+    public void activate(JobScheduler jobScheduler) {
+        if(!jobScheduler.getActive()) {
+            jobScheduler.setActive(Boolean.TRUE);
+            this.jobExecutionBean.schedule(jobScheduler);
+        }
     }
 }

@@ -23,7 +23,6 @@ package org.cejug.yougi.business;
 import org.cejug.yougi.entity.JobExecution;
 import org.cejug.yougi.entity.JobScheduler;
 import org.cejug.yougi.entity.JobStatus;
-import org.cejug.yougi.exception.BusinessLogicException;
 
 import javax.annotation.Resource;
 import javax.batch.operations.*;
@@ -90,6 +89,16 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         return persistentJobExecution;
     }
 
+    @Override
+    public void remove(String id) {
+        JobExecution jobExecution = find(id);
+        Timer timer = findTimer(jobExecution);
+        if(timer != null) {
+            timer.cancel();
+        }
+        super.remove(id);
+    }
+
     @Timeout
     public void startJob(Timer timer) {
         // Retrieves the job execution from the database.
@@ -100,17 +109,19 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         // Starts the job execution.
         startJob(currentJobExecution);
 
-        // Schedules the next job execution.
-        try {
-            if(jobScheduler.getActive()) {
-                JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
-                JobExecution persistentJobExecution = this.save(nextJobExecution);
-                if(persistentJobExecution == null) {
-                    jobScheduler.setActive(Boolean.FALSE);
-                }
+        schedule(jobScheduler);
+    }
+
+    /**
+     * Schedules the next job execution.
+     */
+    public void schedule(JobScheduler jobScheduler) {
+        if(jobScheduler.getActive()) {
+            JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
+            JobExecution persistentJobExecution = this.save(nextJobExecution);
+            if(persistentJobExecution == null) {
+                jobScheduler.setActive(Boolean.FALSE);
             }
-        } catch (BusinessLogicException e) {
-            LOGGER.log(Level.WARNING, "Not possible to create the next job execution.", e);
         }
     }
 
@@ -160,10 +171,15 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
     }
 
     public Date findTimeout(JobExecution jobExecution) {
+        Timer timer = findTimer(jobExecution);
+        return timer != null ? timer.getNextTimeout() : null;
+    }
+
+    private Timer findTimer(JobExecution jobExecution) {
         Collection<Timer> timers = timerService.getTimers();
         for(Timer timer : timers) {
             if(jobExecution.getId().compareTo((String) timer.getInfo()) == 0) {
-                return timer.getNextTimeout();
+                return timer;
             }
         }
         return null;
