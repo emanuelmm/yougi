@@ -46,7 +46,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <h:link outcome="/index"><h:graphicImage value="/images/logo.png" style="margin-top: 4px;"/></h:link>
+                    <h:link outcome="/index"><h:graphicImage value="/images/logo.png" style="margin-top: 8px;"/></h:link>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -69,14 +69,6 @@
                                 </ul>
                             </li>
                             <li><a href="#{request.contextPath}/partnership/partners.xhtml">#{bundle.partners}</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.myAccount} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#{request.contextPath}/profile/profile.xhtml">#{bundle.profile}</a></li>
-                                    <li><a href="#{request.contextPath}/profile/change_password.xhtml">#{bundle.changePassword}</a></li>
-                                    <li><a href="#{request.contextPath}/profile/change_email.xhtml">#{bundle.changeEmail}</a></li>
-                                </ul>
-                            </li>
                             <c:if test="#{securityBackingMBean.isUserAdministrator}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.administration} <b class="caret"></b></a>
@@ -110,9 +102,16 @@
                                 </ul>
                             </c:if>
                             <c:if test="#{! empty request.remoteUser}">
-                                <span class="navbar-text">
-                                    <h:outputText value="#{bundle.hello} "/>
-                                    <h:outputText value="#{firstName} !"/></span>
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.hello}  #{firstName} <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#{request.contextPath}/profile/profile.xhtml">#{bundle.profile}</a></li>
+                                            <li><a href="#{request.contextPath}/profile/change_password.xhtml">#{bundle.changePassword}</a></li>
+                                            <li><a href="#{request.contextPath}/profile/change_email.xhtml">#{bundle.changeEmail}</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                                 <ul class="nav navbar-nav">
                                     <li><h:commandLink action="#{securityBackingMBean.logout}" value="#{bundle.signOut}"/></li>
                                 </ul>
@@ -131,13 +130,12 @@
 
         <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
             <div class="container">
-                <p class="navbar-text">Created and maintained by the <a href="http://www.cejug.net" target="_blank">CEJUG</a> Community!
-                    - <b><a href="https://github.com/htmfilho/yougi/releases" target="_blank">@Version@</a></b>
+                <p class="navbar-text">Created and maintained by the <a href="http://www.cejug.net" target="_blank">CEJUG</a> Community.
+                    Source code available on <a href="https://github.com/htmfilho/yougi" target="_blank">GitHub</a>.
                     - Timezone: #{userProfileMBean.timeZone}
                     (<h:outputText value="#{userProfileMBean.whatTimeIsIt}">
                         <f:convertDateTime type="time" timeStyle="short" pattern="#{bundle.formatTime}" timeZone="#{userProfileMBean.timeZone}"/>
                     </h:outputText>)
-                    - You can also contribute to this project at GitHub. <a href="https://github.com/htmfilho/yougi" target="_blank">Fork it now!</a>!
                 </p>
             </div>
         </nav>
