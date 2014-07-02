@@ -49,16 +49,12 @@ public class JobExecutionMBean {
     @ManagedProperty(value="#{param.id}")
     private String id;
 
-    public void setId(String userId) {
-        this.id = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public JobExecution getJobExecution() {
         return jobExecution;
-    }
-
-    public void setJobExecution(JobExecution jobExecution) {
-        this.jobExecution = jobExecution;
     }
 
     @PostConstruct

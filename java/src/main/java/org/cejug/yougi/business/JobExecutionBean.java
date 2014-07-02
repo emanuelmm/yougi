@@ -35,6 +35,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +65,12 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         return em;
 	}
 
+    public List<JobExecution> findExecutionJobs(JobStatus jobStatus) {
+        return em.createQuery("select je from JobExecution je where je.status = :status order by je.startTime asc", JobExecution.class)
+                .setParameter("status", jobStatus)
+                .getResultList();
+    }
+
     public List<JobExecution> findJobExecutions(JobScheduler jobScheduler) {
         return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler order by je.startTime asc", JobExecution.class)
                  .setParameter("jobScheduler", jobScheduler)
@@ -82,11 +89,23 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         JobExecution persistentJobExecution = null;
         if(jobExecution != null) {
             persistentJobExecution = super.save(jobExecution);
-            Timer timer = timerService.createTimer(persistentJobExecution.getStartTime(), persistentJobExecution.getId());
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            LOGGER.log(Level.INFO, "Execution scheduled to {0}.", df.format(timer.getNextTimeout()));
+            schedule(persistentJobExecution);
         }
         return persistentJobExecution;
+    }
+
+    public Date schedule(JobExecution jobExecution) {
+        Date startTime = jobExecution.getStartTime();
+        Date now = Calendar.getInstance().getTime();
+
+        if(startTime.compareTo(now) < 0) {
+            startTime = now;
+        }
+
+        Timer timer = timerService.createTimer(startTime, jobExecution.getId());
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        LOGGER.log(Level.INFO, "Job Scheduled to {0}", df.format(timer.getNextTimeout()));
+        return timer.getNextTimeout();
     }
 
     @Override
@@ -107,7 +126,9 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
 
         // Starts the job execution.
-        startJob(currentJobExecution);
+        if (currentJobExecution.getStatus() == JobStatus.SCHEDULED) {
+            startJob(currentJobExecution);
+        }
 
         schedule(jobScheduler);
     }
