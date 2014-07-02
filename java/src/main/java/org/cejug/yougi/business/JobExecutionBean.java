@@ -84,6 +84,21 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
                  .getSingleResult();
     }
 
+    public Date findTimeout(JobExecution jobExecution) {
+        Timer timer = findTimer(jobExecution);
+        return timer != null ? timer.getNextTimeout() : null;
+    }
+
+    public Timer findTimer(JobExecution jobExecution) {
+        Collection<Timer> timers = timerService.getTimers();
+        for(Timer timer : timers) {
+            if(jobExecution.getId().compareTo((String) timer.getInfo()) == 0) {
+                return timer;
+            }
+        }
+        return null;
+    }
+
     @Override
     public JobExecution save(JobExecution jobExecution) {
         JobExecution persistentJobExecution = null;
@@ -92,20 +107,6 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
             schedule(persistentJobExecution);
         }
         return persistentJobExecution;
-    }
-
-    public Date schedule(JobExecution jobExecution) {
-        Date startTime = jobExecution.getStartTime();
-        Date now = Calendar.getInstance().getTime();
-
-        if(startTime.compareTo(now) < 0) {
-            startTime = now;
-        }
-
-        Timer timer = timerService.createTimer(startTime, jobExecution.getId());
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        LOGGER.log(Level.INFO, "Job Scheduled to {0}", df.format(timer.getNextTimeout()));
-        return timer.getNextTimeout();
     }
 
     @Override
@@ -138,12 +139,34 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
      */
     public void schedule(JobScheduler jobScheduler) {
         if(jobScheduler.getActive()) {
-            JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
-            JobExecution persistentJobExecution = this.save(nextJobExecution);
-            if(persistentJobExecution == null) {
-                jobScheduler.setActive(Boolean.FALSE);
+            List<JobExecution> scheduledExecutions = findExecutionJobs(JobStatus.SCHEDULED);
+            if(scheduledExecutions.isEmpty()) {
+                JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
+                JobExecution persistentJobExecution = this.save(nextJobExecution);
+                if (persistentJobExecution == null) {
+                    jobScheduler.setActive(Boolean.FALSE);
+                }
+            } else {
+                for(JobExecution jobExecution: scheduledExecutions) {
+                    Date timeout = schedule(jobExecution);
+                    jobExecution.setTimeout(timeout);
+                }
             }
         }
+    }
+
+    public Date schedule(JobExecution jobExecution) {
+        Date startTime = jobExecution.getStartTime();
+        Date now = Calendar.getInstance().getTime();
+
+        if(startTime.compareTo(now) < 0) {
+            startTime = now;
+        }
+
+        Timer timer = timerService.createTimer(startTime, jobExecution.getId());
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        LOGGER.log(Level.INFO, "Job Scheduled to {0}", df.format(timer.getNextTimeout()));
+        return timer.getNextTimeout();
     }
 
     public void startJob(JobExecution jobExecution) {
@@ -189,20 +212,5 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         LOGGER.log(Level.INFO, "Abandoned job: {0}", jobExecution.getInstanceId());
         jobExecution.setStatus(JobStatus.ABANDONED);
         em.merge(jobExecution);
-    }
-
-    public Date findTimeout(JobExecution jobExecution) {
-        Timer timer = findTimer(jobExecution);
-        return timer != null ? timer.getNextTimeout() : null;
-    }
-
-    private Timer findTimer(JobExecution jobExecution) {
-        Collection<Timer> timers = timerService.getTimers();
-        for(Timer timer : timers) {
-            if(jobExecution.getId().compareTo((String) timer.getInfo()) == 0) {
-                return timer;
-            }
-        }
-        return null;
     }
 }

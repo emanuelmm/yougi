@@ -241,6 +241,20 @@ public class JobSchedulerMBean {
         return "job_schedulers";
     }
 
+    public String activate() {
+        String id = this.jobScheduleMBean.getJobScheduler().getId();
+        JobScheduler jobScheduler = jobSchedulerBean.find(id);
+        jobSchedulerBean.activate(jobScheduler);
+        return "job_scheduler?faces-redirect=true&id="+ id;
+    }
+
+    public String deactivate() {
+        String id = this.jobScheduleMBean.getJobScheduler().getId();
+        JobScheduler jobScheduler = jobSchedulerBean.find(id);
+        jobSchedulerBean.deactivate(jobScheduler);
+        return "job_scheduler?faces-redirect=true&id="+ id;
+    }
+
     public String remove() {
         jobSchedulerBean.remove(this.jobScheduleMBean.getJobScheduler().getId());
         return "job_schedulers";
