@@ -36,27 +36,27 @@
                         <p:tab title="#{bundle.profile}">
                             <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                             <h:panelGrid columns="2">
-                                <h:outputLabel for="firstName" value="#{bundle.firstName}" styleClass="requiredFieldLabel"/>
-                                <h:outputLabel for="lastName" value="#{bundle.lastName}" styleClass="requiredFieldLabel"/>
+                                <h:outputLabel for="firstName" value="#{bundle.firstName}"/>
+                                <h:outputLabel for="lastName" value="#{bundle.lastName}"/>
 
                                 <h:panelGroup>
-                                    <h:inputText id="firstName" label="#{bundle.firstName}" required="true" size="35" maxlength="50" value="#{memberMBean.userAccount.firstName}"/>
+                                    <h:inputText id="firstName" label="#{bundle.firstName}" required="true" size="35" maxlength="50" value="#{memberMBean.userAccount.firstName}" styleClass="form-control"/>
                                     <h:message for="firstName" errorClass="errorMessage"/>
                                 </h:panelGroup>
                                 <h:panelGroup>
-                                    <h:inputText id="lastName" label="#{bundle.lastName}" required="true" size="35" maxlength="50" value="#{memberMBean.userAccount.lastName}"/>
+                                    <h:inputText id="lastName" label="#{bundle.lastName}" required="true" size="35" maxlength="50" value="#{memberMBean.userAccount.lastName}" styleClass="form-control"/>
                                     <h:message for="lastName" errorClass="errorMessage"/>
                                 </h:panelGroup>
 
-                                <h:outputText value="#{bundle.email}" styleClass="requiredFieldLabel"/>
-                                <h:outputText value="#{bundle.username} *" styleClass="requiredFieldLabel"/>
+                                <h:outputText value="#{bundle.email}"/>
+                                <h:outputText value="#{bundle.username} *"/>
 
                                 <h:outputLink value="mailto:#{memberMBean.userAccount.postingEmail}">
                                     <f:verbatim>#{memberMBean.userAccount.postingEmail}</f:verbatim>
                                 </h:outputLink>
                                 <h:outputText value="#{memberMBean.authentication.username}"/>
 
-                                <h:outputLabel for="gender" value="#{bundle.gender}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="gender" value="#{bundle.gender}"/>
                                 <h:outputText/>
 
                                 <h:panelGroup>
@@ -68,8 +68,8 @@
                                 </h:panelGroup>
                                 <h:outputText/>
 
-                                <h:outputText value="#{bundle.registrationDate}" styleClass="fieldLabel"/>
-                                <h:outputText value="#{bundle.lastUpdate}" styleClass="fieldLabel"/>
+                                <h:outputText value="#{bundle.registrationDate}"/>
+                                <h:outputText value="#{bundle.lastUpdate}"/>
 
                                 <h:outputText value="#{memberMBean.userAccount.registrationDate}">
                                     <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
@@ -78,46 +78,46 @@
                                     <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                 </h:outputText>
 
-                                <h:outputLabel for="website" value="#{bundle.website}" styleClass="fieldLabel"/>
-                                <h:outputLabel for="twitter" value="#{bundle.twitter}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="website" value="#{bundle.website}"/>
+                                <h:outputLabel for="twitter" value="#{bundle.twitter}"/>
 
                                 <h:panelGroup>
                                     <h:outputText value="http://"/>
-                                    <h:inputText id="website" label="#{bundle.website}" size="25" maxlength="100" value="#{memberMBean.userAccount.website}"/>
+                                    <h:inputText id="website" label="#{bundle.website}" size="25" maxlength="100" value="#{memberMBean.userAccount.website}" styleClass="form-control"/>
                                     <h:outputLink value="http://#{memberMBean.userAccount.website}" target="_blank">#{bundle.visit}</h:outputLink>
                                     <br/><h:message for="website" errorClass="errorMessage"/>
                                 </h:panelGroup>
                                 <h:panelGroup>
                                     <h:outputText value="@"/>
-                                    <h:inputText id="twitter" label="#{bundle.twitter}" size="15" maxlength="30" value="#{memberMBean.userAccount.twitter}"/>
+                                    <h:inputText id="twitter" label="#{bundle.twitter}" size="15" maxlength="30" value="#{memberMBean.userAccount.twitter}" styleClass="form-control"/>
                                     <h:outputLink value="http://twitter.com/#{memberMBean.userAccount.twitter}" target="_blank">#{bundle.visit}</h:outputLink>
                                     <br/><h:message for="twitter" errorClass="errorMessage"/>
                                 </h:panelGroup>
 
-                                <h:outputLabel for="country" value="#{bundle.country}" styleClass="fieldLabel"/>
-                                <h:outputLabel for="province" value="#{bundle.province}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="country" value="#{bundle.country}"/>
+                                <h:outputLabel for="province" value="#{bundle.province}"/>
 
-                                <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}">
+                                <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                     <f:selectItems value="#{locationMBean.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.acronym}"/>
                                     <f:ajax render="province city"/>
                                 </h:selectOneMenu>
-                                <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}">
+                                <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                     <f:selectItems value="#{locationMBean.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
                                     <f:ajax render="city"/>
                                 </h:selectOneMenu>
 
-                                <h:outputLabel for="city" value="#{bundle.city}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="city" value="#{bundle.city}"/>
                                 <h:outputText/>
 
-                                <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}">
+                                <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}" styleClass="form-control">
                                     <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                     <f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
                                 </h:selectOneMenu>
                                 <h:outputText/>
                             </h:panelGrid>
-                            <p><h:outputText value="#{bundle.privacy}" styleClass="fieldLabel"/></p>
+                            <p><h:outputText value="#{bundle.privacy}"/></p>
                             <h:panelGrid columns="2" columnClasses="panelGridColumn, panelGridColumn">
                                 <p:tabView dynamic="false" cache="true">
                                     <p:tab title="#{bundle.mailingList}" rendered="#{memberMBean.userAccount.mailingList}">
@@ -220,12 +220,12 @@
 
                     <p></p>
                     <h:panelGrid columns="5">
-                        <h:commandButton value="#{bundle.save}" rendered="#{!memberMBean.userAccount.deactivated}" action="#{memberMBean.save}"/>
+                        <h:commandButton value="#{bundle.save}" rendered="#{!memberMBean.userAccount.deactivated}" action="#{memberMBean.save}" styleClass="btn btn-primary"/>
                         <h:commandButton value="#{bundle.remove}" rendered="#{memberMBean.userAccount.deactivated}" action="#{memberMBean.removeUserAccount}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
-                        <h:commandButton rendered="#{!memberMBean.userAccount.confirmed and !memberMBean.userAccount.deactivated}" value="#{bundle.confirm}" action="#{memberMBean.confirm}"/>
-                        <h:commandButton rendered="#{!memberMBean.userAccount.verified and memberMBean.userAccount.confirmed}" value="#{bundle.verified}" action="#{memberMBean.checkUserAsVerified}"/>
-                        <h:button rendered="#{!memberMBean.userAccount.deactivated}" value="#{bundle.deactivateMembership}" outcome="user_deactivation"/>
-                        <h:button outcome="users" value="#{bundle.cancel}"/>
+                        <h:commandButton rendered="#{!memberMBean.userAccount.confirmed and !memberMBean.userAccount.deactivated}" value="#{bundle.confirm}" action="#{memberMBean.confirm}" styleClass="btn btn-default"/>
+                        <h:commandButton rendered="#{!memberMBean.userAccount.verified and memberMBean.userAccount.confirmed}" value="#{bundle.verified}" action="#{memberMBean.checkUserAsVerified}" styleClass="btn btn-default"/>
+                        <h:button rendered="#{!memberMBean.userAccount.deactivated}" value="#{bundle.deactivateMembership}" outcome="user_deactivation" styleClass="btn btn-default"/>
+                        <h:button outcome="users" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                     </h:panelGrid>
                 </h:form>
             </ui:define>

@@ -84,20 +84,20 @@
                                 <h:graphicImage value="#{partnershipMBean.logoImage}" rendered="#{! empty partnershipMBean.logoImage}" />
 
                                 <dl class="dl-horizontal">
-                                    <dt><h:outputText value="#{bundle.name}"/></dt>
-                                    <dd><h:outputText value="#{partnershipMBean.representative.partner.name}"/></dd>
-                                    <dt><h:outputText value="#{bundle.description}"/></dt>
+                                    <dt>#{bundle.name}</dt>
+                                    <dd>#{partnershipMBean.representative.partner.name}</dd>
+                                    <dt>#{bundle.description}</dt>
                                     <dd><h:outputText value="#{partnershipMBean.formattedPartnerDescription}" escape="false"/></dd>
-                                    <dt><h:outputText value="#{bundle.website}"/></dt>
+                                    <dt>#{bundle.website}</dt>
                                     <dd><h:outputLink value="#{partnershipMBean.representative.partner.url}" target="_blank">#{partnershipMBean.representative.partner.url}</h:outputLink></dd>
-                                    <dt><h:outputText value="#{bundle.address}"/></dt>
-                                    <dd><h:outputText value="#{partnershipMBean.formattedPartnerAddress}"/></dd>
-                                    <dt><h:outputText value="#{bundle.representative}"/></dt>
-                                    <dd><h:outputText value="#{partnershipMBean.representative.person}"/></dd>
-                                    <dt><h:outputText value="#{bundle.position}"/></dt>
-                                    <dd><h:outputText value="#{partnershipMBean.representative.position}"/></dd>
-                                    <dt><h:outputText value="#{bundle.phone}"/></dt>
-                                    <dd><h:outputText value="#{partnershipMBean.representative.phone}"/></dd>
+                                    <dt>#{bundle.address}</dt>
+                                    <dd>#{partnershipMBean.formattedPartnerAddress}</dd>
+                                    <dt>#{bundle.representative}</dt>
+                                    <dd>#{partnershipMBean.representative.person}</dd>
+                                    <dt>#{bundle.position}</dt>
+                                    <dd>#{partnershipMBean.representative.position}</dd>
+                                    <dt>#{bundle.phone}</dt>
+                                    <dd>#{partnershipMBean.representative.phone}</dd>
                                 </dl>
 
                                 <h:button outcome="partnership" value="#{bundle.update}" styleClass="btn btn-default"/>

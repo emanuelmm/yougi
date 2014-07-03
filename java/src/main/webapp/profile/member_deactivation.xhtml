@@ -32,14 +32,14 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:panelGrid>
                         <h:panelGrid columns="2" width="400">
-                            <h:outputText value="#{bundle.name}" styleClass="fieldLabel"/>
-                            <h:outputText value="#{bundle.email}" styleClass="fieldLabel"/>
+                            <h:outputText value="#{bundle.name}"/>
+                            <h:outputText value="#{bundle.email}"/>
 
                             <h:outputText value="#{userAccountMBean.userAccount.fullName}"/>
                             <h:outputText value="#{userAccountMBean.userAccount.email}"/>
                         </h:panelGrid>
 
-                        <h:outputLabel for="reason" value="#{bundle.reasonExtended}" styleClass="fieldLabel"/>
+                        <h:outputLabel for="reason" value="#{bundle.reasonExtended}"/>
                         <h:inputTextarea id="reason" label="#{bundle.reason}" cols="65" rows="5" value="#{userAccountMBean.userAccount.deactivationReason}" styleClass="form-control"/>
                         <h:outputText value="#{bundle.deactivationExplanation}" styleClass="fieldNote"/>
                     </h:panelGrid>

@@ -31,37 +31,40 @@
                 <h1>#{bundle.group}</h1>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                    <h:panelGrid columns="2" columnClasses="panelGridColumn">
-                        <h:outputText value="#{bundle.properties}" styleClass="header3"/>
-                        <h:outputText value="#{bundle.members}" styleClass="header3"/>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h:outputLabel for="name" value="#{bundle.name}" styleClass="mandatoryField"/>
+                                <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{accessGroupMBean.group.name}" styleClass="form-control"/>
+                                <h:message for="name" errorClass="errorMessage"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h:outputLabel for="description" value="#{bundle.description}"/>
+                                <h:inputText id="description" label="#{bundle.description}" size="30" maxlength="100" value="#{accessGroupMBean.group.description}" styleClass="form-control"/>
+                                <h:message for="description" errorClass="errorMessage"/>
+                            </div>
+                        </div>
+                    </div>
 
-                        <h:panelGrid columns="1">
-                            <h:outputLabel for="name" value="#{bundle.name}" styleClass="mandatoryField"/>
-                            <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{accessGroupMBean.group.name}"/>
-                            <h:message for="name" errorClass="errorMessage"/>
+                    <div class="checkbox-inline">
+                        <h:selectBooleanCheckbox id="default" label="#{bundle.default}" value="#{accessGroupMBean.group.userDefault}"/>
+                        <h:outputLabel for="default" value="#{bundle.default}"/>
+                    </div>
 
-                            <h:outputLabel for="description" value="#{bundle.description}"/>
-                            <h:inputText id="description" label="#{bundle.description}" size="30" maxlength="100" value="#{accessGroupMBean.group.description}"/>
-                            <h:message for="description" errorClass="errorMessage"/>
-
-                            <h:panelGrid columns="2">
-                                <h:selectBooleanCheckbox id="default" label="#{bundle.default}" value="#{accessGroupMBean.group.userDefault}"/>
-                                <h:outputLabel for="default" value="#{bundle.default}"/>
-                            </h:panelGrid>
-                        </h:panelGrid>
+                    <div class="form-group">
                         <p:pickList id="members" value="#{accessGroupMBean.members}" var="member" itemLabel="#{member.fullName}" itemValue="#{member.id}" converter="GroupPickListConverter"/>
-                        <br/><h:message for="members" errorClass="errorMessage"/>
-                    </h:panelGrid>
+                        <h:message for="members" errorClass="errorMessage"/>
+                    </div>
 
                     <h:inputHidden id="id" value="#{accessGroupMBean.group.id}"/>
 
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="#{bundle.save}" action="#{accessGroupMBean.save}"/>
-                        <h:button outcome="groups" value="#{bundle.cancel}"/>
-                    </h:panelGrid>
+                    <h:commandButton value="#{bundle.save}" action="#{accessGroupMBean.save}" styleClass="btn btn-primary"/>
+                    <h:button outcome="groups" value="#{bundle.back}" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
+            <ui:define name="jquery"/>
         </ui:composition>
     </body>
 </html>

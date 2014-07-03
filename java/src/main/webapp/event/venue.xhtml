@@ -38,7 +38,7 @@
 
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:outputText value="#{venueMBean.venue}" style="font-size: 26px; font-weight: bold;"/>
-                            <p:button value="#{bundle.edit}" outcome="venue_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.edit}" outcome="venue_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{venueMBean.venue.id}"/>
                             </p:button>
                         </h:panelGrid>
@@ -49,7 +49,7 @@
 
                         <p:tabView activeIndex="#{param.tab}">
                             <p:tab title="#{bundle.events}">
-                                <h:button value="#{bundle.addEvent}" outcome="event_venue_form" rendered="#{securityBackingMBean.isUserLeader}">
+                                <h:button value="#{bundle.addEvent}" outcome="event_venue_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                     <f:param name="venueId" value="#{venueMBean.venue.id}"/>
                                 </h:button>
                                 <p/>
@@ -88,7 +88,7 @@
                                 </p:dataGrid>
                             </p:tab>
                             <p:tab title="#{bundle.rooms}">
-                                <h:button value="#{bundle.newRoom}" outcome="room_form" rendered="#{securityBackingMBean.isUserLeader}">
+                                <h:button value="#{bundle.newRoom}" outcome="room_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                     <f:param name="venueId" value="#{venueMBean.venue.id}"/>
                                 </h:button>
                                 <p/>

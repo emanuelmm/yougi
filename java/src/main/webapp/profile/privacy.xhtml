@@ -61,10 +61,10 @@
                     <h:inputHidden id="id" value="#{userAccountMBean.userAccount.id}"/>
 
                     <h:panelGrid columns="2">
-                        <h:commandButton value="#{bundle.save}" action="#{userAccountMBean.savePrivacy}">
+                        <h:commandButton value="#{bundle.save}" action="#{userAccountMBean.savePrivacy}" styleClass="btn btn-primary">
                             <f:param name="tab" value="1"/>
                         </h:commandButton>
-                        <h:button value="#{bundle.cancel}" outcome="profile">
+                        <h:button value="#{bundle.cancel}" outcome="profile" styleClass="btn btn-default">
                             <f:param name="tab" value="1"/>
                         </h:button>
                     </h:panelGrid>

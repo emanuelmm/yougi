@@ -34,11 +34,11 @@
                     <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                         <h:outputText value="#{sponsorshipEventMBean.sponsorshipEvent.partner}" style="font-size: 26px; font-weight: bold;"/>
                         <h:panelGroup>
-                            <p:button value="#{bundle.edit}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.edit}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{sponsorshipEventMBean.sponsorshipEvent.id}"/>
                                 <f:param name="eventId" value="#{param.eventId}"/>
                             </p:button>
-                            <p:button value="#{bundle.back}" outcome="event">
+                            <p:button value="#{bundle.back}" outcome="event" styleClass="btn btn-default">
                                 <f:param name="id" value="#{param.eventId}"/>
                                 <f:param name="tab" value="6"/>
                             </p:button>

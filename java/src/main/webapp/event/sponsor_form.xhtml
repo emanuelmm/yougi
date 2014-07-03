@@ -34,7 +34,7 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="event" value="#{bundle.event} *" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="event" value="#{bundle.event} *"/>
                         		<h:selectOneMenu id="event" label="#{bundle.event}" value="#{sponsorshipEventMBean.selectedEvent}" required="true" styleClass="form-control">
                             		<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             		<f:selectItems value="#{sponsorshipEventMBean.events}" var="event" itemLabel="#{event.name}" itemValue="#{event.id}"/>
@@ -42,7 +42,7 @@
                         		<h:message for="event" errorClass="errorMessage"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="partner" value="#{bundle.partner}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="partner" value="#{bundle.partner}"/>
                     		</div>
                     		<div class="panel-group">
                     			<h:selectOneMenu id="partner" label="#{bundle.partner}" value="#{sponsorshipEventMBean.selectedPartner}" styleClass="form-control">
@@ -52,7 +52,7 @@
                         		<h:message for="sponsor" errorClass="errorMessage"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="level" value="#{bundle.level}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="level" value="#{bundle.level}"/>
                     		</div>
                     		<div class="panel-group">
                     			<h:selectOneMenu id="level" label="#{bundle.level}" value="#{sponsorshipEventMBean.sponsorshipEvent.sponsorshipLevel}" styleClass="form-control">
@@ -66,7 +66,7 @@
                         		<h:message for="level" errorClass="errorMessage"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="amount" value="#{bundle.amount}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="amount" value="#{bundle.amount}"/>
                     		</div>
                     		<div class="panel-group">
                     			<h:inputText id="amount" label="#{bundle.amount}" size="10" maxlength="13" value="#{sponsorshipEventMBean.sponsorshipEvent.amount}" styleClass="form-control">
@@ -81,7 +81,7 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="description" value="#{bundle.comments}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="description" value="#{bundle.comments}"/>
                         		<h:inputTextarea id="description" label="#{bundle.comments}" required="false" cols="60" rows="4" value="#{sponsorshipEventMBean.sponsorshipEvent.description}" styleClass="form-control"/>
                     		</div>
                     	</div>

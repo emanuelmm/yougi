@@ -46,11 +46,11 @@
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:outputText value="#{sessionMBean.session}" style="font-size: 26px; font-weight: bold;"/>
                             <h:panelGroup>
-                                <p:button value="#{bundle.edit}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}">
+                                <p:button value="#{bundle.edit}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                     <f:param name="id" value="#{sessionMBean.session.id}"/>
                                     <f:param name="eventId" value="#{sessionMBean.session.event.id}"/>
                                 </p:button>
-                                <p:button value="#{bundle.back}" outcome="event">
+                                <p:button value="#{bundle.back}" outcome="event" styleClass="btn btn-default">
                                     <f:param name="id" value="#{sessionMBean.session.event.id}"/>
                                     <f:param name="tab" value="2"/>
                                 </p:button>

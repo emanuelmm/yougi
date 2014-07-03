@@ -34,25 +34,25 @@
                         <h:outputText value="#{mailingListMBean.mailingList.name}" style="font-size: 24px; font-weight: bold;"/>
                         <h:outputText value="#{mailingListMBean.mailingList.description}" escape="false" style="font-size: 14px;"/>
 
-                        <h:outputText value="#{bundle.email}" styleClass="fieldLabel"/>
+                        <h:outputText value="#{bundle.email}"/>
                         <h:outputLink value="mailto:#{mailingListMBean.mailingList.email}">
                             <f:verbatim>#{mailingListMBean.mailingList.email}</f:verbatim>
                         </h:outputLink>
 
-                        <h:outputText value="#{bundle.subscribeTo}" styleClass="fieldLabel"/>
+                        <h:outputText value="#{bundle.subscribeTo}"/>
                         <h:outputLink value="mailto:#{mailingListMBean.mailingList.description}">
                             <f:verbatim>#{mailingListMBean.mailingList.description}</f:verbatim>
                         </h:outputLink>
 
                     </h:panelGrid>
                     <p/>
-                    <h:button value="#{bundle.edit}" outcome="mailing_list" rendered="#{securityBackingMBean.isUserLeader}">
+                    <h:button value="#{bundle.edit}" outcome="mailing_list" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                         <f:param name="id" value="#{mailingListMBean.mailingList.id}"/>
                     </h:button>
-                    <h:button value="#{bundle.searchSubscriptions}" outcome="subscriptions" rendered="#{securityBackingMBean.isUserLeader}">
+                    <h:button value="#{bundle.searchSubscriptions}" outcome="subscriptions" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                         <f:param name="list" value="#{mailingListMBean.mailingList.id}"/>
                     </h:button>
-                    <h:button value="#{bundle.back}" outcome="mailing_lists"/>
+                    <h:button value="#{bundle.back}" outcome="mailing_lists" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
         </ui:composition>

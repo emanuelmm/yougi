@@ -36,12 +36,12 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
 
                     <div class="form-group">
-                        <h:outputText value="#{bundle.website}" styleClass="fieldLabel"/><br/>
+                        <h:outputText value="#{bundle.website}"/><br/>
                         <h:outputLink value="http://#{articleMBean.article.webSource.provider.website}" target="_blank"><h:outputText value="#{articleMBean.article.webSource}" styleClass="form-control-static"/></h:outputLink>
                     </div>
 
                     <div class="form-group">
-                        <h:outputText value="#{bundle.permanentLink}" styleClass="fieldLabel"/><br/>
+                        <h:outputText value="#{bundle.permanentLink}"/><br/>
                         <h:outputLink value="#{article.permanentLink}" target="_blank"><h:outputText value="#{articleMBean.article.permanentLink}" styleClass="form-control-static"/></h:outputLink>
                         <h:commandButton value="#{bundle.reloadFromSource}" styleClass="btn btn-default" style="margin-left: 30px;">
                             <f:ajax execute="@form" render="title publication author summary content" listener="#{articleMBean.reloadFromSource}"/>
@@ -51,13 +51,13 @@
                     <div class="row">
                         <div class="col-md-10">
                             <div class="form-group">
-                                <h:outputLabel for="title" value="#{bundle.title}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="title" value="#{bundle.title}"/>
                                 <p:inputText id="title" value="#{articleMBean.article.title}" styleClass="form-control" size="83" maxlength="255" required="true"/>
                                 <h:message for="title" errorClass="errorMessage"/>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <h:outputLabel for="publication" value="#{bundle.publication}" styleClass="fieldLabel"/><br/>
+                            <h:outputLabel for="publication" value="#{bundle.publication}"/><br/>
                             <p:calendar id="publication" value="#{articleMBean.article.publication}" pattern="#{bundle.formatDate}" size="10" timeZone="#{userProfileMBean.timeZone}"/>
                             <h:message for="publication" errorClass="errorMessage"/>
                         </div>
@@ -65,14 +65,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <h:outputLabel for="author" value="#{bundle.author}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="author" value="#{bundle.author}"/>
                                 <p:inputText id="author" value="#{articleMBean.article.author}" styleClass="form-control" required="true" maxlength="100"/>
                                 <h:message for="author" errorClass="errorMessage"/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <h:outputLabel for="topics" value="#{bundle.topics}" styleClass="fieldLabel"/> (<i>#{bundle.topicsRules}</i>)
+                                <h:outputLabel for="topics" value="#{bundle.topics}"/> (<i>#{bundle.topicsRules}</i>)
                                 <p:inputText id="topics" value="#{articleMBean.article.topics}" styleClass="form-control" maxlength="100"/>
                                 <h:message for="topics" errorClass="errorMessage"/>
                             </div>
@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h:outputLabel for="summary" value="#{bundle.summary}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="summary" value="#{bundle.summary}"/>
                                 <h:inputTextarea id="summary" value="#{articleMBean.article.summary}" styleClass="form-control" rows="5"/>
                                 <h:message for="summary" errorClass="errorMessage"/>
                             </div>
@@ -90,7 +90,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h:outputLabel for="content" value="#{bundle.content}" styleClass="fieldLabel"/>
+                                <h:outputLabel for="content" value="#{bundle.content}"/>
                                 <p:editor id="content" value="#{articleMBean.article.content}" required="true" height="400"/>
                                 <h:message for="content" errorClass="errorMessage"/>
                             </div>

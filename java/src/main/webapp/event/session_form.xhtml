@@ -35,25 +35,25 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputText value="#{bundle.event}" styleClass="fieldLabel"/>
+                    			<h:outputText value="#{bundle.event}"/>
                     		</div>
                     		<div class="panel-group">
                     			<h:outputText value="#{sessionMBean.session.event}"/>
                             	<h:inputHidden id="event" value="#{sessionMBean.selectedEvent}"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="name" value="#{bundle.name}" styleClass="requiredFieldLabel"/>
-                            	<h:inputText id="name" label="#{bundle.name}" value="#{sessionMBean.session.name}" size="60" maxlength="255" required="true" class="ui-inputfield ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="name" value="#{bundle.name}"/>
+                            	<h:inputText id="name" label="#{bundle.name}" value="#{sessionMBean.session.name}" size="60" maxlength="255" required="true" styleClass="form-control"/>
                     		</div>
                     	</div>
                     </div>
                     
                     <div class="row">
                     	<div class="col-md-2">
-                    		<h:outputLabel for="track" value="#{bundle.track}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="track" value="#{bundle.track}"/>
                     	</div>
                     	<div class="col-md-1">
-                    		<h:outputLabel for="experienceLevel" value="#{bundle.level}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="experienceLevel" value="#{bundle.level}"/>
                     	</div>
                     </div>
                     
@@ -79,8 +79,8 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="topics" value="#{bundle.topics}" styleClass="fieldLabel"/>
-                            	<h:inputText id="topics" label="#{bundle.topics}" value="#{sessionMBean.session.topics}" size="60" maxlength="255" class="ui-inputfield ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="topics" value="#{bundle.topics}"/>
+                            	<h:inputText id="topics" label="#{bundle.topics}" value="#{sessionMBean.session.topics}" size="60" maxlength="255" styleClass="form-control"/>
                             	<h:message for="topics" errorClass="errorMessage"/>
                     		</div>
                     	</div>
@@ -88,11 +88,11 @@
                     
                     <div class="row">
                     	<div class="col-md-2">
-                    		<h:outputLabel for="startDate" value="#{bundle.start}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="startDate" value="#{bundle.start}"/>
                             <h:outputText/>
                     	</div>
                     	<div class="col-md-1">
-                    		<h:outputLabel for="endDate" value="#{bundle.end}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="endDate" value="#{bundle.end}"/>
                             <h:outputText/>
                     	</div>
                     </div>
@@ -123,10 +123,10 @@
                     
                     <div class="row">
                     	<div class="col-md-2">
-                    		<h:outputLabel for="venue" value="#{bundle.venue}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="venue" value="#{bundle.venue}"/>
                     	</div>
                     	<div class="col-md-1">
-                    		<h:outputLabel for="room" value="#{bundle.room}" styleClass="fieldLabel"/>
+                    		<h:outputLabel for="room" value="#{bundle.room}"/>
                     	</div>
                     </div>
                     
@@ -151,8 +151,8 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="description" value="#{bundle.description}" styleClass="fieldLabel"/>
-                            	<h:inputTextarea id="description" value="#{sessionMBean.session.description}" label="#{bundle.description}" rows="4" cols="60" class="ui-inputfield ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="description" value="#{bundle.description}"/>
+                            	<h:inputTextarea id="description" value="#{sessionMBean.session.description}" label="#{bundle.description}" rows="4" cols="60" styleClass="form-control"/>
                             	<h:message for="description" errorClass="errorMessage"/>
                     		</div>
                     	</div>
@@ -161,8 +161,8 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="detailedDescription" value="#{bundle.detailedDescription}" styleClass="fieldLabel"/>
-                            	<h:inputTextarea id="detailedDescription" value="#{sessionMBean.session.detailedDescription}" label="#{bundle.detailedDescription}" rows="6" cols="60" class="ui-inputfield ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="detailedDescription" value="#{bundle.detailedDescription}"/>
+                            	<h:inputTextarea id="detailedDescription" value="#{sessionMBean.session.detailedDescription}" label="#{bundle.detailedDescription}" rows="6" cols="60" styleClass="form-control"/>
                             	<h:message for="detailedDescription" errorClass="errorMessage"/>
                     		</div>
                     	</div>

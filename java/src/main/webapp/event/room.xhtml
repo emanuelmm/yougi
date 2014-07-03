@@ -39,7 +39,7 @@
 
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:outputText value="#{roomMBean.room}" style="font-size: 26px; font-weight: bold;"/>
-                            <p:button value="#{bundle.edit}" outcome="room_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.edit}" outcome="room_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{roomMBean.room.id}"/>
                             </p:button>
                         </h:panelGrid>

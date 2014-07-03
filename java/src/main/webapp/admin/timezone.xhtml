@@ -36,7 +36,7 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="id" value="#{bundle.id} *" styleClass="requiredFieldLabel"/>
+                    			<h:outputLabel for="id" value="#{bundle.id} *"/>
                     			<h:inputText id="id" label="#{bundle.id}" required="true" size="50" maxlength="50" value="#{timezoneMBean.timezone.id}" readonly="#{! empty timezoneMBean.timezone.id}" styleClass="form-control"/>
                     			<h:message for="id" errorClass="errorMessage"/>
                     		</div>
@@ -45,7 +45,7 @@
                     <div class="row">
                     	<div class="col-md-3">
                     		<div class="panel-group">
-                    			<h:outputLabel for="offset" value="#{bundle.offset}" styleClass="requiredFieldLabel"/>
+                    			<h:outputLabel for="offset" value="#{bundle.offset}"/>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="label" value="#{bundle.label}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="label" value="#{bundle.label}"/>
                     			<h:inputText id="label" label="#{bundle.label}" size="50" maxlength="50" value="#{timezoneMBean.timezone.label}" styleClass="form-control"/>
                             	<h:message for="label" errorClass="errorMessage"/>
                     		</div>

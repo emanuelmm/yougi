@@ -36,14 +36,14 @@
                     <div class="row">
                     	<div class="col-md-7">
                     		<div class="form-group">
-                        		<h:outputLabel for="name" value="#{bundle.name}" styleClass="requiredFieldLabel"/>
+                        		<h:outputLabel for="name" value="#{bundle.name}"/>
                         		<h:inputText id="name" value="#{venueMBean.venue.name}" label="#{bundle.name}" required="true" size="60" maxlength="100" styleClass="form-control"/>
                         		<h:message for="name" errorClass="errorMessage"/>
                         	</div>
 						</div>
 						<div class="col-md-7">
 							<div class="form-group">
-                        		<h:outputLabel for="address" value="#{bundle.address}" styleClass="fieldLabel"/>
+                        		<h:outputLabel for="address" value="#{bundle.address}"/>
                         		<h:inputText id="address" value="#{venueMBean.venue.address}" size="60" maxlength="255" styleClass="form-control"/>
                         		<h:message for="address" errorClass="errorMessage"/>
                         	</div>
@@ -52,7 +52,7 @@
                     <div class="row">
                     	<div class="col-md-3">
                     		<div class="form-group">
-                            	<h:outputLabel for="country" value="#{bundle.country}" styleClass="fieldLabel"/>
+                            	<h:outputLabel for="country" value="#{bundle.country}"/>
                             	<h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" styleClass="form-control">
                                 	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                 	<f:selectItems value="#{locationMBean.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.acronym}"/>
@@ -63,7 +63,7 @@
 						</div>
 						<div class="col-md-3">
                      		<div class="form-group">
-                     			<h:outputLabel for="province" value="#{bundle.province}" styleClass="fieldLabel"/>
+                     			<h:outputLabel for="province" value="#{bundle.province}"/>
                             	<h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
                                 	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                                 	<f:selectItems value="#{locationMBean.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
@@ -76,7 +76,7 @@
                     <div class="row">
                     	<div class="col-md-6">
                     		<div class="form-group">
-                    			<h:outputLabel for="city" value="#{bundle.city}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="city" value="#{bundle.city}"/>
                         		<h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}" styleClass="form-control">
                             		<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             		<f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
@@ -88,13 +88,13 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="form-group">
-                    			<h:outputLabel for="latitude" value="#{bundle.latitude}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="latitude" value="#{bundle.latitude}"/>
                     			<h:inputText id="latitude" label="#{bundle.latitude}" size="15" maxlength="15" value="#{venueMBean.venue.latitude}" styleClass="form-control"/>
                     		</div>
                     	</div>
                     	<div class="col-md-2">
                     		<div class="form-group">
-                    			<h:outputLabel for="longitude" value="#{bundle.longitude}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="longitude" value="#{bundle.longitude}"/>
                     			<h:inputText id="longitude" label="#{bundle.longitude}" size="15" maxlength="15" value="#{venueMBean.venue.longitude}" styleClass="form-control"/>
                     			<h:message for="latitude" errorClass="errorMessage"/>
                             	<h:message for="longitude" errorClass="errorMessage"/>
@@ -104,7 +104,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<h:outputLabel for="website" value="#{bundle.website}" styleClass="fieldLabel"/>
+								<h:outputLabel for="website" value="#{bundle.website}"/>
                         		<h:inputText id="website" value="#{venueMBean.venue.website}" required="false" size="60" maxlength="255" styleClass="form-control"/>
                         		<h:message for="website" errorClass="errorMessage"/>
 							</div>

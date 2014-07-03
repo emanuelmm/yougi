@@ -38,7 +38,7 @@
                     </h:outputFormat></p>
                     <p>
                         <h:panelGrid width="100%" columnClasses="alignColumnRight">
-                            <h:commandButton value="#{bundle.print}" action="#{attendeeMBean.print}"/>
+                            <h:commandButton value="#{bundle.print}" action="#{attendeeMBean.print}" styleClass="btn btn-default"/>
                         </h:panelGrid>
                     </p>
                     <p:dataTable value="#{attendeeMBean.attendees}" var="attendee" selection="#{attendeeMBean.selectedAttendees}" rowKey="#{attendee.id}">
@@ -69,8 +69,8 @@
                         <p:column selectionMode="multiple"/>
                     </p:dataTable>
                     <p/>
-                    <h:commandButton value="#{bundle.save}" action="#{attendeeMBean.confirmMembersAttended}"/>
-                    <h:button value="#{bundle.back}" outcome="events"/>
+                    <h:commandButton value="#{bundle.save}" action="#{attendeeMBean.confirmMembersAttended}" styleClass="btn btn-primary"/>
+                    <h:button value="#{bundle.back}" outcome="events" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"></ui:define>

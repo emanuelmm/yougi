@@ -34,7 +34,7 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="event" value="#{bundle.event}" styleClass="requiredFieldLabel"/>
+                    			<h:outputLabel for="event" value="#{bundle.event}"/>
                     			<h:selectOneMenu id="event" label="#{bundle.event}" value="#{eventVenueMBean.selectedEvent}" styleClass="form-control">
                             		<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             		<f:selectItems value="#{eventVenueMBean.events}" var="event" itemLabel="#{event.name}" itemValue="#{event.id}"/>
@@ -48,7 +48,7 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="venue" value="#{bundle.venue}" styleClass="requiredFieldLabel" rendered="true"/>
+                    			<h:outputLabel for="venue" value="#{bundle.venue}" rendered="true"/>
                         		<h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{eventVenueMBean.selectedVenue}" styleClass="form-control">
                             		<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             		<f:selectItems value="#{eventVenueMBean.venues}" var="venue" itemLabel="#{venue.name}" itemValue="#{venue.id}"/>

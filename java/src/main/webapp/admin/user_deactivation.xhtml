@@ -32,23 +32,23 @@
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:panelGrid>
                         <h:panelGrid columns="2" width="400">
-                            <h:outputText value="#{bundle.name}" styleClass="fieldLabel"/>
-                            <h:outputText value="#{bundle.email}" styleClass="fieldLabel"/>
+                            <h:outputText value="#{bundle.name}"/>
+                            <h:outputText value="#{bundle.email}"/>
 
                             <h:outputText value="#{memberMBean.userAccount.fullName}"/>
                             <h:outputText value="#{memberMBean.userAccount.email}"/>
                         </h:panelGrid>
 
-                        <h:outputLabel for="reason" value="#{bundle.reason}" styleClass="fieldLabel"/>
-                        <h:inputTextarea id="reason" label="#{bundle.reason}" cols="40" rows="5" value="#{memberMBean.userAccount.deactivationReason}"/>
+                        <h:outputLabel for="reason" value="#{bundle.reason}"/>
+                        <h:inputTextarea id="reason" label="#{bundle.reason}" cols="40" rows="5" value="#{memberMBean.userAccount.deactivationReason}" styleClass="form-control"/>
                         <h:outputText value="#{bundle.reasonNote}" styleClass="fieldNote"/>
                     </h:panelGrid>
 
                     <h:inputHidden id="id" value="#{memberMBean.userAccount.id}"/>
                     <p></p>
                     <h:panelGrid columns="4">
-                        <h:commandButton value="#{bundle.deactivateMembership}" action="#{memberMBean.deactivateMembership}"/>
-                        <h:button outcome="user" value="#{bundle.cancel}"/>
+                        <h:commandButton value="#{bundle.deactivateMembership}" action="#{memberMBean.deactivateMembership}" styleClass="btn btn-primary"/>
+                        <h:button outcome="user" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                     </h:panelGrid>
                 </h:form>
             </ui:define>

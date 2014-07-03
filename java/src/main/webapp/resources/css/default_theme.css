@@ -39,15 +39,6 @@ body {
     color: red;
 }
 
-.fieldLabel {
-    font-weight: bold;
-}
-
-.requiredFieldLabel {
-    font-weight: bold;
-    color: #0000ff;
-}
-
 .fieldNote {
     font-style: italic;
     font-size: smaller;

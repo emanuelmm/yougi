@@ -117,7 +117,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.tracks}">
-                            <p:button value="#{bundle.newTrack}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.newTrack}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -157,7 +157,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.sessions}">
-                            <p:button value="#{bundle.newSession}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.newSession}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -225,7 +225,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.speakers}">
-                            <p:button value="#{bundle.newSpeaker}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.newSpeaker}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -268,7 +268,7 @@
                             <h:panelGrid width="100%">
                                 <p:outputPanel id="raffleInfo" style="display:inline-block">
 	                               <h:inputHidden id="eventId" value="#{eventMBean.event.id}" />
-	                               <p:commandButton value="#{bundle.raffle}" type="button" onclick="loadEventAttendees();" />
+	                               <p:commandButton value="#{bundle.raffle}" type="button" onclick="loadEventAttendees();" styleClass="btn btn-default"/>
 	                               <p:remoteCommand name="loadEventAttendees"
 	                                   action="#{raffleMBean.loadAttendees()}"
 	                                   update=":dlgRaffleContent"
@@ -315,7 +315,7 @@
                             </h:panelGrid>
                         </p:tab>
                         <p:tab title="#{bundle.venues}">
-                            <p:button value="#{bundle.addVenue}" outcome="event_venue_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.addVenue}" outcome="event_venue_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -335,7 +335,7 @@
                             </h:panelGrid>
                         </p:tab>
                         <p:tab title="#{bundle.sponsors}">
-                            <p:button value="#{bundle.newSponsor}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.newSponsor}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -380,9 +380,9 @@
 	                </f:facet>
 	            </p:dialog>
 
-                <script src="#{request.contextPath}/resources/js/raffle.js" />
+                <script src="#{request.contextPath}/resources/js/raffle.js"></script>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
+            <ui:define name="jquery"/>
         </ui:composition>
     </body>
 </html>

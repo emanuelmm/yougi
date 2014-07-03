@@ -41,10 +41,10 @@
                                 <h:outputText value="#{trackMBean.track.name}" style="font-size: 24px; font-weight: bold;"/>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:button value="#{bundle.edit}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}">
+                                <p:button value="#{bundle.edit}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                     <f:param name="id" value="#{trackMBean.track.id}"/>
                                 </p:button>
-                                <p:button value="#{bundle.back}" outcome="event">
+                                <p:button value="#{bundle.back}" outcome="event" styleClass="btn btn-default">
                                     <f:param name="id" value="#{trackMBean.track.event.id}"/>
                                     <f:param name="tab" value="1"/>
                                 </p:button>

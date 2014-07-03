@@ -37,8 +37,8 @@
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="panel-group">
-                    			<h:outputLabel for="name" value="#{bundle.name}" styleClass="requiredFieldLabel"/>
-                        		<h:inputText id="name" label="#{bundle.name}" required="true" size="78" maxlength="100" value="#{eventMBean.event.name}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="name" value="#{bundle.name}"/>
+                        		<h:inputText id="name" label="#{bundle.name}" required="true" size="78" maxlength="100" value="#{eventMBean.event.name}" styleClass="form-control"/>
                         		<h:message for="name" errorClass="errorMessage"/>
                     		</div>
                     	</div>
@@ -46,7 +46,7 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="parent" value="#{bundle.parentEvent}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="parent" value="#{bundle.parentEvent}"/>
                     			<h:selectOneMenu id="parent" label="#{bundle.parent}" value="#{eventMBean.selectedParent}" styleClass="form-control">
                             		<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
                             		<f:selectItems value="#{eventMBean.parentEvents}" var="parent" itemLabel="#{parent.name}" itemValue="#{parent.id}"/>
@@ -57,11 +57,11 @@
                     </div>
                     <div class="row">
                     	<div class="col-md-2">
-                    		<h:outputLabel for="startDate" value="#{bundle.start}" styleClass="requiredFieldLabel"/>
+                    		<h:outputLabel for="startDate" value="#{bundle.start}"/>
                     		<h:outputText/>
                     	</div>
                     	<div class="col-md-1">
-                    		<h:outputLabel for="endDate" value="#{bundle.end}" styleClass="requiredFieldLabel"/>
+                    		<h:outputLabel for="endDate" value="#{bundle.end}"/>
                             <h:outputText/>
                     	</div>
                     </div>
@@ -90,15 +90,15 @@
                     <div class="row">
                     	<div class='col-md-2'>
                     		<div class="panel-group">
-                    			<h:outputLabel for="shortDescription" value="#{bundle.shortDescription}" styleClass="fieldLabel"/>
-                        		<h:inputTextarea id="shortDescription" label="#{bundle.shortDescription}" required="false" cols="80" rows="5" value="#{eventMBean.event.shortDescription}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"/>
+                    			<h:outputLabel for="shortDescription" value="#{bundle.shortDescription}"/>
+                        		<h:inputTextarea id="shortDescription" label="#{bundle.shortDescription}" required="false" cols="80" rows="5" value="#{eventMBean.event.shortDescription}" styleClass="form-control"/>
                     		</div>
                     	</div>
                     </div>
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="description" value="#{bundle.detailedDescription}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="description" value="#{bundle.detailedDescription}"/>
                         		<p:editor id="description" required="false" width="500" height="200" value="#{eventMBean.event.description}"/>
                     		</div>
                     	</div>

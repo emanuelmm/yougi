@@ -32,22 +32,7 @@
                 </div>
 
                 <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                <!--<h:form>
-                    <h:panelGroup rendered="#{registrationConfirmationMBean.validated}">
-                        <p><h:outputText value="#{bundle.infoCode0002}" styleClass="infoMessage"/></p>
-                    </h:panelGroup>
 
-                    <h:panelGroup rendered="#{!registrationConfirmationMBean.validated}">
-                        <div style="width: 400px;">
-                            <div class="form-group">
-                                <h:outputLabel for="informedCode" value="#{bundle.informConfirmationCode}" styleClass="control-label"/>
-                                <h:inputText id="informedCode" value="#{registrationConfirmationMBean.informedCode}" maxlength="32" size="40" required="true" styleClass="form-control"/>
-                                <h:message for="informedCode" errorClass="errorMessage"/>
-                            </div>
-                        </div>
-                        <h:commandButton value="#{bundle.confirm}" action="#{registrationConfirmationMBean.confirmUser}" styleClass="btn btn-primary"/>
-                    </h:panelGroup>
-                </h:form>-->
                 <p/>
                 <p><h:link outcome="index" value="#{bundle.goBackHome}"/> | <h:link outcome="/profile/home" value="#{bundle.signIn}"/></p>
             </ui:define>

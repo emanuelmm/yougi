@@ -33,11 +33,19 @@
                 <h:form>
                     <p:tabView dynamic="false" cache="true">
                         <p:tab title="#{bundle.allUsers}">
-                            <h:panelGrid columns="3">
-                                <h:outputLabel for="emailCriteria" value="#{bundle.email}" styleClass="fieldLabel"/>
-                                <h:inputText id="emailCriteria" label="#{bundle.email}" size="30" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);"/>
-                                <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}"/>
-                            </h:panelGrid>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <h:outputLabel for="emailCriteria" value="#{bundle.email}"/>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="input-group">
+                                        <h:inputText id="emailCriteria" label="#{bundle.email}" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);" styleClass="form-control"/>
+                                        <span class="input-group-btn">
+                                            <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}" styleClass="btn btn-default"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="btn-group btn-group-sm">
                                 <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'A'}" value="A" action="#{memberMBean.findUserAccountByFirstLetter('A')}" styleClass="btn btn-default"/>

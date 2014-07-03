@@ -34,14 +34,14 @@
                     <h:messages styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:panelGrid>
                         <h:panelGrid>
-                            <p><h:outputText styleClass="fieldLabel" value="#{bundle.uploadLogo}"/></p>
+                            <p><h:outputText value="#{bundle.uploadLogo}"/></p>
                             <p:growl id="messages" showDetail="true"/>
                             <p:fileUpload update="messages logoImage" fileUploadListener="#{partnershipMBean.handleLogoFileUpload}" sizeLimit="1024000"/>
                         </h:panelGrid>
                         <p:graphicImage value="#{partnershipMBean.logoImage}" id="logoImage" rendered="#{! empty partnershipMBean.logoImage}"/>
                     </h:panelGrid>
                     <p></p>
-                    <h:button value="#{bundle.back}" outcome="profile">
+                    <h:button value="#{bundle.back}" outcome="profile" styleClass="btn btn-default">
                         <f:param name="tab" value="2"/>
                     </h:button>
                 </h:form>

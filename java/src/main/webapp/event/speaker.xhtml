@@ -47,7 +47,7 @@
                                 </h:panelGrid>
                             </h:panelGrid>
 
-                            <p:button value="#{bundle.edit}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.edit}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{speakerMBean.speaker.id}"/>
                             </p:button>
                         </h:panelGrid>

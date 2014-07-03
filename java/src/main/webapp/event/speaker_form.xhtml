@@ -34,7 +34,7 @@
                     <div class="row">
                     	<div class="col-md-2">
                     		<div class="panel-group">
-                    			<h:outputLabel for="userAccount" value="#{bundle.user}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="userAccount" value="#{bundle.user}"/>
                     		</div>
                     		<div class="panel-group">
                     			<h:selectOneMenu id="userAccount" label="#{bundle.user}" value="#{speakerMBean.selectedUserAccount}" required="true" styleClass="form-control">
@@ -49,15 +49,15 @@
                     <div class="row">
                     	<div class="col-md-5">
                     		<div class="panel-group">
-                    			<h:outputLabel for="organization" value="#{bundle.organization}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="organization" value="#{bundle.organization}"/>
                         		<h:inputText id="organization" label="#{bundle.organization}" size="60" maxlength="100" value="#{speakerMBean.speaker.organization}" styleClass="form-control"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="shortCv" value="#{bundle.shortCv}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="shortCv" value="#{bundle.shortCv}"/>
                         		<h:inputTextarea id="shortCv" label="#{bundle.shortCv}" cols="60" rows="4" value="#{speakerMBean.speaker.shortCv}" styleClass="form-control"/>
                     		</div>
                     		<div class="panel-group">
-                    			<h:outputLabel for="experience" value="#{bundle.experience}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="experience" value="#{bundle.experience}"/>
                         		<h:inputTextarea id="experience" label="#{bundle.experience}" cols="60" rows="6" value="#{speakerMBean.speaker.experience}" styleClass="form-control"/>
                     		</div>
                     	</div>

@@ -41,43 +41,6 @@
                         <h:inputTextarea id="description" value="#{communityMBean.community.description}" styleClass="form-control"/>
                     </div>
 
-                    <!--
-                    <div class="panel panel-default">
-                        <div class="panel-heading">#{bundle.members}</div>
-                        <div class="panel-body">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <label for="memberName">#{bundle.name}</label>
-                                            <h:inputText id="memberName" label="#{bundle.name}" value="#{communityMBean.community.name}" class="form-control"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <h:inputHidden id="actionId" value="#{functionalityMBean.action.id}"/>
-                                        </div>
-                                        <h:commandButton id="saveAction" class="btn btn-default" value="Save" style="vertical-align: bottom">
-                                            <f:ajax listener="#{functionalityMBean.saveAction}" execute="actionName actionAcronym actionDescription actionId" render="actionName actionAcronym actionDescription actionId actions"/>
-                                        </h:commandButton>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h:dataTable id="actions" var="action" value="#{functionalityMBean.actions}" class="table">
-                                <h:column>
-                                    <f:facet name="header">Name</f:facet>
-                                    <h:outputText value="#{action.name}"/>
-                                </h:column>
-                                <h:column>
-                                    <h:commandButton value="Edit" styleClass="btn btn-default">
-                                        <f:ajax render=":form:actionName :form:actionAcronym :form:actionDescription :form:actionId" listener="#{functionalityMBean.editAction(action)}"/>
-                                    </h:commandButton>
-                                    <h:commandButton value="Remove" actionListener="#{functionalityMBean.removeAction(action)}" styleClass="btn btn-default"/>
-                                </h:column>
-                            </h:dataTable>
-                        </div>
-                    </div>
-                    -->
-
                     <h:inputHidden value="#{communityMBean.community.id}"/>
 
                     <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{communityMBean.save}"/>&nbsp;
