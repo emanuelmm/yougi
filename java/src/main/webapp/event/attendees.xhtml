@@ -36,11 +36,7 @@
                         <f:param value="#{attendeeMBean.numberPeopleAttending}"/>
                         <f:param value="#{attendeeMBean.numberPeopleAttended}"/>
                     </h:outputFormat></p>
-                    <p>
-                        <h:panelGrid width="100%" columnClasses="alignColumnRight">
-                            <h:commandButton value="#{bundle.print}" action="#{attendeeMBean.print}" styleClass="btn btn-default"/>
-                        </h:panelGrid>
-                    </p>
+                    <p><h:commandButton value="#{bundle.print}" action="#{attendeeMBean.print}" styleClass="btn btn-default"/></p>
                     <p:dataTable value="#{attendeeMBean.attendees}" var="attendee" selection="#{attendeeMBean.selectedAttendees}" rowKey="#{attendee.id}">
                         <p:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
@@ -73,7 +69,7 @@
                     <h:button value="#{bundle.back}" outcome="events" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
+            <ui:define name="jquery"/>
         </ui:composition>
     </h:body>
 </html>

@@ -30,26 +30,31 @@
                 <h1>#{bundle.deactivation}</h1>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                    <h:panelGrid>
-                        <h:panelGrid columns="2" width="400">
-                            <h:outputText value="#{bundle.name}"/>
-                            <h:outputText value="#{bundle.email}"/>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h:outputLabel for="fullName" value="#{bundle.name}"/>
+                                <h:outputText id="fullName" value="#{memberMBean.userAccount.fullName}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h:outputLabel for="email" value="#{bundle.email}"/>
+                                <h:outputText id="email" value="#{memberMBean.userAccount.email}"/>
+                            </div>
+                        </div>
+                    </div>
 
-                            <h:outputText value="#{memberMBean.userAccount.fullName}"/>
-                            <h:outputText value="#{memberMBean.userAccount.email}"/>
-                        </h:panelGrid>
-
+                    <div class="form-group">
                         <h:outputLabel for="reason" value="#{bundle.reason}"/>
                         <h:inputTextarea id="reason" label="#{bundle.reason}" cols="40" rows="5" value="#{memberMBean.userAccount.deactivationReason}" styleClass="form-control"/>
                         <h:outputText value="#{bundle.reasonNote}" styleClass="fieldNote"/>
-                    </h:panelGrid>
+                    </div>
 
                     <h:inputHidden id="id" value="#{memberMBean.userAccount.id}"/>
-                    <p></p>
-                    <h:panelGrid columns="4">
-                        <h:commandButton value="#{bundle.deactivateMembership}" action="#{memberMBean.deactivateMembership}" styleClass="btn btn-primary"/>
-                        <h:button outcome="user" value="#{bundle.cancel}" styleClass="btn btn-default"/>
-                    </h:panelGrid>
+
+                    <h:commandButton value="#{bundle.deactivateMembership}" action="#{memberMBean.deactivateMembership}" styleClass="btn btn-primary"/>
+                    <h:button outcome="user" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
         </ui:composition>

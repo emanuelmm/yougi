@@ -33,28 +33,26 @@
 		        </div>
 
                 <h:form>
-                    <div class="form-group">
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
-                    <h:panelGrid columns="1">
+
+                    <div class="form-group">
                         <h:outputLabel for="name" value="#{bundle.name} *"/>
                         <h:inputText id="name" label="#{bundle.name}" required="true" size="20" maxlength="20" value="#{languageMBean.language.name}" styleClass="form-control" >
                             <f:validateRegex pattern="[a-zA-Z]+"/>
                         </h:inputText>
                         <h:message for="name" errorClass="errorMessage"/>
-
-                        <h:outputText value="#{bundle.acronym}"/>
-                        <h:outputText value="#{languageMBean.language.acronym}" styleClass="form-control"/>
-
-                        <h:inputHidden id="acronym" value="#{languageMBean.language.acronym}"/>
-                    </h:panelGrid>
-
-                    <h:panelGrid columns="2">
-                        <h:commandButton value="#{bundle.save}" action="#{languageMBean.save}" styleClass="btn btn-primary"/>
-                        <h:button value="#{bundle.cancel}" outcome="languages" styleClass="btn btn-default"/>
-                    </h:panelGrid>
                     </div>
-                </h:form>
 
+                    <div class="form-group">
+                        <h:outputText value="#{bundle.acronym}"/>
+                        <h:outputText value="#{languageMBean.language.acronym}" styleClass="form-control-static"/>
+                    </div>
+
+                    <h:inputHidden id="acronym" value="#{languageMBean.language.acronym}"/>
+
+                    <h:commandButton value="#{bundle.save}" action="#{languageMBean.save}" styleClass="btn btn-primary"/>
+                    <h:button value="#{bundle.cancel}" outcome="languages" styleClass="btn btn-default"/>
+                </h:form>
             </ui:define>
         </ui:composition>
     </body>
