@@ -46,13 +46,11 @@
 
                     <h:inputHidden id="id" value="#{provinceMBean.province.id}"/>
 
-                    <h:panelGrid columns="3">
-                        <h:commandButton value="#{bundle.save}" action="#{provinceMBean.save}" styleClass="btn btn-primary"/>
-                        <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{provinceMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
-                            <f:param name="id" value="#{provinceMBean.province.id}" />
-                        </h:commandButton>
-                        <h:button outcome="provinces" value="#{bundle.cancel}" styleClass="btn btn-default"/>
-                    </h:panelGrid>
+                    <h:commandButton value="#{bundle.save}" action="#{provinceMBean.save}" styleClass="btn btn-primary"/>
+                    <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{provinceMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
+                        <f:param name="id" value="#{provinceMBean.province.id}" />
+                    </h:commandButton>
+                    <h:button outcome="provinces" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>
         </ui:composition>
