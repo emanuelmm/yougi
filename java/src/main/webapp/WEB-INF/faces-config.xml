@@ -25,9 +25,9 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
     <application>
-        <message-bundle>org.cejug.yougi.web.bundles.Messages</message-bundle>
+        <message-bundle>org.yougi.web.bundles.Messages</message-bundle>
         <resource-bundle>
-            <base-name>org.cejug.yougi.web.bundles.Resources</base-name>
+            <base-name>org.yougi.web.bundles.Resources</base-name>
             <var>bundle</var>
         </resource-bundle>
         <locale-config>
@@ -37,6 +37,6 @@
         </locale-config>
     </application>
     <factory>
-        <exception-handler-factory>org.cejug.yougi.web.handler.ExceptionHandlerFactory</exception-handler-factory>
+        <exception-handler-factory>org.yougi.web.handler.ExceptionHandlerFactory</exception-handler-factory>
     </factory>
 </faces-config>

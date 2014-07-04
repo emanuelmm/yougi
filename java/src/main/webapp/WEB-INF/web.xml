@@ -57,7 +57,7 @@
     <!-- Liquibase -->
     <context-param>
         <param-name>liquibase.changelog</param-name>
-        <param-value>org/cejug/yougi/db/changelog.xml</param-value>
+        <param-value>org/yougi/db/changelog.xml</param-value>
     </context-param>
     <context-param>
         <param-name>liquibase.datasource</param-name>
@@ -75,7 +75,7 @@
     </servlet>
     <servlet>
         <servlet-name>EmailConfirmation Servlet</servlet-name>
-        <servlet-class>org.cejug.yougi.web.controller.EmailConfirmationServlet</servlet-class>
+        <servlet-class>org.yougi.web.controller.EmailConfirmationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
