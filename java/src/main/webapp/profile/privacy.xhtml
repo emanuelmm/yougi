@@ -28,7 +28,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.privacy}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.privacy}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.privacy}</h1>
+                </div>
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
                     <h:message for="speaker" errorClass="errorMessage"/>

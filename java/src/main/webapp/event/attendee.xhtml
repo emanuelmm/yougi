@@ -30,7 +30,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.attendee}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.attendee}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.attendee}</h1>
+                </div>
                 <h:form>
                     <h:link outcome="event" value="#{attendeeMBean.attendee.event}" style="font-size: 24px; font-weight: bold;" rendered="#{! empty param.eventId}">
                         <f:param name="id" value="#{param.eventId}"/>

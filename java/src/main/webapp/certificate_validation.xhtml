@@ -28,7 +28,9 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="title">#{bundle.certificateValidation}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.certificateValidation}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.certificateValidation}</h1>
+                </div>
                 <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 <h:form>
                     <div class="form-group">

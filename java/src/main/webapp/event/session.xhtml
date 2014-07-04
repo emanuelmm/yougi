@@ -30,7 +30,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.session}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.session}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.session}</h1>
+                </div>
                 <h:form>
                     <h:panelGrid width="100%">
                         <h:panelGroup>

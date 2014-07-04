@@ -27,7 +27,10 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="title">#{bundle.changeEmailConfirmation}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.changeEmailConfirmation}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.changeEmailConfirmation}</h1>
+                </div>
+
                 <p><h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/></p>
 
                 <h:form>

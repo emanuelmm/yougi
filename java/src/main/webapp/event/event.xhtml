@@ -30,7 +30,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.event}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.event}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.event}</h1>
+                </div>
                 <h:form>
                     <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                         <h:outputText value="#{eventMBean.event}" style="font-size: 26px; font-weight: bold;"/>
@@ -117,7 +119,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.tracks}">
-                            <p:button value="#{bundle.newTrack}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
+                            <p:button value="#{bundle.new}" outcome="track_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -157,7 +159,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.sessions}">
-                            <p:button value="#{bundle.newSession}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
+                            <p:button value="#{bundle.new}" outcome="session_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -225,7 +227,7 @@
                         </p:tab>
 
                         <p:tab title="#{bundle.speakers}">
-                            <p:button value="#{bundle.newSpeaker}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
+                            <p:button value="#{bundle.new}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>
@@ -335,7 +337,7 @@
                             </h:panelGrid>
                         </p:tab>
                         <p:tab title="#{bundle.sponsors}">
-                            <p:button value="#{bundle.newSponsor}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
+                            <p:button value="#{bundle.new}" outcome="sponsor_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="eventId" value="#{eventMBean.event.id}"/>
                             </p:button>
                             <p/>

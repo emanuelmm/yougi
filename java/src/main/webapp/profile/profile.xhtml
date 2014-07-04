@@ -29,7 +29,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.profile}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.profile}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.profile}</h1>
+                </div>
                 <h:form>
                     <p:tabView dynamic="false" cache="true" activeIndex="#{param.tab}">
                         <p:tab title="#{bundle.personalData}">

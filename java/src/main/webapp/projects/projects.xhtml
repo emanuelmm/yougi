@@ -34,7 +34,7 @@
                 <h:form>
                     <h:dataTable value="#{projectMBean.projects}" var="project" styleClass="table table-striped">
                         <f:facet name="header">
-                            <h:button outcome="project_form" value="#{bundle.new}" styleClass="btn btn-default pull-right"/>
+                            <h:button outcome="project_form" value="#{bundle.new}" styleClass="btn btn-default"/>
                         </f:facet>
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
