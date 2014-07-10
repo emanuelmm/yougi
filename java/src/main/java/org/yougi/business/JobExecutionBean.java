@@ -128,6 +128,7 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
 
         // Starts the job execution.
         if (currentJobExecution.getStatus() == JobStatus.SCHEDULED) {
+            currentJobExecution.setStartTime(Calendar.getInstance().getTime());
             startJob(currentJobExecution);
         }
 

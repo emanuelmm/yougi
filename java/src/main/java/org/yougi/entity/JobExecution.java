@@ -110,6 +110,10 @@ public class JobExecution implements Serializable, Identified {
         return startTime;
     }
 
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
     public Date getEndTime() {
         return endTime;
     }
