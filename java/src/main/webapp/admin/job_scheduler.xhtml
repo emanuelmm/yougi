@@ -76,7 +76,7 @@
 
                             <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
 
-                            <h:button outcome="job_scheduler_form" value="#{bundle.edit}" styleClass="btn btn-default" rendered="#{! jobSchedulerMBean.jobScheduler.expired}">
+                            <h:button outcome="job_scheduler_form" value="#{bundle.edit}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{jobSchedulerMBean.jobScheduler.id}"/>
                             </h:button>
                             <h:commandButton value="#{bundle.activate}" action="#{jobSchedulerMBean.activate}" rendered="#{! jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
