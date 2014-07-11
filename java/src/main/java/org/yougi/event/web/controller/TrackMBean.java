@@ -27,12 +27,13 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.SessionEvent;
 import org.yougi.event.entity.Speaker;
 import org.yougi.event.entity.Track;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,10 +55,12 @@ public class TrackMBean implements Serializable {
     @EJB
     private EventBean eventBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{param.eventId}")
+    @Inject
+    @ManagedProperty("#{param.eventId}")
     private String eventId;
 
     private Track track;

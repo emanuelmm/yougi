@@ -22,12 +22,13 @@ package org.yougi.knowledge.web.controller;
 
 import org.yougi.knowledge.business.TopicBean;
 import org.yougi.knowledge.entity.Topic;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -44,7 +45,8 @@ public class TopicMBean {
 
     private List<Topic> topics;
 
-    @ManagedProperty(value="#{param.topic}")
+    @Inject
+    @ManagedProperty("#{param.topic}")
     private String topicName;
 
     private Boolean topicExistent = Boolean.FALSE;

@@ -22,12 +22,13 @@ package org.yougi.web.controller;
 
 import org.yougi.business.CountryBean;
 import org.yougi.entity.Country;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -40,7 +41,8 @@ public class CountryMBean {
     @EJB
     private CountryBean locationBean;
 
-    @ManagedProperty(value="#{param.acronym}")
+    @Inject
+    @ManagedProperty("#{param.acronym}")
     private String acronym;
 
     private Country country;

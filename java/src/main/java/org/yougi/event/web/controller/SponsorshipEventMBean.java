@@ -26,12 +26,13 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.SponsorshipEvent;
 import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.entity.Partner;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,10 +55,12 @@ public class SponsorshipEventMBean implements Serializable {
     @EJB
     private PartnerBean partnerBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{param.eventId}")
+    @Inject
+    @ManagedProperty("#{param.eventId}")
     private String eventId;
 
     private Event event;

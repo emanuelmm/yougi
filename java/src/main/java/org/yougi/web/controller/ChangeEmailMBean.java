@@ -25,12 +25,12 @@ import org.yougi.entity.UserAccount;
 import org.yougi.exception.BusinessLogicException;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -49,7 +49,8 @@ public class ChangeEmailMBean {
     @EJB
     private UserAccountBean userAccountBean;
 
-    @ManagedProperty(value = "#{param.cc}")
+    @Inject
+    @ManagedProperty("#{param.cc}")
     private String confirmationCode;
 
     @Inject

@@ -27,12 +27,13 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.EventVenue;
 import org.yougi.event.entity.Venue;
 import org.yougi.util.StringUtils;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,10 +55,12 @@ public class EventVenueMBean implements Serializable {
     @EJB
     private EventVenueBean eventVenueBean;
 
-    @ManagedProperty(value = "#{param.eventId}")
+    @Inject
+    @ManagedProperty("#{param.eventId}")
     private String eventId;
 
-    @ManagedProperty(value = "#{param.venueId}")
+    @Inject
+    @ManagedProperty("#{param.venueId}")
     private String venueId;
 
     private List<Venue> venues;

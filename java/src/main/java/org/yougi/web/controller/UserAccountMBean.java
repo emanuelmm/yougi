@@ -24,15 +24,15 @@ import org.yougi.business.CommunityBean;
 import org.yougi.business.CommunityMemberBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
-import org.yougi.qualifier.UserName;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
+import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.util.annotation.UserName;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -68,10 +68,11 @@ public class UserAccountMBean implements Serializable {
     @EJB
     private CommunityMemberBean communityMemberBean;
 
-    @ManagedProperty(value="#{locationMBean}")
+    @Inject
     private LocationMBean locationMBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
     @Inject

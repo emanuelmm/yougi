@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Yougi is a web application conceived to manage user groups or
+/* Yougi is a web application conceived to manage user groups or
  * communities focused on a certain domain of knowledge, whose members are
  * constantly sharing information and participating in social and educational
  * events. Copyright (C) 2011 Hildeberto Mendonça.
@@ -18,9 +17,20 @@
  * this library. Look for the file license.txt at the root level. If you do not
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
- * -->
-<beans  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
-        bean-discovery-mode="all">
-</beans>
+ * */
+package org.yougi.util.producer;
+
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
+
+/**
+ * @author Daniel Cunha - danielsoro@gmail.com
+ */
+public class FacesContextProducer {
+
+    @Produces @RequestScoped
+    FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+}

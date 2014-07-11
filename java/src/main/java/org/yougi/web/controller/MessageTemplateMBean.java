@@ -20,13 +20,15 @@
  * */
 package org.yougi.web.controller;
 
+import org.yougi.business.MessageTemplateBean;
 import org.yougi.entity.MessageTemplate;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -37,9 +39,12 @@ import java.util.List;
 public class MessageTemplateMBean {
 
     @EJB
-    private org.yougi.business.MessageTemplateBean messageTemplateBean;
-    @ManagedProperty(value = "#{param.id}")
+    private MessageTemplateBean messageTemplateBean;
+
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
+
     private MessageTemplate messageTemplate;
 
     public MessageTemplateMBean() {

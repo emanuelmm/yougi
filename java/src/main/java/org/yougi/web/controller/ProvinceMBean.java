@@ -25,13 +25,14 @@ import org.yougi.business.ProvinceBean;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
 import org.yougi.util.StringUtils;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +49,12 @@ public class ProvinceMBean {
     @EJB
     private ProvinceBean provinceBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
+
     private Country selectedCountry;
+
     private Province province;
 
     public ProvinceMBean() {

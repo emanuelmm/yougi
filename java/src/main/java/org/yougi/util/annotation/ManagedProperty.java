@@ -18,41 +18,22 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.util;
+package org.yougi.util.annotation;
 
-import org.yougi.business.UserAccountBean;
-import org.yougi.entity.UserAccount;
-import org.yougi.qualifier.UserName;
-
-import javax.enterprise.inject.Produces;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
+import javax.enterprise.util.Nonbinding;
+import javax.inject.Qualifier;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @author Daniel Cunha - danielsoro@gmail.com
+ * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class UserProduce {
-
-    @Inject
-    private UserAccountBean userAccountBean;
-
-    @Inject
-    private FacesContext facesContext;
-
-    @Inject
-    private HttpServletRequest httpServletRequest;
-
-    @Produces @Named @UserName
-    public String getUserName() {
-        return httpServletRequest.getRemoteUser();
-    }
-
-    @Produces @Named
-    public String getFirstName() {
-        String username = getUserName();
-        UserAccount userAccount = userAccountBean.findByUsername(username);
-        return userAccount == null ? "" : userAccount.getFirstName();
-    }
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
+public @interface ManagedProperty {
+    @Nonbinding
+    String value() default "";
 }

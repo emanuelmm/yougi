@@ -18,19 +18,41 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.util;
+package org.yougi.util.producer;
 
-import javax.enterprise.context.RequestScoped;
+import org.yougi.business.UserAccountBean;
+import org.yougi.entity.UserAccount;
+import org.yougi.util.annotation.UserName;
+
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public class FaceContextProduce {
+public class UserNameProducer {
 
-    @Produces @RequestScoped
-    FacesContext getFacesContext() {
-        return FacesContext.getCurrentInstance();
+    @Inject
+    private UserAccountBean userAccountBean;
+
+    @Inject
+    private FacesContext facesContext;
+
+    @Inject
+    private HttpServletRequest httpServletRequest;
+
+    @Produces @Named @UserName
+    public String getUserName() {
+        return httpServletRequest.getRemoteUser();
+    }
+
+    @Produces @Named
+    public String getFirstName() {
+        String username = getUserName();
+        UserAccount userAccount = userAccountBean.findByUsername(username);
+        return userAccount == null ? "" : userAccount.getFirstName();
     }
 }

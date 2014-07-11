@@ -24,12 +24,13 @@ import org.yougi.business.CommunityBean;
 import org.yougi.business.CommunityMemberBean;
 import org.yougi.entity.Community;
 import org.yougi.entity.CommunityMember;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -45,7 +46,8 @@ public class CommunityMBean {
     @EJB
     private CommunityMemberBean communityMemberBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
     private Community community;

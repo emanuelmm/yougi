@@ -20,19 +20,19 @@
  * */
 package org.yougi.event.web.controller;
 
+import org.primefaces.model.chart.PieChartModel;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.UserAccount;
 import org.yougi.event.business.*;
 import org.yougi.event.entity.*;
-import org.yougi.qualifier.UserName;
 import org.yougi.util.WebTextUtils;
+import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.util.annotation.UserName;
 import org.yougi.web.controller.UserProfileMBean;
-import org.primefaces.model.chart.PieChartModel;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import java.util.Calendar;
@@ -70,7 +70,8 @@ public class EventMBean {
     @EJB
     private SponsorshipEventBean sponsorshipEventBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
     @Inject

@@ -27,12 +27,13 @@ import org.yougi.knowledge.business.WebSourceBean;
 import org.yougi.knowledge.entity.Article;
 import org.yougi.knowledge.entity.WebSource;
 import org.yougi.util.UrlUtils;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -60,10 +61,11 @@ public class WebSourceMBean {
     private String selectedMember;
     private String website;
 
-    @ManagedProperty(value="#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value="#{unpublishedArticlesMBean}")
+    @Inject
     private UnpublishedArticlesMBean unpublishedArticlesMBean;
 
     public WebSource getWebSource() {

@@ -34,6 +34,7 @@ import org.yougi.event.business.EventVenueBean;
 import org.yougi.event.entity.Attendee;
 import org.yougi.event.entity.Event;
 import org.yougi.event.entity.Venue;
+import org.yougi.util.annotation.ManagedProperty;
 import org.yougi.web.controller.UserProfileMBean;
 import org.yougi.web.report.EventAttendeeCertificate;
 
@@ -41,7 +42,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -77,10 +77,12 @@ public class AttendeeMBean implements Serializable {
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{param.eventId}")
+    @Inject
+    @ManagedProperty("#{param.eventId}")
     private String eventId;
 
     @Inject

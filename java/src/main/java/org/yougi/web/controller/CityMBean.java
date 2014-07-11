@@ -24,12 +24,13 @@ import org.yougi.business.CityBean;
 import org.yougi.business.TimezoneBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
@@ -50,10 +51,11 @@ public class CityMBean implements Serializable {
     @EJB
     private UserAccountBean userAccountBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value="#{locationMBean}")
+    @Inject
     private LocationMBean locationMBean;
 
     private City city;

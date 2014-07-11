@@ -21,12 +21,13 @@
 package org.yougi.knowledge.web.controller;
 
 import org.yougi.knowledge.entity.MailingList;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -39,7 +40,8 @@ public class MailingListMBean {
     @EJB
     private org.yougi.knowledge.business.MailingListBean mailingListBean;
 
-    @ManagedProperty(value="#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
     private MailingList mailingList;

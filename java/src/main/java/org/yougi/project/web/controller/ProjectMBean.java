@@ -22,12 +22,13 @@ package org.yougi.project.web.controller;
 
 import org.yougi.project.business.ProjectBean;
 import org.yougi.project.entity.Project;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.List;
 
 @ManagedBean
@@ -41,7 +42,8 @@ public class ProjectMBean {
 
 	private Project project;
 
-	@ManagedProperty(value="#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
 	public List<Project> getProjects() {

@@ -20,6 +20,10 @@
  * */
 package org.yougi.partnership.web.controller;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.yougi.business.ApplicationPropertyBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
@@ -27,19 +31,14 @@ import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
-import org.yougi.qualifier.UserName;
+import org.yougi.util.annotation.UserName;
 import org.yougi.util.WebTextUtils;
 import org.yougi.web.controller.LocationMBean;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -68,7 +67,7 @@ public class PartnershipMBean {
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
 
-    @ManagedProperty(value = "#{locationMBean}")
+    @Inject
     private LocationMBean locationMBean;
 
     @Inject

@@ -28,14 +28,14 @@ import org.yougi.entity.Authentication;
 import org.yougi.entity.Properties;
 import org.yougi.entity.UserAccount;
 import org.yougi.exception.BusinessLogicException;
-import org.yougi.qualifier.UserName;
 import org.yougi.util.ResourceBundleHelper;
+import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.util.annotation.UserName;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -59,11 +59,12 @@ public class ChangePasswordMBean {
     @EJB
     private AuthenticationBean authenticationBean;
 
-    @ManagedProperty(value="#{param.cc}")
-    private String confirmationCode;
-
     @EJB
     private ApplicationPropertyBean applicationPropertyBean;
+
+    @Inject
+    @ManagedProperty("#{param.cc}")
+    private String confirmationCode;
 
     @Inject
     private FacesContext context;

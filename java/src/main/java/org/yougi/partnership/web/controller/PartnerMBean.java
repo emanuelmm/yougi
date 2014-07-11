@@ -20,6 +20,7 @@
  * */
 package org.yougi.partnership.web.controller;
 
+import org.primefaces.model.DualListModel;
 import org.yougi.business.AccessGroupBean;
 import org.yougi.business.UserGroupBean;
 import org.yougi.entity.*;
@@ -27,14 +28,14 @@ import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
+import org.yougi.util.annotation.ManagedProperty;
 import org.yougi.web.controller.LocationMBean;
-import org.primefaces.model.DualListModel;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +61,11 @@ public class PartnerMBean implements Serializable {
     @EJB
     private RepresentativeBean representativeBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{locationMBean}")
+    @Inject
     private LocationMBean locationMBean;
 
     private Partner partner;

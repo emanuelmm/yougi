@@ -25,12 +25,13 @@ import org.yougi.event.business.RoomBean;
 import org.yougi.event.business.SessionBean;
 import org.yougi.event.business.VenueBean;
 import org.yougi.event.entity.*;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
@@ -55,13 +56,16 @@ public class RoomMBean implements Serializable {
     @EJB
     private VenueBean venueBean;
 
-    @ManagedProperty(value = "#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{param.eventId}")
+    @Inject
+    @ManagedProperty("#{param.eventId}")
     private String eventId;
 
-    @ManagedProperty(value = "#{param.venueId}")
+    @Inject
+    @ManagedProperty("#{param.venueId}")
     private String venueId;
 
     private Event event;

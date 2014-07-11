@@ -20,18 +20,19 @@
  * */
 package org.yougi.web.controller;
 
+import org.primefaces.model.DualListModel;
 import org.yougi.business.AccessGroupBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.business.UserGroupBean;
 import org.yougi.entity.AccessGroup;
 import org.yougi.entity.UserAccount;
-import org.primefaces.model.DualListModel;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class AccessGroupMBean {
     @EJB
     private UserGroupBean userGroupBean;
 
-    @ManagedProperty(value="#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String groupId;
 
     private AccessGroup group;

@@ -26,16 +26,17 @@ import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
 import org.yougi.util.DateTimeUtils;
 import org.yougi.util.ResourceBundleHelper;
+import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -67,10 +68,11 @@ public class JobSchedulerMBean {
 
     private Boolean workingHoursOnly;
 
-    @ManagedProperty(value="#{param.id}")
+    @Inject
+    @ManagedProperty("#{param.id}")
     private String id;
 
-    @ManagedProperty(value = "#{jobScheduleMBean}")
+    @Inject
     private JobScheduleMBean jobScheduleMBean;
 
     private Date startDate;
