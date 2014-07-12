@@ -26,12 +26,12 @@ import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class ProjectMBean {
 

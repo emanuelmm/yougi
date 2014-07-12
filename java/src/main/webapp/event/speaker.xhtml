@@ -41,7 +41,7 @@
 
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:panelGrid columns="2">
-                                <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(speakerMBean.speaker.userAccount.email)}"/>
+                                <h:graphicImage value="#{profilePictureMBean.getPictureFromEmail(speakerMBean.speaker.userAccount.email)}"/>
 
                                 <h:panelGrid>
                                     <h:outputText value="#{speakerMBean.speaker.fullName}" style="font-size: 24px; font-weight: bold;"/>

@@ -26,11 +26,11 @@ import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.annotation.ManagedProperty;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class SecurityBackingMBean {
 

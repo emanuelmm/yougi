@@ -28,8 +28,8 @@ import org.yougi.event.entity.Room;
 import org.yougi.event.entity.Venue;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class VenueSelectionMBean {
 

@@ -24,8 +24,8 @@ import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,11 +36,11 @@ import java.util.logging.Logger;
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-@ManagedBean
+@Named
 @RequestScoped
-public class ProfilePictureFinder {
+public class ProfilePictureMBean {
 
-    private static final Logger LOGGER = Logger.getLogger(ProfilePictureFinder.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ProfilePictureMBean.class.getSimpleName());
 
     public String getPictureFromEmail(String email) throws IOException {
         return this.validateUrl( getGravatarImageUrl(email , 85) );

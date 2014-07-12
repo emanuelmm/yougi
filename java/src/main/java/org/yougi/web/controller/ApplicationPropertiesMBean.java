@@ -31,11 +31,11 @@ import org.yougi.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
@@ -44,7 +44,7 @@ import java.util.Map;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class ApplicationPropertiesMBean implements Serializable {
 

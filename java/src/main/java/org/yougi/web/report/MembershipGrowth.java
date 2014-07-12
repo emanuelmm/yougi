@@ -20,16 +20,16 @@
  * */
 package org.yougi.web.report;
 
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.UserAccount;
 import org.yougi.util.ResourceBundleHelper;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
  * monthly basis.
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class MembershipGrowth {
 

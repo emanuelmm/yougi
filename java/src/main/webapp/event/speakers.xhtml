@@ -38,7 +38,7 @@
                     <p:dataGrid value="#{speakerMBean.speakers}" var="speaker" columns="3">
                         <p:panel style="text-align: center">
                             <h:panelGrid style="width: 100%">
-                                <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(speaker.userAccount.email)}"/>
+                                <h:graphicImage value="#{profilePictureMBean.getPictureFromEmail(speaker.userAccount.email)}"/>
                                 <h:link outcome="speaker" value="#{speaker}">
                                     <f:param name="id" value="#{speaker.id}"/>
                                 </h:link>

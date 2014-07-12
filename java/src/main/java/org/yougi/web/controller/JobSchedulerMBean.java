@@ -30,13 +30,13 @@ import org.yougi.util.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class JobSchedulerMBean {
 

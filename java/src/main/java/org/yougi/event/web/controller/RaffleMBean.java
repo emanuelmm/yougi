@@ -20,14 +20,14 @@
  * */
 package org.yougi.event.web.controller;
 
+import org.primefaces.context.RequestContext;
 import org.yougi.event.business.AttendeeBean;
 import org.yougi.event.entity.Attendee;
 import org.yougi.event.entity.Event;
-import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * @author Efraim Gentil - https://github.com/efraimgentil
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RaffleMBean implements Serializable {
 

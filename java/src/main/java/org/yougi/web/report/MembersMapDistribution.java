@@ -20,24 +20,24 @@
  * */
 package org.yougi.web.report;
 
-import org.yougi.business.CityBean;
-import org.yougi.entity.City;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+import org.yougi.business.CityBean;
+import org.yougi.entity.City;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class MembersMapDistribution implements Serializable {
 

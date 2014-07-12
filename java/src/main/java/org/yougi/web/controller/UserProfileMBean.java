@@ -29,10 +29,10 @@ import org.yougi.util.annotation.UserName;
 import org.yougi.util.StringUtils;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,7 +41,7 @@ import java.util.Locale;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class UserProfileMBean implements Serializable {
 

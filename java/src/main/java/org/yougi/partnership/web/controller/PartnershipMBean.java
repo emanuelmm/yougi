@@ -31,17 +31,17 @@ import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
-import org.yougi.util.annotation.UserName;
 import org.yougi.util.WebTextUtils;
+import org.yougi.util.annotation.UserName;
 import org.yougi.web.controller.LocationMBean;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class PartnershipMBean {
 

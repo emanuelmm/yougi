@@ -28,13 +28,13 @@ import org.yougi.entity.UserAccount;
 import org.yougi.util.StringUtils;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class JobScheduleMBean {
 

@@ -25,15 +25,15 @@ import org.yougi.knowledge.entity.Article;
 import org.yougi.knowledge.entity.WebSource;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class UnpublishedContentMBean implements Serializable {
 

@@ -37,7 +37,7 @@
                         <p:tab title="#{bundle.personalData}">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(userAccountMBean.userAccount.email)}" width="85" height="85"/>
+                                    <h:graphicImage value="#{profilePictureMBean.getPictureFromEmail(userAccountMBean.userAccount.email)}" width="85" height="85"/>
                                 </div>
                                 <div class="col-md-10">
                                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
