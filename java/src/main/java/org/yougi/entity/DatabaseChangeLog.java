@@ -59,6 +59,8 @@ public class DatabaseChangeLog implements Serializable, Identified {
 
     private String liquibase;
 
+    @Transient
+    private String changesContent;
 
     @Override
     public String getId() {
@@ -148,6 +150,14 @@ public class DatabaseChangeLog implements Serializable, Identified {
 
     public void setLiquibase(String liquibase) {
         this.liquibase = liquibase;
+    }
+
+    public String getChangesContent() {
+        return changesContent;
+    }
+
+    public void setChangesContent(String changesContent) {
+        this.changesContent = changesContent;
     }
 
     @Override

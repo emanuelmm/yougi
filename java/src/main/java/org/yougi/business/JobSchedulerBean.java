@@ -25,6 +25,7 @@ import org.yougi.exception.EnvironmentResourceException;
 import org.jboss.vfs.TempFileProvider;
 import org.jboss.vfs.VFS;
 import org.jboss.vfs.VirtualFile;
+import org.yougi.util.PackageResourceHelper;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -91,58 +92,19 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     }
 
     /**
-     * @return list of job names that are not scheduled at the moment.
-     * */
-    public List<String> findJobNames() {
-        Set<String> jobNames = getJobXmlNames();
-        return new ArrayList<>(jobNames);
-    }
-
-    /**
      * This method is necessary because the JSR 352 specification doesn't offer a method to retrieve the list of
      * available jobs. We need this list to enable the scheduler to start jobs without changing the code for every new
      * job definition.
-     * @return a set of job xml file names that are located in the /META-INF/batch-job directory.
+     * @return a list of job xml file names that are located in the /META-INF/batch-job directory.
      * */
-    private Set<String> getJobXmlNames() {
-        final ClassLoader loader = JobSchedulerBean.class.getClassLoader();
-        URL url = loader.getResource("/META-INF/batch-jobs");
-
-        if (url == null) {
-            return Collections.emptySet();
+    public List<String> getJobXmlNames() {
+        List<String> names = new ArrayList<>();
+        List<File> files = PackageResourceHelper.INSTANCE.getFilesFolder("/META-INF/batch-jobs");
+        for(File file: files) {
+            if (file.getName().endsWith(".xml")) {
+                names.add(file.getName().substring(0, file.getName().length() - 4));
+            }
         }
-
-        VirtualFile virtualFile;
-        Closeable handle = null;
-        String protocol = url.getProtocol();
-        Set<String> names = new HashSet<>();
-        try {
-            if ("vfs".equals(protocol)) {
-                URLConnection conn = url.openConnection();
-                virtualFile = (VirtualFile) conn.getContent();
-            } else if ("file".equals(protocol)) {
-                virtualFile = VFS.getChild(url.toURI());
-                File archiveFile = virtualFile.getPhysicalFile();
-                TempFileProvider provider = TempFileProvider.create("tmp", Executors.newScheduledThreadPool(2));
-                handle = VFS.mountZip(archiveFile, virtualFile, provider);
-            } else {
-                throw new UnsupportedOperationException("Protocol " + protocol + " is not supported");
-            }
-
-            List<VirtualFile> files = virtualFile.getChildren();
-            for(VirtualFile ccFile : files) {
-                if (ccFile.getName().endsWith(".xml")) {
-                    names.add(ccFile.getName().substring(0, ccFile.getName().length() - 4));
-                }
-            }
-
-            if(handle != null) {
-                handle.close();
-            }
-        } catch (IOException | URISyntaxException ioe) {
-            throw new EnvironmentResourceException(ioe.getMessage(), ioe);
-        }
-
         return names;
     }
 

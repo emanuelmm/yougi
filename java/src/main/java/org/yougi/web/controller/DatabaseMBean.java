@@ -22,9 +22,12 @@ package org.yougi.web.controller;
 
 import org.yougi.business.DatabaseChangeLogBean;
 import org.yougi.entity.DatabaseChangeLog;
+import org.yougi.util.annotation.ManagedProperty;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
@@ -40,7 +43,26 @@ public class DatabaseMBean {
 
     private List<DatabaseChangeLog> databaseChangeLogs;
 
+    private DatabaseChangeLog databaseChangeLog;
+
+    @Inject
+    @ManagedProperty("#{param.id}")
+    private String id;
+
     public DatabaseMBean() {
+    }
+
+    @PostConstruct
+    public void load() {
+        if (id != null && !id.isEmpty()) {
+            this.databaseChangeLog = databaseChangeLogBean.find(id);
+        } else {
+            this.databaseChangeLog = new DatabaseChangeLog();
+        }
+    }
+
+    public DatabaseChangeLog getDatabaseChangeLog() {
+        return this.databaseChangeLog;
     }
 
     public List<DatabaseChangeLog> getDatabaseChangeLogs() {

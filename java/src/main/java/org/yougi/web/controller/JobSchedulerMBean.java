@@ -174,7 +174,7 @@ public class JobSchedulerMBean {
 
     public List<String> getJobNames() {
         if(this.jobNames == null) {
-            this.jobNames = jobSchedulerBean.findJobNames();
+            this.jobNames = jobSchedulerBean.getJobXmlNames();
         }
         return this.jobNames;
     }
