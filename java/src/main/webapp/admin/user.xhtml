@@ -56,16 +56,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputText value="#{bundle.email}"/>
-                                        <h:outputLink value="mailto:#{memberMBean.userAccount.postingEmail}">
+                                        <h:outputLabel value="#{bundle.email}"/><br/>
+                                        <h:outputLink value="mailto:#{memberMBean.userAccount.postingEmail}" styleClass="form-control-static">
                                             <f:verbatim>#{memberMBean.userAccount.postingEmail}</f:verbatim>
                                         </h:outputLink>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputText value="#{bundle.username} *"/>
-                                        <h:outputText value="#{memberMBean.authentication.username}"/>
+                                        <h:outputLabel value="#{bundle.username}"/><br/>
+                                        <h:outputText value="#{memberMBean.authentication.username}" styleClass="form-control-static"/>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <h:outputLabel for="gender" value="#{bundle.gender}"/>
                                 <div class="radio">
-                                    <h:selectOneRadio id="gender" label="#{bundle.gender}" value="#{memberMBean.userAccount.gender}">
+                                    <h:selectOneRadio id="gender" label="#{bundle.gender}" value="#{memberMBean.userAccount.gender}" styleClass="radio">
                                         <f:selectItem itemLabel="#{bundle.male}" itemValue="MALE"/>
                                         <f:selectItem itemLabel="#{bundle.female}" itemValue="FEMALE"/>
                                     </h:selectOneRadio>
@@ -84,7 +84,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputText value="#{bundle.registrationDate}"/>
+                                        <h:outputLabel value="#{bundle.registrationDate}"/><br/>
                                         <h:outputText value="#{memberMBean.userAccount.registrationDate}">
                                             <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                         </h:outputText>
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputText value="#{bundle.lastUpdate}"/>
+                                        <h:outputLabel value="#{bundle.lastUpdate}"/><br/>
                                         <h:outputText value="#{memberMBean.userAccount.lastUpdate}">
                                             <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
                                         </h:outputText>
