@@ -22,8 +22,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <body>
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.databaseChange}</ui:define>
@@ -37,11 +36,17 @@
                             <dl class="dl-horizontal">
                                 <dt>#{bundle.author}</dt>
                                 <dd>#{databaseMBean.databaseChangeLog.author}</dd>
+                                <dt>#{bundle.date}</dt>
+                                <dd>#{databaseMBean.databaseChangeLog.dateExecuted}</dd>
+                                <dt>#{bundle.file}</dt>
+                                <dd>#{databaseMBean.databaseChangeLog.filename}</dd>
+                                <dt>#{bundle.order}</dt>
+                                <dd>#{databaseMBean.databaseChangeLog.orderExecuted}</dd>
+                                <dt>#{bundle.checksum}</dt>
+                                <dd>#{databaseMBean.databaseChangeLog.md5sum}</dd>
                             </dl>
-                            <pre>
-                            <h:outputText value="#{databaseMBean.databaseChangeLog.changesContent}" escape="false"/>
-                            </pre>
-                            <h:button outcome="database" value="#{bundle.back}" styleClass="btn btn-default"/>
+                            <pre><h:outputText value="#{databaseMBean.databaseChangeLog.changesContent}" escape="false"/></pre>
+                            <button type="button" onclick="back();" class="btn btn-default">#{bundle.back}</button>
                         </div>
                     </div>
                 </h:form>

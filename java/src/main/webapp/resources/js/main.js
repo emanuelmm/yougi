@@ -28,5 +28,5 @@ function confirmAction(message) {
 }
 
 function back() {
-    document.location.history(-1);
+    window.history.back();
 }
