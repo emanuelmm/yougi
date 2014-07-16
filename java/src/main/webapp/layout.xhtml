@@ -73,20 +73,23 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.administration} <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#{request.contextPath}/admin/users.xhtml">#{bundle.users}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/groups.xhtml">#{bundle.groups}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/communities.xhtml">#{bundle.communities}</a></li>
+                                        <li class="dropdown-header">#{bundle.people}</li>
+                                        <li><a href="#{request.contextPath}/admin/users.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.users}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/groups.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.groups}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/communities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.communities}</a></li>
                                         <li class="divider"></li>
                                         <li class="dropdown-header">#{bundle.locations}</li>
                                         <li><a href="#{request.contextPath}/admin/countries.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.countries}</a></li>
                                         <li><a href="#{request.contextPath}/admin/provinces.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.provinces}</a></li>
                                         <li><a href="#{request.contextPath}/admin/cities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.cities}</a></li>
                                         <li><a href="#{request.contextPath}/admin/timezones.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.timeZones}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/languages.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.languages}</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#{request.contextPath}/admin/languages.xhtml">#{bundle.languages}</a></li>
                                         <li><a href="#{request.contextPath}/admin/message_templates.xhtml">#{bundle.messageTemplates}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/properties.xhtml">#{bundle.properties}</a></li>
                                         <li><a href="#{request.contextPath}/admin/job_schedulers.xhtml">#{bundle.jobs}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/database.xhtml">#{bundle.database}</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#{request.contextPath}/admin/properties.xhtml">#{bundle.properties}</a></li>
                                     </ul>
                                 </li>
                             </c:if>
