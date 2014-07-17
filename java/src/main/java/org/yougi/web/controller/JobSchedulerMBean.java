@@ -220,6 +220,16 @@ public class JobSchedulerMBean {
     public void load() {
         if(EntitySupport.INSTANCE.isIdValid(this.id)) {
             this.jobScheduleMBean.loadJobScheduler(this.id);
+
+            if(this.jobScheduleMBean.getJobScheduler() instanceof JobSchedulerHourly) {
+                JobSchedulerHourly jobSchedulerHourly = (JobSchedulerHourly) this.jobScheduleMBean.getJobScheduler();
+                this.workingHoursOnly = jobSchedulerHourly.getWorkingHoursOnly();
+                this.endTime = jobSchedulerHourly.getEndTime();
+            }
+            else if(this.jobScheduleMBean.getJobScheduler() instanceof JobSchedulerDaily) {
+                JobSchedulerDaily jobSchedulerDaily = (JobSchedulerDaily) this.jobScheduleMBean.getJobScheduler();
+                this.workingHoursOnly = jobSchedulerDaily.getWorkingDaysOnly();
+            }
         }
     }
 
