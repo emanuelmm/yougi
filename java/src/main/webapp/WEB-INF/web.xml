@@ -109,7 +109,7 @@
         <display-name>Admin Constraints</display-name>
         <web-resource-collection>
             <web-resource-name>admins</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/admin/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
@@ -122,7 +122,7 @@
         <display-name>Leaders Constraints</display-name>
         <web-resource-collection>
             <web-resource-name>leaders</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/event/event_form.xhtml</url-pattern>
             <url-pattern>/event/event_venue_form.xhtml</url-pattern>
             <url-pattern>/event/room_form.xhtml</url-pattern>
@@ -143,7 +143,7 @@
         <display-name>Members Constraints</display-name>
         <web-resource-collection>
             <web-resource-name>members</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/profile/*</url-pattern>
             <url-pattern>/event/attendee.xhtml</url-pattern>
             <url-pattern>/members/members.xhtml</url-pattern>
@@ -159,7 +159,7 @@
         <display-name>Partnership Constraints</display-name>
         <web-resource-collection>
             <web-resource-name>partners</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/partnership/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
@@ -167,6 +167,14 @@
         <auth-constraint>
             <role-name>partner</role-name>
         </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Public</display-name>
+        <web-resource-collection>
+            <web-resource-name>public</web-resource-name>
+            <description/>
+            <url-pattern>/knowledge/article.xhtml</url-pattern>
+        </web-resource-collection>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
@@ -177,27 +185,27 @@
         </form-login-config>
     </login-config>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>admin</role-name>
     </security-role>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>leader</role-name>
     </security-role>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>helper</role-name>
     </security-role>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>member</role-name>
     </security-role>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>partner</role-name>
     </security-role>
     <security-role>
-        <description></description>
+        <description/>
         <role-name>speaker</role-name>
     </security-role>
 </web-app>
