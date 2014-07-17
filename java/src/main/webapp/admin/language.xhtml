@@ -37,15 +37,13 @@
 
                     <div class="form-group">
                         <h:outputLabel for="name" value="#{bundle.name} *"/>
-                        <h:inputText id="name" label="#{bundle.name}" required="true" size="20" maxlength="20" value="#{languageMBean.language.name}" styleClass="form-control" >
-                            <f:validateRegex pattern="[a-zA-Z]+"/>
-                        </h:inputText>
+                        <h:inputText id="name" label="#{bundle.name}" required="true" maxlength="20" value="#{languageMBean.language.name}" styleClass="form-control" />
                         <h:message for="name" errorClass="errorMessage"/>
                     </div>
 
                     <div class="form-group">
-                        <h:outputText value="#{bundle.acronym}"/>
-                        <h:outputText value="#{languageMBean.language.acronym}" styleClass="form-control-static"/>
+                        <h:outputLabel value="#{bundle.acronym}"/><br/>
+                        #{languageMBean.language.acronym}
                     </div>
 
                     <h:inputHidden id="acronym" value="#{languageMBean.language.acronym}"/>
