@@ -175,6 +175,17 @@ public class JobSchedulerMBean {
     public List<String> getJobNames() {
         if(this.jobNames == null) {
             this.jobNames = jobSchedulerBean.getJobXmlNames();
+
+            // If the job is already scheduled it is removed from the list.
+            List<JobScheduler> scheduled = jobSchedulerBean.findAllScheduled();
+            for(JobScheduler jobScheduler : scheduled) {
+                for(String jobName: this.jobNames) {
+                    if(jobName.equals(jobScheduler.getName())) {
+                        jobNames.remove(jobName);
+                        break;
+                    }
+                }
+            }
         }
         return this.jobNames;
     }

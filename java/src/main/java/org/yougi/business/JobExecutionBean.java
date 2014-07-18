@@ -78,10 +78,14 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
     }
 
     public JobExecution findJobExecution(Long instanceId) {
-        return em.createQuery("select je from JobExecution je where je.instanceId = :instanceId and je.status = :status", JobExecution.class)
-                 .setParameter("instanceId", instanceId)
-                 .setParameter("status", JobStatus.STARTED)
-                 .getSingleResult();
+        List<JobExecution> jobExecutions = em.createQuery("select je from JobExecution je where je.instanceId = :instanceId and je.status = :status order by je.startTime desc", JobExecution.class)
+                                             .setParameter("instanceId", instanceId)
+                                             .setParameter("status", JobStatus.STARTED)
+                                             .getResultList();
+        if(!jobExecutions.isEmpty()) {
+            return jobExecutions.get(0);
+        }
+        return null;
     }
 
     public Date findTimeout(JobExecution jobExecution) {
@@ -213,5 +217,12 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         LOGGER.log(Level.INFO, "Abandoned job: {0}", jobExecution.getInstanceId());
         jobExecution.setStatus(JobStatus.ABANDONED);
         em.merge(jobExecution);
+    }
+
+    public void finalizeJob(long instanceId) {
+        JobExecution jobExecution = findJobExecution(instanceId);
+        jobExecution.setEndTime(Calendar.getInstance().getTime());
+        jobExecution.setStatus(JobStatus.COMPLETED);
+        save(jobExecution);
     }
 }

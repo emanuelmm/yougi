@@ -21,15 +21,12 @@
 package org.yougi.util.batch;
 
 import org.yougi.business.JobExecutionBean;
-import org.yougi.entity.JobExecution;
-import org.yougi.entity.JobStatus;
 
 import javax.batch.api.listener.JobListener;
 import javax.batch.runtime.context.JobContext;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,9 +51,6 @@ public class DefaultJobListener implements JobListener {
 
     @Override
     public void afterJob() throws Exception {
-        JobExecution jobExecution = jobExecutionBean.findJobExecution(jobContext.getInstanceId());
-        jobExecution.setEndTime(Calendar.getInstance().getTime());
-        jobExecution.setStatus(JobStatus.COMPLETED);
-        LOGGER.log(Level.INFO, "Job finished: {0}", jobExecution);
+        jobExecutionBean.finalizeJob(jobContext.getInstanceId());
     }
 }
