@@ -75,19 +75,6 @@ public class SecurityBackingMBean {
         }
     }
 
-    public String authenticate() {
-        try {
-            if(!isUserSignedIn()) {
-                request.login(this.username, this.password);
-            }
-            return "/index";
-        } catch (ServletException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0013"), null));
-        }
-        return "/login";
-    }
-
     public String register() {
         if(userAccountBean.thereIsNoAccount()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));

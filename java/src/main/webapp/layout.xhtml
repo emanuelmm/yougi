@@ -43,9 +43,9 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
                     </button>
                     <h:link outcome="/index"><h:graphicImage value="/images/logo.png" style="margin-top: 8px;"/></h:link>
                 </div>
@@ -78,18 +78,18 @@
                                         <li><a href="#{request.contextPath}/admin/users.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.users}</a></li>
                                         <li><a href="#{request.contextPath}/admin/groups.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.groups}</a></li>
                                         <li><a href="#{request.contextPath}/admin/communities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.communities}</a></li>
-                                        <li class="divider"></li>
+                                        <li class="divider"/>
                                         <li class="dropdown-header">#{bundle.locations}</li>
                                         <li><a href="#{request.contextPath}/admin/countries.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.countries}</a></li>
                                         <li><a href="#{request.contextPath}/admin/provinces.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.provinces}</a></li>
                                         <li><a href="#{request.contextPath}/admin/cities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.cities}</a></li>
                                         <li><a href="#{request.contextPath}/admin/timezones.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.timeZones}</a></li>
                                         <li><a href="#{request.contextPath}/admin/languages.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.languages}</a></li>
-                                        <li class="divider"></li>
+                                        <li class="divider"/>
                                         <li><a href="#{request.contextPath}/admin/message_templates.xhtml">#{bundle.messageTemplates}</a></li>
                                         <li><a href="#{request.contextPath}/admin/job_schedulers.xhtml">#{bundle.jobs}</a></li>
                                         <li><a href="#{request.contextPath}/admin/database.xhtml">#{bundle.database}</a></li>
-                                        <li class="divider"></li>
+                                        <li class="divider"/>
                                         <li><a href="#{request.contextPath}/admin/properties.xhtml">#{bundle.properties}</a></li>
                                     </ul>
                                 </li>
@@ -126,7 +126,7 @@
             </div>
         </nav>
 
-        <ui:insert name="showcase"></ui:insert>
+        <ui:insert name="showcase"/>
 
         <div class="container" style="padding-top: 20px;">
             <ui:insert name="content">Content</ui:insert>

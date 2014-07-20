@@ -30,6 +30,7 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import java.util.logging.Logger;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Stateless
-public class UserAccountBean extends AbstractBean<UserAccount> {
+public class UserAccountBean extends AbstractBean<UserAccount> implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(UserAccountBean.class.getSimpleName());
 

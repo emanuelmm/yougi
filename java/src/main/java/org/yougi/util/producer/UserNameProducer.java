@@ -21,22 +21,34 @@
 package org.yougi.util.producer;
 
 import org.yougi.business.UserAccountBean;
+import org.yougi.business.UserSessionBean;
 import org.yougi.entity.UserAccount;
+import org.yougi.entity.UserSession;
 import org.yougi.util.annotation.UserName;
 
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.logging.Logger;
 
 /**
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public class UserNameProducer {
+@SessionScoped
+public class UserNameProducer implements Serializable {
+    private static final Logger LOGGER = Logger.getLogger(UserNameProducer.class.getSimpleName());
 
-    @Inject
+
+    @EJB
     private UserAccountBean userAccountBean;
+
+    @EJB
+    private UserSessionBean userSessionBean;
 
     @Inject
     private FacesContext facesContext;
@@ -44,15 +56,31 @@ public class UserNameProducer {
     @Inject
     private HttpServletRequest httpServletRequest;
 
+    private UserAccount userAccount;
+
     @Produces @Named @UserName
     public String getUserName() {
-        return httpServletRequest.getRemoteUser();
+        loadUserAccount();
+        return userAccount == null ? "" : userAccount.getEmail();
     }
 
     @Produces @Named
     public String getFirstName() {
-        String username = getUserName();
-        UserAccount userAccount = userAccountBean.findByUsername(username);
+        loadUserAccount();
         return userAccount == null ? "" : userAccount.getFirstName();
+    }
+
+    private void loadUserAccount() {
+        if(userAccount == null) {
+            String userName = httpServletRequest.getRemoteUser();
+            userAccount = userAccountBean.findByUsername(userName);
+            if(userAccount != null) {
+                String sessionId = facesContext.getExternalContext().getSessionId(false);
+                UserSession userSession = userSessionBean.findBySessionId(sessionId);
+                userSession.setUserAccount(userAccount);
+                userSessionBean.save(userSession);
+                userSessionBean.cleanFinishedAnonimousSessions();
+            }
+        }
     }
 }
