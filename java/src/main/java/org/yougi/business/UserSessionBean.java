@@ -20,6 +20,7 @@
  * */
 package org.yougi.business;
 
+import org.yougi.entity.UserAccount;
 import org.yougi.entity.UserSession;
 
 import javax.ejb.Stateless;
@@ -59,6 +60,12 @@ public class UserSessionBean extends AbstractBean<UserSession> {
         else {
             return userSessions.get(0);
         }
+    }
+
+    public List<UserSession> findByUserAccount(UserAccount userAccount) {
+        return em.createQuery("select us from UserSession us where us.userAccount = :userAccount order by us.start desc")
+                 .setParameter("userAccount", userAccount)
+                 .getResultList();
     }
 
     public void cleanFinishedAnonimousSessions() {

@@ -20,9 +20,7 @@
  * */
 package org.yougi.web.controller;
 
-import org.yougi.business.CommunityBean;
-import org.yougi.business.CommunityMemberBean;
-import org.yougi.business.UserAccountBean;
+import org.yougi.business.*;
 import org.yougi.entity.*;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
@@ -63,6 +61,15 @@ public class UserAccountMBean implements Serializable {
     private UserAccountBean userAccountBean;
 
     @EJB
+    private AuthenticationBean authenticationBean;
+
+    @EJB
+    private MessageHistoryBean messageHistoryBean;
+
+    @EJB
+    private UserSessionBean userSessionBean;
+
+    @EJB
     private CommunityBean communityBean;
 
     @EJB
@@ -87,6 +94,7 @@ public class UserAccountMBean implements Serializable {
 
     private String userId;
     private UserAccount userAccount;
+    private Authentication authentication;
 
     private String password;
     private String passwordConfirmation;
@@ -96,6 +104,8 @@ public class UserAccountMBean implements Serializable {
     private Boolean hasMultipleCommunities;
 
     private List<Community> existingCommunities;
+    private List<MessageHistory> historicMessages;
+    private List<UserSession> userSessions;
     private Map<String, Boolean> selectedCommunities;
 
     public UserAccountMBean() {
@@ -122,6 +132,13 @@ public class UserAccountMBean implements Serializable {
     }
 
     /**
+     * @return the user credentials
+     */
+    public Authentication getAuthentication() {
+        return authentication;
+    }
+
+    /**
      * @return the password
      */
     public String getPassword() {
@@ -133,6 +150,17 @@ public class UserAccountMBean implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the messageHistoryItens
+     */
+    public List<MessageHistory> getHistoricMessages() {
+        return this.historicMessages;
+    }
+
+    public List<UserSession> getUserSessions() {
+        return this.userSessions;
     }
 
     /**
@@ -232,34 +260,37 @@ public class UserAccountMBean implements Serializable {
 
     @PostConstruct
     public void load() {
-        if(username != null) {
-            this.userAccount = userAccountBean.findByUsername(username);
-
-            if(this.userAccount.getCountry() != null) {
-                locationMBean.setSelectedCountry(this.userAccount.getCountry().getAcronym());
-            } else {
-                locationMBean.setSelectedCountry(null);
-            }
-
-            if(this.userAccount.getProvince() != null) {
-                locationMBean.setSelectedProvince(this.userAccount.getProvince().getId());
-            } else {
-                locationMBean.setSelectedProvince(null);
-            }
-
-            if(this.userAccount.getCity() != null) {
-                locationMBean.setSelectedCity(this.userAccount.getCity().getId());
-            } else {
-                locationMBean.setSelectedCity(null);
-            }
-
-            if(this.userAccount.getTimeZone() != null) {
-                locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
-            }
-        } else if(!StringUtils.INSTANCE.isNullOrBlank(this.id)) {
+        if(!StringUtils.INSTANCE.isNullOrBlank(this.id)) {
             this.userAccount = userAccountBean.find(this.id);
+            this.authentication = authenticationBean.findByUserAccount(this.userAccount);
+            this.historicMessages = messageHistoryBean.findByRecipient(this.userAccount);
+            this.userSessions = userSessionBean.findByUserAccount(this.userAccount);
+        } else if(username != null) {
+            this.userAccount = userAccountBean.findByUsername(username);
         } else {
             this.userAccount = new UserAccount();
+        }
+
+        if(this.userAccount.getCountry() != null) {
+            locationMBean.setSelectedCountry(this.userAccount.getCountry().getAcronym());
+        } else {
+            locationMBean.setSelectedCountry(null);
+        }
+
+        if(this.userAccount.getProvince() != null) {
+            locationMBean.setSelectedProvince(this.userAccount.getProvince().getId());
+        } else {
+            locationMBean.setSelectedProvince(null);
+        }
+
+        if(this.userAccount.getCity() != null) {
+            locationMBean.setSelectedCity(this.userAccount.getCity().getId());
+        } else {
+            locationMBean.setSelectedCity(null);
+        }
+
+        if(this.userAccount.getTimeZone() != null) {
+            locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
         }
     }
 
@@ -319,6 +350,41 @@ public class UserAccountMBean implements Serializable {
         return "registration_confirmation";
     }
 
+    public String save() {
+        save(null);
+        return "users?faces-redirect=true";
+    }
+
+    /**
+     * @param verified if true, the user account if saved with the status of verified.
+     */
+    private void save(Boolean verified) {
+        UserAccount existingUserAccount = userAccountBean.find(userAccount.getId());
+
+        existingUserAccount.setCountry(this.locationMBean.getCountry());
+        existingUserAccount.setProvince(this.locationMBean.getProvince());
+        existingUserAccount.setCity(this.locationMBean.getCity());
+        existingUserAccount.setFirstName(userAccount.getFirstName());
+        existingUserAccount.setLastName(userAccount.getLastName());
+        existingUserAccount.setGender(userAccount.getGender());
+        existingUserAccount.setWebsite(userAccount.getWebsite());
+        existingUserAccount.setTwitter(userAccount.getTwitter());
+        existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
+        existingUserAccount.setMailingList(userAccount.getMailingList());
+        existingUserAccount.setNews(userAccount.getNews());
+        existingUserAccount.setGeneralOffer(userAccount.getGeneralOffer());
+        existingUserAccount.setJobOffer(userAccount.getJobOffer());
+        existingUserAccount.setEvent(userAccount.getEvent());
+        existingUserAccount.setSponsor(userAccount.getSponsor());
+        existingUserAccount.setSpeaker(userAccount.getSpeaker());
+
+        if (verified != null) {
+            existingUserAccount.setVerified(verified);
+        }
+
+        userAccountBean.save(existingUserAccount);
+    }
+
     public String savePersonalData() {
         if(userAccount != null) {
             UserAccount existingUserAccount = userAccountBean.find(userAccount.getId());
@@ -362,6 +428,22 @@ public class UserAccountMBean implements Serializable {
         return "profile?faces-redirect=true";
     }
 
+    public String confirm() {
+        try {
+            userAccountBean.confirmUser(userAccount.getConfirmationCode());
+        } catch (IllegalArgumentException iae) {
+            LOGGER.log(Level.INFO, iae.getMessage(), iae);
+            context.addMessage(null, new FacesMessage(iae.getMessage()));
+            return "user";
+        }
+        return "users?faces-redirect=true";
+    }
+
+    public String checkUserAsVerified() {
+        save(Boolean.TRUE);
+        return "users?faces-redirect=true";
+    }
+
     public String deactivateMembership() {
         userAccountBean.deactivateMembership(userAccount, DeactivationType.OWNWILL);
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -386,6 +468,15 @@ public class UserAccountMBean implements Serializable {
              userAccount.getSponsor() ||
              userAccount.getSpeaker()) { return true; }
         return false;
+    }
+
+    /**
+     * Remove the current user permanently and navigate to the users view.
+     * @return the next step in the navigation logic.
+     */
+    public String removeUserAccount() {
+        userAccountBean.remove(this.userAccount.getId());
+        return "users?faces-redirect=true";
     }
 
     public List<Community> getExistingCommunities() {

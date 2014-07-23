@@ -36,16 +36,12 @@
                     <p:tabView dynamic="false" cache="true">
                         <p:tab title="#{bundle.allUsers}">
                             <div class="row">
-                                <div class="col-md-1">
-                                    <h:outputLabel for="emailCriteria" value="#{bundle.email}"/>
+                                <h:outputLabel for="emailCriteria" value="#{bundle.email}" class="col-md-1"/>
+                                <div class="col-md-10">
+                                    <h:inputText id="emailCriteria" label="#{bundle.email}" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);" styleClass="form-control"/>
                                 </div>
-                                <div class="col-md-11">
-                                    <div class="input-group">
-                                        <h:inputText id="emailCriteria" label="#{bundle.email}" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);" styleClass="form-control"/>
-                                        <span class="input-group-btn">
-                                            <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}" styleClass="btn btn-default"/>
-                                        </span>
-                                    </div>
+                                <div class="col-md-1">
+                                    <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}" styleClass="btn btn-default"/>
                                 </div>
                             </div>
 
@@ -81,7 +77,9 @@
                             <h:dataTable value="#{memberMBean.userAccounts}" var="member" styleClass="table table-striped">
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
-                                    <h:commandLink value="#{member.firstName} #{member.lastName}" action="#{memberMBean.load(member.id)}"/>
+                                    <h:link outcome="user" value="#{member.firstName} #{member.lastName}">
+                                        <f:param name="id" value="#{member.id}"/>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>

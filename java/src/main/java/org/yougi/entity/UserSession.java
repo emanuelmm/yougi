@@ -22,6 +22,7 @@ package org.yougi.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -95,6 +96,12 @@ public class UserSession implements Serializable, Identified {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public Date getDuration() {
+        Calendar duration = Calendar.getInstance();
+        duration.setTimeInMillis(((this.end != null ? this.end.getTime() : Calendar.getInstance().getTimeInMillis()) - this.start.getTime()));
+        return duration.getTime();
     }
 
     public String getIpAddress() {

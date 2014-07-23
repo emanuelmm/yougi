@@ -23,9 +23,7 @@ package org.yougi.web.controller;
 import org.yougi.business.AuthenticationBean;
 import org.yougi.business.MessageHistoryBean;
 import org.yougi.business.UserAccountBean;
-import org.yougi.entity.Authentication;
 import org.yougi.entity.DeactivationType;
-import org.yougi.entity.MessageHistory;
 import org.yougi.entity.UserAccount;
 import org.yougi.event.business.AttendeeBean;
 import org.yougi.event.entity.Event;
@@ -79,15 +77,11 @@ public class MemberMBean implements Serializable {
 
     private List<UserAccount> deactivatedUsers;
 
-    private List<MessageHistory> historicMessages;
-
     private List<Event> attendedEvents;
 
     private String userId;
 
     private UserAccount userAccount;
-
-    private Authentication authentication;
 
     private String emailCriteria;
 
@@ -110,20 +104,6 @@ public class MemberMBean implements Serializable {
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
-    }
-
-    /**
-     * @return the user credentials
-     */
-    public Authentication getAuthentication() {
-        return authentication;
-    }
-
-    /**
-     * @param authentication the user credentials to set
-     */
-    public void setAuthentication(Authentication authentication) {
-        this.authentication = authentication;
     }
 
     public LocationMBean getLocationMBean() {
@@ -176,20 +156,6 @@ public class MemberMBean implements Serializable {
         return "users?faces-redirect=true";
     }
 
-    /**
-     * @return the messageHistoryItens
-     */
-    public List<MessageHistory> getHistoricMessages() {
-        return historicMessages;
-    }
-
-    /**
-     * @param historicMessages the messageHistoryItens to set
-     */
-    public void setHistoricMessages(List<MessageHistory> historicMessages) {
-        this.historicMessages = historicMessages;
-    }
-
     public String getEmailCriteria() {
         return emailCriteria;
     }
@@ -228,8 +194,6 @@ public class MemberMBean implements Serializable {
     public String load(String userId) {
         this.userId = userId;
         this.userAccount = userAccountBean.find(this.userId);
-        this.authentication = authenticationBean.findByUserAccount(this.userAccount);
-        this.historicMessages = messageHistoryBean.findByRecipient(this.userAccount);
         this.attendedEvents = attendeeBean.findAttendeedEvents(this.userAccount);
 
         locationMBean.initialize();
@@ -297,22 +261,6 @@ public class MemberMBean implements Serializable {
             context.addMessage(null, new FacesMessage(iae.getMessage()));
             return "user";
         }
-        removeSessionScoped();
-        return "users?faces-redirect=true";
-    }
-
-    public String checkUserAsVerified() {
-        save(Boolean.TRUE);
-        removeSessionScoped();
-        return "users?faces-redirect=true";
-    }
-
-    /**
-     * Remove the current user permanently and navigate to the users view.
-     * @return the next step in the navigation logic.
-     */
-    public String removeUserAccount() {
-        userAccountBean.remove(this.userAccount.getId());
         removeSessionScoped();
         return "users?faces-redirect=true";
     }
