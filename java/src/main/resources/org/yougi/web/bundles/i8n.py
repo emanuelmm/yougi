@@ -36,7 +36,7 @@ while True:
     change = 'n'
     try:
         for locale in locales:
-            print '{0:7}: {1:8}'.format(locale, bundles[locale][key])
+            print '{0:7}: {1:8}'.format(locale, bundles[locale][key].rstrip('\n'))
         change = raw_input('Change ? (y, n): ')
     except KeyError:
         create = raw_input("The key '{0}' does not exist. Do you want to create it? (y, n): ".format(key))
