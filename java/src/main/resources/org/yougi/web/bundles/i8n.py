@@ -3,6 +3,7 @@ import os
 locales = []
 bundles = {}
 
+print "Leave the key empty to exit.\n"
 for fileName in os.listdir("."):
     if fileName.startswith("Resources") and fileName.endswith(".properties"):
         f = open(fileName, 'r')
@@ -14,8 +15,9 @@ for fileName in os.listdir("."):
 
             if not line.startswith("#") and not line.find("=") == -1:
                 keyValue = line.split("=")
-                #print keyValue[0] +"="+ keyValue[1]
                 bundle[keyValue[0]] = keyValue[1]
+
+        f.close()
 
         try:
             locale = fileName[fileName.index("_") + 1:fileName.index(".")]
@@ -28,8 +30,23 @@ for fileName in os.listdir("."):
 
 while True:
     key = raw_input('Search Key: ')
-    if key == 'exit':
+    if key == '':
         break
 
-    for locale in locales:
-        print bundles[locale][key]
+    change = 'n'
+    try:
+        for locale in locales:
+            print '{0:7}: {1:8}'.format(locale, bundles[locale][key])
+        change = raw_input('Change ? (y, n): ')
+    except KeyError:
+        create = raw_input("The key '{0}' does not exist. Do you want to create it? (y, n): ".format(key))
+        if create == 'y':
+            for locale in locales:
+                bundles[locale][key] = raw_input("{0}: ".format(locale))
+
+    if change == 'y':
+        for locale in locales:
+            newValue = raw_input("%s: from '%s' to " % (locale, bundles[locale][key].rstrip('\n')))
+            if newValue == '':
+                newValue = bundles[locale][key]
+            bundles[locale][key] = newValue
