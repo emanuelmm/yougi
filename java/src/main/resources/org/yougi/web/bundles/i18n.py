@@ -31,8 +31,8 @@ def load_files():
 
 
 def create_key(locales, key):
-    create = raw_input("The key '{0}' does not exist.
-                       Do you want to create it? (y, n): ".format(key))
+    create = raw_input("The key '{0}' does not exist."
+                       "Do you want to create it? (y, n): ".format(key))
     if create == 'y':
         for locale, bundle in locales.items():
             bundle[key] = raw_input("{0}: ".format(locale))
