@@ -30,13 +30,14 @@ import org.yougi.util.StringUtils;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Named
 @ViewScoped
-public class JobScheduleMBean {
+public class JobScheduleMBean implements Serializable {
 
     @EJB
     private JobSchedulerBean jobSchedulerBean;
