@@ -79,8 +79,9 @@
                             <h:button outcome="job_scheduler_form" value="#{bundle.edit}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{jobSchedulerMBean.jobScheduler.id}"/>
                             </h:button>
-                            <h:commandButton value="#{bundle.activate}" action="#{jobSchedulerMBean.activate}" rendered="#{! jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
+                            <h:commandButton value="#{bundle.activate}" action="#{jobSchedulerMBean.activate}" rendered="#{! jobSchedulerMBean.jobScheduler.active and !(jobSchedulerMBean.jobScheduler.frequencyType == 'ONCE')}" styleClass="btn btn-default"/>
                             <h:commandButton value="#{bundle.deactivate}" action="#{jobSchedulerMBean.deactivate}" rendered="#{jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
+                            <h:commandButton value="#{bundle.schedule}" action="#{jobSchedulerMBean.schedule}" rendered="#{jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
                             <h:commandButton value="#{bundle.remove}" action="#{jobSchedulerMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                             <h:button outcome="job_schedulers" value="#{bundle.back}" styleClass="btn btn-default"/>
                         </div>
@@ -96,14 +97,14 @@
                                     <h:link outcome="job_execution">
                                         <f:param name="id" value="#{jobExecution.id}"/>
                                         <h:outputText  value="#{jobExecution.startTime}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
                                         </h:outputText>
                                     </h:link>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.endTime}"/></f:facet>
                                     <h:outputText value="#{jobExecution.endTime}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
                                     </h:outputText>
                                 </h:column>
                                 <h:column>

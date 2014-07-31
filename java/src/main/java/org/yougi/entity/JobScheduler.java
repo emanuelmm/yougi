@@ -156,12 +156,6 @@ public abstract class JobScheduler implements Serializable, Identified {
         this.active = active;
     }
 
-    public JobExecution getJobExecution() {
-        return getJobExecution(this.defaultOwner);
-    }
-
-    public abstract JobExecution getJobExecution(UserAccount owner);
-
     public JobExecution getNextJobExecution() {
         return getNextJobExecution(this.defaultOwner);
     }

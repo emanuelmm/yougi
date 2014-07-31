@@ -278,6 +278,13 @@ public class JobSchedulerMBean {
         return "job_scheduler?faces-redirect=true&id="+ id;
     }
 
+    public String schedule() {
+        String id = this.jobScheduleMBean.getJobScheduler().getId();
+        JobScheduler jobScheduler = jobSchedulerBean.find(id);
+        jobExecutionBean.schedule(jobScheduler);
+        return "job_scheduler?faces-redirect=true&id="+ id;
+    }
+
     public String remove() {
         jobSchedulerBean.remove(this.jobScheduleMBean.getJobScheduler().getId());
         return "job_schedulers";

@@ -21,28 +21,15 @@
 package org.yougi.business;
 
 import org.yougi.entity.*;
-import org.yougi.exception.EnvironmentResourceException;
-import org.jboss.vfs.TempFileProvider;
-import org.jboss.vfs.VFS;
-import org.jboss.vfs.VirtualFile;
 import org.yougi.util.PackageResourceHelper;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.Closeable;
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,7 +62,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
-        return em.createQuery("select js from JobScheduler js where js.endDate is null or js.endDate >= :today order by js.startDate, js.startTime desc", JobScheduler.class)
+        return em.createQuery("select js from JobScheduler js where js.endDate is null or js.endDate >= :today order by js.startDate, js.startTime asc", JobScheduler.class)
                  .setParameter("today", today.getTime())
                  .getResultList();
     }
@@ -183,9 +170,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
     public JobScheduler save(JobScheduler jobScheduler) {
         JobScheduler persistentJobScheduler = super.save(jobScheduler);
 
-        JobExecution jobExecution = persistentJobScheduler.getJobExecution();
-        LOGGER.log(Level.INFO, "Job Execution: {0}.", jobExecution.toString());
-        jobExecutionBean.save(jobExecution);
+        jobExecutionBean.schedule(persistentJobScheduler);
 
         return persistentJobScheduler;
     }
@@ -203,7 +188,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
             jobScheduler.setActive(Boolean.FALSE);
             super.save(jobScheduler);
 
-            List<JobExecution> scheduledExecutions = jobExecutionBean.findExecutionJobs(JobStatus.SCHEDULED);
+            List<JobExecution> scheduledExecutions = jobExecutionBean.findJobExecutions(jobScheduler, JobStatus.SCHEDULED);
             for(JobExecution jobExecution: scheduledExecutions) {
                 Timer timer = jobExecutionBean.findTimer(jobExecution);
                 timer.cancel();

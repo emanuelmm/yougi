@@ -56,16 +56,11 @@ public class JobSchedulerInstant extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) {
+    public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
         JobExecution jobExecution = new JobExecution(this, owner, today.getTime());
         this.setActive(false);
         return jobExecution;
-    }
-
-    @Override
-    public JobExecution getNextJobExecution(UserAccount owner) {
-        return null;
     }
 
     @Override

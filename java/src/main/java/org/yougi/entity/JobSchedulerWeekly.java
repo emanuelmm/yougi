@@ -35,11 +35,6 @@ public class JobSchedulerWeekly extends JobScheduler {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) {
-        return this.getNextJobExecution(owner);
-    }
-
-    @Override
     public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
 

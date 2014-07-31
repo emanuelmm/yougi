@@ -50,11 +50,6 @@ public class JobSchedulerDaily extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) {
-        return this.getNextJobExecution(owner);
-    }
-
-    @Override
     public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
 

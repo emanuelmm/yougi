@@ -42,7 +42,7 @@ public class JobExecutionMonitorBean {
 
     @PostConstruct
     public void init() {
-        List<JobExecution> scheduledJobExecutions = executionJobBean.findExecutionJobs(JobStatus.SCHEDULED);
+        List<JobExecution> scheduledJobExecutions = executionJobBean.findJobExecutions(JobStatus.SCHEDULED);
         Date timeout;
         for(JobExecution jobExecution: scheduledJobExecutions) {
             timeout = executionJobBean.findTimeout(jobExecution);

@@ -63,7 +63,7 @@ public class UserSessionBean extends AbstractBean<UserSession> {
     }
 
     public List<UserSession> findByUserAccount(UserAccount userAccount) {
-        return em.createQuery("select us from UserSession us where us.userAccount = :userAccount order by us.start desc")
+        return em.createQuery("select us from UserSession us where us.userAccount = :userAccount order by us.start desc", UserSession.class)
                  .setParameter("userAccount", userAccount)
                  .getResultList();
     }

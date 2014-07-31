@@ -47,15 +47,10 @@ public class JobSchedulerOnce extends JobScheduler {
     @Override
     public void setFrequency(Integer frequency) {}
 
-    @Override
-    public JobExecution getJobExecution(UserAccount owner) {
-        Calendar startTime = getJobExecutionStartTime();
-        return new JobExecution(this, owner, startTime.getTime());
-    }
-
 	@Override
     public JobExecution getNextJobExecution(UserAccount owner) {
-        return null;
+        Calendar startTime = getJobExecutionStartTime();
+        return new JobExecution(this, owner, startTime.getTime());
     }
 
     @Override

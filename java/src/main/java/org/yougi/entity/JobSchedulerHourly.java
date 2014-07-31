@@ -63,11 +63,6 @@ public class JobSchedulerHourly extends JobScheduler {
     }
 
     @Override
-    public JobExecution getJobExecution(UserAccount owner) {
-        return this.getNextJobExecution(owner);
-    }
-
-    @Override
     public JobExecution getNextJobExecution(UserAccount owner) {
         Calendar today = Calendar.getInstance();
 

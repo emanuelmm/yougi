@@ -44,6 +44,10 @@
                                     <h:button outcome="job_scheduler_form" value="#{bundle.new}" styleClass="btn btn-default"/>
                                 </f:facet>
                                 <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
+                                    <h:graphicImage rendered="#{jobScheduled.active}" url="/images/success-icon.png"/>
+                                </h:column>
+                                <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
                                     <h:link outcome="job_scheduler" value="#{jobScheduled.name}">
                                         <f:param name="id" value="#{jobScheduled.id}"/>
@@ -76,10 +80,6 @@
                                     <h:outputText value="#{jobScheduled.startTime}">
                                         <f:convertDateTime pattern="HH:mm"/>
                                     </h:outputText>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.active}"/></f:facet>
-                                    <h:graphicImage rendered="#{jobScheduled.active}" url="/images/success-icon.png"/>
                                 </h:column>
                             </h:dataTable>
                         </div>

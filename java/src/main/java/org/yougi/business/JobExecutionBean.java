@@ -21,6 +21,7 @@
 package org.yougi.business;
 
 import org.yougi.entity.JobExecution;
+import org.yougi.entity.JobFrequencyType;
 import org.yougi.entity.JobScheduler;
 import org.yougi.entity.JobStatus;
 
@@ -65,16 +66,23 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         return em;
 	}
 
-    public List<JobExecution> findExecutionJobs(JobStatus jobStatus) {
+    public List<JobExecution> findJobExecutions(JobStatus jobStatus) {
         return em.createQuery("select je from JobExecution je where je.status = :status order by je.startTime asc", JobExecution.class)
                 .setParameter("status", jobStatus)
                 .getResultList();
     }
 
     public List<JobExecution> findJobExecutions(JobScheduler jobScheduler) {
-        return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler order by je.startTime asc", JobExecution.class)
+        return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler order by je.startTime desc", JobExecution.class)
                  .setParameter("jobScheduler", jobScheduler)
                  .getResultList();
+    }
+
+    public List<JobExecution> findJobExecutions(JobScheduler jobScheduler, JobStatus jobStatus) {
+        return em.createQuery("select je from JobExecution je where je.jobScheduler = :jobScheduler and je.status = :status order by je.startTime asc", JobExecution.class)
+                .setParameter("jobScheduler", jobScheduler)
+                .setParameter("status", jobStatus)
+                .getResultList();
     }
 
     public JobExecution findJobExecution(Long instanceId) {
@@ -128,15 +136,21 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
         // Retrieves the job execution from the database.
         String jobExecutionId = (String) timer.getInfo();
         JobExecution currentJobExecution = find(jobExecutionId);
-        JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
+        if(currentJobExecution != null) {
+            JobScheduler jobScheduler = currentJobExecution.getJobScheduler();
 
-        // Starts the job execution.
-        if (currentJobExecution.getStatus() == JobStatus.SCHEDULED) {
-            currentJobExecution.setStartTime(Calendar.getInstance().getTime());
-            startJob(currentJobExecution);
+            // Starts the job execution.
+            if (currentJobExecution.getStatus() == JobStatus.SCHEDULED) {
+                currentJobExecution.setStartTime(Calendar.getInstance().getTime());
+                startJob(currentJobExecution);
+            }
+
+            if(jobScheduler.getFrequencyType() != JobFrequencyType.ONCE && jobScheduler.getFrequencyType() != JobFrequencyType.INSTANT) {
+                schedule(jobScheduler);
+            } else {
+                jobScheduler.setActive(Boolean.FALSE);
+            }
         }
-
-        schedule(jobScheduler);
     }
 
     /**
@@ -144,17 +158,22 @@ public class JobExecutionBean extends AbstractBean<JobExecution> {
      */
     public void schedule(JobScheduler jobScheduler) {
         if(jobScheduler.getActive()) {
-            List<JobExecution> scheduledExecutions = findExecutionJobs(JobStatus.SCHEDULED);
-            if(scheduledExecutions.isEmpty()) {
+            List<JobExecution> scheduledExecutions = findJobExecutions(jobScheduler, JobStatus.SCHEDULED);
+            if(scheduledExecutions == null || scheduledExecutions.isEmpty()) {
                 JobExecution nextJobExecution = jobScheduler.getNextJobExecution();
-                JobExecution persistentJobExecution = this.save(nextJobExecution);
-                if (persistentJobExecution == null) {
+
+                if(nextJobExecution == null) {
                     jobScheduler.setActive(Boolean.FALSE);
+                    em.merge(jobScheduler);
+                } else {
+                    this.save(nextJobExecution);
                 }
             } else {
                 for(JobExecution jobExecution: scheduledExecutions) {
-                    Date timeout = schedule(jobExecution);
-                    jobExecution.setTimeout(timeout);
+                    if(findTimeout(jobExecution) == null) {
+                        Date timeout = schedule(jobExecution);
+                        jobExecution.setTimeout(timeout);
+                    }
                 }
             }
         }
