@@ -5,7 +5,6 @@ import sys
 import fnmatch
 import argparse
 import re
-from xml.dom import minidom
 
 try:
     import i18n_conf
@@ -15,6 +14,7 @@ except:
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def rglob(path, pattern):
     matches = []
@@ -26,7 +26,7 @@ def rglob(path, pattern):
 
 class Bundle(object):
 
-    def __init__(self, filename, conf = None, debug=False):
+    def __init__(self, filename, conf, debug=False):
         self.filename = filename
         self.locale = self._load_locale()
         self.keywords = self._load_keywords()
@@ -117,21 +117,21 @@ class I18NExtractor(object):
 
 
 def load_conf():
-    text_base =  getattr(i18n_conf, 'TEXT_BASE', '')
+    text_base = getattr(i18n_conf, 'TEXT_BASE', '')
     text_translate = getattr(i18n_conf, 'TEXT_TRANSLATE', '[TRANSLATE: "{key}"]')
     # Get SRC_DIR
-    src_dir =  getattr(i18n_conf, 'SRC_DIR', None)
+    src_dir = getattr(i18n_conf, 'SRC_DIR', None)
     if not src_dir:
         print 'SRC_DIR is not configured in i18n_conf.py'
         sys.exit(1)
     src_dir = os.path.join(BASE_DIR, *src_dir.split('/'))
     # Get VAR_NAME
-    var_name =  getattr(i18n_conf, 'VAR_NAME', None)
+    var_name = getattr(i18n_conf, 'VAR_NAME', None)
     if not var_name:
         print 'VAR_NAME is not configured in i18n_conf.py'
         sys.exit(1)
     # Get I18N_DIR
-    i18n_dir =  getattr(i18n_conf, 'I18N_DIR', None)
+    i18n_dir = getattr(i18n_conf, 'I18N_DIR', None)
     if not i18n_dir:
         print 'I18N_DIR is not configured in i18n_conf.py'
         sys.exit(1)
