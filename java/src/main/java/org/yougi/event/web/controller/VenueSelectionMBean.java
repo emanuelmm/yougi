@@ -30,6 +30,8 @@ import org.yougi.event.entity.Venue;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -40,7 +42,7 @@ import java.util.List;
  */
 @Named
 @ViewScoped
-public class VenueSelectionMBean {
+public class VenueSelectionMBean implements Serializable {
 
     @EJB
     private VenueBean venueBean;
