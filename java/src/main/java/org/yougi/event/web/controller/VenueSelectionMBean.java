@@ -26,7 +26,6 @@ import org.yougi.event.business.VenueBean;
 import org.yougi.event.entity.Event;
 import org.yougi.event.entity.Room;
 import org.yougi.event.entity.Venue;
-
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
