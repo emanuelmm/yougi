@@ -30,9 +30,8 @@
             <ui:define name="title">#{bundle.user}</ui:define>
             <ui:define name="content">
                 <div class="page-header">
-                    <h1>#{bundle.user}</h1>
+                    <h1>#{bundle.user}: <h:outputText value="#{userAccountMBean.userAccount.fullName}"/> (<h:outputText value="#{userAccountMBean.userAccount.postingEmail}"/>)</h1>
                 </div>
-                <h2><h:outputText value="#{userAccountMBean.userAccount.fullName}"/> (<h:outputText value="#{userAccountMBean.userAccount.postingEmail}"/>)</h2>
                 <h:form>
                     <p:tabView dynamic="false" cache="true">
                         <p:tab title="#{bundle.profile}">
@@ -40,16 +39,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputLabel for="firstName" value="#{bundle.firstName}"/>
-                                        <h:inputText id="firstName" label="#{bundle.firstName}" required="true" size="35" maxlength="50" value="#{userAccountMBean.userAccount.firstName}" styleClass="form-control"/>
-                                        <h:message for="firstName" errorClass="errorMessage"/>
+                                        <h:outputLabel for="firstName" value="#{bundle.firstName}"/><br/>
+                                        <h:outputText id="firstName" value="#{userAccountMBean.userAccount.firstName}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputLabel for="lastName" value="#{bundle.lastName}"/>
-                                        <h:inputText id="lastName" label="#{bundle.lastName}" required="true" size="35" maxlength="50" value="#{userAccountMBean.userAccount.lastName}" styleClass="form-control"/>
-                                        <h:message for="lastName" errorClass="errorMessage"/>
+                                        <h:outputLabel for="lastName" value="#{bundle.lastName}"/><br/>
+                                        <h:outputText id="lastName" value="#{userAccountMBean.userAccount.lastName}"/>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +54,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <h:outputLabel value="#{bundle.email}"/><br/>
-                                        <h:outputLink value="mailto:#{userAccountMBean.userAccount.postingEmail}" styleClass="form-control-static">
+                                        <h:outputLink value="mailto:#{userAccountMBean.userAccount.postingEmail}">
                                             <f:verbatim>#{userAccountMBean.userAccount.postingEmail}</f:verbatim>
                                         </h:outputLink>
                                     </div>
@@ -65,7 +62,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <h:outputLabel value="#{bundle.username}"/><br/>
-                                        <h:outputText value="#{userAccountMBean.authentication.username}" styleClass="form-control-static"/>
+                                        <h:outputText value="#{userAccountMBean.authentication.username}"/>
                                     </div>
                                 </div>
                             </div>
@@ -73,12 +70,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <h:outputLabel for="gender" value="#{bundle.gender}"/>
-                                        <h:selectOneRadio id="gender" label="#{bundle.gender}" value="#{userAccountMBean.userAccount.gender}" layout="pageDirection" styleClass="radio">
-                                            <f:selectItem itemLabel="#{bundle.male}" itemValue="MALE"/>
-                                            <f:selectItem itemLabel="#{bundle.female}" itemValue="FEMALE"/>
-                                        </h:selectOneRadio>
-                                        <h:message for="gender" errorClass="errorMessage"/>
+                                        <h:outputLabel for="gender" value="#{bundle.gender}"/><br/>
+                                        <h:outputText id="gender" value="#{userAccountMBean.userAccount.gender}">
+                                            <f:converter converterId="GenderToString"/>
+                                        </h:outputText>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -102,31 +97,20 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <h:outputLabel for="country" value="#{bundle.country}"/>
-                                        <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" styleClass="form-control">
-                                            <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                            <f:selectItems value="#{locationMBean.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.acronym}"/>
-                                            <f:ajax render="province city"/>
-                                        </h:selectOneMenu>
+                                        <h:outputLabel for="country" value="#{bundle.country}"/><br/>
+                                        <h:outputText id="country" value="#{userAccountMBean.userAccount.country}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <h:outputLabel for="province" value="#{bundle.province}"/>
-                                        <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
-                                            <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                            <f:selectItems value="#{locationMBean.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
-                                            <f:ajax render="city"/>
-                                        </h:selectOneMenu>
+                                        <h:outputLabel for="province" value="#{bundle.province}"/><br/>
+                                        <h:outputText id="province" value="#{userAccountMBean.userAccount.province}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <h:outputLabel for="city" value="#{bundle.city}"/>
-                                        <h:selectOneMenu id="city" label="#{bundle.city}" value="#{locationMBean.selectedCity}" styleClass="form-control">
-                                            <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                            <f:selectItems value="#{locationMBean.cities}" var="city" itemLabel="#{city.name}" itemValue="#{city.id}"/>
-                                        </h:selectOneMenu>
+                                        <h:outputLabel for="city" value="#{bundle.city}"/><br/>
+                                        <h:outputText id="city" value="#{userAccountMBean.userAccount.city}"/>
                                     </div>
                                 </div>
                             </div>
@@ -134,24 +118,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputLabel for="website" value="#{bundle.website}"/>
-                                        <h:inputText id="website" label="#{bundle.website}" size="25" maxlength="100" value="#{userAccountMBean.userAccount.website}" styleClass="form-control"/>
-                                        <h:outputLink value="#{userAccountMBean.userAccount.website}" target="_blank">#{bundle.visit}</h:outputLink>
-                                        <h:message for="website" errorClass="errorMessage"/>
-                                    </div>
+                                        <h:outputLabel for="website" value="#{bundle.website}"/><br/>
+                                        <h:outputLink id="website" value="#{userAccountMBean.userAccount.website}" target="_blank">#{userAccountMBean.userAccount.website}</h:outputLink>
+                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h:outputLabel for="twitter" value="#{bundle.twitter}"/>
-                                        <h:outputText value="@"/>
-                                        <h:inputText id="twitter" label="#{bundle.twitter}" size="15" maxlength="30" value="#{userAccountMBean.userAccount.twitter}" styleClass="form-control"/>
-                                        <h:outputLink value="http://twitter.com/#{userAccountMBean.userAccount.twitter}" target="_blank">#{bundle.visit}</h:outputLink>
-                                        <h:message for="twitter" errorClass="errorMessage"/>
+                                        <h:outputLabel for="twitter" value="#{bundle.twitter}"/><br/>
+                                        <h:outputLink id="twitter" value="#{userAccountMBean.userAccount.twitterURL}" target="_blank">#{userAccountMBean.userAccount.twitterReference}</h:outputLink>
                                     </div>
                                 </div>
                             </div>
-
-                            <h:inputHidden id="id" value="#{userAccountMBean.userAccount.id}"/>
                         </p:tab>
                         <p:tab title="#{bundle.messages}">
                             <h:dataTable var="historicMessage" value="#{userAccountMBean.historicMessages}" styleClass="table table-striped">
@@ -197,12 +174,16 @@
 
                     <p/>
 
-                    <h:commandButton value="#{bundle.save}" action="#{userAccountMBean.save}" rendered="#{!userAccountMBean.userAccount.deactivated}" styleClass="btn btn-primary"/>
+                    <h:button value="#{bundle.edit}" outcome="user_form" styleClass="btn btn-default">
+                        <f:param name="id" value="#{userAccountMBean.userAccount.id}"/>
+                    </h:button>
                     <h:commandButton value="#{bundle.remove}" action="#{userAccountMBean.removeUserAccount}" rendered="#{userAccountMBean.userAccount.deactivated}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                     <h:commandButton value="#{bundle.confirm}" action="#{userAccountMBean.confirm}" rendered="#{!userAccountMBean.userAccount.confirmed and !userAccountMBean.userAccount.deactivated}" styleClass="btn btn-default"/>
                     <h:commandButton value="#{bundle.verified}" action="#{userAccountMBean.checkUserAsVerified}" rendered="#{!userAccountMBean.userAccount.verified and userAccountMBean.userAccount.confirmed}" styleClass="btn btn-default"/>
-                    <h:button value="#{bundle.deactivateMembership}" outcome="user_deactivation" rendered="#{!userAccountMBean.userAccount.deactivated}" styleClass="btn btn-default"/>
-                    <h:button value="#{bundle.cancel}" outcome="users" styleClass="btn btn-default"/>
+                    <h:button value="#{bundle.deactivate}" outcome="user_deactivation" rendered="#{!userAccountMBean.userAccount.deactivated}" styleClass="btn btn-default">
+                        <f:param name="id" value="#{userAccountMBean.userAccount.id}"/>
+                    </h:button>
+                    <button type="button" onclick="back();" class="btn btn-default">#{bundle.back}</button>
                 </h:form>
             </ui:define>
             <ui:define name="jquery"/>

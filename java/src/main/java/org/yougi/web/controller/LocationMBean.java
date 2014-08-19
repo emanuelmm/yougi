@@ -30,7 +30,7 @@ import org.yougi.entity.Province;
 import org.yougi.entity.Timezone;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ import java.util.logging.Logger;
  *
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class LocationMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

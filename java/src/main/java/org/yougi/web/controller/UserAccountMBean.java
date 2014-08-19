@@ -40,6 +40,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,10 @@ public class UserAccountMBean implements Serializable {
     private String id;
 
     @Inject
+    @ManagedProperty("#{param.letter}")
+    private String letter;
+
+    @Inject
     private FacesContext context;
 
     @Inject
@@ -99,17 +104,17 @@ public class UserAccountMBean implements Serializable {
     private String password;
     private String passwordConfirmation;
     private String validationEmail;
+    private String email;
 
     private Boolean validationPrivacy = false;
     private Boolean hasMultipleCommunities;
 
+    private List<UserAccount> userAccounts;
+    private List<UserAccount> deactivatedUsers;
     private List<Community> existingCommunities;
     private List<MessageHistory> historicMessages;
     private List<UserSession> userSessions;
     private Map<String, Boolean> selectedCommunities;
-
-    public UserAccountMBean() {
-    }
 
     public String getUserId() {
         return userId;
@@ -138,23 +143,18 @@ public class UserAccountMBean implements Serializable {
         return authentication;
     }
 
-    /**
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * @return the messageHistoryItens
-     */
+    public List<UserAccount> getUserAccounts() {
+        return this.userAccounts;
+    }
+
     public List<MessageHistory> getHistoricMessages() {
         return this.historicMessages;
     }
@@ -173,6 +173,14 @@ public class UserAccountMBean implements Serializable {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Map<String, Boolean> getSelectedCommunities() {
@@ -258,6 +266,23 @@ public class UserAccountMBean implements Serializable {
         }
     }
 
+    public String getUserAccountByEmail() {
+        List<UserAccount> uas = new ArrayList<>(1);
+        UserAccount ua = userAccountBean.findByEmail(this.email);
+        if (ua != null) {
+            uas.add(ua);
+        }
+        this.userAccounts = uas;
+        return "users";
+    }
+
+    public List<UserAccount> getDeactivatedUserAccounts() {
+        if(deactivatedUsers == null) {
+            deactivatedUsers = userAccountBean.findAllDeactivatedUserAccounts();
+        }
+        return deactivatedUsers;
+    }
+
     @PostConstruct
     public void load() {
         if(!StringUtils.INSTANCE.isNullOrBlank(this.id)) {
@@ -265,8 +290,8 @@ public class UserAccountMBean implements Serializable {
             this.authentication = authenticationBean.findByUserAccount(this.userAccount);
             this.historicMessages = messageHistoryBean.findByRecipient(this.userAccount);
             this.userSessions = userSessionBean.findByUserAccount(this.userAccount);
-        } else if(username != null) {
-            this.userAccount = userAccountBean.findByUsername(username);
+        } else if(this.username != null) {
+            this.userAccount = userAccountBean.findByUsername(this.username);
         } else {
             this.userAccount = new UserAccount();
         }
@@ -291,6 +316,10 @@ public class UserAccountMBean implements Serializable {
 
         if(this.userAccount.getTimeZone() != null) {
             locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
+        }
+
+        if(!StringUtils.INSTANCE.isNullOrBlank(this.letter)) {
+            this.userAccounts = userAccountBean.findAllStartingWith(this.letter);
         }
     }
 
@@ -351,38 +380,24 @@ public class UserAccountMBean implements Serializable {
     }
 
     public String save() {
-        save(null);
-        return "users?faces-redirect=true";
-    }
-
-    /**
-     * @param verified if true, the user account if saved with the status of verified.
-     */
-    private void save(Boolean verified) {
         UserAccount existingUserAccount = userAccountBean.find(userAccount.getId());
 
-        existingUserAccount.setCountry(this.locationMBean.getCountry());
-        existingUserAccount.setProvince(this.locationMBean.getProvince());
-        existingUserAccount.setCity(this.locationMBean.getCity());
-        existingUserAccount.setFirstName(userAccount.getFirstName());
-        existingUserAccount.setLastName(userAccount.getLastName());
-        existingUserAccount.setGender(userAccount.getGender());
-        existingUserAccount.setWebsite(userAccount.getWebsite());
-        existingUserAccount.setTwitter(userAccount.getTwitter());
-        existingUserAccount.setPublicProfile(userAccount.getPublicProfile());
-        existingUserAccount.setMailingList(userAccount.getMailingList());
-        existingUserAccount.setNews(userAccount.getNews());
-        existingUserAccount.setGeneralOffer(userAccount.getGeneralOffer());
-        existingUserAccount.setJobOffer(userAccount.getJobOffer());
-        existingUserAccount.setEvent(userAccount.getEvent());
-        existingUserAccount.setSponsor(userAccount.getSponsor());
-        existingUserAccount.setSpeaker(userAccount.getSpeaker());
-
-        if (verified != null) {
-            existingUserAccount.setVerified(verified);
+        if(existingUserAccount != null) {
+            existingUserAccount.setCountry(this.locationMBean.getCountry());
+            existingUserAccount.setProvince(this.locationMBean.getProvince());
+            existingUserAccount.setCity(this.locationMBean.getCity());
+            existingUserAccount.setFirstName(userAccount.getFirstName());
+            existingUserAccount.setLastName(userAccount.getLastName());
+            existingUserAccount.setGender(userAccount.getGender());
+            existingUserAccount.setWebsite(userAccount.getWebsite());
+            existingUserAccount.setTwitter(userAccount.getTwitter());
+            userAccountBean.save(existingUserAccount);
+        }
+        else {
+            userAccountBean.save(this.userAccount);
         }
 
-        userAccountBean.save(existingUserAccount);
+        return "users?faces-redirect=true";
     }
 
     public String savePersonalData() {
@@ -440,12 +455,13 @@ public class UserAccountMBean implements Serializable {
     }
 
     public String checkUserAsVerified() {
-        save(Boolean.TRUE);
-        return "users?faces-redirect=true";
+        userAccountBean.markUserAsVerified(this.userAccount);
+        return "user?faces-redirect=true";
     }
 
-    public String deactivateMembership() {
+    public String deactivateMembershipOwnWill() {
         userAccountBean.deactivateMembership(userAccount, DeactivationType.OWNWILL);
+
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         try {
             request.logout();
@@ -455,6 +471,12 @@ public class UserAccountMBean implements Serializable {
         }
 
         return "/index?faces-redirect=true";
+    }
+
+
+    public String deactivateMembership() {
+        userAccountBean.deactivateMembership(userAccount, DeactivationType.ADMINISTRATIVE);
+        return "users?faces-redirect=true";
     }
 
     /** Check whether at least one of the privacy options was checked. */

@@ -66,12 +66,14 @@
                         <div class="tab-pane" id="inhabitants">
                             <h:dataTable value="#{cityMBean.inhabitants}" var="inhabitant" styleClass="table table-striped">
                                 <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
-                                    <h:commandLink value="#{inhabitant.firstName}" action="#{memberMBean.load(inhabitant.id)}"/>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{inhabitant.firstName} #{inhabitant.lastName}">
+                                        <f:param name="id" value="#{inhabitant.id}"/>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.lastName}"/></f:facet>
-                                    <h:outputText value="#{inhabitant.lastName}"/>
+                                    <f:facet name="header"><h:outputText value=""/></f:facet>
+                                    <h:outputText value=""/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>

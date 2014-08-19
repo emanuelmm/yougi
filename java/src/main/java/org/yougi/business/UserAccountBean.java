@@ -396,6 +396,11 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
         return super.save(userAccount);
     }
 
+    public void markUserAsVerified(UserAccount userAccount) {
+        UserAccount existingUser = find(userAccount.getId());
+        existingUser.setVerified(Boolean.TRUE);
+    }
+
     public void deactivateMembership(UserAccount userAccount, DeactivationType deactivationType) {
         UserAccount existingUserAccount = find(userAccount.getId());
 

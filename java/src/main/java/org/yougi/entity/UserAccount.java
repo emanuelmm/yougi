@@ -285,23 +285,23 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setWebsite(String website) {
-        if(StringUtils.INSTANCE.isNullOrBlank(website)) {
-            this.website = null;
-        } else if(website.contains("http://")) {
-            this.website = website.replace("http://", "");
-        } else if(website.contains("https://")) {
-            this.website = website.replace("https://", "");
-        } else {
-            this.website = website;
-        }
+        this.website = website;
     }
 
     public String getTwitter() {
-        return twitter;
+        return this.twitter;
+    }
+
+    public String getTwitterReference() {
+        return this.twitter == null? this.twitter : "@" + this.twitter;
+    }
+
+    public String getTwitterURL() {
+        return "http://twitter.com/" + this.twitter;
     }
 
     public void setTwitter(String twitter) {
-        if(twitter == null || twitter.trim().isEmpty()) {
+        if(StringUtils.INSTANCE.isNullOrBlank(twitter)) {
             this.twitter = null;
         } else if(twitter.contains("@")) {
             this.twitter = twitter.replace("@", "");

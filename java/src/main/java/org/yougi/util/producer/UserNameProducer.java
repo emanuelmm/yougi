@@ -61,7 +61,7 @@ public class UserNameProducer implements Serializable {
     @Produces @Named @UserName
     public String getUserName() {
         loadUserAccount();
-        return userAccount == null ? "" : userAccount.getEmail();
+        return userAccount == null ? null : userAccount.getEmail();
     }
 
     @Produces @Named
