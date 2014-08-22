@@ -1,7 +1,11 @@
 YOUGI
 =====
 
-Yougi is an application conceived to manage online user groups of any kind and domain. This is licensed under GNU Lesser General Public License (LGPL v2). Please, read the license, available on the file LICENSE.txt, before you use or change this application.
+The name YOUGI was inspired by the pronunciation of the letters “U” and “G”, acronym of “User Group”, plus the letter “I” of “Interaction”. User group interaction is aligned with the first goal of the project, which is to manage online user groups of any kind and domain in an interactive way (reacts to information provided by users).
+
+Yougi’s second goal is to teach Java EE by example. It covers several important aspects of the platform and adopts a very flexible license, the GNU Lesser General Public License (LGPL v2), that allows everyone to use the code in their personal and professional projects.
+
+The third and last goal of the project is to offer a Java EE project model that everyone can start a whole new project from and concentrate on functional requirements only.
 
 Contact
 -------
