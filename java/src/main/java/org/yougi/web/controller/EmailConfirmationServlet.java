@@ -71,7 +71,7 @@ public class EmailConfirmationServlet extends HttpServlet {
 
         String confirmationCode = request.getParameter("code");
 
-        if (StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
+        if (StringUtils.isNullOrBlank(confirmationCode)) {
             PrintWriter out = null;
             try {
                 out = response.getWriter();

@@ -26,7 +26,7 @@ import org.yougi.event.business.TrackBean;
 import org.yougi.event.entity.Event;
 import org.yougi.event.entity.SessionEvent;
 import org.yougi.event.entity.Track;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

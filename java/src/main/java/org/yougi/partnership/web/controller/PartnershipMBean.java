@@ -32,7 +32,7 @@ import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
 import org.yougi.util.WebTextUtils;
-import org.yougi.util.annotation.UserName;
+import org.yougi.annotation.UserName;
 import org.yougi.web.controller.LocationMBean;
 
 import javax.annotation.PostConstruct;
@@ -103,14 +103,14 @@ public class PartnershipMBean {
     public String getFormattedPartnerDescription() {
         if (representative != null) {
             String description = this.representative.getPartner().getDescription();
-            return WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph(description);
+            return WebTextUtils.convertLineBreakToHTMLParagraph(description);
         }
         return null;
     }
 
     public String getFormattedPartnerAddress() {
         Partner partner = this.representative.getPartner();
-        return WebTextUtils.INSTANCE.printAddress(partner.getAddress(), partner.getCountry(), partner.getProvince(), partner.getCity(), partner.getPostalCode());
+        return WebTextUtils.printAddress(partner.getAddress(), partner.getCountry(), partner.getProvince(), partner.getCity(), partner.getPostalCode());
     }
 
     public boolean getRepresentativeExists() {

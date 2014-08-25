@@ -27,7 +27,7 @@ import org.yougi.event.business.SpeakerBean;
 import org.yougi.event.entity.Event;
 import org.yougi.event.entity.SessionEvent;
 import org.yougi.event.entity.Speaker;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

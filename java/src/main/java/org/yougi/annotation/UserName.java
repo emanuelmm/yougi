@@ -1,4 +1,4 @@
-package org.yougi.util.annotation;
+package org.yougi.annotation;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Documented;

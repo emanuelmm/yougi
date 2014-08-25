@@ -29,11 +29,11 @@ import java.util.TimeZone;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum DateTimeUtils {
+public class DateTimeUtils {
 
-    INSTANCE;
+    private DateTimeUtils() {}
 
-    public String getFormattedDate(Date date, String formatDate) {
+    public static String getFormattedDate(Date date, String formatDate) {
         if (date == null) {
             return "";
         }
@@ -42,7 +42,7 @@ public enum DateTimeUtils {
         return sdf.format(date);
     }
 
-    public String getFormattedTime(Date time, String formatTime, String timezone) {
+    public static String getFormattedTime(Date time, String formatTime, String timezone) {
         if (time == null) {
             return "";
         }
@@ -53,7 +53,7 @@ public enum DateTimeUtils {
         return sdf.format(time);
     }
 
-    public String getFormattedDateTime(Date dateTime, String formatDateTime, String timezone) {
+    public static String getFormattedDateTime(Date dateTime, String formatDateTime, String timezone) {
         if (dateTime == null) {
             return "";
         }
@@ -69,7 +69,7 @@ public enum DateTimeUtils {
      * @param dateFormat The expected format of the date.
      * @return an instance of date equivalent to the informed string.
      * */
-    public Date getDate(String date, String dateFormat) throws ParseException {
+    public static Date getDate(String date, String dateFormat) throws ParseException {
         return new SimpleDateFormat(dateFormat).parse(date);
     }
 
@@ -82,7 +82,7 @@ public enum DateTimeUtils {
      * @param timeFormat The expected format of the time.
      * @return an instance of date equivalent to the informed date and time.
      * */
-    public Date getDateAndTime(String date, String dateFormat, String time, String timeFormat) throws ParseException {
+    public static Date getDateAndTime(String date, String dateFormat, String time, String timeFormat) throws ParseException {
         SimpleDateFormat formatDate = new SimpleDateFormat(dateFormat);
         SimpleDateFormat formatTime = new SimpleDateFormat(timeFormat);
 
@@ -97,7 +97,7 @@ public enum DateTimeUtils {
      * @return an instance of date equivalent to the informed date and time. If both parameters are null then the return
      * is also null.
      * */
-    public Date mergeDateAndTime(Date date, Date time) {
+    public static Date mergeDateAndTime(Date date, Date time) {
         Calendar dateAndTime = Calendar.getInstance();
 
         if(date != null) {

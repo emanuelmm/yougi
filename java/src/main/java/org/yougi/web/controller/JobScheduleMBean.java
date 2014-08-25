@@ -75,7 +75,7 @@ public class JobScheduleMBean implements Serializable {
     }
 
     public void setDefaultOwner(String selectedOwner) {
-        if(!StringUtils.INSTANCE.isNullOrBlank(selectedOwner)) {
+        if(!StringUtils.isNullOrBlank(selectedOwner)) {
             UserAccount owner = userAccountBean.find(selectedOwner);
             this.jobScheduler.setDefaultOwner(owner);
         }

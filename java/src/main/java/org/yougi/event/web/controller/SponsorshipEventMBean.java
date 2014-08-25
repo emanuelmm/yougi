@@ -26,7 +26,7 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.SponsorshipEvent;
 import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.entity.Partner;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

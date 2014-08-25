@@ -139,7 +139,7 @@ public class ApplicationPropertiesMBean implements Serializable {
         }
 
         String timezoneValue = applicationProperties.get(Properties.TIMEZONE.getKey());
-        if(StringUtils.INSTANCE.isNullOrBlank(timezoneValue)) {
+        if(StringUtils.isNullOrBlank(timezoneValue)) {
             Timezone timezone = timezoneBean.findDefaultTimezone();
             applicationProperties.put(Properties.TIMEZONE.getKey(), timezone.getId());
         }

@@ -20,13 +20,12 @@
  * */
 package org.yougi.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Felipe W. M. Martins - https://github.com/felipewmartins
@@ -46,7 +45,7 @@ public class WebTextUtilsTest {
   
     @Test
     public void testConvertLineBreakToHTMLParagraph() throws Exception {
-      Assert.assertEquals(paragraph, WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph("This is a Test"));
+      Assert.assertEquals(paragraph, WebTextUtils.convertLineBreakToHTMLParagraph("This is a Test"));
 
     }
 

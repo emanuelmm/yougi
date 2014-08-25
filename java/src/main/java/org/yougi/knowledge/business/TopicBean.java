@@ -65,7 +65,7 @@ public class TopicBean {
      * exist. Topics are created with default values if they don't exist yet.
      */
     public void consolidateTopics(String topics) throws BusinessLogicException {
-        if(StringUtils.INSTANCE.isNullOrBlank(topics)) {
+        if(StringUtils.isNullOrBlank(topics)) {
             return;
         }
 
@@ -87,7 +87,7 @@ public class TopicBean {
     }
 
     public void remove(String name) {
-        if(StringUtils.INSTANCE.isNullOrBlank(name)) {
+        if(StringUtils.isNullOrBlank(name)) {
             return;
         }
 

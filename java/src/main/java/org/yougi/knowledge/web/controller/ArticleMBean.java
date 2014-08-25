@@ -23,7 +23,7 @@ package org.yougi.knowledge.web.controller;
 import org.yougi.knowledge.business.ArticleBean;
 import org.yougi.knowledge.business.WebSourceBean;
 import org.yougi.knowledge.entity.Article;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

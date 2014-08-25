@@ -88,7 +88,7 @@ public class JobSchedulerHourly extends JobScheduler {
             }
         }
 
-        Date endDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.getEndDate(), this.getEndTime());
+        Date endDateAndTime = DateTimeUtils.mergeDateAndTime(this.getEndDate(), this.getEndTime());
 
         if(this.getEndDate() != null && startTime.getTime().compareTo(endDateAndTime) > 0) {
             return null;

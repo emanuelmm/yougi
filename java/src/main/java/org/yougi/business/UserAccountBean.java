@@ -128,7 +128,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
 
     public UserAccount findByWebsite(String website) {
         try {
-            String websiteWithoutProtocol = UrlUtils.INSTANCE.removeProtocol(website);
+            String websiteWithoutProtocol = UrlUtils.removeProtocol(website);
             return em.createQuery("select ua from UserAccount ua where ua.website like :website", UserAccount.class)
                     .setParameter("website", "%" + websiteWithoutProtocol + "%")
                     .getSingleResult();
@@ -174,11 +174,18 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
                  .getResultList();
     }
 
-    public List<UserAccount> findAllNotVerifiedAccounts() {
+    public List<UserAccount> findAllUnverifiedAccounts() {
         return em.createQuery("select ua from UserAccount ua where ua.verified = :verified and ua.deactivated = :deactivated order by ua.registrationDate desc", UserAccount.class)
                  .setParameter("verified", Boolean.FALSE)
                  .setParameter("deactivated", Boolean.FALSE)
                  .getResultList();
+    }
+
+    public List<UserAccount> findAllUnconfirmedAccounts() {
+        return em.createQuery("select ua from UserAccount ua where ua.confirmationCode is not null and ua.verified = :verified and ua.deactivated = :deactivated order by ua.registrationDate desc", UserAccount.class)
+                .setParameter("verified", Boolean.FALSE)
+                .setParameter("deactivated", Boolean.FALSE)
+                .getResultList();
     }
 
     public List<UserAccount> findAllStartingWith(String firstLetter) {
@@ -328,7 +335,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
      * @return The confirmed user account.
      * */
     public UserAccount confirmUser(String confirmationCode) {
-    	if(StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
+    	if(StringUtils.isNullOrBlank(confirmationCode)) {
             return null;
         }
 
@@ -544,7 +551,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
 
     public void confirmEmailChange(String confirmationCode) throws BusinessLogicException {
         UserAccount userAccount = findByConfirmationCode(confirmationCode);
-        if(StringUtils.INSTANCE.isNullOrBlank(userAccount.getUnverifiedEmail())) {
+        if(StringUtils.isNullOrBlank(userAccount.getUnverifiedEmail())) {
             throw new BusinessLogicException("errorCode0002");
         }
 

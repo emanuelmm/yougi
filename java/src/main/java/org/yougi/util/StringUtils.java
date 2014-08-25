@@ -26,10 +26,11 @@ package org.yougi.util;
  *
  * @author Daniel Cunha - danielsoro@gmail.com
  */
-public enum StringUtils {
-    INSTANCE;
+public class StringUtils {
 
-    public boolean isNullOrBlank(String property) {
+    private StringUtils() {}
+
+    public static boolean isNullOrBlank(String property) {
         return property == null || property.trim().isEmpty();
     }
 }

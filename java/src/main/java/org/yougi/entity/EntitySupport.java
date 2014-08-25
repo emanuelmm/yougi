@@ -60,7 +60,7 @@ public enum EntitySupport {
      * @return true if the id is valid.
      * */
     public final boolean isIdValid(String id) {
-        boolean valid = !StringUtils.INSTANCE.isNullOrBlank(id);
+        boolean valid = !StringUtils.isNullOrBlank(id);
 
         valid = (valid && id.length() == 32);
 

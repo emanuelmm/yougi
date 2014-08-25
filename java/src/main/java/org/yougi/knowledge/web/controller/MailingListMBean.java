@@ -21,7 +21,7 @@
 package org.yougi.knowledge.web.controller;
 
 import org.yougi.knowledge.entity.MailingList;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

@@ -22,7 +22,7 @@ package org.yougi.web.controller;
 
 import org.yougi.business.CountryBean;
 import org.yougi.entity.Country;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

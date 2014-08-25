@@ -27,7 +27,7 @@ import org.yougi.knowledge.business.WebSourceBean;
 import org.yougi.knowledge.entity.Article;
 import org.yougi.knowledge.entity.WebSource;
 import org.yougi.util.UrlUtils;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -106,7 +106,7 @@ public class WebSourceMBean {
         if(this.selectedMember != null && !this.selectedMember.isEmpty() && this.website == null) {
             this.webSource.setProvider(userAccountBean.find(this.selectedMember));
             this.website = this.webSource.getProvider().getWebsite();
-            this.website = UrlUtils.INSTANCE.setProtocol(this.website);
+            this.website = UrlUtils.setProtocol(this.website);
         }
         return this.website;
     }

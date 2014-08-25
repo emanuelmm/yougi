@@ -42,11 +42,11 @@ import java.util.concurrent.Executors;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum PackageResourceHelper {
+public class PackageResourceHelper {
 
-    INSTANCE;
+    private PackageResourceHelper() {}
 
-    public List<File> getFilesFolder(String pathFolder) {
+    public static List<File> getFilesFolder(String pathFolder) {
         final ClassLoader loader = JobSchedulerBean.class.getClassLoader();
         URL url = loader.getResource(pathFolder);
 

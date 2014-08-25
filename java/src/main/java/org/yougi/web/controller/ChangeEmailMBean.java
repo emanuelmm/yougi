@@ -25,7 +25,7 @@ import org.yougi.entity.UserAccount;
 import org.yougi.exception.BusinessLogicException;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -124,7 +124,7 @@ public class ChangeEmailMBean {
 
     @PostConstruct
     public void load() {
-        if (StringUtils.INSTANCE.isNullOrBlank(confirmationCode)) {
+        if (StringUtils.isNullOrBlank(confirmationCode)) {
             this.userAccount = userProfileMBean.getUserAccount();
         }
     }

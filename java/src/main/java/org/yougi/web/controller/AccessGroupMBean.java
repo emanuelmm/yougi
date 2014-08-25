@@ -26,7 +26,7 @@ import org.yougi.business.UserAccountBean;
 import org.yougi.business.UserGroupBean;
 import org.yougi.entity.AccessGroup;
 import org.yougi.entity.UserAccount;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

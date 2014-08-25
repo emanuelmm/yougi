@@ -24,8 +24,8 @@ import org.yougi.business.*;
 import org.yougi.entity.*;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
-import org.yougi.util.annotation.ManagedProperty;
-import org.yougi.util.annotation.UserName;
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.annotation.UserName;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -110,7 +110,9 @@ public class UserAccountMBean implements Serializable {
     private Boolean hasMultipleCommunities;
 
     private List<UserAccount> userAccounts;
-    private List<UserAccount> deactivatedUsers;
+    private List<UserAccount> unverifiedUserAccounts;
+    private List<UserAccount> unconfirmedUserAccounts;
+    private List<UserAccount> deactivatedUserAccounts;
     private List<Community> existingCommunities;
     private List<MessageHistory> historicMessages;
     private List<UserSession> userSessions;
@@ -253,7 +255,7 @@ public class UserAccountMBean implements Serializable {
     }
 
     public boolean isConfirmed() {
-        if(StringUtils.INSTANCE.isNullOrBlank(userAccount.getConfirmationCode())) {
+        if(StringUtils.isNullOrBlank(userAccount.getConfirmationCode())) {
             return true;
         }
         return false;
@@ -276,16 +278,30 @@ public class UserAccountMBean implements Serializable {
         return "users";
     }
 
-    public List<UserAccount> getDeactivatedUserAccounts() {
-        if(deactivatedUsers == null) {
-            deactivatedUsers = userAccountBean.findAllDeactivatedUserAccounts();
+    public List<UserAccount> getUnverifiedUserAccounts() {
+        if(unverifiedUserAccounts == null) {
+            unverifiedUserAccounts = userAccountBean.findAllUnverifiedAccounts();
         }
-        return deactivatedUsers;
+        return unverifiedUserAccounts;
+    }
+
+    public List<UserAccount> getUnconfirmedUserAccounts() {
+        if(unconfirmedUserAccounts == null) {
+            unconfirmedUserAccounts = userAccountBean.findAllUnconfirmedAccounts();
+        }
+        return unconfirmedUserAccounts;
+    }
+
+    public List<UserAccount> getDeactivatedUserAccounts() {
+        if(deactivatedUserAccounts == null) {
+            deactivatedUserAccounts = userAccountBean.findAllDeactivatedUserAccounts();
+        }
+        return deactivatedUserAccounts;
     }
 
     @PostConstruct
     public void load() {
-        if(!StringUtils.INSTANCE.isNullOrBlank(this.id)) {
+        if(!StringUtils.isNullOrBlank(this.id)) {
             this.userAccount = userAccountBean.find(this.id);
             this.authentication = authenticationBean.findByUserAccount(this.userAccount);
             this.historicMessages = messageHistoryBean.findByRecipient(this.userAccount);
@@ -318,7 +334,7 @@ public class UserAccountMBean implements Serializable {
             locationMBean.setSelectedTimeZone(this.userAccount.getTimeZone());
         }
 
-        if(!StringUtils.INSTANCE.isNullOrBlank(this.letter)) {
+        if(!StringUtils.isNullOrBlank(this.letter)) {
             this.userAccounts = userAccountBean.findAllStartingWith(this.letter);
         }
     }

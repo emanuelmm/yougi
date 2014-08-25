@@ -138,7 +138,7 @@ public class Article implements Serializable, Identified, PublicContent {
      * doesn't exist.
      */
     public String getText() {
-        if(StringUtils.INSTANCE.isNullOrBlank(this.content)) {
+        if(StringUtils.isNullOrBlank(this.content)) {
             return this.summary;
         } else {
             return this.content;

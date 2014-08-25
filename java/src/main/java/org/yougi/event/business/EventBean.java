@@ -111,9 +111,9 @@ public class EventBean extends AbstractBean<Event> {
         messageTemplate.setVariable("userAccount.firstName", userAccount.getFirstName());
         messageTemplate.setVariable("event.name", event.getName());
         messageTemplate.setVariable("event.venue", "");
-        messageTemplate.setVariable("event.startDate", DateTimeUtils.INSTANCE.getFormattedDate(event.getStartDate(), dateFormat));
-        messageTemplate.setVariable("event.startTime", DateTimeUtils.INSTANCE.getFormattedTime(event.getStartTime(), timeFormat, timezone));
-        messageTemplate.setVariable("event.endTime", DateTimeUtils.INSTANCE.getFormattedTime(event.getEndTime(), timeFormat, timezone));
+        messageTemplate.setVariable("event.startDate", DateTimeUtils.getFormattedDate(event.getStartDate(), dateFormat));
+        messageTemplate.setVariable("event.startTime", DateTimeUtils.getFormattedTime(event.getStartTime(), timeFormat, timezone));
+        messageTemplate.setVariable("event.endTime", DateTimeUtils.getFormattedTime(event.getEndTime(), timeFormat, timezone));
         EmailMessage emailMessage = messageTemplate.buildEmailMessage();
         emailMessage.setRecipient(userAccount);
 

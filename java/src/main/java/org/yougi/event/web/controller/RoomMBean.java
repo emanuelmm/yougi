@@ -25,7 +25,7 @@ import org.yougi.event.business.RoomBean;
 import org.yougi.event.business.SessionBean;
 import org.yougi.event.business.VenueBean;
 import org.yougi.event.entity.*;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

@@ -23,14 +23,15 @@ package org.yougi.business;
 import org.yougi.entity.*;
 import org.yougi.util.PackageResourceHelper;
 
-import javax.ejb.*;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.ejb.Timer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -86,7 +87,7 @@ public class JobSchedulerBean extends AbstractBean<JobScheduler> {
      * */
     public List<String> getJobXmlNames() {
         List<String> names = new ArrayList<>();
-        List<File> files = PackageResourceHelper.INSTANCE.getFilesFolder("/META-INF/batch-jobs");
+        List<File> files = PackageResourceHelper.getFilesFolder("/META-INF/batch-jobs");
         for(File file: files) {
             if (file.getName().endsWith(".xml")) {
                 names.add(file.getName().substring(0, file.getName().length() - 4));

@@ -25,7 +25,7 @@ import org.yougi.business.ProvinceBean;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
 import org.yougi.util.StringUtils;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -111,7 +111,7 @@ public class ProvinceMBean {
     }
 
     public void setSelectedCountry(String acronym) {
-        if (StringUtils.INSTANCE.isNullOrBlank(acronym)) {
+        if (StringUtils.isNullOrBlank(acronym)) {
             return;
         }
 

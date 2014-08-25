@@ -18,39 +18,19 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.util.batch;
+package org.yougi.annotation.producer;
 
-import org.yougi.business.JobExecutionBean;
-
-import javax.batch.api.listener.JobListener;
-import javax.batch.runtime.context.JobContext;
-import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
 
 /**
- * @author Hildeberto Mendonca - http://www.hildeberto.com
+ * @author Daniel Cunha - danielsoro@gmail.com
  */
-@Named
-public class DefaultJobListener implements JobListener {
+public class FacesContextProducer {
 
-    private static final Logger LOGGER = Logger.getLogger(DefaultJobListener.class.getSimpleName());
-
-    @Inject
-    private JobContext jobContext;
-
-    @EJB
-    private JobExecutionBean jobExecutionBean;
-
-    @Override
-    public void beforeJob() throws Exception {
-        LOGGER.log(Level.INFO, "Starting job");
-    }
-
-    @Override
-    public void afterJob() throws Exception {
-        jobExecutionBean.finalizeJob(jobContext.getInstanceId());
+    @Produces @RequestScoped
+    FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
     }
 }

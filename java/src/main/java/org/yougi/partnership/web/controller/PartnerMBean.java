@@ -28,7 +28,7 @@ import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 import org.yougi.web.controller.LocationMBean;
 
 import javax.annotation.PostConstruct;

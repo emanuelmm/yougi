@@ -24,7 +24,7 @@ import org.yougi.business.CommunityBean;
 import org.yougi.business.CommunityMemberBean;
 import org.yougi.entity.Community;
 import org.yougi.entity.CommunityMember;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

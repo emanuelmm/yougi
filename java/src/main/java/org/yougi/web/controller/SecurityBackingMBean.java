@@ -23,7 +23,7 @@ package org.yougi.web.controller;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.Role;
 import org.yougi.util.ResourceBundleHelper;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;

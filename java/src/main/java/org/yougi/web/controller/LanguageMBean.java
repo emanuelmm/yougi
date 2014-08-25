@@ -21,7 +21,7 @@
 package org.yougi.web.controller;
 
 import org.yougi.entity.Language;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

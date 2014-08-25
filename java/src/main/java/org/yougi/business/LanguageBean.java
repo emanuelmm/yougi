@@ -46,7 +46,7 @@ public class LanguageBean {
     }
 
     public void save(Language language) {
-        if(StringUtils.INSTANCE.isNullOrBlank(language.getAcronym())) {
+        if(StringUtils.isNullOrBlank(language.getAcronym())) {
             language.setAcronym(Language.DEFAULT_LANGUAGE);
             em.persist(language);
         } else {

@@ -18,13 +18,13 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.util.producer;
+package org.yougi.annotation.producer;
 
 import org.yougi.business.UserAccountBean;
 import org.yougi.business.UserSessionBean;
 import org.yougi.entity.UserAccount;
 import org.yougi.entity.UserSession;
-import org.yougi.util.annotation.UserName;
+import org.yougi.annotation.UserName;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;

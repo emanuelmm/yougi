@@ -62,7 +62,7 @@ public class EventAttendeeCertificate extends PdfPageEventHelper {
         contentLine[3] = attendee.getCertificateEvent();
         contentLine[4] = "realizado na";
         contentLine[5] = attendee.getCertificateVenue();
-        contentLine[6] = "no dia " + DateTimeUtils.INSTANCE.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
+        contentLine[6] = "no dia " + DateTimeUtils.getFormattedDate(attendee.getCertificateDate(), "dd.MM.yyyy");
 
         Font normalFont = new Font(Font.FontFamily.HELVETICA, 24);
         Font largeFont = new Font(Font.FontFamily.HELVETICA, 28, Font.FontStyle.BOLD.ordinal());

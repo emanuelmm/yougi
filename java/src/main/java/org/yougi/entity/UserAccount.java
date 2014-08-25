@@ -151,7 +151,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = TextUtils.INSTANCE.capitalizeFirstCharWords(firstName);
+        this.firstName = TextUtils.capitalizeFirstCharWords(firstName);
     }
 
     public String getLastName() {
@@ -159,7 +159,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = TextUtils.INSTANCE.capitalizeFirstCharWords(lastName);
+        this.lastName = TextUtils.capitalizeFirstCharWords(lastName);
     }
 
     public String getFullName() {
@@ -301,7 +301,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setTwitter(String twitter) {
-        if(StringUtils.INSTANCE.isNullOrBlank(twitter)) {
+        if(StringUtils.isNullOrBlank(twitter)) {
             this.twitter = null;
         } else if(twitter.contains("@")) {
             this.twitter = twitter.replace("@", "");

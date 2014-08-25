@@ -218,8 +218,8 @@ public class WebSourceBean extends AbstractBean<WebSource> {
                 continue;
             }
             if(isFeedURL(feedUrl)) {
-                if(UrlUtils.INSTANCE.isRelative(feedUrl)) {
-                    feedUrl = UrlUtils.INSTANCE.concatUrlFragment(UrlUtils.INSTANCE.setProtocol(urlWebsite), feedUrl);
+                if(UrlUtils.isRelative(feedUrl)) {
+                    feedUrl = UrlUtils.concatUrlFragment(UrlUtils.setProtocol(urlWebsite), feedUrl);
                 }
                 break;
             }
@@ -245,7 +245,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
      * */
     private String retrieveWebsiteContent(String url) {
         StringBuilder content = null;
-        String fullUrl = UrlUtils.INSTANCE.setProtocol(url);
+        String fullUrl = UrlUtils.setProtocol(url);
 
         if(fullUrl != null) {
             try {

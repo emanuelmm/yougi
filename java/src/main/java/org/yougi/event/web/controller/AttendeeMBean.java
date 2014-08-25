@@ -34,7 +34,7 @@ import org.yougi.event.business.EventVenueBean;
 import org.yougi.event.entity.Attendee;
 import org.yougi.event.entity.Event;
 import org.yougi.event.entity.Venue;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 import org.yougi.web.controller.UserProfileMBean;
 import org.yougi.web.report.EventAttendeeCertificate;
 

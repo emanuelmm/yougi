@@ -30,16 +30,16 @@ import java.util.StringTokenizer;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum WebTextUtils {
+public class WebTextUtils {
 
-    INSTANCE;
+    private WebTextUtils() {}
 
     /**
      * This method replaces every line break in the text by a html paragraph.
      * Empty lines are ignored. It returns a text that appears formatted in a
      * html page.
      */
-    public String convertLineBreakToHTMLParagraph(String str) {
+    public static String convertLineBreakToHTMLParagraph(String str) {
         if (str == null) {
             return null;
         }
@@ -59,31 +59,31 @@ public enum WebTextUtils {
         return formattedStr.toString();
     }
 
-    public String getFormattedDate(Date date) {
+    public static String getFormattedDate(Date date) {
         if (date == null) {
             return "";
         }
 
-        return DateTimeUtils.INSTANCE.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
+        return DateTimeUtils.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
     }
 
-    public String getFormattedTime(Date time, String timeZone) {
+    public static String getFormattedTime(Date time, String timeZone) {
         if (time == null) {
             return "";
         }
 
-        return DateTimeUtils.INSTANCE.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
+        return DateTimeUtils.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
     }
 
-    public String getFormattedDateTime(Date dateTime, String timeZone) {
+    public static String getFormattedDateTime(Date dateTime, String timeZone) {
         if (dateTime == null) {
             return "";
         }
 
-        return DateTimeUtils.INSTANCE.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
+        return DateTimeUtils.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
     }
 
-    public String printAddress(String address, Country country, Province province, City city, String postalCode) {
+    public static String printAddress(String address, Country country, Province province, City city, String postalCode) {
         StringBuilder fullAddress = new StringBuilder();
         String commaSeparator = ", ";
         if (address != null && !address.isEmpty()) {

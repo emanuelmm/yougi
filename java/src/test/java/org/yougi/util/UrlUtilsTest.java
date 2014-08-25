@@ -30,30 +30,30 @@ import org.junit.Test;
 public class UrlUtilsTest {
     @Test
     public void testSetProtocol() throws Exception {
-    	Assert.assertEquals("http://newurltest.com", UrlUtils.INSTANCE.setProtocol("newurltest.com"));
+    	Assert.assertEquals("http://newurltest.com", UrlUtils.setProtocol("newurltest.com"));
 
     }
 
     @Test
     public void testRemoveProtocol() throws Exception {
-    	Assert.assertEquals("newurltest.com", UrlUtils.INSTANCE.removeProtocol("http://newurltest.com"));
-    	Assert.assertEquals("newurltest.com", UrlUtils.INSTANCE.removeProtocol("https://newurltest.com"));
+    	Assert.assertEquals("newurltest.com", UrlUtils.removeProtocol("http://newurltest.com"));
+    	Assert.assertEquals("newurltest.com", UrlUtils.removeProtocol("https://newurltest.com"));
 
     }
 
     @Test
     public void testConcatUrlFragment() throws Exception {
-    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com/", "/yougi"));
-    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com/", "yougi"));
-    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com", "/yougi"));
-    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.INSTANCE.concatUrlFragment("http://newurltest.com", "yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.concatUrlFragment("http://newurltest.com/", "/yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.concatUrlFragment("http://newurltest.com/", "yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.concatUrlFragment("http://newurltest.com", "/yougi"));
+    	Assert.assertEquals("http://newurltest.com/yougi", UrlUtils.concatUrlFragment("http://newurltest.com", "yougi"));
 
     }
 
     @Test
     public void testIsRelative() throws Exception {
-    	Assert.assertFalse(UrlUtils.INSTANCE.isRelative("http://newurltest.com"));
-    	Assert.assertTrue(UrlUtils.INSTANCE.isRelative("newurltest.com"));
+    	Assert.assertFalse(UrlUtils.isRelative("http://newurltest.com"));
+    	Assert.assertTrue(UrlUtils.isRelative("newurltest.com"));
 
     }
 }

@@ -26,15 +26,15 @@ package org.yougi.util;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum TextUtils {
+public class TextUtils {
 
-    INSTANCE;
+    private TextUtils() {}
 
     /**
      * Receives a sentence and converts the first letter of each word to a
      * capital letter and the rest of each word to lowercase.
      */
-    public String capitalizeFirstCharWords(String sentence) {
+    public static String capitalizeFirstCharWords(String sentence) {
         final StringBuilder result = new StringBuilder(sentence.length());
         String[] words = sentence.split("\\s");
         for (int i = 0, length = words.length; i < length; ++i) {

@@ -23,13 +23,14 @@ package org.yougi.util;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum UrlUtils {
-    INSTANCE;
+public class UrlUtils {
+
+    private UrlUtils() {}
 
     private static final String HTTP = "http://";
     private static final String HTTPS = "https://";
 
-    public String setProtocol(String url) {
+    public static String setProtocol(String url) {
         String urlWithProtocol = url;
         if(url != null && !(url.contains(HTTP) || url.contains(HTTPS))) {
             urlWithProtocol = HTTP + url;
@@ -37,7 +38,7 @@ public enum UrlUtils {
         return urlWithProtocol;
     }
 
-    public String removeProtocol(String url) {
+    public static String removeProtocol(String url) {
         String urlWithoutProtocol = url;
         if(url.contains(HTTP)) {
             urlWithoutProtocol = url.replace(HTTP, "");
@@ -47,7 +48,7 @@ public enum UrlUtils {
         return urlWithoutProtocol;
     }
 
-    public String concatUrlFragment(String url, String fragment) {
+    public static String concatUrlFragment(String url, String fragment) {
         String urlWithFragment = url;
         if(url.endsWith("/") && fragment.startsWith("/")) {
             urlWithFragment = url + fragment.substring(1);
@@ -60,7 +61,7 @@ public enum UrlUtils {
         return urlWithFragment;
     }
 
-    public boolean isRelative(String url) {
+    public static boolean isRelative(String url) {
         if(url.contains("http")) {
             return false;
         }

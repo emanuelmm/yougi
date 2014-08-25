@@ -82,7 +82,7 @@ public class DatabaseChangeLogBean extends AbstractBean<DatabaseChangeLog> {
     }
 
     private File getChangeLogFile(String id) {
-        List<File> files = PackageResourceHelper.INSTANCE.getFilesFolder("org/yougi/db/changelog");
+        List<File> files = PackageResourceHelper.getFilesFolder("org/yougi/db/changelog");
         String filename;
         for(File file : files) {
             if (file.getName().endsWith(".sql")) {

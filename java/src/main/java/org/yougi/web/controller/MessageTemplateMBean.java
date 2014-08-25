@@ -22,7 +22,7 @@ package org.yougi.web.controller;
 
 import org.yougi.business.MessageTemplateBean;
 import org.yougi.entity.MessageTemplate;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

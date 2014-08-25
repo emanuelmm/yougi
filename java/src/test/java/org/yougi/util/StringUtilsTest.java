@@ -30,9 +30,9 @@ public class StringUtilsTest {
 
     @Test
     public void testIsNullOrBlank() throws Exception {
-        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(null));
-        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank(""));
-        Assert.assertFalse(StringUtils.INSTANCE.isNullOrBlank("A"));
-        Assert.assertTrue(StringUtils.INSTANCE.isNullOrBlank("    "));
+        Assert.assertTrue(StringUtils.isNullOrBlank(null));
+        Assert.assertTrue(StringUtils.isNullOrBlank(""));
+        Assert.assertFalse(StringUtils.isNullOrBlank("A"));
+        Assert.assertTrue(StringUtils.isNullOrBlank("    "));
     }
 }

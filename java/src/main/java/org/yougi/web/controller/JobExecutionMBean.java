@@ -24,7 +24,7 @@ import org.yougi.business.JobExecutionBean;
 import org.yougi.entity.EntitySupport;
 import org.yougi.entity.JobExecution;
 import org.yougi.entity.JobScheduler;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

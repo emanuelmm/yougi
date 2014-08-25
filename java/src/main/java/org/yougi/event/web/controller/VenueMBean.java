@@ -25,7 +25,7 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.Room;
 import org.yougi.event.entity.SessionEvent;
 import org.yougi.event.entity.Venue;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 import org.yougi.web.controller.LocationMBean;
 
 import javax.annotation.PostConstruct;

@@ -27,7 +27,7 @@ import org.yougi.event.entity.Event;
 import org.yougi.event.entity.EventVenue;
 import org.yougi.event.entity.Venue;
 import org.yougi.util.StringUtils;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -103,7 +103,7 @@ public class EventVenueMBean implements Serializable {
 
     public List<Venue> getVenues() {
         if(this.venues == null) {
-            if(StringUtils.INSTANCE.isNullOrBlank(this.selectedEvent)) {
+            if(StringUtils.isNullOrBlank(this.selectedEvent)) {
                 this.venues = venueBean.findVenues();
             } else {
                 Event event = new Event(selectedEvent);
@@ -115,7 +115,7 @@ public class EventVenueMBean implements Serializable {
 
     public List<Event> getEvents() {
         if(this.events == null) {
-            if(StringUtils.INSTANCE.isNullOrBlank(this.selectedVenue)) {
+            if(StringUtils.isNullOrBlank(this.selectedVenue)) {
                 this.events = eventBean.findParentEvents();
             } else {
                 Venue venue = new Venue(selectedVenue);

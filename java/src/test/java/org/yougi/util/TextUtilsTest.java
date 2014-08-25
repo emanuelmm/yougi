@@ -31,6 +31,6 @@ public class TextUtilsTest {
 
     @Test
     public void testCapitalizeFirstCharWords() throws Exception {
-    	Assert.assertEquals("First Char", TextUtils.INSTANCE.capitalizeFirstCharWords("first char"));
+    	Assert.assertEquals("First Char", TextUtils.capitalizeFirstCharWords("first char"));
     }
 }

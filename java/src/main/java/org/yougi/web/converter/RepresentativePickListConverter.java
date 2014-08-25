@@ -36,7 +36,7 @@ public class RepresentativePickListConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (StringUtils.INSTANCE.isNullOrBlank(value)) {
+        if (StringUtils.isNullOrBlank(value)) {
             return null;
         }
 

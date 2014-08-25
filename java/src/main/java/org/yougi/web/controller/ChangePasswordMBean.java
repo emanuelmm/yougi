@@ -29,8 +29,8 @@ import org.yougi.entity.Properties;
 import org.yougi.entity.UserAccount;
 import org.yougi.exception.BusinessLogicException;
 import org.yougi.util.ResourceBundleHelper;
-import org.yougi.util.annotation.ManagedProperty;
-import org.yougi.util.annotation.UserName;
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.annotation.UserName;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

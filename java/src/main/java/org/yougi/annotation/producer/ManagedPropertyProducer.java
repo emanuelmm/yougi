@@ -18,9 +18,9 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.util.producer;
+package org.yougi.annotation.producer;
 
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;

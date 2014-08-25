@@ -24,7 +24,7 @@ import org.yougi.business.CityBean;
 import org.yougi.business.TimezoneBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

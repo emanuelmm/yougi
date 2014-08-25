@@ -36,7 +36,7 @@ public class DateTimeUtilsTest {
     @Test
     public void testGetFormattedDate() throws Exception {
         Date date = new Date();
-    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), DateTimeUtils.INSTANCE.getFormattedDate(date, "dd-M-yyyy"));
+    	Assert.assertEquals(new SimpleDateFormat("dd-M-yyyy").format(date), DateTimeUtils.getFormattedDate(date, "dd-M-yyyy"));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class DateTimeUtilsTest {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-    	Assert.assertEquals(sdf.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "HH:mm:ss", "UTC"));
+    	Assert.assertEquals(sdf.format(date), DateTimeUtils.getFormattedTime(date, "HH:mm:ss", "UTC"));
     }
 
     @Test
@@ -52,14 +52,14 @@ public class DateTimeUtilsTest {
         Date date = new Date();
         SimpleDateFormat sdft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         sdft.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
-    	Assert.assertEquals(sdft.format(date), DateTimeUtils.INSTANCE.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
+    	Assert.assertEquals(sdft.format(date), DateTimeUtils.getFormattedTime(date, "yyyy/MM/dd HH:mm:ss", "GMT-8:00"));
     }
 
     @Test
     public void testGetDate() throws  Exception {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     	Date expectedDate = sdf.parse("2014/09/12");
-        Assert.assertEquals(DateTimeUtils.INSTANCE.getDate("2014/09/12", "yyyy/MM/dd"), expectedDate);
+        Assert.assertEquals(DateTimeUtils.getDate("2014/09/12", "yyyy/MM/dd"), expectedDate);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class DateTimeUtilsTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date expectedDate = sdf.parse("2014/09/12 14:30");
 
-        Date date = DateTimeUtils.INSTANCE.getDateAndTime("12/09/2014", "dd/MM/yyyy", "14:30", "HH:mm");
+        Date date = DateTimeUtils.getDateAndTime("12/09/2014", "dd/MM/yyyy", "14:30", "HH:mm");
         Assert.assertEquals(date.getTime(), expectedDate.getTime());
     }
 
@@ -80,16 +80,16 @@ public class DateTimeUtilsTest {
         Date time = sdf.parse("14:30");
 
         sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(date, time);
+        Date mergedDate = DateTimeUtils.mergeDateAndTime(date, time);
         Assert.assertEquals(sdf.format(mergedDate), "23/06/2014 14:30");
 
-        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(date, null);
+        mergedDate = DateTimeUtils.mergeDateAndTime(date, null);
         Assert.assertEquals(sdf.format(mergedDate), "23/06/2014 00:00");
 
-        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(null, time);
+        mergedDate = DateTimeUtils.mergeDateAndTime(null, time);
         Assert.assertEquals(sdf.format(mergedDate), "01/01/1970 14:30");
 
-        mergedDate = DateTimeUtils.INSTANCE.mergeDateAndTime(null, null);
+        mergedDate = DateTimeUtils.mergeDateAndTime(null, null);
         Assert.assertNull(mergedDate);
     }
 }

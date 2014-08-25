@@ -26,7 +26,7 @@ import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
 import org.yougi.util.DateTimeUtils;
 import org.yougi.util.ResourceBundleHelper;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -216,10 +216,10 @@ public class JobSchedulerMBean {
         this.endTime = (Date) value;
         LOGGER.log(Level.INFO, "endTime {0}", this.endTime);
 
-        Date startDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.startDate, this.startTime);
+        Date startDateAndTime = DateTimeUtils.mergeDateAndTime(this.startDate, this.startTime);
         LOGGER.log(Level.INFO, "startDateAndTime {0}", startDateAndTime);
 
-        Date endDateAndTime = DateTimeUtils.INSTANCE.mergeDateAndTime(this.endDate, this.endTime);
+        Date endDateAndTime = DateTimeUtils.mergeDateAndTime(this.endDate, this.endTime);
         LOGGER.log(Level.INFO, "endDateAndTime {0}", endDateAndTime);
 
         if (startDateAndTime.compareTo(endDateAndTime) > 0) {

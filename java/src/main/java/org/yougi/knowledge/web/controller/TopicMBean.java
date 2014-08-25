@@ -22,7 +22,7 @@ package org.yougi.knowledge.web.controller;
 
 import org.yougi.knowledge.business.TopicBean;
 import org.yougi.knowledge.entity.Topic;
-import org.yougi.util.annotation.ManagedProperty;
+import org.yougi.annotation.ManagedProperty;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

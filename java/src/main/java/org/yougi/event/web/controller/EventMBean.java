@@ -26,8 +26,8 @@ import org.yougi.entity.UserAccount;
 import org.yougi.event.business.*;
 import org.yougi.event.entity.*;
 import org.yougi.util.WebTextUtils;
-import org.yougi.util.annotation.ManagedProperty;
-import org.yougi.util.annotation.UserName;
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.annotation.UserName;
 import org.yougi.web.controller.UserProfileMBean;
 
 import javax.annotation.PostConstruct;
@@ -257,14 +257,14 @@ public class EventMBean {
     }
 
     public String getFormattedEventDescription() {
-        return WebTextUtils.INSTANCE.convertLineBreakToHTMLParagraph(event.getDescription());
+        return WebTextUtils.convertLineBreakToHTMLParagraph(event.getDescription());
     }
 
     public String getFormattedRegistrationDate() {
         if (this.attendee == null) {
             return "";
         }
-        return WebTextUtils.INSTANCE.getFormattedDate(this.attendee.getRegistrationDate());
+        return WebTextUtils.getFormattedDate(this.attendee.getRegistrationDate());
     }
 
     @PostConstruct
