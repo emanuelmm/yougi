@@ -103,8 +103,68 @@
                                 </h:column>
                             </h:dataTable>
                         </p:tab>
-                        <p:tab title="#{bundle.deactivatedMembers}">
-                            <h:dataTable value="#{userAccountMBean.deactivatedUserAccounts}" var="deactivated">
+                        <p:tab title="#{bundle.unverified}">
+                            <h:dataTable value="#{userAccountMBean.unverifiedUserAccounts}" var="unverified" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{unverified.firstName} #{unverified.lastName}">
+                                        <f:param name="id" value="#{unverified.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
+                                    <h:outputText value="#{unverified.postingEmail}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.confirmed}"/></f:facet>
+                                    <h:graphicImage rendered="#{unverified.confirmed}" url="/images/success-icon.png"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
+                                    <h:outputText value="#{unverified.registrationDate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.lastUpdate}"/></f:facet>
+                                    <h:outputText value="#{unverified.lastUpdate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                            </h:dataTable>
+                        </p:tab>
+                        <p:tab title="#{bundle.unconfirmed}">
+                            <h:dataTable value="#{userAccountMBean.unconfirmedUserAccounts}" var="unconfirmed" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{unconfirmed.firstName} #{unconfirmed.lastName}">
+                                        <f:param name="id" value="#{unconfirmed.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.postingEmail}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.confirmed}"/></f:facet>
+                                    <h:graphicImage rendered="#{unconfirmed.confirmed}" url="/images/success-icon.png"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.registrationDate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.lastUpdate}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.lastUpdate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                            </h:dataTable>
+                        </p:tab>
+                        <p:tab title="#{bundle.deactivated}">
+                            <h:dataTable value="#{userAccountMBean.deactivatedUserAccounts}" var="deactivated" styleClass="table table-striped">
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
                                     <h:link outcome="user" value="#{deactivated.firstName} #{deactivated.lastName}">
