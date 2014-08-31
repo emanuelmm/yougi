@@ -108,11 +108,6 @@ public class PartnershipMBean {
         return null;
     }
 
-    public String getFormattedPartnerAddress() {
-        Partner partner = this.representative.getPartner();
-        return WebTextUtils.printAddress(partner.getAddress(), partner.getCountry(), partner.getProvince(), partner.getCity(), partner.getPostalCode());
-    }
-
     public boolean getRepresentativeExists() {
         if (this.representative.getId() != null) {
             return true;
@@ -141,16 +136,16 @@ public class PartnershipMBean {
         } else if (!locationMBean.isInitialized()) {
             locationMBean.initialize();
 
-            if (this.representative.getPartner().getCountry() != null) {
-                locationMBean.setSelectedCountry(this.representative.getPartner().getCountry().getAcronym());
+            if (this.representative.getPartner().getAddress().getCountry() != null) {
+                locationMBean.setSelectedCountry(this.representative.getPartner().getAddress().getCountry().getAcronym());
             }
 
-            if (this.representative.getPartner().getProvince() != null) {
-                locationMBean.setSelectedProvince(this.representative.getPartner().getProvince().getId());
+            if (this.representative.getPartner().getAddress().getProvince() != null) {
+                locationMBean.setSelectedProvince(this.representative.getPartner().getAddress().getProvince().getId());
             }
 
-            if (this.representative.getPartner().getCity() != null) {
-                locationMBean.setSelectedCity(this.representative.getPartner().getCity().getId());
+            if (this.representative.getPartner().getAddress().getCity() != null) {
+                locationMBean.setSelectedCity(this.representative.getPartner().getAddress().getCity().getId());
             }
         }
 
@@ -160,17 +155,17 @@ public class PartnershipMBean {
     public String save() {
         Country country = this.locationMBean.getCountry();
         if (country != null) {
-            this.representative.getPartner().setCountry(country);
+            this.representative.getPartner().getAddress().setCountry(country);
         }
 
         Province province = this.locationMBean.getProvince();
         if (province != null) {
-            this.representative.getPartner().setProvince(province);
+            this.representative.getPartner().getAddress().setProvince(province);
         }
 
         City city = this.locationMBean.getCity();
         if (city != null) {
-            this.representative.getPartner().setCity(city);
+            this.representative.getPartner().getAddress().setCity(city);
         }
 
         partnerBean.save(this.representative.getPartner());

@@ -37,6 +37,7 @@ import java.util.logging.Logger;
  *         Hildeberto Mendonca - http://www.hildeberto.com
  */
 public enum ResourceBundleHelper {
+
     INSTANCE;
 
     private static final Logger LOGGER = Logger.getLogger(ResourceBundleHelper.class.getSimpleName());

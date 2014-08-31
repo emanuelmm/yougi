@@ -130,16 +130,16 @@ public class PartnerMBean implements Serializable {
 
             locationMBean.initialize();
 
-            if (this.partner.getCountry() != null) {
-                locationMBean.setSelectedCountry(this.partner.getCountry().getAcronym());
+            if (this.partner.getAddress().getCountry() != null) {
+                locationMBean.setSelectedCountry(this.partner.getAddress().getCountry().getAcronym());
             }
 
-            if (this.partner.getProvince() != null) {
-                locationMBean.setSelectedProvince(this.partner.getProvince().getId());
+            if (this.partner.getAddress().getProvince() != null) {
+                locationMBean.setSelectedProvince(this.partner.getAddress().getProvince().getId());
             }
 
-            if (this.partner.getCity() != null) {
-                locationMBean.setSelectedCity(this.partner.getCity().getId());
+            if (this.partner.getAddress().getCity() != null) {
+                locationMBean.setSelectedCity(this.partner.getAddress().getCity().getId());
             }
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
@@ -161,17 +161,17 @@ public class PartnerMBean implements Serializable {
     public String save() {
         Country country = this.locationMBean.getCountry();
         if (country != null) {
-            this.partner.setCountry(country);
+            this.partner.getAddress().setCountry(country);
         }
 
         Province province = this.locationMBean.getProvince();
         if (province != null) {
-            this.partner.setProvince(province);
+            this.partner.getAddress().setProvince(province);
         }
 
         City city = this.locationMBean.getCity();
         if (city != null) {
-            this.partner.setCity(city);
+            this.partner.getAddress().setCity(city);
         }
 
         List<UserAccount> reps = new ArrayList<>();

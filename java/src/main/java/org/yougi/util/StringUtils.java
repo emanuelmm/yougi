@@ -33,4 +33,21 @@ public class StringUtils {
     public static boolean isNullOrBlank(String property) {
         return property == null || property.trim().isEmpty();
     }
+
+    /**
+     * Receives a sentence and converts the first letter of each word to a
+     * capital letter and the rest of each word to lowercase.
+     */
+    public static String capitalizeFirstCharWords(String sentence) {
+        final StringBuilder result = new StringBuilder(sentence.length());
+        String[] words = sentence.split("\\s");
+        for (int i = 0, length = words.length; i < length; ++i) {
+            if (i > 0) {
+                result.append(" ");
+            }
+            result.append(Character.toUpperCase(words[i].charAt(0)))
+                    .append(words[i].substring(1).toLowerCase());
+        }
+        return result.toString();
+    }
 }

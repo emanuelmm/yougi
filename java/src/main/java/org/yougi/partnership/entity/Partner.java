@@ -20,10 +20,7 @@
  * */
 package org.yougi.partnership.entity;
 
-import org.yougi.entity.City;
-import org.yougi.entity.Country;
-import org.yougi.entity.Identified;
-import org.yougi.entity.Province;
+import org.yougi.entity.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,27 +33,23 @@ import java.io.Serializable;
 public class Partner implements Serializable, Identified {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     private String id;
+
     private String name;
+
     @Column(nullable = false)
     private String description;
+
     @Column(nullable = false)
     private String logo;
+
     @Column(nullable = false)
     private String url;
-    private String address;
-    @ManyToOne
-    @JoinColumn(name = "city")
-    private City city;
-    @ManyToOne
-    @JoinColumn(name = "province")
-    private Province province;
-    @ManyToOne
-    @JoinColumn(name = "country")
-    private Country country;
-    @Column(name = "postal_code")
-    private String postalCode;
+
+    @Embedded
+    private Address address;
 
     public Partner() {
     }
@@ -107,44 +100,12 @@ public class Partner implements Serializable, Identified {
         this.url = url;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public Province getProvince() {
-        return province;
-    }
-
-    public void setProvince(Province province) {
-        this.province = province;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     @Override

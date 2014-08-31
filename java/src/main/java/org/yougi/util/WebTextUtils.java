@@ -20,11 +20,6 @@
  * */
 package org.yougi.util;
 
-import org.yougi.entity.City;
-import org.yougi.entity.Country;
-import org.yougi.entity.Province;
-
-import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
@@ -57,75 +52,5 @@ public class WebTextUtils {
             }
         }
         return formattedStr.toString();
-    }
-
-    public static String getFormattedDate(Date date) {
-        if (date == null) {
-            return "";
-        }
-
-        return DateTimeUtils.getFormattedDate(date, ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
-    }
-
-    public static String getFormattedTime(Date time, String timeZone) {
-        if (time == null) {
-            return "";
-        }
-
-        return DateTimeUtils.getFormattedTime(time, ResourceBundleHelper.INSTANCE.getMessage("formatTime"), timeZone);
-    }
-
-    public static String getFormattedDateTime(Date dateTime, String timeZone) {
-        if (dateTime == null) {
-            return "";
-        }
-
-        return DateTimeUtils.getFormattedDateTime(dateTime, ResourceBundleHelper.INSTANCE.getMessage("formatDateTime"), timeZone);
-    }
-
-    public static String printAddress(String address, Country country, Province province, City city, String postalCode) {
-        StringBuilder fullAddress = new StringBuilder();
-        String commaSeparator = ", ";
-        if (address != null && !address.isEmpty()) {
-            fullAddress.append(address);
-        }
-
-        if (city != null) {
-            if (!fullAddress.toString().isEmpty()) {
-                fullAddress.append(commaSeparator);
-            }
-
-            fullAddress.append(city.getName());
-        }
-
-        if (province != null) {
-            if (!fullAddress.toString().isEmpty()) {
-                fullAddress.append(commaSeparator);
-            }
-
-            fullAddress.append(province.getName());
-        }
-
-        if (country != null) {
-            if (!fullAddress.toString().isEmpty()) {
-                fullAddress.append(" - ");
-            }
-
-            fullAddress.append(country.getName());
-        }
-
-        if (postalCode != null) {
-            if (!fullAddress.toString().isEmpty()) {
-                fullAddress.append(".");
-            }
-            fullAddress.append(" ");
-            fullAddress.append(ResourceBundleHelper.INSTANCE.getMessage("postalCode"));
-            if (country != null) {
-                fullAddress.append(": ");
-                fullAddress.append(country.getName());
-            }
-        }
-
-        return fullAddress.toString();
     }
 }

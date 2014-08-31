@@ -21,7 +21,6 @@
 package org.yougi.entity;
 
 import org.yougi.util.StringUtils;
-import org.yougi.util.TextUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -151,7 +150,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = TextUtils.capitalizeFirstCharWords(firstName);
+        this.firstName = StringUtils.capitalizeFirstCharWords(firstName);
     }
 
     public String getLastName() {
@@ -159,7 +158,7 @@ public class UserAccount implements Serializable, Identified {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = TextUtils.capitalizeFirstCharWords(lastName);
+        this.lastName = StringUtils.capitalizeFirstCharWords(lastName);
     }
 
     public String getFullName() {

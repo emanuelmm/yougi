@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 /**
- * Encapsulates the complexity of getting resources from the war file.
+ * Encapsulates the complexity of getting resources from the war file on runtime.
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */

@@ -25,6 +25,8 @@ import org.yougi.business.UserAccountBean;
 import org.yougi.entity.UserAccount;
 import org.yougi.event.business.*;
 import org.yougi.event.entity.*;
+import org.yougi.util.DateTimeUtils;
+import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.WebTextUtils;
 import org.yougi.annotation.ManagedProperty;
 import org.yougi.annotation.UserName;
@@ -264,7 +266,8 @@ public class EventMBean {
         if (this.attendee == null) {
             return "";
         }
-        return WebTextUtils.getFormattedDate(this.attendee.getRegistrationDate());
+        return DateTimeUtils.getFormattedDate(this.attendee.getRegistrationDate(),
+                                              ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
     }
 
     @PostConstruct

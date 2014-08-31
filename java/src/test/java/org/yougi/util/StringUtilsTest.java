@@ -35,4 +35,9 @@ public class StringUtilsTest {
         Assert.assertFalse(StringUtils.isNullOrBlank("A"));
         Assert.assertTrue(StringUtils.isNullOrBlank("    "));
     }
+
+    @Test
+    public void testCapitalizeFirstCharWords() throws Exception {
+        junit.framework.Assert.assertEquals("First Char", StringUtils.capitalizeFirstCharWords("first char"));
+    }
 }
