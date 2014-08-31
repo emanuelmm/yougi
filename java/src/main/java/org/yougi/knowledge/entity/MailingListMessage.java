@@ -51,9 +51,16 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
 
     private String sender;
 
-    @Column(name = "date_received", nullable = false)
+    @Column(name = "date_received")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateReceived;
+
+    @Column(name = "date_sent")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateSent;
+
+    @Column(name = "raw_content")
+    private String rawContent;
 
     public MailingListMessage() {
     }
@@ -108,12 +115,28 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
         this.dateReceived = dateReceived;
     }
 
+    public Date getDateSent() {
+        return dateSent;
+    }
+
+    public void setDateSent(Date dateSent) {
+        this.dateSent = dateSent;
+    }
+
     public MailingList getMailingList() {
         return mailingList;
     }
 
     public void setMailingList(MailingList mailingList) {
         this.mailingList = mailingList;
+    }
+
+    public String getRawContent() {
+        return rawContent;
+    }
+
+    public void setRawContent(String rawContent) {
+        this.rawContent = rawContent;
     }
 
     @Override

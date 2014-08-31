@@ -103,4 +103,7 @@
     <changeSet id="21" author="htmfilho">
         <sqlFile path="org/yougi/db/changelog/20140719-21-htmfilho.sql" stripComments="true"/>
     </changeSet>
+    <changeSet id="22" author="htmfilho">
+        <sqlFile path="org/yougi/db/changelog/20140725-22-htmfilho.sql" stripComments="true"/>
+    </changeSet>
 </databaseChangeLog>

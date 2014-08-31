@@ -48,8 +48,10 @@ public class MailingListWriter extends AbstractItemWriter {
     @Transactional
     public void writeItems(List messages) throws Exception {
         for(MailingListMessage mailingListMessage: (List<MailingListMessage>) messages) {
-            LOGGER.log(Level.INFO, "Message: {0} - {1}", new String[]{mailingListMessage.getSubject(),
-                                                                      mailingListMessage.getContentType()});
+            LOGGER.log(Level.INFO, "****");
+            //LOGGER.log(Level.INFO, "Message: {0} - {1}", new String[]{mailingListMessage.getSubject(),
+            //                                                          mailingListMessage.getContentType()});
+            LOGGER.log(Level.INFO, mailingListMessage.getBody());
         }
     }
 }

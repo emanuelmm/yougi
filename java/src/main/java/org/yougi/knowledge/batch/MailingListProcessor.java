@@ -25,7 +25,10 @@ import org.yougi.knowledge.entity.MailingListMessage;
 import javax.batch.api.chunk.ItemProcessor;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
-import javax.mail.Message;
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeMessage;
+import java.util.Calendar;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -36,12 +39,39 @@ public class MailingListProcessor implements ItemProcessor {
 
     @Override
     public MailingListMessage processItem(Object msg) throws Exception {
-        Message message = (Message) msg;
+        MimeMessage message = (MimeMessage) msg;
 
         MailingListMessage mailingListMessage = new MailingListMessage();
         mailingListMessage.setSubject(message.getSubject());
         mailingListMessage.setContentType(message.getContentType());
+        mailingListMessage.setDateReceived(Calendar.getInstance().getTime());
+        mailingListMessage.setDateSent(message.getSentDate());
 
+        if(message.getContent() instanceof Multipart) {
+            Multipart multiPart = (Multipart) message.getContent();
+            String body = processMultipart(multiPart);
+            mailingListMessage.setBody(body);
+        } else {
+            mailingListMessage.setBody((String) message.getContent());
+        }
         return mailingListMessage;
+    }
+
+    private String processMultipart(Multipart multipart) throws Exception {
+        StringBuilder body = new StringBuilder();
+        for(int i = 0;i < multipart.getCount();i++) {
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            body.append(processPart(bodyPart));
+        }
+        return body.toString();
+    }
+
+    private String processPart(BodyPart bodyPart) throws Exception {
+        String contentType = bodyPart.getContentType();
+        if (contentType.toLowerCase().startsWith("multipart/")) {
+            return processMultipart((Multipart) bodyPart.getContent());
+        } else {
+            return bodyPart.getContent().toString();
+        }
     }
 }
