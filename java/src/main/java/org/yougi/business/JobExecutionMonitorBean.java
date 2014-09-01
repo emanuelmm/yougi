@@ -29,6 +29,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -36,6 +37,8 @@ import java.util.List;
 @Startup
 @Singleton
 public class JobExecutionMonitorBean {
+
+    private static final Logger LOGGER = Logger.getLogger(JobExecutionMonitorBean.class.getSimpleName());
 
     @EJB
     private JobExecutionBean executionJobBean;
