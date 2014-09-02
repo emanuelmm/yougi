@@ -30,7 +30,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.speaker}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.speaker}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.speaker}</h1>
+                </div>
                 <h:form>
                     <h:panelGrid width="100%">
                         <h:link outcome="event" value="#{speakerMBean.event}" style="font-size: 18px;">
@@ -39,7 +41,7 @@
 
                         <h:panelGrid columns="2" width="100%" columnClasses="alignColumnLeft, alignColumnRight">
                             <h:panelGrid columns="2">
-                                <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(speakerMBean.speaker.userAccount.email)}"/>
+                                <h:graphicImage value="#{profilePictureMBean.getPictureFromEmail(speakerMBean.speaker.userAccount.email)}"/>
 
                                 <h:panelGrid>
                                     <h:outputText value="#{speakerMBean.speaker.fullName}" style="font-size: 24px; font-weight: bold;"/>
@@ -47,7 +49,7 @@
                                 </h:panelGrid>
                             </h:panelGrid>
 
-                            <p:button value="#{bundle.edit}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}">
+                            <p:button value="#{bundle.edit}" outcome="speaker_form" rendered="#{securityBackingMBean.isUserLeader}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{speakerMBean.speaker.id}"/>
                             </p:button>
                         </h:panelGrid>

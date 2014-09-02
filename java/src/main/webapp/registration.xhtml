@@ -84,7 +84,8 @@
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <h:commandButton value="#{bundle.register}" action="#{userAccountMBean.register}" styleClass="btn btn-primary"/>&nbsp;
+                            <h:commandButton value="#{bundle.continue}" action="#{userAccountMBean.register}" styleClass="btn btn-primary" rendered="#{userAccountMBean.hasMultipleCommunities}"/>
+                            <h:commandButton value="#{bundle.register}" action="#{userAccountMBean.register}" styleClass="btn btn-primary" rendered="#{! userAccountMBean.hasMultipleCommunities}"/>
                             <h:button outcome="index" value="#{bundle.cancel}" styleClass="btn btn-default"/>
                         </div>
                     </div>

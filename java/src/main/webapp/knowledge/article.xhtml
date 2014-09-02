@@ -31,7 +31,7 @@
             <ui:define name="content">
                 <div class="row">
                     <div class="col-md-1">
-                        <h:graphicImage value="#{profilePictureFinder.getPictureFromEmail(articleMBean.article.webSource.provider.email)}" style="margin-right: 10px;" width="85" height="85"/>
+                        <h:graphicImage value="#{profilePictureMBean.getPictureFromEmail(articleMBean.article.webSource.provider.email)}" style="margin-right: 10px;" width="85" height="85"/>
                     </div>
                     <div class="col-md-7">
                         <h:outputText value="#{articleMBean.article}" style="font-size: 26px; font-weight: bold; color: steelblue;"/><br/>

@@ -29,7 +29,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.track}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.track}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.track}</h1>
+                </div>
                 <h:form class="form">
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
 
@@ -68,7 +70,7 @@
                     </h:button>
                 </h:form>
             </ui:define>
-            <ui:define name="jquery"></ui:define>
+            <ui:define name="jquery"/>
         </ui:composition>
     </body>
 </html>

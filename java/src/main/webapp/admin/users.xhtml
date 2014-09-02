@@ -29,49 +29,57 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.users}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.users}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.users}</h1>
+                </div>
                 <h:form>
                     <p:tabView dynamic="false" cache="true">
                         <p:tab title="#{bundle.allUsers}">
-                            <h:panelGrid columns="3">
-                                <h:outputLabel for="emailCriteria" value="#{bundle.email}" styleClass="fieldLabel"/>
-                                <h:inputText id="emailCriteria" label="#{bundle.email}" size="30" maxlength="100" value="#{memberMBean.emailCriteria}" onchange="formatEmail(this);"/>
-                                <h:commandButton action="#{memberMBean.findUserAccountByEmail}" value="#{bundle.search}"/>
-                            </h:panelGrid>
+                            <div class="row">
+                                <h:outputLabel for="emailCriteria" value="#{bundle.email}" class="col-md-1"/>
+                                <div class="col-md-10">
+                                    <h:inputText id="emailCriteria" label="#{bundle.email}" maxlength="100" value="#{userAccountMBean.email}" onchange="formatEmail(this);" styleClass="form-control"/>
+                                </div>
+                                <div class="col-md-1">
+                                    <h:commandButton action="#{userAccountMBean.getUserAccountByEmail}" value="#{bundle.search}" styleClass="btn btn-default"/>
+                                </div>
+                            </div>
 
                             <div class="btn-group btn-group-sm">
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'A'}" value="A" action="#{memberMBean.findUserAccountByFirstLetter('A')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'B'}" value="B" action="#{memberMBean.findUserAccountByFirstLetter('B')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'C'}" value="C" action="#{memberMBean.findUserAccountByFirstLetter('C')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'D'}" value="D" action="#{memberMBean.findUserAccountByFirstLetter('D')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'E'}" value="E" action="#{memberMBean.findUserAccountByFirstLetter('E')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'F'}" value="F" action="#{memberMBean.findUserAccountByFirstLetter('F')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'G'}" value="G" action="#{memberMBean.findUserAccountByFirstLetter('G')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'H'}" value="H" action="#{memberMBean.findUserAccountByFirstLetter('H')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'I'}" value="I" action="#{memberMBean.findUserAccountByFirstLetter('I')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'J'}" value="J" action="#{memberMBean.findUserAccountByFirstLetter('J')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'K'}" value="K" action="#{memberMBean.findUserAccountByFirstLetter('K')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'L'}" value="L" action="#{memberMBean.findUserAccountByFirstLetter('L')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'M'}" value="M" action="#{memberMBean.findUserAccountByFirstLetter('M')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'N'}" value="N" action="#{memberMBean.findUserAccountByFirstLetter('N')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'O'}" value="O" action="#{memberMBean.findUserAccountByFirstLetter('O')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'P'}" value="P" action="#{memberMBean.findUserAccountByFirstLetter('P')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Q'}" value="Q" action="#{memberMBean.findUserAccountByFirstLetter('Q')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'R'}" value="R" action="#{memberMBean.findUserAccountByFirstLetter('R')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'S'}" value="S" action="#{memberMBean.findUserAccountByFirstLetter('S')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'T'}" value="T" action="#{memberMBean.findUserAccountByFirstLetter('T')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'U'}" value="U" action="#{memberMBean.findUserAccountByFirstLetter('U')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'V'}" value="V" action="#{memberMBean.findUserAccountByFirstLetter('V')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'W'}" value="W" action="#{memberMBean.findUserAccountByFirstLetter('W')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'X'}" value="X" action="#{memberMBean.findUserAccountByFirstLetter('X')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Y'}" value="Y" action="#{memberMBean.findUserAccountByFirstLetter('Y')}" styleClass="btn btn-default"/>
-                                <h:commandButton disabled="#{memberMBean.firstLetterCriteria == 'Z'}" value="Z" action="#{memberMBean.findUserAccountByFirstLetter('Z')}" styleClass="btn btn-default"/>
+                                <h:button outcome="users" disabled="#{param.letter == 'A'}" value="A" styleClass="btn btn-default"> <f:param name="letter" value="A"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'B'}" value="B" styleClass="btn btn-default"> <f:param name="letter" value="B"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'C'}" value="C" styleClass="btn btn-default"> <f:param name="letter" value="C"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'D'}" value="D" styleClass="btn btn-default"> <f:param name="letter" value="D"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'E'}" value="E" styleClass="btn btn-default"> <f:param name="letter" value="E"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'F'}" value="F" styleClass="btn btn-default"> <f:param name="letter" value="F"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'G'}" value="G" styleClass="btn btn-default"> <f:param name="letter" value="G"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'H'}" value="H" styleClass="btn btn-default"> <f:param name="letter" value="H"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'I'}" value="I" styleClass="btn btn-default"> <f:param name="letter" value="I"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'J'}" value="J" styleClass="btn btn-default"> <f:param name="letter" value="J"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'K'}" value="K" styleClass="btn btn-default"> <f:param name="letter" value="K"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'L'}" value="L" styleClass="btn btn-default"> <f:param name="letter" value="L"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'M'}" value="M" styleClass="btn btn-default"> <f:param name="letter" value="M"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'N'}" value="N" styleClass="btn btn-default"> <f:param name="letter" value="N"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'O'}" value="O" styleClass="btn btn-default"> <f:param name="letter" value="O"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'P'}" value="P" styleClass="btn btn-default"> <f:param name="letter" value="P"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'Q'}" value="Q" styleClass="btn btn-default"> <f:param name="letter" value="Q"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'R'}" value="R" styleClass="btn btn-default"> <f:param name="letter" value="R"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'S'}" value="S" styleClass="btn btn-default"> <f:param name="letter" value="S"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'T'}" value="T" styleClass="btn btn-default"> <f:param name="letter" value="T"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'U'}" value="U" styleClass="btn btn-default"> <f:param name="letter" value="U"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'V'}" value="V" styleClass="btn btn-default"> <f:param name="letter" value="V"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'W'}" value="W" styleClass="btn btn-default"> <f:param name="letter" value="W"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'X'}" value="X" styleClass="btn btn-default"> <f:param name="letter" value="X"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'Y'}" value="Y" styleClass="btn btn-default"> <f:param name="letter" value="Y"/> </h:button>
+                                <h:button outcome="users" disabled="#{param.letter == 'Z'}" value="Z" styleClass="btn btn-default"> <f:param name="letter" value="Z"/> </h:button>
                             </div>
                             <p/>
-                            <h:dataTable value="#{memberMBean.userAccounts}" var="member" styleClass="table table-striped">
+                            <h:dataTable value="#{userAccountMBean.userAccounts}" var="member" styleClass="table table-striped">
                                 <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
-                                    <h:commandLink value="#{member.firstName} #{member.lastName}" action="#{memberMBean.load(member.id)}"/>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{member.firstName} #{member.lastName}">
+                                        <f:param name="id" value="#{member.id}"/>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
@@ -95,11 +103,73 @@
                                 </h:column>
                             </h:dataTable>
                         </p:tab>
-                        <p:tab title="#{bundle.deactivatedMembers}">
-                            <h:dataTable value="#{memberMBean.deactivatedUserAccounts}" var="deactivated">
+                        <p:tab title="#{bundle.unverified}">
+                            <h:dataTable value="#{userAccountMBean.unverifiedUserAccounts}" var="unverified" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{unverified.firstName} #{unverified.lastName}">
+                                        <f:param name="id" value="#{unverified.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
+                                    <h:outputText value="#{unverified.postingEmail}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.confirmed}"/></f:facet>
+                                    <h:graphicImage rendered="#{unverified.confirmed}" url="/images/success-icon.png"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
+                                    <h:outputText value="#{unverified.registrationDate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.lastUpdate}"/></f:facet>
+                                    <h:outputText value="#{unverified.lastUpdate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                            </h:dataTable>
+                        </p:tab>
+                        <p:tab title="#{bundle.unconfirmed}">
+                            <h:dataTable value="#{userAccountMBean.unconfirmedUserAccounts}" var="unconfirmed" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{unconfirmed.firstName} #{unconfirmed.lastName}">
+                                        <f:param name="id" value="#{unconfirmed.id}"/>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.postingEmail}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.confirmed}"/></f:facet>
+                                    <h:graphicImage rendered="#{unconfirmed.confirmed}" url="/images/success-icon.png"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.registrationDate}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.registrationDate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.lastUpdate}"/></f:facet>
+                                    <h:outputText value="#{unconfirmed.lastUpdate}">
+                                        <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                    </h:outputText>
+                                </h:column>
+                            </h:dataTable>
+                        </p:tab>
+                        <p:tab title="#{bundle.deactivated}">
+                            <h:dataTable value="#{userAccountMBean.deactivatedUserAccounts}" var="deactivated" styleClass="table table-striped">
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
-                                    <h:commandLink value="#{deactivated.firstName} #{deactivated.lastName}" action="#{memberMBean.load(deactivated.id)}"/>
+                                    <h:link outcome="user" value="#{deactivated.firstName} #{deactivated.lastName}">
+                                        <f:param name="id" value="#{deactivated.id}"/>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
@@ -122,9 +192,6 @@
                                     <h:outputText value="#{deactivated.deactivationReason}"/>
                                 </h:column>
                             </h:dataTable>
-                        </p:tab>
-                        <p:tab title="#{bundle.privacy}">
-                            <!--<p:barChart value="#{communicationPrivacyRange.communicationPrivacyModel}" legendPosition="ne" stacked="true" xaxisLabel="#{range.rangeName}"/>-->
                         </p:tab>
                         <p:tab title="#{bundle.growth}">
                             <h2>#{bundle.growth}</h2>

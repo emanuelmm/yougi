@@ -28,13 +28,13 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.mailingLists}</ui:define>
             <ui:define name="content">
-            <div class="page-header">
-                <h1>#{bundle.mailingLists}</h1>
-            </div>
+                <div class="page-header">
+                    <h1>#{bundle.mailingLists}</h1>
+                </div>
                 <h:form>
                     <h:dataTable value="#{mailingListMBean.mailingLists}" var="mailingList" styleClass="table table-striped">
                         <f:facet name="header">
-                            <h:button outcome="mailing_list" value="#{bundle.new}" styleClass="btn btn-default pull-right" rendered="#{securityBackingMBean.isUserLeader}"/>
+                            <h:button outcome="mailing_list" value="#{bundle.new}" styleClass="btn btn-default" rendered="#{securityBackingMBean.isUserLeader}"/>
                         </f:facet>
                         <h:column>
                             <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>

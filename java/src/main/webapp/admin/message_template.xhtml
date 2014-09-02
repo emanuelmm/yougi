@@ -35,7 +35,7 @@
                     <div class="row">
                     	<div class="col-md-6">
                     		<div class="panel-group">
-                    			<h:outputLabel for="title" value="#{bundle.title} *" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="title" value="#{bundle.title} *"/>
                         		<h:inputText id="title" label="#{bundle.title}" required="true" size="70" maxlength="225" value="#{messageTemplateMBean.messageTemplate.title}" styleClass="form-control"/>
                         		<h:message for="title" errorClass="errorMessage"/>
                     		</div>
@@ -44,11 +44,11 @@
                     <div class="row">
                     	<div class="col-md-6">
                     		<div class="panel-group">
-                    			<h:outputLabel for="body" value="#{bundle.body}" styleClass="fieldLabel"/>
+                    			<h:outputLabel for="body" value="#{bundle.body}"/>
                         		<h:inputTextarea id="body" label="#{bundle.body}" required="true" cols="70" rows="10" value="#{messageTemplateMBean.messageTemplate.body}" styleClass="form-control"/>
                         		<h:message for="body" errorClass="errorMessage"/>
 
-                        		<h:outputText rendered="#{messageTemplateMBean.messageTemplate.id != null}" value="#{bundle.id}" styleClass="fieldLabel"/>
+                        		<h:outputText rendered="#{messageTemplateMBean.messageTemplate.id != null}" value="#{bundle.id}"/>
                         		<h:outputText rendered="#{messageTemplateMBean.messageTemplate.id != null}" value="#{messageTemplateMBean.messageTemplate.id}"/>
                     		</div>
                     	</div>

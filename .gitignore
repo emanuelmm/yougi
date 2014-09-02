@@ -28,4 +28,9 @@ nbactions.xml
 # bkp files
 *~
 
+# python files
+*.pyc
+
 !/.gitignore
+java/src/main/resources/rebel.xml
+src/main/resources/rebel.xml

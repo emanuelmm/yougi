@@ -28,7 +28,9 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.users}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.messageTemplates}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.messageTemplates}</h1>
+                </div>
                 <h:form>
                     <h:dataTable value="#{messageTemplateMBean.messageTemplates}" var="messageTemplate" styleClass="table table-striped">
                         <h:column>

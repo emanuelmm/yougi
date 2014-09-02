@@ -35,10 +35,43 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <dl class="dl-horizontal">
+                                <dt>#{bundle.type}</dt>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.frequencyType}">
+                                        <f:converter converterId="JobFrequencyTypeConverter"/>
+                                    </h:outputText>
+                                </dd>
                                 <dt>#{bundle.owner}</dt>
                                 <dd>#{jobSchedulerMBean.jobScheduler.defaultOwner}</dd>
                                 <dt>#{bundle.description}</dt>
                                 <dd>#{jobSchedulerMBean.jobScheduler.description}</dd>
+                                <dt>#{bundle.start}</dt>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.startDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                    &nbsp;
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.startTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </dd>
+                                <dt>#{bundle.end}</dt>
+                                <dd>
+                                    <h:outputText value="#{jobSchedulerMBean.jobScheduler.endDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                    &nbsp;
+                                    <h:outputText value="#{jobSchedulerMBean.jobSchedulerHourly.endTime}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </dd>
+                                <dt>#{bundle.active}</dt>
+                                <dd><h:graphicImage rendered="#{jobSchedulerMBean.jobScheduler.active}" url="/images/success-icon.png"/></dd>
+                                <dt>#{bundle.workingHours}</dt>
+                                <dd>
+                                    <h:graphicImage rendered="#{jobSchedulerMBean.jobSchedulerHourly.workingHoursOnly}" url="/images/success-icon.png"/>
+                                    <h:graphicImage rendered="#{jobSchedulerMBean.jobSchedulerDaily.workingDaysOnly}" url="/images/success-icon.png"/>
+                                </dd>
                             </dl>
 
                             <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
@@ -46,8 +79,55 @@
                             <h:button outcome="job_scheduler_form" value="#{bundle.edit}" styleClass="btn btn-default">
                                 <f:param name="id" value="#{jobSchedulerMBean.jobScheduler.id}"/>
                             </h:button>
+                            <h:commandButton value="#{bundle.activate}" action="#{jobSchedulerMBean.activate}" rendered="#{! jobSchedulerMBean.jobScheduler.active and !(jobSchedulerMBean.jobScheduler.frequencyType == 'ONCE')}" styleClass="btn btn-default"/>
+                            <h:commandButton value="#{bundle.deactivate}" action="#{jobSchedulerMBean.deactivate}" rendered="#{jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
+                            <h:commandButton value="#{bundle.reschedule}" action="#{jobSchedulerMBean.schedule}" rendered="#{jobSchedulerMBean.jobScheduler.active}" styleClass="btn btn-default"/>
                             <h:commandButton value="#{bundle.remove}" action="#{jobSchedulerMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
                             <h:button outcome="job_schedulers" value="#{bundle.back}" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">#{bundle.executions}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h:dataTable value="#{jobSchedulerMBean.jobExecutions}" var="jobExecution" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.startTime}"/></f:facet>
+                                    <h:link outcome="job_execution">
+                                        <f:param name="id" value="#{jobExecution.id}"/>
+                                        <h:outputText  value="#{jobExecution.startTime}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                        </h:outputText>
+                                    </h:link>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.endTime}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.endTime}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.owner}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.owner}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.status}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.status}">
+                                        <f:converter converterId="JobStatusConverter"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.timeout}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.timeout}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.id}"/></f:facet>
+                                    <h:outputText value="#{jobExecution.instanceId}"/>
+                                </h:column>
+                            </h:dataTable>
                         </div>
                     </div>
                 </h:form>

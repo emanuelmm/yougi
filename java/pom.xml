@@ -22,17 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.cejug.yougi</groupId>
+    <groupId>org.yougi</groupId>
     <artifactId>yougi</artifactId>
     <version>14.5.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Yougi</name>
     <url>http://www.yougi.org</url>
-    <organization>
-        <name>CEJUG - Ceara Java User Group</name>
-        <url>http://www.cejug.org</url>
-    </organization>
     <description>
         Yougi is an application conceived to manage online user groups of any kind and domain. It's mainly developed by
         the CEJUG community, but we have received contributions from all over the world.
@@ -187,31 +183,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- This plugin replaces the expression @Version@ in the main template with the project version. -->
+
             <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.2</version>
-                <executions>
-                    <execution>
-                        <id>change_version</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>target/${project.artifactId}-${project.version}/layout.xhtml</include>
-                            </includes>
-                            <replacements>
-                                <replacement>
-                                    <token>@Version@</token>
-                                    <value>${project.version}</value>
-                                </replacement>
-                            </replacements>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <configuration>
+                    <username>admin</username>
+                    <password>senhas</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>

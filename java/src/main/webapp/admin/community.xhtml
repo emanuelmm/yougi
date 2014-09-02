@@ -48,6 +48,24 @@
                             </h:commandButton>
                         </div>
                     </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">#{bundle.members}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h:dataTable value="#{communityMBean.communityMembers}" var="communityMember" styleClass="table table-striped">
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.fullName}"/></f:facet>
+                                    <h:outputText value="#{communityMember.member.fullName}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
+                                    <h:outputText value="#{communityMember.member.email}"/>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </div>
                 </h:form>
             </ui:define>
         </ui:composition>

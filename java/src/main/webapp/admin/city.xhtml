@@ -28,7 +28,10 @@
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.city}</ui:define>
             <ui:define name="content">
-                <h1>#{bundle.city}</h1>
+                <div class="page-header">
+                    <h1>#{bundle.city}: #{cityMBean.city.name}</h1>
+                </div>
+
                 <h:form>
                     <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
 
@@ -39,71 +42,38 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="properties">
-                            <h:panelGrid columns="1">
-                                <h:outputLabel for="name" value="#{bundle.name} *" styleClass="fieldLabel"/>
-                                <h:inputText id="name" label="#{bundle.name}" required="true" size="30" maxlength="100" value="#{cityMBean.city.name}" styleClass="form-control"/>
-                                <h:message for="name" errorClass="errorMessage"/>
+                            <dl class="dl-horizontal">
+                                <dt>#{bundle.country}</dt>
+                                <dd>#{cityMBean.city.country}</dd>
+                                <dt>#{bundle.province}</dt>
+                                <dd>#{cityMBean.city.province}</dd>
+                                <dt>#{bundle.valid}</dt>
+                                <dd><h:graphicImage rendered="#{cityMBean.city.valid}" url="/images/success-icon.png"/></dd>
+                                <dt>#{bundle.latitude}</dt>
+                                <dd>#{cityMBean.city.latitude}</dd>
+                                <dt>#{bundle.longitude}</dt>
+                                <dd>#{cityMBean.city.longitude}</dd>
+                                <dt>#{bundle.timeZone}</dt>
+                                <dd>#{cityMBean.city.timeZone}</dd>
+                            </dl>
 
-                                <h:outputLabel for="country" value="#{bundle.country} *" styleClass="fieldLabel"/>
-                                <h:selectOneMenu id="country" label="#{bundle.country}" value="#{locationMBean.selectedCountry}" required="true" styleClass="form-control">
-                                    <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                    <f:selectItems value="#{locationMBean.countries}" var="country" itemLabel="#{country.name}" itemValue="#{country.acronym}"/>
-                                    <f:ajax render="province"/>
-                                </h:selectOneMenu>
-                                <h:message for="country" errorClass="errorMessage"/>
-
-                                <h:outputLabel for="province" value="#{bundle.province}" styleClass="fieldLabel"/>
-                                <h:selectOneMenu id="province" label="#{bundle.province}" value="#{locationMBean.selectedProvince}" styleClass="form-control">
-                                    <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                    <f:selectItems value="#{locationMBean.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
-                                </h:selectOneMenu>
-
-                                <h:panelGrid columns="2">
-                                    <h:selectBooleanCheckbox id="valid" label="#{bundle.valid}" value="#{cityMBean.city.valid}"/>
-                                    <h:outputLabel for="valid" value="#{bundle.valid}"/>
-                                </h:panelGrid>
-
-                                <h:panelGrid columns="3">
-                                    <h:outputLabel for="latitude" value="#{bundle.latitude}" styleClass="fieldLabel"/>
-                                    <h:outputLabel for="longitude" value="#{bundle.longitude}" styleClass="fieldLabel"/>
-                                    <h:outputLabel for="timezone" value="#{bundle.timeZone}" styleClass="fieldLabel"/>
-
-                                    <h:panelGroup>
-                                        <h:inputText id="latitude" label="#{bundle.latitude}" size="15" maxlength="15" value="#{cityMBean.city.latitude}" styleClass="form-control"/>
-                                        <br/><h:message for="latitude" errorClass="errorMessage"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup>
-                                        <h:inputText id="longitude" label="#{bundle.longitude}" size="15" maxlength="15" value="#{cityMBean.city.longitude}" styleClass="form-control"/>
-                                        <br/><h:message for="longitude" errorClass="errorMessage"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup>
-                                        <h:selectOneMenu id="timezone" label="#{bundle.timeZone}" value="#{cityMBean.city.timeZone}" styleClass="form-control">
-                                            <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                            <f:selectItems value="#{cityMBean.timezones}" var="tz" itemLabel="#{tz.offsetLabel}" itemValue="#{tz.id}"/>
-                                        </h:selectOneMenu>
-                                        <br/><h:message for="timezone" errorClass="errorMessage"/>
-                                    </h:panelGroup>
-                                </h:panelGrid>
-                            </h:panelGrid>
-                            <h:inputHidden id="id" value="#{cityMBean.city.id}"/>
-
-                            <h:panelGrid columns="3">
-                                <h:commandButton value="#{bundle.save}" action="#{cityMBean.save}" styleClass="btn btn-primary"/>
-                                <h:commandButton value="#{bundle.remove}" rendered="#{not empty param.id}" action="#{cityMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');">
-                                    <f:param name="id" value="#{cityMBean.city.id}" />
-                                </h:commandButton>
-                                <h:button value="#{bundle.cancel}" outcome="cities" styleClass="btn btn-default"/>
-                            </h:panelGrid>
+                            <h:button outcome="city_form" value="#{bundle.edit}" styleClass="btn btn-default">
+                                <f:param name="id" value="#{cityMBean.city.id}"/>
+                            </h:button>
+                            <h:commandButton value="#{bundle.remove}" action="#{cityMBean.remove}" styleClass="btn btn-warning" onclick="return confirmAction('#{bundle.warnCode0005}');"/>
+                            <h:button outcome="cities" value="#{bundle.back}" styleClass="btn btn-default"/>
                         </div>
                         <div class="tab-pane" id="inhabitants">
                             <h:dataTable value="#{cityMBean.inhabitants}" var="inhabitant" styleClass="table table-striped">
                                 <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.firstName}"/></f:facet>
-                                    <h:commandLink value="#{inhabitant.firstName}" action="#{memberMBean.load(inhabitant.id)}"/>
+                                    <f:facet name="header"><h:outputText value="#{bundle.name}"/></f:facet>
+                                    <h:link outcome="user" value="#{inhabitant.firstName} #{inhabitant.lastName}">
+                                        <f:param name="id" value="#{inhabitant.id}"/>
+                                    </h:link>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header"><h:outputText value="#{bundle.lastName}"/></f:facet>
-                                    <h:outputText value="#{inhabitant.lastName}"/>
+                                    <f:facet name="header"><h:outputText value=""/></f:facet>
+                                    <h:outputText value=""/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><h:outputText value="#{bundle.email}"/></f:facet>
@@ -126,7 +96,7 @@
                                     </h:outputText>
                                 </h:column>
                             </h:dataTable>
-                          </div>
+                        </div>
                     </div>
                 </h:form>
             </ui:define>

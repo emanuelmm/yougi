@@ -6,6 +6,8 @@
   <persistence-unit name="ug-pu" transaction-type="JTA">
       <jta-data-source>java:/jdbc/UgDS</jta-data-source>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
-      <properties/>
+      <properties>
+          <property name = "hibernate.show_sql" value = "true" />
+      </properties>
   </persistence-unit>
 </persistence>
