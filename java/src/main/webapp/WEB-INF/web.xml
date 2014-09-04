@@ -54,19 +54,6 @@
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
         <param-value></param-value>
     </context-param>
-    <!-- Liquibase -->
-    <context-param>
-        <param-name>liquibase.changelog</param-name>
-        <param-value>org/yougi/db/changelog.xml</param-value>
-    </context-param>
-    <context-param>
-        <param-name>liquibase.datasource</param-name>
-        <param-value>java:/jdbc/UgDS</param-value> <!-- WildFly -->
-    </context-param>
-    <context-param>
-        <param-name>liquibase.onerror.fail</param-name>
-        <param-value>true</param-value>
-    </context-param>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -85,10 +72,6 @@
         <servlet-name>EmailConfirmation Servlet</servlet-name>
         <url-pattern>/EmailConfirmation</url-pattern>
     </servlet-mapping>
-
-    <listener>
-        <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
-    </listener>
 
     <session-config>
         <session-timeout>30</session-timeout>

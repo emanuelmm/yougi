@@ -46,9 +46,12 @@ public class PackageResourceHelper {
 
     private PackageResourceHelper() {}
 
+    //public static File getFile() {
+
+    //}
+
     public static List<File> getFilesFolder(String pathFolder) {
-        final ClassLoader loader = JobSchedulerBean.class.getClassLoader();
-        URL url = loader.getResource(pathFolder);
+        URL url = getResourceUrl(pathFolder);
 
         if (url == null) {
             return Collections.emptyList();
@@ -84,5 +87,10 @@ public class PackageResourceHelper {
         }
 
         return files;
+    }
+
+    private static URL getResourceUrl(String path) {
+        final ClassLoader loader = PackageResourceHelper.class.getClassLoader();
+        return loader.getResource(path);
     }
 }

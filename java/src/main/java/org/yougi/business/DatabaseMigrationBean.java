@@ -20,47 +20,45 @@
  * */
 package org.yougi.business;
 
-import org.yougi.entity.JobExecution;
-import org.yougi.entity.JobStatus;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.resource.ResourceAccessor;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.DependsOn;
-import javax.ejb.EJB;
+import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.persistence.PersistenceException;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @Startup
 @Singleton
-@DependsOn("DatabaseMigrationBean")
-public class JobExecutionMonitorBean {
+@TransactionManagement(TransactionManagementType.BEAN)
+public class DatabaseMigrationBean {
+    private static final String CHANGELOG_FILE = "org/yougi/db/changelog.xml";
 
-    private static final Logger LOGGER = Logger.getLogger(JobExecutionMonitorBean.class.getSimpleName());
-
-    @EJB
-    private JobExecutionBean executionJobBean;
+    @Resource(lookup = "java:/jdbc/UgDS")
+    private DataSource ds;
 
     @PostConstruct
-    public void init() {
-        try {
-            List<JobExecution> scheduledJobExecutions = executionJobBean.findJobExecutions(JobStatus.SCHEDULED);
-            Date timeout;
-            for (JobExecution jobExecution : scheduledJobExecutions) {
-                timeout = executionJobBean.findTimeout(jobExecution);
-                if (timeout == null) {
-                    timeout = executionJobBean.schedule(jobExecution);
-                    jobExecution.setTimeout(timeout);
-                }
-            }
-        } catch (PersistenceException e) {
-            LOGGER.log(Level.WARNING, "Not possible to schedule active jobs during the application initialization: {0}.", e.getMessage());
-        }
+    protected void bootstrap() {
+        ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(getClass().getClassLoader());
+        try (Connection connection = ds.getConnection()) {
+            JdbcConnection jdbcConnection = new JdbcConnection(connection);
+            Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(jdbcConnection);
+
+            Liquibase liquibase = new Liquibase(CHANGELOG_FILE, resourceAccessor, db);
+            liquibase.update("");
+        } catch (SQLException | LiquibaseException e) {}
     }
 }
