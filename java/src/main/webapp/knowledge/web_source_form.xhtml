@@ -19,7 +19,7 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -74,7 +74,7 @@
             </div>
             <h:inputHidden value="#{webSourceMBean.webSource.id}"/>
 
-            <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{webSourceMBean.save}"/>&nbsp;
+            <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{webSourceMBean.save}"/>&#xa0;
             <h:button outcome="web_sources" value="#{bundle.back}" styleClass="btn btn-default"/>
         </h:form>
     </ui:define>

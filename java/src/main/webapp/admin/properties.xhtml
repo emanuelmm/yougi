@@ -19,12 +19,12 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:body>
+    <body>
         <ui:composition template="../layout.xhtml">
             <ui:define name="title">#{bundle.properties}</ui:define>
             <ui:define name="content">
@@ -96,8 +96,8 @@
                                     <div class="panel-body">
                                         <h:outputLabel for="emailServerType" value="#{bundle.emailServerType}" styleClass="control-label"/>
                                         <h:selectOneRadio id="emailServerType" label="#{bundle.emailServerType}" value="#{applicationPropertiesMBean.applicationProperties['emailServerType']}">
-                                            <f:selectItem itemLabel="&nbsp;#{bundle.pop3}&nbsp;&nbsp;" itemValue="pop3"/>
-                                            <f:selectItem itemLabel="&nbsp;#{bundle.imap}" itemValue="imap"/>
+                                            <f:selectItem itemLabel="&#xa0;#{bundle.pop3}&#xa0;&#xa0;" itemValue="pop3"/>
+                                            <f:selectItem itemLabel="&#xa0;#{bundle.imap}" itemValue="imap"/>
                                         </h:selectOneRadio>
                                     </div>
                                     <div class="row">
@@ -152,5 +152,5 @@
                 </h:form>
             </ui:define>
         </ui:composition>
-    </h:body>
+    </body>
 </html>

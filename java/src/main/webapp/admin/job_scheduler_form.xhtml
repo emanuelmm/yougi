@@ -19,7 +19,7 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h ="http://xmlns.jcp.org/jsf/html"
@@ -88,15 +88,15 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <h:outputText value="#{bundle.every}&nbsp;" rendered="#{(! empty jobSchedulerMBean.frequencyType) and jobSchedulerMBean.frequencyType != 'INSTANT' and jobSchedulerMBean.frequencyType != 'ONCE'}"/>
+                                            <h:outputText value="#{bundle.every}&#xa0;" rendered="#{(! empty jobSchedulerMBean.frequencyType) and jobSchedulerMBean.frequencyType != 'INSTANT' and jobSchedulerMBean.frequencyType != 'ONCE'}"/>
                                             <p:spinner id="frequency" label="#{bundle.frequency}" value="#{jobSchedulerMBean.jobScheduler.frequency}" size="2" min="1" max="30" rendered="#{(! empty jobSchedulerMBean.frequencyType) and jobSchedulerMBean.frequencyType != 'INSTANT' and jobSchedulerMBean.frequencyType != 'ONCE'}"/>
-                                            <h:outputText value="&nbsp;#{bundle.hours}&nbsp;&nbsp;&nbsp;" rendered="#{jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
-                                            <h:outputText value="&nbsp;#{bundle.days}&nbsp;&nbsp;&nbsp;" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY'}"/>
-                                            <h:outputText value="&nbsp;#{bundle.weeks}" rendered="#{jobSchedulerMBean.frequencyType == 'WEEKLY'}"/>
-                                            <h:outputText value="&nbsp;#{bundle.months}" rendered="#{jobSchedulerMBean.frequencyType == 'MONTHLY'}"/>
-                                            <h:outputText value="&nbsp;#{bundle.years}" rendered="#{jobSchedulerMBean.frequencyType == 'YEARLY'}"/>
+                                            <h:outputText value="&#xa0;#{bundle.hours}&#xa0;&#xa0;&#xa0;" rendered="#{jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
+                                            <h:outputText value="&#xa0;#{bundle.days}&#xa0;&#xa0;&#xa0;" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY'}"/>
+                                            <h:outputText value="&#xa0;#{bundle.weeks}" rendered="#{jobSchedulerMBean.frequencyType == 'WEEKLY'}"/>
+                                            <h:outputText value="&#xa0;#{bundle.months}" rendered="#{jobSchedulerMBean.frequencyType == 'MONTHLY'}"/>
+                                            <h:outputText value="&#xa0;#{bundle.years}" rendered="#{jobSchedulerMBean.frequencyType == 'YEARLY'}"/>
                                             <h:selectBooleanCheckbox id="workingHoursOnly" label="#{bundle.workingHoursOnly}" value="#{jobSchedulerMBean.workingHoursOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
-                                            <h:outputLabel for="workingHoursOnly" value="&nbsp;#{bundle.workingHoursOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
+                                            <h:outputLabel for="workingHoursOnly" value="&#xa0;#{bundle.workingHoursOnly}" rendered="#{jobSchedulerMBean.frequencyType == 'DAILY' or jobSchedulerMBean.frequencyType == 'HOURLY'}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@
 
                     <h:inputHidden value="#{jobSchedulerMBean.jobScheduler.id}"/>
                     <br/>
-                    <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{jobSchedulerMBean.save}"/>&nbsp;
+                    <h:commandButton styleClass="btn btn-primary" value="#{bundle.save}" action="#{jobSchedulerMBean.save}"/>&#xa0;
                     <h:button outcome="job_schedulers" value="#{bundle.back}" styleClass="btn btn-default"/>
                 </h:form>
             </ui:define>

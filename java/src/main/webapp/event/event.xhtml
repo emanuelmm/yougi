@@ -19,7 +19,7 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -280,7 +280,7 @@
 	                                            value="#{eventMBean.event.id}" />
 	                                </p:remoteCommand>
 
-	                                <h:outputFormat value="&nbsp;#{bundle.numberPeopleAttendingEvent}"
+	                                <h:outputFormat value="&#xa0;#{bundle.numberPeopleAttendingEvent}"
 	                                    style="color: blue;"
 	                                    rendered="#{securityBackingMBean.isUserLeader}">
 	                                    <f:param value="#{eventMBean.numberPeopleAttending}" />

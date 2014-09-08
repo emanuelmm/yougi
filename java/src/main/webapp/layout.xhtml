@@ -19,7 +19,7 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -37,7 +37,7 @@
         <title>#{bundle.applicationName} <ui:insert name="title"/></title>
     </h:head>
 
-    <h:body>
+    <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -54,7 +54,7 @@
                     <c:if test="#{! empty request.remoteUser}">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.knowledge} <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.knowledge} <b class="caret"/></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#{request.contextPath}/knowledge/web_sources.xhtml">#{bundle.webSources}</a></li>
                                     <li><a href="#{request.contextPath}/knowledge/topics.xhtml">#{bundle.topics}</a></li>
@@ -62,7 +62,7 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.events} <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.events} <b class="caret"/></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#{request.contextPath}/event/events.xhtml">#{bundle.events}</a></li>
                                     <li><a href="#{request.contextPath}/event/speakers.xhtml">#{bundle.speakers}</a></li>
@@ -72,19 +72,19 @@
                             <li><a href="#{request.contextPath}/partnership/partners.xhtml">#{bundle.partners}</a></li>
                             <c:if test="#{securityBackingMBean.isUserAdministrator}">
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.administration} <b class="caret"></b></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{bundle.administration} <b class="caret"/></a>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-header">#{bundle.people}</li>
-                                        <li><a href="#{request.contextPath}/admin/users.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.users}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/groups.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.groups}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/communities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.communities}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/users.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.users}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/groups.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.groups}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/communities.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.communities}</a></li>
                                         <li class="divider"/>
                                         <li class="dropdown-header">#{bundle.locations}</li>
-                                        <li><a href="#{request.contextPath}/admin/countries.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.countries}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/provinces.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.provinces}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/cities.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.cities}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/timezones.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.timeZones}</a></li>
-                                        <li><a href="#{request.contextPath}/admin/languages.xhtml">&nbsp;&nbsp;&nbsp;#{bundle.languages}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/countries.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.countries}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/provinces.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.provinces}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/cities.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.cities}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/timezones.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.timeZones}</a></li>
+                                        <li><a href="#{request.contextPath}/admin/languages.xhtml">&#xa0;&#xa0;&#xa0;#{bundle.languages}</a></li>
                                         <li class="divider"/>
                                         <li><a href="#{request.contextPath}/admin/message_templates.xhtml">#{bundle.messageTemplates}</a></li>
                                         <li><a href="#{request.contextPath}/admin/job_schedulers.xhtml">#{bundle.jobs}</a></li>
@@ -147,5 +147,5 @@
         <script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
         <script src="#{request.contextPath}/resources/js/main.js"></script>
         <ui:insert name="script"/>
-    </h:body>
+    </body>
 </html>
