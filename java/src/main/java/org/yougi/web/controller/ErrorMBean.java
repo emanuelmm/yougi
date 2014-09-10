@@ -37,6 +37,10 @@ public class ErrorMBean {
 
     private Throwable throwable;
 
+    public boolean getThrowableExists() {
+        return throwable != null;
+    }
+
     public Integer getStatusCode() {
         return (Integer) externalContext.getRequestMap().get("javax.servlet.error.status_code");
     }
@@ -49,15 +53,6 @@ public class ErrorMBean {
         return String.valueOf(externalContext.getRequestMap().get("javax.servlet.error.exception_type"));
     }
 
-    public String getException() {
-        if(throwable != null) {
-            return throwable.toString();
-        }
-        else {
-            return null;
-        }
-    }
-
     public String getStackTrace() {
         return getStackTrace(this.throwable, "");
     }
@@ -67,20 +62,32 @@ public class ErrorMBean {
             return "-";
         }
 
-        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        String caused = "\n...has caused: ";
+        String indentation = "   ";
         StringBuilder strStackTrace = new StringBuilder(stackTrace);
-        for(StackTraceElement stackTraceElement: stackTraceElements) {
-            strStackTrace.append(stackTraceElement.getClassName());
-            strStackTrace.append(":");
-            strStackTrace.append(stackTraceElement.getMethodName());
-            strStackTrace.append(":");
-            strStackTrace.append(stackTraceElement.getLineNumber());
-            strStackTrace.append("\n");
+        if(throwable.getCause() != null) {
+            strStackTrace.append(getStackTrace(throwable.getCause(), strStackTrace.toString()));
+        }
+        else {
+            caused = "\nRoot Cause: ";
         }
 
-        if(throwable.getCause() != null) {
-            strStackTrace.append("Caused by: \n");
-            strStackTrace.append(getStackTrace(throwable.getCause(), strStackTrace.toString()));
+        if(throwable.getMessage() != null) {
+            StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+            strStackTrace.append(caused);
+            strStackTrace.append(throwable.getClass().getName());
+            strStackTrace.append(": ");
+            strStackTrace.append(throwable.getMessage());
+            strStackTrace.append("\n");
+            for (StackTraceElement stackTraceElement : stackTraceElements) {
+                strStackTrace.append(indentation);
+                strStackTrace.append(stackTraceElement.getClassName());
+                strStackTrace.append(":");
+                strStackTrace.append(stackTraceElement.getMethodName());
+                strStackTrace.append(":");
+                strStackTrace.append(stackTraceElement.getLineNumber());
+                strStackTrace.append("\n");
+            }
         }
 
         return strStackTrace.toString();
