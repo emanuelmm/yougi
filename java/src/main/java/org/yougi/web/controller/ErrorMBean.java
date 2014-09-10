@@ -22,6 +22,7 @@ package org.yougi.web.controller;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -32,34 +33,42 @@ import javax.inject.Named;
 @RequestScoped
 public class ErrorMBean {
 
-    private Throwable exception;
+    private final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
-    public String getStatusCode() {
-        String val = String.valueOf((Integer) FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.status_code"));
-        return val;
+    private Throwable throwable;
+
+    public Integer getStatusCode() {
+        return (Integer) externalContext.getRequestMap().get("javax.servlet.error.status_code");
     }
 
     public String getMessage() {
-        String val = (String) FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.message");
-        return val;
+        return String.valueOf(externalContext.getRequestMap().get("javax.servlet.error.message"));
     }
 
     public String getExceptionType() {
-        String val = FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.exception_type").toString();
-        return val;
+        return String.valueOf(externalContext.getRequestMap().get("javax.servlet.error.exception_type"));
     }
 
     public String getException() {
-        String val = this.exception.getClass().getName();
-        return val;
+        if(throwable != null) {
+            return throwable.toString();
+        }
+        else {
+            return null;
+        }
     }
 
     public String getStackTrace() {
-        StackTraceElement[] stackTraceElements = this.exception.getStackTrace();
-        StringBuilder strStackTrace = new StringBuilder();
+        return getStackTrace(this.throwable, "");
+    }
+
+    private String getStackTrace(Throwable throwable, String stackTrace) {
+        if(throwable == null) {
+            return "-";
+        }
+
+        StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+        StringBuilder strStackTrace = new StringBuilder(stackTrace);
         for(StackTraceElement stackTraceElement: stackTraceElements) {
             strStackTrace.append(stackTraceElement.getClassName());
             strStackTrace.append(":");
@@ -68,22 +77,25 @@ public class ErrorMBean {
             strStackTrace.append(stackTraceElement.getLineNumber());
             strStackTrace.append("\n");
         }
-        return strStackTrace.toString();
 
+        if(throwable.getCause() != null) {
+            strStackTrace.append("Caused by: \n");
+            strStackTrace.append(getStackTrace(throwable.getCause(), strStackTrace.toString()));
+        }
+
+        return strStackTrace.toString();
     }
 
     public String getRequestURI() {
-        return (String) FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.request_uri");
+        return (String) externalContext.getRequestMap().get("javax.servlet.error.request_uri");
     }
 
     public String getServletName() {
-        return (String) FacesContext.getCurrentInstance().getExternalContext().
-                getRequestMap().get("javax.servlet.error.servlet_name");
+        return (String) externalContext.getRequestMap().get("javax.servlet.error.servlet_name");
     }
 
     @PostConstruct
     public void load() {
-        this.exception = (Throwable) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
+        this.throwable = (Throwable) externalContext.getRequestMap().get("javax.servlet.error.exception");
     }
 }
