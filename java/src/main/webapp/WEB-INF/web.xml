@@ -57,7 +57,7 @@
     </servlet>
     <servlet>
         <servlet-name>EmailConfirmation Servlet</servlet-name>
-        <servlet-class>org.yougi.web.controller.EmailConfirmationServlet</servlet-class>
+        <servlet-class>org.yougi.web.model.EmailConfirmationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>

@@ -45,6 +45,12 @@ public class EmailMessage {
 
     EmailMessage() {}
 
+    public EmailMessage(String subject, String body, UserAccount recipient) {
+        this.subject = subject;
+        this.body = body;
+        this.setRecipient(recipient);
+    }
+
     public UserAccount[] getRecipients() {
         return recipients;
     }
