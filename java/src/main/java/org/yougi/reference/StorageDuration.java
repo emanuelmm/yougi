@@ -18,40 +18,49 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.web.converter;
-
-import org.yougi.entity.Gender;
-import org.yougi.util.ResourceBundleHelper;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+package org.yougi.reference;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@FacesConverter(value="GenderToString")
-public class GenderToString implements Converter {
+public enum StorageDuration {
 
-    @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if("MALE".equals(value)) {
-            return Gender.MALE;
-        } else {
-            return Gender.FEMALE;
-        }
+    /**
+     * Less than one day.
+     */
+    TEMPORARY(0),
+    /**
+     * One day.
+     */
+    ONE_DAY(1),
+    /**
+     * 7 days.
+     */
+    ONE_WEEK(7),
+    /**
+     * 30 days.
+     */
+    ONE_MONTH(30),
+    /**
+     * 366 days.
+     */
+    ONE_YEAR(366),
+    /**
+     * 732 days.
+     */
+    TWO_YEARS(732),
+    /**
+     * 1098 days.
+     */
+    THREE_YEARS(1098);
+
+    private Integer days;
+
+    StorageDuration(Integer days) {
+        this.days = days;
     }
 
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        Gender gender = (Gender) value;
-        String genderStr;
-        if(gender == Gender.FEMALE) {
-            genderStr = ResourceBundleHelper.getMessage("female");
-        } else {
-            genderStr = ResourceBundleHelper.getMessage("male");
-        }
-        return genderStr;
+    public Integer getDays() {
+        return this.days;
     }
 }

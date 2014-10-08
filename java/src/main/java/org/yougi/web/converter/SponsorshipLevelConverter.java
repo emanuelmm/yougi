@@ -44,17 +44,17 @@ public class SponsorshipLevelConverter implements Converter {
         SponsorshipLevel sponsorshipLevel = (SponsorshipLevel) value;
         switch (sponsorshipLevel) {
             case DIAMOND:
-                return ResourceBundleHelper.INSTANCE.getMessage("diamond");
+                return ResourceBundleHelper.getMessage("diamond");
             case TITANIUM:
-                return ResourceBundleHelper.INSTANCE.getMessage("titanium");
+                return ResourceBundleHelper.getMessage("titanium");
             case PLATINUM:
-                return ResourceBundleHelper.INSTANCE.getMessage("platinum");
+                return ResourceBundleHelper.getMessage("platinum");
             case GOLD:
-                return ResourceBundleHelper.INSTANCE.getMessage("gold");
+                return ResourceBundleHelper.getMessage("gold");
             case SILVER:
-                return ResourceBundleHelper.INSTANCE.getMessage("silver");
+                return ResourceBundleHelper.getMessage("silver");
             case BRONZE:
-                return ResourceBundleHelper.INSTANCE.getMessage("bronze");
+                return ResourceBundleHelper.getMessage("bronze");
             default:
                 return null;
         }

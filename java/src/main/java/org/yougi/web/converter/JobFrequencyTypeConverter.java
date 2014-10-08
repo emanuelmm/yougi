@@ -42,6 +42,6 @@ public class JobFrequencyTypeConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         JobFrequencyType jobFrequencyType = (JobFrequencyType) value;
-        return ResourceBundleHelper.INSTANCE.getMessage(jobFrequencyType.name().toLowerCase());
+        return ResourceBundleHelper.getMessage(jobFrequencyType.name().toLowerCase());
     }
 }

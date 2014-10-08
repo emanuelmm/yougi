@@ -68,7 +68,7 @@ public class SecurityBackingMBean {
 
     public String login() {
         if(userAccountBean.thereIsNoAccount()) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.getMessage("infoFirstUser"), ""));
             return "/registration";
         } else {
             return "/login?faces-redirect=true";
@@ -77,7 +77,7 @@ public class SecurityBackingMBean {
 
     public String register() {
         if(userAccountBean.thereIsNoAccount()) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoFirstUser"), ""));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.getMessage("infoFirstUser"), ""));
             return "/registration";
         } else {
             return "/registration?faces-redirect=true";

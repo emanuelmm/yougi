@@ -20,16 +20,22 @@
  * */
 package org.yougi.entity;
 
-import org.yougi.exception.EnvironmentResourceException;
+import org.yougi.reference.EmailMessageFormat;
+import org.yougi.reference.StorageDuration;
 
-import javax.mail.Address;
-import javax.mail.Message.RecipientType;
+import javax.activation.DataHandler;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Adapts a mime email message to the application domain, considering a
@@ -37,86 +43,319 @@ import java.util.List;
  *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public class EmailMessage {
+public abstract class EmailMessage implements Serializable, Cloneable {
 
-    private UserAccount[] recipients;
+    public static final String CHARSET = "UTF-8";
+    private static final Logger LOGGER = Logger.getLogger(EmailMessage.class.getSimpleName());
+
+    private List<UserAccount> recipients;
+    private List<UserAccount> recipientsCopy;
+    private List<UserAccount> recipientsHiddenCopy;
+    private String sender;
     private String subject;
     private String body;
+    private Set<Attachment> attachments;
+    private EmailMessageFormat format;
+    private String reference;
+    private StorageDuration storageDuration;
 
-    EmailMessage() {}
-
-    public EmailMessage(String subject, String body, UserAccount recipient) {
-        this.subject = subject;
-        this.body = body;
-        this.setRecipient(recipient);
+    public static EmailMessage getInstance(EmailMessageFormat format) {
+        EmailMessage messageEmail;
+        switch (format) {
+            case TEXT_PLAIN:
+                messageEmail = new EmailMessagePlain();
+                break;
+            case TEXT_HTML:
+                messageEmail = new EmailMessageHtml();
+                break;
+            case TEXT_MIXED:
+                messageEmail = new EmailMessageMixed();
+                break;
+            default:
+                messageEmail = new EmailMessagePlain();
+        }
+        return messageEmail;
     }
 
-    public UserAccount[] getRecipients() {
-        return recipients;
+    public static EmailMessage getInstance(EmailMessage emailMessage) {
+        EmailMessage newMessage = getInstance(emailMessage.getFormat());
+
+        if (newMessage != null) {
+            newMessage.setRecipients(emailMessage.getRecipients());
+            newMessage.setRecipientsCopy(emailMessage.getRecipientsCopy());
+            newMessage.setRecipientsHiddenCopy(emailMessage.getRecipientsHiddenCopy());
+            newMessage.setSender(emailMessage.getSender());
+            newMessage.setSubject(emailMessage.getSubject());
+            newMessage.setBody(emailMessage.getBody());
+            newMessage.setAttachments(emailMessage.getAttachments());
+            newMessage.setReference(emailMessage.getReference());
+            newMessage.setStorageDuration(emailMessage.getStorageDuration());
+        }
+
+        return newMessage;
     }
 
-    public UserAccount getRecipient() {
-        if(recipients != null) {
-            return recipients[0];
+    public final UserAccount getRecipient() {
+        if (recipients != null && !recipients.isEmpty()) {
+            return recipients.get(0);
         }
         return null;
     }
 
-    public void setRecipients(List<UserAccount> recipients) {
-        if(recipients == null) {
-            return;
-        }
+    public List<UserAccount> getRecipients() {
+        return recipients;
+    }
 
-        this.recipients = new UserAccount[recipients.size()];
-        int i = 0;
-        for(UserAccount recipient: recipients) {
-            this.recipients[i++] = recipient;
+    public final javax.mail.Address[] getRecipientsAddresses() throws AddressException {
+        javax.mail.Address[] localRecipients = null;
+        if (this.recipients != null) {
+            localRecipients = new javax.mail.Address[this.recipients.size()];
+            for (int i = 0; i < this.recipients.size(); i++) {
+                localRecipients[i] = new InternetAddress(this.recipients.get(i).getEmail());
+            }
+        }
+        return localRecipients;
+    }
+
+    public final void setRecipient(UserAccount recipient) {
+        if (recipients == null) {
+            recipients = new ArrayList<>();
+            recipients.add(recipient);
+        } else {
+            recipients.set(0, recipient);
         }
     }
 
-    public void setRecipient(UserAccount recipientTo) {
-        if(recipients == null) {
-            recipients = new UserAccount[1];
+    public final void setRecipients(List<UserAccount> recipients) {
+        this.recipients = recipients;
+    }
+
+    public final void addRecipient(UserAccount recipient) {
+        if (recipients == null) {
+            recipients = new ArrayList<>();
         }
-        recipients[0] = recipientTo;
+        recipients.add(recipient);
     }
 
-    public String getSubject() {
-        return subject;
+    public final UserAccount getRecipientCopy() {
+        if (recipientsCopy != null && !recipientsCopy.isEmpty()) {
+            return recipientsCopy.get(0);
+        }
+        return null;
     }
 
-    public void setSubject(String subject) {
+    public List<UserAccount> getRecipientsCopy() {
+        return recipientsCopy;
+    }
+
+    public final javax.mail.Address[] getRecipientsCopyAddresses() throws AddressException {
+        javax.mail.Address[] localRecipients = null;
+        if (this.recipientsCopy != null) {
+            localRecipients = new javax.mail.Address[this.recipientsCopy.size()];
+            for (int i = 0; i < this.recipientsCopy.size(); i++) {
+                LOGGER.log(Level.INFO, "Recipient: {0}", this.recipientsCopy.get(i));
+                localRecipients[i] = new InternetAddress(this.recipientsCopy.get(i).getEmail());
+            }
+        }
+        return localRecipients;
+    }
+
+    public final void setRecipientCopy(UserAccount recipientCopy) {
+        if (recipientsCopy == null) {
+            recipientsCopy = new ArrayList<>();
+            recipientsCopy.add(recipientCopy);
+        } else {
+            recipientsCopy.set(0, recipientCopy);
+        }
+    }
+
+    public final void setRecipientsCopy(List<UserAccount> recipientsCopy) {
+        this.recipientsCopy = recipientsCopy;
+    }
+
+    public final void addRecipientCopy(UserAccount recipientCopy) {
+        if (recipientsCopy == null) {
+            recipientsCopy = new ArrayList<>();
+        }
+        recipientsCopy.add(recipientCopy);
+    }
+
+    public final UserAccount getRecipientHiddenCopy() {
+        if (recipientsHiddenCopy != null && !recipientsHiddenCopy.isEmpty()) {
+            return recipientsHiddenCopy.get(0);
+        }
+        return null;
+    }
+
+    public List<UserAccount> getRecipientsHiddenCopy() {
+        return recipientsHiddenCopy;
+    }
+
+    public final javax.mail.Address[] getRecipientsHiddenCopyAddresses() throws AddressException {
+        javax.mail.Address[] jRecipients = null;
+        if (this.recipientsHiddenCopy != null) {
+            jRecipients = new javax.mail.Address[this.recipientsHiddenCopy.size()];
+            for (int i = 0; i < this.recipientsHiddenCopy.size(); i++) {
+                jRecipients[i] = new InternetAddress(this.recipientsHiddenCopy.get(i).getEmail());
+            }
+        }
+        return jRecipients;
+    }
+
+    public final void setRecipientHiddenCopy(UserAccount recipientHiddenCopy) {
+        if (this.recipientsHiddenCopy == null) {
+            this.recipientsHiddenCopy = new ArrayList<>();
+            this.recipientsHiddenCopy.add(recipientHiddenCopy);
+        } else {
+            this.recipientsHiddenCopy.set(0, recipientHiddenCopy);
+        }
+    }
+
+    public final void setRecipientsHiddenCopy(List<UserAccount> recipientHiddenCopy) {
+        this.recipientsHiddenCopy = recipientHiddenCopy;
+    }
+
+    public final void addRecipientHiddenCopy(UserAccount recipientHiddenCopy) {
+        if (this.recipientsHiddenCopy == null) {
+            this.recipientsHiddenCopy = new ArrayList<>();
+        }
+        this.recipientsHiddenCopy.add(recipientHiddenCopy);
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public final String getSubject() {
+        return this.subject;
+    }
+
+    public final void setSubject(String subject) {
         this.subject = subject;
     }
 
     public String getBody() {
-        return body;
+        return this.body;
+    }
+
+    public String getHtmlBody() {
+        return this.body;
     }
 
     public void setBody(String body) {
         this.body = body;
     }
 
-    public MimeMessage createMimeMessage(Session mailSession) {
-        try {
-            MimeMessage msg = new MimeMessage(mailSession);
-            msg.setSubject(this.getSubject(), "UTF-8");
-            Address[] jRecipients;
+    public final Set<Attachment> getAttachments() {
+        return attachments;
+    }
 
-            if(recipients != null) {
-                jRecipients = new Address[recipients.length];
-                for(int i = 0;i < recipients.length;i++) {
-                    jRecipients[i] = new InternetAddress(recipients[i].getPostingEmail(), recipients[i].getFullName());
-                }
-                msg.setRecipients(RecipientType.TO, jRecipients);
+    private void setAttachments(Set<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    public final void addAttachment(Attachment pieceJointe) {
+        if (this.attachments == null) {
+            this.attachments = new HashSet<>();
+        }
+        this.attachments.add(pieceJointe);
+    }
+
+    public EmailMessageFormat getFormat() {
+        return format;
+    }
+
+    protected void setFormat(EmailMessageFormat format) {
+        this.format = format;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public StorageDuration getStorageDuration() {
+        return storageDuration;
+    }
+
+    public void setStorageDuration(StorageDuration storageDuration) {
+        this.storageDuration = storageDuration;
+    }
+
+    public abstract MimeMessage createMessage(Session mailSession) throws MessagingException;
+
+    protected MimeMessage createMimeMessage(Session mailSession) throws MessagingException {
+        MimeMessage messageMime = new MimeMessage(mailSession);
+        messageMime.setSubject(this.getSubject(), CHARSET);
+        messageMime.setRecipients(Message.RecipientType.TO, getRecipientsAddresses());
+        messageMime.setRecipients(Message.RecipientType.CC, getRecipientsCopyAddresses());
+        messageMime.setRecipients(Message.RecipientType.BCC, getRecipientsHiddenCopyAddresses());
+        if (getSender() != null && !getSender().isEmpty()) {
+            messageMime.setFrom(new InternetAddress(getSender()));
+        }
+        return messageMime;
+    }
+
+    public List<EmailMessage> recreateMessageByRecipient() {
+        List<EmailMessage> messagesEmail = new ArrayList<>();
+
+        EmailMessage messageEmail;
+        if (this.recipients != null) {
+            for (UserAccount recipient : this.recipients) {
+                messageEmail = getInstance(this);
+                messageEmail.setRecipients(null);
+                messageEmail.setRecipientsCopy(null);
+                messageEmail.setRecipientHiddenCopy(null);
+                messageEmail.setAttachments(null);
+                messageEmail.setRecipient(recipient);
+                messagesEmail.add(messageEmail);
             }
+        }
 
-            msg.setText(getBody(), "UTF-8");
-            msg.setHeader("Content-Type", "text/html;charset=UTF-8");
+        if (this.recipientsCopy != null) {
+            for (UserAccount recipient : this.recipientsCopy) {
+                messageEmail = getInstance(this);
+                messageEmail.setRecipients(null);
+                messageEmail.setRecipientsCopy(null);
+                messageEmail.setRecipientHiddenCopy(null);
+                messageEmail.setAttachments(null);
+                messageEmail.setRecipient(recipient);
+                messagesEmail.add(messageEmail);
+            }
+        }
 
-            return msg;
-        } catch (MessagingException | UnsupportedEncodingException me) {
-            throw new EnvironmentResourceException("Error when sending the mail confirmation.", me);
+        if (this.recipientsHiddenCopy != null) {
+            for (UserAccount recipient : this.recipientsHiddenCopy) {
+                messageEmail = getInstance(this);
+                messageEmail.setRecipients(null);
+                messageEmail.setRecipientsCopy(null);
+                messageEmail.setRecipientHiddenCopy(null);
+                messageEmail.setAttachments(null);
+                messageEmail.setRecipient(recipient);
+                messagesEmail.add(messageEmail);
+            }
+        }
+        return messagesEmail;
+    }
+
+    protected void addAttachment(Multipart multipart) throws MessagingException {
+        MimeBodyPart pieceJointePart;
+        Attachment pieceJointe;
+        Iterator<Attachment> iPiecesJointes = attachments.iterator();
+        while (iPiecesJointes.hasNext()) {
+            pieceJointe = iPiecesJointes.next();
+            pieceJointePart = new MimeBodyPart();
+            pieceJointePart.setFileName(pieceJointe.getFileName());
+            pieceJointePart.setDataHandler(new DataHandler(pieceJointe.getDataSource()));
+            pieceJointePart.setHeader("Content-Type", pieceJointe.getContentType().toString());
+            multipart.addBodyPart(pieceJointePart);
         }
     }
 }

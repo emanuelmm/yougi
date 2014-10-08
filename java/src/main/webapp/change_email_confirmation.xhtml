@@ -36,7 +36,7 @@
                 <h:form>
                     <div class="form-group">
                         <h:outputLabel for="confirmationCode" value="#{bundle.confirmationCode} *" styleClass="control-label"/>
-                        <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.currentEmail}" maxlength="32" required="true" onchange="formatEmail(this);" styleClass="form-control"/>
+                        <h:inputText id="confirmationCode" value="#{changeEmailMBean.confirmationCode}" label="#{bundle.confirmationCode}" maxlength="32" required="true" styleClass="form-control"/>
                         <h:message for="confirmationCode" errorClass="errorMessage"/>
                     </div>
                     <p/>

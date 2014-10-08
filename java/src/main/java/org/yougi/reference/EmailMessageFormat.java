@@ -18,40 +18,11 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.web.converter;
-
-import org.yougi.entity.Gender;
-import org.yougi.util.ResourceBundleHelper;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+package org.yougi.reference;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-@FacesConverter(value="GenderToString")
-public class GenderToString implements Converter {
-
-    @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if("MALE".equals(value)) {
-            return Gender.MALE;
-        } else {
-            return Gender.FEMALE;
-        }
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        Gender gender = (Gender) value;
-        String genderStr;
-        if(gender == Gender.FEMALE) {
-            genderStr = ResourceBundleHelper.getMessage("female");
-        } else {
-            genderStr = ResourceBundleHelper.getMessage("male");
-        }
-        return genderStr;
-    }
+public enum EmailMessageFormat {
+    TEXT_PLAIN, TEXT_HTML, TEXT_MIXED;
 }

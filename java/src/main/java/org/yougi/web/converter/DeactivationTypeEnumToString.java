@@ -54,9 +54,9 @@ public class DeactivationTypeEnumToString implements Converter {
         DeactivationType deactivationType = (DeactivationType) value;
         switch (deactivationType) {
             case OWNWILL:
-                return ResourceBundleHelper.INSTANCE.getMessage("ownwill");
+                return ResourceBundleHelper.getMessage("ownwill");
             case ADMINISTRATIVE:
-                return ResourceBundleHelper.INSTANCE.getMessage("administrative");
+                return ResourceBundleHelper.getMessage("administrative");
             default:
                 return null;
         }

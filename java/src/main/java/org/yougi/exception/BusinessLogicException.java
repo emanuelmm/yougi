@@ -27,7 +27,7 @@ import java.text.MessageFormat;
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
 @ApplicationException(rollback = true)
-public class BusinessLogicException extends Exception {
+public class BusinessLogicException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

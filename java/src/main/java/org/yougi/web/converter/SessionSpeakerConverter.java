@@ -53,13 +53,13 @@ public class SessionSpeakerConverter implements Converter {
         }
 
         StringBuilder strSpeakers = new StringBuilder();
-        strSpeakers.append(ResourceBundleHelper.INSTANCE.getMessage("by"));
+        strSpeakers.append(ResourceBundleHelper.getMessage("by"));
         strSpeakers.append(" ");
         String and = "";
         for(Speaker speaker: speakers) {
             strSpeakers.append(and);
             if("".equals(and)) {
-                and = " " + ResourceBundleHelper.INSTANCE.getMessage("and") + " ";
+                and = " " + ResourceBundleHelper.getMessage("and") + " ";
             }
             strSpeakers.append("<a href=\"speaker.xhtml?id=");
             strSpeakers.append(speaker.getId());

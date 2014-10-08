@@ -20,6 +20,8 @@
  * */
 package org.yougi.entity;
 
+import org.yougi.reference.EmailMessageFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,6 +52,10 @@ public class MessageTemplate implements Serializable, Identified {
 
     @Column(nullable = false)
     private String body;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "format", nullable = false)
+    private EmailMessageFormat format;
 
     @Transient
     private Map<String, Object> variablesValues;
@@ -88,6 +94,14 @@ public class MessageTemplate implements Serializable, Identified {
         this.body = body;
     }
 
+    public EmailMessageFormat getFormat() {
+        return format;
+    }
+
+    public void setFormat(EmailMessageFormat format) {
+        this.format = format;
+    }
+
     public String getTruncatedBody() {
         if (this.body.length() < 200) {
             return this.body;
@@ -101,7 +115,7 @@ public class MessageTemplate implements Serializable, Identified {
     }
 
     public EmailMessage buildEmailMessage() {
-        EmailMessage emailMessage = new EmailMessage();
+        EmailMessage emailMessage = EmailMessage.getInstance(this.format);
         String subject = this.title;
         String message = this.body;
 

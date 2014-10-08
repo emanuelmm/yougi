@@ -53,13 +53,13 @@ public class EventVenuesConverter  implements Converter {
         }
 
         StringBuilder strVenues = new StringBuilder();
-        strVenues.append(ResourceBundleHelper.INSTANCE.getMessage("at"));
+        strVenues.append(ResourceBundleHelper.getMessage("at"));
         strVenues.append(" ");
         String and = "";
         for(Venue venue: event.getVenues()) {
             strVenues.append(and);
             if("".equals(and)) {
-                and = " " + ResourceBundleHelper.INSTANCE.getMessage("and") + " ";
+                and = " " + ResourceBundleHelper.getMessage("and") + " ";
             }
             strVenues.append("<a href=\"venue.xhtml?id=");
             strVenues.append(venue.getId());

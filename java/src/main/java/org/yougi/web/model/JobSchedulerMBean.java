@@ -223,7 +223,7 @@ public class JobSchedulerMBean {
         LOGGER.log(Level.INFO, "endDateAndTime {0}", endDateAndTime);
 
         if (startDateAndTime.compareTo(endDateAndTime) > 0) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0015"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.getMessage("errorCode0015"), null));
         }
     }
 

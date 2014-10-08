@@ -62,7 +62,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
                 if(app != null) {
                     NavigationHandler nav = app.getNavigationHandler();
                     try {
-                        context.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.INSTANCE.getMessage("warnCode0004"));
+                        context.getExternalContext().getFlash().put("currentViewId", ResourceBundleHelper.getMessage("warnCode0004"));
                         nav.handleNavigation(context, null, "/login?faces-redirect=true");
                         context.renderResponse();
                     } finally {

@@ -57,9 +57,9 @@ public class CertificateMBean {
     public String verifyAuthenticity() {
         boolean verified = attendeeBean.verifyCertificateAuthenticity(this.certificate);
         if(verified) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0001"), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.getMessage("infoCode0001"), ""));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0001"), ResourceBundleHelper.INSTANCE.getMessage("warnCode0002")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.getMessage("warnCode0001"), ResourceBundleHelper.getMessage("warnCode0002")));
         }
         return "certificate_validation";
     }

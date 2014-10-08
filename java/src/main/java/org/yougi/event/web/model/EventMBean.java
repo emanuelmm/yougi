@@ -267,7 +267,7 @@ public class EventMBean {
             return "";
         }
         return DateTimeUtils.getFormattedDate(this.attendee.getRegistrationDate(),
-                                              ResourceBundleHelper.INSTANCE.getMessage("formatDate"));
+                                              ResourceBundleHelper.getMessage("formatDate"));
     }
 
     @PostConstruct

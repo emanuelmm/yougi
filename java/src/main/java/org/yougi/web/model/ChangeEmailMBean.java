@@ -155,7 +155,7 @@ public class ChangeEmailMBean {
             userAccountBean.changeEmail(userAccount, this.newEmail);
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.getMessage(e.getMessage())));
             return "change_email";
         }
         return "profile?faces-redirect=true";
@@ -166,7 +166,7 @@ public class ChangeEmailMBean {
             userAccountBean.confirmEmailChange(confirmationCode);
         } catch(BusinessLogicException e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.INSTANCE.getMessage(e.getMessage())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ResourceBundleHelper.getMessage(e.getMessage())));
             return "change_email_confirmation";
         }
         return "index?faces-redirect=true";

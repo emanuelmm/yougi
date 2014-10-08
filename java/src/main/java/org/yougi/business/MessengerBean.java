@@ -70,7 +70,7 @@ public class MessengerBean {
         MessagingException messagingException = null;
 
         try {
-            Transport.send(emailMessage.createMimeMessage(mailSession));
+            Transport.send(emailMessage.createMessage(mailSession));
         } catch (MessagingException me) {
             messagingException = me;
         }

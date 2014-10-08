@@ -137,7 +137,7 @@ public class ChangePasswordMBean {
     public void validatePasswordConfirmation(FacesContext context, UIComponent component, Object value) {
         this.passwordConfirmation = (String) value;
         if(!this.passwordConfirmation.equals(this.password)) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0005"), null));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.getMessage("errorCode0005"), null));
         }
     }
     // End of password validation
@@ -163,7 +163,7 @@ public class ChangePasswordMBean {
             ApplicationProperty url = applicationPropertyBean.findApplicationProperty(Properties.URL);
             String serverAddress = url.getPropertyValue();
             userAccountBean.requestConfirmationPasswordChange(username, serverAddress);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0003", username), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.getMessage("infoCode0003", username), null));
             return "change_password";
         } catch(BusinessLogicException ble) {
             LOGGER.log(Level.INFO, ble.getMessage(), ble);
@@ -182,13 +182,13 @@ public class ChangePasswordMBean {
         UserAccount userAccount = userAccountBean.findByConfirmationCode(confirmationCode.trim().toUpperCase());
 
         if(userAccount == null) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.INSTANCE.getMessage("errorCode0012"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ResourceBundleHelper.getMessage("errorCode0012"), null));
             return "change_password";
         }
 
         try {
             userAccountBean.changePassword(userAccount, this.password);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.INSTANCE.getMessage("infoCode0004"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundleHelper.getMessage("infoCode0004"), null));
         } catch (BusinessLogicException e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
             context.addMessage(null, new FacesMessage(e.getMessage()));

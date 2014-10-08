@@ -45,7 +45,7 @@ public enum ContentType {
         return extension;
     }
 
-    public boolean isKnownExtension(String extension) {
+    public static boolean isKnownExtension(String extension) {
         boolean exist = false;
 
         if(TEXT_HTML.getExtension().equals(extension) || TEXT_PLAIN.getExtension().equals(extension)) {

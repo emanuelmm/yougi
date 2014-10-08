@@ -42,6 +42,6 @@ public class JobStatusConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         JobStatus jobStatus = (JobStatus) value;
-        return ResourceBundleHelper.INSTANCE.getMessage(jobStatus.name().toLowerCase());
+        return ResourceBundleHelper.getMessage(jobStatus.name().toLowerCase());
     }
 }

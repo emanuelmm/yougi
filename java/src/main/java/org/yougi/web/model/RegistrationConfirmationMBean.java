@@ -110,7 +110,7 @@ public class RegistrationConfirmationMBean {
                 this.validated = Boolean.TRUE;
             } else {
                 this.validated = Boolean.FALSE;
-                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
+                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.getMessage("warnCode0003"), ""));
             }
         }
     }
@@ -129,7 +129,7 @@ public class RegistrationConfirmationMBean {
             }
 
             if(!this.validated) {
-                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.INSTANCE.getMessage("warnCode0003"), ""));
+                context.addMessage(this.informedCode, new FacesMessage(FacesMessage.SEVERITY_WARN, ResourceBundleHelper.getMessage("warnCode0003"), ""));
             }
         }
         return "registration_confirmation";

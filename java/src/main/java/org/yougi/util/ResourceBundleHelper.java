@@ -36,48 +36,50 @@ import java.util.logging.Logger;
  * @author Daniel Cunha - danielsoro@gmail.com
  *         Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum ResourceBundleHelper {
-
-    INSTANCE;
+public class ResourceBundleHelper {
 
     private static final Logger LOGGER = Logger.getLogger(ResourceBundleHelper.class.getSimpleName());
     private static final String BUNDLE_NAME = "org.yougi.web.bundles.Resources";
+    private static final String NOT_FOUND = "?";
 
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private ResourceBundleHelper() {}
 
-    public String getMessage(String key) {
-        return getMessageFromResourceBundle(key);
+    public static String getMessage(String key) {
+        return getMessageFromResourceBundle(key, null);
     }
 
-    public String getMessage(String key, Locale locale) {
-        this.locale = locale;
-        return getMessageFromResourceBundle(key);
+    public static String getMessage(String key, Locale locale) {
+        return getMessageFromResourceBundle(key, locale);
     }
 
-    public String getMessage(String key, Object ... params) {
-        String message = getMessageFromResourceBundle(key);
+    public static String getMessage(String key, Object ... params) {
+        String message = getMessageFromResourceBundle(key, null);
         return MessageFormat.format(message, params);
     }
 
-    public String getMessage(String key, Locale locale, Object ... params) {
-        this.locale = locale;
-        String message = getMessageFromResourceBundle(key);
+    public static String getMessage(String key, Locale locale, Object ... params) {
+        String message = getMessageFromResourceBundle(key, locale);
         return MessageFormat.format(message, params);
     }
 
-    private String getMessageFromResourceBundle(String key) {
+    private static String getMessageFromResourceBundle(String key, Locale locale) {
         ResourceBundle bundle;
         String message = "";
 
+        if(locale == null) {
+            locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        }
+
         try {
             bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale, getCurrentLoader(BUNDLE_NAME));
+            if (bundle == null) {
+                return NOT_FOUND;
+            }
         } catch (MissingResourceException e) {
             LOGGER.log(Level.INFO, e.getMessage(), e);
-            return "?";
+            return NOT_FOUND;
         }
-        if (bundle == null) {
-            return "?";
-        }
+
         try {
             message = bundle.getString(key);
         } catch (Exception e) {
@@ -86,7 +88,7 @@ public enum ResourceBundleHelper {
         return message;
     }
 
-    private ClassLoader getCurrentLoader(Object fallbackClass) {
+    private static ClassLoader getCurrentLoader(Object fallbackClass) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader == null) {
             loader = fallbackClass.getClass().getClassLoader();
