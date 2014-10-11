@@ -18,40 +18,11 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.entity;
+package org.yougi.reference;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum ContentType {
-
-    TEXT_HTML      ("text/html",       "html"),
-    TEXT_PLAIN     ("text/plain",      "txt");
-
-    private final String contentType;
-    private final String extension;
-
-    ContentType(String contenuType, String extension) {
-        this.contentType = contenuType;
-        this.extension = extension;
-    }
-
-    @Override
-    public String toString() {
-        return this.contentType;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public static boolean isKnownExtension(String extension) {
-        boolean exist = false;
-
-        if(TEXT_HTML.getExtension().equals(extension) || TEXT_PLAIN.getExtension().equals(extension)) {
-            exist = true;
-        }
-
-        return exist;
-    }
+public enum Gender {
+    FEMALE, MALE;
 }

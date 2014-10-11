@@ -18,31 +18,17 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.entity;
-
-import java.util.Calendar;
+package org.yougi.reference;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum DayOfTheWeek {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY;
-
-    public int getCalendarDayOfTheWeek() {
-        switch (this) {
-            case MONDAY:  return Calendar.MONDAY;
-            case TUESDAY: return Calendar.TUESDAY;
-            case WEDNESDAY: return Calendar.WEDNESDAY;
-            case THURSDAY: return Calendar.THURSDAY;
-            case FRIDAY: return Calendar.FRIDAY;
-            case SATURDAY: return Calendar.SATURDAY;
-            default: return Calendar.SUNDAY;
-        }
-    }
+public enum JobFrequencyType {
+    INSTANT,
+    ONCE,
+    HOURLY,
+    DAILY,
+    WEEKLY,
+    MONTHLY,
+    YEARLY;
 }

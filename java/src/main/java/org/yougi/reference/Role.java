@@ -18,11 +18,19 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.entity;
+package org.yougi.reference;
 
 /**
+ * Lists all roles of the application as configured in the deployment descriptors.
+ *
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum Gender {
-    FEMALE, MALE;
+public enum Role {
+
+    ADMIN, LEADER, HELPER, MEMBER, PARTNER, SPEAKER;
+
+    @Override
+    public String toString() {
+        return this.name().toLowerCase();
+    }
 }

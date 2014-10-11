@@ -18,8 +18,9 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.entity;
+package org.yougi.util;
 
+import org.yougi.entity.Identified;
 import org.yougi.util.StringUtils;
 
 import java.util.UUID;
@@ -27,15 +28,15 @@ import java.util.UUID;
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
  */
-public enum EntitySupport {
+public class EntitySupport {
 
-    INSTANCE;
+    private EntitySupport() {}
 
     /**
      * @return Returns a 32 characteres string to be used as id of entities that
      * implements the interface org.yougi.persistence.Identified.
      */
-    public final String generateEntityId() {
+    public static final String generateEntityId() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString().replaceAll("-", "").toUpperCase();
     }
@@ -46,7 +47,7 @@ public enum EntitySupport {
      * @param identified class that implements the interface org.yougi.persistence.Identified.
      * @return true if the id of the identified object is not valid.
      */
-    public final boolean isIdNotValid(Identified identified) {
+    public static final boolean isIdNotValid(Identified identified) {
         if(identified == null) {
             throw new IllegalArgumentException("Identified entity is null");
         }
@@ -59,7 +60,7 @@ public enum EntitySupport {
      * @param id the id of an entity.
      * @return true if the id is valid.
      * */
-    public final boolean isIdValid(String id) {
+    public static final boolean isIdValid(String id) {
         boolean valid = !StringUtils.isNullOrBlank(id);
 
         valid = (valid && id.length() == 32);

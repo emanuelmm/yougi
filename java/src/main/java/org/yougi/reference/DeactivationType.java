@@ -18,7 +18,7 @@
  * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA.
  * */
-package org.yougi.entity;
+package org.yougi.reference;
 
 /**
  * Indicates the type of deactivation that the member was subject to. In case of
