@@ -20,6 +20,7 @@
  * */
 package org.yougi.event.business;
 
+import com.mysema.query.jpa.impl.JPAQuery;
 import org.yougi.business.AbstractBean;
 import org.yougi.business.MessageTemplateBean;
 import org.yougi.business.MessengerBean;
@@ -27,6 +28,7 @@ import org.yougi.entity.EmailMessage;
 import org.yougi.entity.MessageTemplate;
 import org.yougi.entity.UserAccount;
 import org.yougi.event.entity.Event;
+import org.yougi.event.entity.QEvent;
 import org.yougi.util.DateTimeUtils;
 
 import javax.ejb.EJB;
@@ -90,10 +92,12 @@ public class EventBean extends AbstractBean<Event> {
     }
 
     public List<Event> findUpCommingEvents() {
-    	Calendar today = Calendar.getInstance();
-        List<Event> events = em.createQuery("select e from Event e where e.endDate >= :today and e.parent is null order by e.startDate asc", Event.class)
-        		       .setParameter("today", today.getTime())
-                               .getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QEvent qEvent = QEvent.event;
+
+        Calendar today = Calendar.getInstance();
+        List<Event> events = query.from(qEvent).where(qEvent.endDate.gt(today.getTime()), qEvent.parent.isNull()).orderBy(qEvent.startDate.asc()).list(qEvent);
+
         return loadVenues(events);
     }
 

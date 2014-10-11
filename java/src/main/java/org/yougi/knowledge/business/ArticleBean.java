@@ -20,8 +20,11 @@
  * */
 package org.yougi.knowledge.business;
 
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.jpa.impl.JPAQuery;
 import org.yougi.business.AbstractBean;
 import org.yougi.knowledge.entity.Article;
+import org.yougi.knowledge.entity.QArticle;
 import org.yougi.knowledge.entity.WebSource;
 
 import javax.ejb.Stateless;
@@ -50,28 +53,42 @@ public class ArticleBean extends AbstractBean<Article> {
     }
 
     public List<Article> findPublishedArticles() {
-            return em.createQuery("select a from Article a where a.published = :published order by a.publication desc", Article.class)
-                     .setParameter("published", Boolean.TRUE)
-                     .getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QArticle article = QArticle.article;
+        return query.from(article)
+                    .where(article.published.isTrue())
+                    .orderBy(article.publication.desc()).list(article);
     }
 
     public List<Article> findPublishedArticles(WebSource webSource) {
-            return em.createQuery("select a from Article a where a.webSource = :webSource order by a.publication desc", Article.class)
-                                 .setParameter("webSource", webSource)
-                                 .getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QArticle article = QArticle.article;
+
+        return query.from(article)
+                    .where(article.webSource.eq(webSource))
+                    .orderBy(article.publication.desc())
+                    .list(article);
     }
 
     public List<Article> findPublishedArticles(Article except) {
-        return em.createQuery("select a from Article a where a.webSource.id = :webSource and a.id <> :except order by a.publication desc", Article.class)
-                .setParameter("webSource", except.getWebSource() != null ? except.getWebSource().getId() : null)
-                .setParameter("except", except.getId())
-                .getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QArticle qArticle = QArticle.article;
+        query = query.from(qArticle);
+
+        BooleanBuilder criteria = new BooleanBuilder();
+        criteria.and(qArticle.id.ne(except.getId()));
+
+        if(except.getWebSource() != null) {
+            criteria.and(qArticle.webSource.id.eq(except.getWebSource().getId()));
+        }
+
+        return query.where(criteria).orderBy(qArticle.publication.desc()).list(qArticle);
     }
 
     public List<Article> findOtherPublishedArticles(WebSource except) {
-        return em.createQuery("select a from Article a where a.webSource <> :except order by a.publication desc", Article.class)
-                .setParameter("except", except)
-                .getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QArticle qArticle = QArticle.article;
+        return query.from(qArticle).where(qArticle.webSource.ne(except)).orderBy(qArticle.publication.desc()).list(qArticle);
     }
 
     public void publish(Article article) {

@@ -20,6 +20,7 @@
  * */
 package org.yougi.knowledge.business;
 
+import com.mysema.query.jpa.impl.JPAQuery;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -27,8 +28,10 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import org.yougi.business.AbstractBean;
+import org.yougi.entity.QUserAccount;
 import org.yougi.entity.UserAccount;
 import org.yougi.knowledge.entity.Article;
+import org.yougi.knowledge.entity.QWebSource;
 import org.yougi.knowledge.entity.WebSource;
 import org.yougi.util.UrlUtils;
 
@@ -78,13 +81,20 @@ public class WebSourceBean extends AbstractBean<WebSource> {
     }
 
     public List<UserAccount> findNonReferencedProviders() {
-        return em.createQuery("select ua from UserAccount ua " +
-                "where ua.deactivated = false and " +
-                    "ua.confirmationCode is null and " +
-                    "(ua.website is not null and ua.website <> '') and " +
-                    "ua not in (select distinct ws.provider from WebSource ws) " +
-                "order by ua.firstName", UserAccount.class)
-                .getResultList();
+        JPAQuery queryProvider = new JPAQuery(em);
+
+        QUserAccount userAccount = QUserAccount.userAccount;
+        QWebSource webSource = QWebSource.webSource;
+        List<UserAccount> userAccounts = queryProvider.from(webSource).list(userAccount);
+
+        JPAQuery query = new JPAQuery(em);
+        return query.from(userAccount).where(userAccount.deactivated.isFalse(),
+                                              userAccount.confirmationCode.isNull(),
+                                              userAccount.website.isNotNull(),
+                                              userAccount.website.isNotEmpty(),
+                                              userAccount.in(userAccounts))
+                                       .orderBy(userAccount.firstName.asc())
+                                       .list(userAccount);
     }
 
     public Article loadOriginalArticle(Article article) {
