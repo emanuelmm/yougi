@@ -20,6 +20,7 @@
  * */
 package org.yougi.entity;
 
+import org.yougi.reference.JobFrequencyType;
 import org.yougi.util.DateTimeUtils;
 
 import javax.persistence.*;

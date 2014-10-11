@@ -21,7 +21,7 @@
 package org.yougi.business;
 
 import org.yougi.entity.JobExecution;
-import org.yougi.entity.JobStatus;
+import org.yougi.reference.JobStatus;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;

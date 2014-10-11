@@ -20,7 +20,7 @@
  * */
 package org.yougi.business;
 
-import org.yougi.entity.EntitySupport;
+import org.yougi.util.EntitySupport;
 import org.yougi.entity.Identified;
 
 import javax.persistence.EntityManager;
@@ -48,8 +48,8 @@ public abstract class AbstractBean<T extends Identified> {
      */
     public T save(T entity) {
         T persistedEntity;
-        if(EntitySupport.INSTANCE.isIdNotValid(entity)) {
-            entity.setId(EntitySupport.INSTANCE.generateEntityId());
+        if(EntitySupport.isIdNotValid(entity)) {
+            entity.setId(EntitySupport.generateEntityId());
             getEntityManager().persist(entity);
             persistedEntity = entity;
         } else {
@@ -68,7 +68,7 @@ public abstract class AbstractBean<T extends Identified> {
      * */
     public T update(T entity) {
         T persistedEntity = null;
-        if(EntitySupport.INSTANCE.isIdValid(entity.getId())) {
+        if(EntitySupport.isIdValid(entity.getId())) {
             persistedEntity = getEntityManager().merge(entity);
         }
         return persistedEntity;

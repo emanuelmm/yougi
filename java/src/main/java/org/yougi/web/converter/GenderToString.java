@@ -20,7 +20,7 @@
  * */
 package org.yougi.web.converter;
 
-import org.yougi.entity.Gender;
+import org.yougi.reference.Gender;
 import org.yougi.util.ResourceBundleHelper;
 
 import javax.faces.component.UIComponent;

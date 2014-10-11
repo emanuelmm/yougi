@@ -20,7 +20,7 @@
  * */
 package org.yougi.web.converter;
 
-import org.yougi.entity.JobStatus;
+import org.yougi.reference.JobStatus;
 import org.yougi.util.ResourceBundleHelper;
 
 import javax.faces.component.UIComponent;

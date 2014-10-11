@@ -20,6 +20,8 @@
  * */
 package org.yougi.entity;
 
+import org.yougi.reference.DeactivationType;
+import org.yougi.reference.Gender;
 import org.yougi.util.StringUtils;
 
 import javax.persistence.*;

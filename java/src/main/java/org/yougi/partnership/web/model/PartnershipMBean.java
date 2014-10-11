@@ -31,6 +31,7 @@ import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
+import org.yougi.reference.Properties;
 import org.yougi.util.WebTextUtils;
 import org.yougi.annotation.UserName;
 import org.yougi.web.model.LocationMBean;

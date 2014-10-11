@@ -22,6 +22,9 @@ package org.yougi.business;
 
 import org.yougi.entity.*;
 import org.yougi.exception.BusinessLogicException;
+import org.yougi.reference.DeactivationType;
+import org.yougi.reference.Properties;
+import org.yougi.util.EntitySupport;
 import org.yougi.util.StringUtils;
 import org.yougi.util.UrlUtils;
 
@@ -226,7 +229,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
      * confirmation, validation or deactivation status.
      */
     public List<UserAccount> findInhabitantsFrom(City city) {
-        if(EntitySupport.INSTANCE.isIdNotValid(city)) {
+        if(EntitySupport.isIdNotValid(city)) {
             return new ArrayList<>();
         }
 
@@ -286,7 +289,7 @@ public class UserAccountBean extends AbstractBean<UserAccount> implements Serial
         userAccount.setRegistrationDate(Calendar.getInstance().getTime());
 
         if(!existingAccount) {
-            userAccount.setId(EntitySupport.INSTANCE.generateEntityId());
+            userAccount.setId(EntitySupport.generateEntityId());
             userAccount = em.merge(userAccount);
         }
 

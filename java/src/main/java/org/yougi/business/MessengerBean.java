@@ -23,7 +23,7 @@ package org.yougi.business;
 import org.yougi.entity.ApplicationProperty;
 import org.yougi.entity.EmailMessage;
 import org.yougi.entity.MessageHistory;
-import org.yougi.entity.Properties;
+import org.yougi.reference.Properties;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;

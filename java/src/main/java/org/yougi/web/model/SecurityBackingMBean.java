@@ -21,7 +21,7 @@
 package org.yougi.web.model;
 
 import org.yougi.business.UserAccountBean;
-import org.yougi.entity.Role;
+import org.yougi.reference.Role;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.annotation.ManagedProperty;
 

@@ -23,17 +23,15 @@ package org.yougi.entity;
 import org.yougi.reference.EmailMessageFormat;
 import org.yougi.reference.StorageDuration;
 
-import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,7 +52,6 @@ public abstract class EmailMessage implements Serializable, Cloneable {
     private String sender;
     private String subject;
     private String body;
-    private Set<Attachment> attachments;
     private EmailMessageFormat format;
     private String reference;
     private StorageDuration storageDuration;
@@ -87,7 +84,6 @@ public abstract class EmailMessage implements Serializable, Cloneable {
             newMessage.setSender(emailMessage.getSender());
             newMessage.setSubject(emailMessage.getSubject());
             newMessage.setBody(emailMessage.getBody());
-            newMessage.setAttachments(emailMessage.getAttachments());
             newMessage.setReference(emailMessage.getReference());
             newMessage.setStorageDuration(emailMessage.getStorageDuration());
         }
@@ -250,21 +246,6 @@ public abstract class EmailMessage implements Serializable, Cloneable {
         this.body = body;
     }
 
-    public final Set<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    private void setAttachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
-    public final void addAttachment(Attachment pieceJointe) {
-        if (this.attachments == null) {
-            this.attachments = new HashSet<>();
-        }
-        this.attachments.add(pieceJointe);
-    }
-
     public EmailMessageFormat getFormat() {
         return format;
     }
@@ -313,7 +294,6 @@ public abstract class EmailMessage implements Serializable, Cloneable {
                 messageEmail.setRecipients(null);
                 messageEmail.setRecipientsCopy(null);
                 messageEmail.setRecipientHiddenCopy(null);
-                messageEmail.setAttachments(null);
                 messageEmail.setRecipient(recipient);
                 messagesEmail.add(messageEmail);
             }
@@ -325,7 +305,6 @@ public abstract class EmailMessage implements Serializable, Cloneable {
                 messageEmail.setRecipients(null);
                 messageEmail.setRecipientsCopy(null);
                 messageEmail.setRecipientHiddenCopy(null);
-                messageEmail.setAttachments(null);
                 messageEmail.setRecipient(recipient);
                 messagesEmail.add(messageEmail);
             }
@@ -337,25 +316,10 @@ public abstract class EmailMessage implements Serializable, Cloneable {
                 messageEmail.setRecipients(null);
                 messageEmail.setRecipientsCopy(null);
                 messageEmail.setRecipientHiddenCopy(null);
-                messageEmail.setAttachments(null);
                 messageEmail.setRecipient(recipient);
                 messagesEmail.add(messageEmail);
             }
         }
         return messagesEmail;
-    }
-
-    protected void addAttachment(Multipart multipart) throws MessagingException {
-        MimeBodyPart pieceJointePart;
-        Attachment pieceJointe;
-        Iterator<Attachment> iPiecesJointes = attachments.iterator();
-        while (iPiecesJointes.hasNext()) {
-            pieceJointe = iPiecesJointes.next();
-            pieceJointePart = new MimeBodyPart();
-            pieceJointePart.setFileName(pieceJointe.getFileName());
-            pieceJointePart.setDataHandler(new DataHandler(pieceJointe.getDataSource()));
-            pieceJointePart.setHeader("Content-Type", pieceJointe.getContentType().toString());
-            multipart.addBodyPart(pieceJointePart);
-        }
     }
 }

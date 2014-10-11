@@ -20,6 +20,8 @@
  * */
 package org.yougi.entity;
 
+import org.yougi.reference.JobFrequencyType;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;

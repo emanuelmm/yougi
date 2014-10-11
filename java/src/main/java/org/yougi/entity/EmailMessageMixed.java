@@ -21,6 +21,7 @@
 package org.yougi.entity;
 
 import org.yougi.exception.BusinessLogicException;
+import org.yougi.reference.ContentType;
 import org.yougi.reference.EmailMessageFormat;
 
 import javax.mail.MessagingException;
@@ -59,7 +60,6 @@ public class EmailMessageMixed extends EmailMessage {
             MimeMessage msg = createMimeMessage(mailSession);
 
             StringBuilder logMessage = new StringBuilder();
-            logMessage.append("ServiceEmail: Mime message mixte");
 
             Multipart multipart = new MimeMultipart("alternative");
 
@@ -71,26 +71,12 @@ public class EmailMessageMixed extends EmailMessage {
             messageHtml.setContent(getHtmlBody(), ContentType.TEXT_HTML.toString() + ";charset=" + CHARSET);
             multipart.addBodyPart(messageHtml);
 
-            if (getAttachments() == null || getAttachments().isEmpty()) {
-                msg.setContent(multipart);
-                logMessage.append(" sans pieces jointes");
-            } else {
-                // Multipart mixte.
-                Multipart parentMultipart = new MimeMultipart();
-                MimeBodyPart alternativePart = new MimeBodyPart();
-                alternativePart.setContent(multipart);
-                parentMultipart.addBodyPart(alternativePart);
+            msg.setContent(multipart);
 
-                addAttachment(parentMultipart);
-
-                msg.setContent(parentMultipart);
-                logMessage.append(" avec pieces jointes");
-            }
-            logMessage.append(" a été créé.");
             LOGGER.log(Level.INFO, logMessage.toString());
             return msg;
         } catch (MessagingException me) {
-            throw new BusinessLogicException("Error lors de la création du message électronique.", me);
+            throw new BusinessLogicException("Error while creating a mixed email message.", me);
         }
     }
 }

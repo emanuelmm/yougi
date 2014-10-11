@@ -24,7 +24,7 @@ import org.yougi.business.ApplicationPropertyBean;
 import org.yougi.business.LanguageBean;
 import org.yougi.business.TimezoneBean;
 import org.yougi.entity.Language;
-import org.yougi.entity.Properties;
+import org.yougi.reference.Properties;
 import org.yougi.entity.Timezone;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;

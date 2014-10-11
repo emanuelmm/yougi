@@ -20,7 +20,7 @@
  * */
 package org.yougi.web.converter;
 
-import org.yougi.entity.DeactivationType;
+import org.yougi.reference.DeactivationType;
 import org.yougi.util.ResourceBundleHelper;
 
 import javax.faces.component.UIComponent;

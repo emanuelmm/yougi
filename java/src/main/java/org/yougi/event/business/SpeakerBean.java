@@ -71,6 +71,7 @@ public class SpeakerBean extends AbstractBean<Speaker> {
      * speaker.
      */
     public List<UserAccount> findSpeakerCandidates(UserAccount except) {
+        // TODO: convert to QueryDSL
         List<UserAccount> candidates;
         if(except != null) {
             candidates = em.createQuery("select ua from UserAccount ua where ua not in (select s.userAccount from Speaker s where s.userAccount <> :except) order by ua.firstName, ua.lastName asc", UserAccount.class)

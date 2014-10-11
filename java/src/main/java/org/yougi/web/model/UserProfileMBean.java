@@ -26,6 +26,7 @@ import org.yougi.business.TimezoneBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
 import org.yougi.annotation.UserName;
+import org.yougi.reference.Properties;
 import org.yougi.util.StringUtils;
 
 import javax.ejb.EJB;

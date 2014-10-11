@@ -21,14 +21,12 @@
 package org.yougi.entity;
 
 import org.yougi.exception.EnvironmentResourceException;
+import org.yougi.reference.ContentType;
 import org.yougi.reference.EmailMessageFormat;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.util.logging.Logger;
 
 /**
@@ -46,21 +44,8 @@ public class EmailMessagePlain extends EmailMessage {
     public MimeMessage createMessage(Session mailSession) throws EnvironmentResourceException {
         try {
             MimeMessage msg = createMimeMessage(mailSession);
-            if (getAttachments() == null || getAttachments().isEmpty()) {
-                msg.setText(getBody(), CHARSET);
-                msg.setHeader("Content-Type", ContentType.TEXT_PLAIN.toString() + ";charset=" + CHARSET);
-            } else {
-                // Multipart mixed.
-                Multipart multipart = new MimeMultipart();
-
-                MimeBodyPart messageBrut = new MimeBodyPart();
-                messageBrut.setContent(getBody(), ContentType.TEXT_PLAIN.toString() + ";charset=" + CHARSET);
-                multipart.addBodyPart(messageBrut);
-
-                addAttachment(multipart);
-
-                msg.setContent(multipart);
-            }
+            msg.setText(getBody(), CHARSET);
+            msg.setHeader("Content-Type", ContentType.TEXT_PLAIN.toString() + ";charset=" + CHARSET);
             return msg;
         } catch (MessagingException me) {
             throw new EnvironmentResourceException("Error when creating the email message.", me);

@@ -20,7 +20,7 @@
  * */
 package org.yougi.web.converter;
 
-import org.yougi.entity.JobFrequencyType;
+import org.yougi.reference.JobFrequencyType;
 import org.yougi.util.ResourceBundleHelper;
 
 import javax.faces.component.UIComponent;

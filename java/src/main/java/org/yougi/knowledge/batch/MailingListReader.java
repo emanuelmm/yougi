@@ -21,7 +21,7 @@
 package org.yougi.knowledge.batch;
 
 import org.yougi.business.ApplicationPropertyBean;
-import org.yougi.entity.Properties;
+import org.yougi.reference.Properties;
 
 import javax.annotation.Resource;
 import javax.batch.api.chunk.AbstractItemReader;

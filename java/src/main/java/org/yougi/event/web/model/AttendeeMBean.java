@@ -26,7 +26,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.yougi.business.ApplicationPropertyBean;
 import org.yougi.entity.ApplicationProperty;
-import org.yougi.entity.Properties;
+import org.yougi.reference.Properties;
 import org.yougi.entity.UserAccount;
 import org.yougi.event.business.AttendeeBean;
 import org.yougi.event.business.EventBean;

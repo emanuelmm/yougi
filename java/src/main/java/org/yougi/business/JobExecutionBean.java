@@ -21,9 +21,9 @@
 package org.yougi.business;
 
 import org.yougi.entity.JobExecution;
-import org.yougi.entity.JobFrequencyType;
+import org.yougi.reference.JobFrequencyType;
 import org.yougi.entity.JobScheduler;
-import org.yougi.entity.JobStatus;
+import org.yougi.reference.JobStatus;
 
 import javax.annotation.Resource;
 import javax.batch.operations.*;

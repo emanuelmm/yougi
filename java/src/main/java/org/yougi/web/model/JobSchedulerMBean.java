@@ -24,7 +24,10 @@ import org.yougi.business.JobExecutionBean;
 import org.yougi.business.JobSchedulerBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.*;
+import org.yougi.reference.JobFrequencyType;
+import org.yougi.reference.JobStatus;
 import org.yougi.util.DateTimeUtils;
+import org.yougi.util.EntitySupport;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.annotation.ManagedProperty;
 
@@ -229,7 +232,7 @@ public class JobSchedulerMBean {
 
     @PostConstruct
     public void load() {
-        if(EntitySupport.INSTANCE.isIdValid(this.id)) {
+        if(EntitySupport.isIdValid(this.id)) {
             this.jobScheduleMBean.loadJobScheduler(this.id);
 
             if(this.jobScheduleMBean.getJobScheduler() instanceof JobSchedulerHourly) {
@@ -255,7 +258,7 @@ public class JobSchedulerMBean {
             jobSchedulerDaily.setWorkingDaysOnly(this.workingHoursOnly);
         }
 
-        if(EntitySupport.INSTANCE.isIdNotValid(jobScheduleMBean.getJobScheduler())) {
+        if(EntitySupport.isIdNotValid(jobScheduleMBean.getJobScheduler())) {
             jobSchedulerBean.save(jobScheduleMBean.getJobScheduler());
         } else {
             jobSchedulerBean.update(jobScheduleMBean.getJobScheduler());

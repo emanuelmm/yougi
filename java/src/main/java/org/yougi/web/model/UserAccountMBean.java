@@ -22,6 +22,7 @@ package org.yougi.web.model;
 
 import org.yougi.business.*;
 import org.yougi.entity.*;
+import org.yougi.reference.DeactivationType;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
 import org.yougi.annotation.ManagedProperty;

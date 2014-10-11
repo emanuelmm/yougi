@@ -21,7 +21,7 @@
 package org.yougi.partnership.business;
 
 import org.yougi.business.AbstractBean;
-import org.yougi.entity.EntitySupport;
+import org.yougi.util.EntitySupport;
 import org.yougi.entity.UserAccount;
 import org.yougi.partnership.entity.Partner;
 import org.yougi.partnership.entity.Representative;
@@ -101,7 +101,7 @@ public class RepresentativeBean extends AbstractBean<Representative> {
         Representative representative;
         for(UserAccount person: persons) {
             representative = new Representative(partner, person);
-            representative.setId(EntitySupport.INSTANCE.generateEntityId());
+            representative.setId(EntitySupport.generateEntityId());
             representatives.add(representative);
         }
 

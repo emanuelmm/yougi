@@ -25,7 +25,7 @@ import org.yougi.business.AuthenticationBean;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.ApplicationProperty;
 import org.yougi.entity.Authentication;
-import org.yougi.entity.Properties;
+import org.yougi.reference.Properties;
 import org.yougi.entity.UserAccount;
 import org.yougi.exception.BusinessLogicException;
 import org.yougi.util.ResourceBundleHelper;

@@ -23,6 +23,7 @@ package org.yougi.business;
 import com.itextpdf.tool.xml.exceptions.NotImplementedException;
 import org.yougi.entity.*;
 import org.yougi.exception.BusinessLogicException;
+import org.yougi.util.EntitySupport;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -91,7 +92,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
         } catch(NoResultException nre) {
             LOGGER.log(Level.INFO, nre.getMessage());
             defaultUserGroup = new AccessGroup(DEFAULT_GROUP,"Default Members Group");
-            defaultUserGroup.setId(EntitySupport.INSTANCE.generateEntityId());
+            defaultUserGroup.setId(EntitySupport.generateEntityId());
             defaultUserGroup.setUserDefault(Boolean.TRUE);
             em.persist(defaultUserGroup);
         }
@@ -109,7 +110,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
         } catch(NoResultException nre) {
             LOGGER.log(Level.INFO, nre.getMessage());
             group = new AccessGroup(ADMIN_GROUP,"Administrators Group");
-            group.setId(EntitySupport.INSTANCE.generateEntityId());
+            group.setId(EntitySupport.generateEntityId());
             em.persist(group);
         }
         return group;
@@ -144,7 +145,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             defaultGroup.setUserDefault(false);
         }
 
-        if(EntitySupport.INSTANCE.isIdValid(accessGroup.getId())) {
+        if(EntitySupport.isIdValid(accessGroup.getId())) {
             try {
                 AccessGroup group = findAccessGroupByName(accessGroup.getName());
                 if(group != null) {
@@ -152,7 +153,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                 }
             } catch(NoResultException nre) {
                 LOGGER.log(Level.INFO, nre.getMessage());
-                accessGroup.setId(EntitySupport.INSTANCE.generateEntityId());
+                accessGroup.setId(EntitySupport.generateEntityId());
                 em.persist(accessGroup);
             }
         } else {

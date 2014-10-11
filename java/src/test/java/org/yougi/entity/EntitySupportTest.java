@@ -22,6 +22,7 @@ package org.yougi.entity;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.yougi.util.EntitySupport;
 
 /**
  * @Author Hildeberto Mendonca - http://www.hildeberto.com
@@ -29,17 +30,17 @@ import org.junit.Test;
 public class EntitySupportTest {
     @Test
     public void testGenerateEntityId() throws Exception {
-        Assert.assertEquals("An id should have exactly 32 characters", EntitySupport.INSTANCE.generateEntityId().length(), 32);
-        Assert.assertFalse("An id should not contain the character '-'", EntitySupport.INSTANCE.generateEntityId().contains("-"));
+        Assert.assertEquals("An id should have exactly 32 characters", EntitySupport.generateEntityId().length(), 32);
+        Assert.assertFalse("An id should not contain the character '-'", EntitySupport.generateEntityId().contains("-"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIsIdNotValid() throws Exception {
-        EntitySupport.INSTANCE.isIdNotValid(null);
+        EntitySupport.isIdNotValid(null);
     }
 
     @Test
     public void testIsIdValid() throws Exception {
-        Assert.assertFalse("Id is invalid", EntitySupport.INSTANCE.isIdValid("l"));
+        Assert.assertFalse("Id is invalid", EntitySupport.isIdValid("l"));
     }
 }

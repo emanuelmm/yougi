@@ -23,8 +23,8 @@ package org.yougi.knowledge.business;
 import org.yougi.business.AbstractBean;
 import org.yougi.business.ApplicationPropertyBean;
 import org.yougi.entity.ApplicationProperty;
-import org.yougi.entity.EntitySupport;
-import org.yougi.entity.Properties;
+import org.yougi.util.EntitySupport;
+import org.yougi.reference.Properties;
 import org.yougi.knowledge.entity.MailingList;
 import org.yougi.knowledge.entity.MailingListMessage;
 
@@ -98,7 +98,7 @@ public class MailingListMessageBean extends AbstractBean<MailingListMessage> {
                    message is created and saved. */
                 for(MailingList mailingList: mailingLists) {
                     mailingListMessage = new MailingListMessage();
-                    mailingListMessage.setId(EntitySupport.INSTANCE.generateEntityId());
+                    mailingListMessage.setId(EntitySupport.generateEntityId());
                     mailingListMessage.setMailingList(mailingList);
                     mailingListMessage.setSubject(message[i].getSubject());
 

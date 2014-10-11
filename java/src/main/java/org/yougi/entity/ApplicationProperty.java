@@ -20,6 +20,8 @@
  * */
 package org.yougi.entity;
 
+import org.yougi.reference.Properties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -21,6 +21,8 @@
 package org.yougi.business;
 
 import org.yougi.entity.*;
+import org.yougi.reference.JobFrequencyType;
+import org.yougi.reference.JobStatus;
 import org.yougi.util.PackageResourceHelper;
 
 import javax.ejb.EJB;

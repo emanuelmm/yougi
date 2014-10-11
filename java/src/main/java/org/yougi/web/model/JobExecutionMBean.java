@@ -21,7 +21,7 @@
 package org.yougi.web.model;
 
 import org.yougi.business.JobExecutionBean;
-import org.yougi.entity.EntitySupport;
+import org.yougi.util.EntitySupport;
 import org.yougi.entity.JobExecution;
 import org.yougi.entity.JobScheduler;
 import org.yougi.annotation.ManagedProperty;
@@ -61,7 +61,7 @@ public class JobExecutionMBean {
 
     @PostConstruct
     public void load() {
-        if(EntitySupport.INSTANCE.isIdValid(this.id)) {
+        if(EntitySupport.isIdValid(this.id)) {
             this.jobExecution = this.jobExecutionBean.find(this.id);
         } else {
             this.jobExecution = new JobExecution();

@@ -21,15 +21,12 @@
 package org.yougi.entity;
 
 import org.yougi.exception.BusinessLogicException;
+import org.yougi.reference.ContentType;
 import org.yougi.reference.EmailMessageFormat;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.Session;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -49,31 +46,12 @@ public class EmailMessageHtml extends EmailMessage {
         try {
             MimeMessage msg = createMimeMessage(mailSession);
 
-            StringBuilder logMessage = new StringBuilder();
-            logMessage.append("ServiceEmail: Mime message html");
+            msg.setText(super.getHtmlBody(), CHARSET);
+            msg.setHeader("Content-Type", ContentType.TEXT_HTML.toString() + ";charset=" + CHARSET);
 
-            if (super.getAttachments() == null || super.getAttachments().isEmpty()) {
-                msg.setText(super.getHtmlBody(), CHARSET);
-                msg.setHeader("Content-Type", ContentType.TEXT_HTML.toString() + ";charset=" + CHARSET);
-                logMessage.append(" sans pieces jointes");
-            } else {
-                // Multipart mixte.
-                Multipart multipart = new MimeMultipart();
-
-                MimeBodyPart messageHtml = new MimeBodyPart();
-                messageHtml.setContent(super.getBody(), ContentType.TEXT_HTML.toString() + ";charset=" + CHARSET);
-                multipart.addBodyPart(messageHtml);
-
-                addAttachment(multipart);
-
-                msg.setContent(multipart);
-                logMessage.append(" avec pieces jointes");
-            }
-            logMessage.append(" a été créé.");
-            LOGGER.log(Level.INFO, logMessage.toString());
             return msg;
         } catch (MessagingException me) {
-            throw new BusinessLogicException("Error lors de la création du message électronique.", me);
+            throw new BusinessLogicException("Error while creating a html email message.", me);
         }
     }
 }

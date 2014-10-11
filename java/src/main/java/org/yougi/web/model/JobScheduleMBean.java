@@ -22,7 +22,7 @@ package org.yougi.web.model;
 
 import org.yougi.business.JobSchedulerBean;
 import org.yougi.business.UserAccountBean;
-import org.yougi.entity.JobFrequencyType;
+import org.yougi.reference.JobFrequencyType;
 import org.yougi.entity.JobScheduler;
 import org.yougi.entity.UserAccount;
 import org.yougi.util.StringUtils;
