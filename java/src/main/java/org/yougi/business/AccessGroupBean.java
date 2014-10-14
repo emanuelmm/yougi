@@ -20,7 +20,6 @@
  * */
 package org.yougi.business;
 
-import com.itextpdf.tool.xml.exceptions.NotImplementedException;
 import org.yougi.entity.*;
 import org.yougi.exception.BusinessLogicException;
 import org.yougi.util.EntitySupport;
@@ -136,7 +135,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
 
     @Override
     public AccessGroup save(AccessGroup entity) {
-        throw new NotImplementedException("Please use the save method that accepts the list of members by parameter");
+        throw new BusinessLogicException("Please use the save method that accepts the list of members by parameter");
     }
 
     public void save(AccessGroup accessGroup, List<UserAccount> members) {

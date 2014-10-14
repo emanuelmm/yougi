@@ -20,6 +20,8 @@
  * */
 package org.yougi.business;
 
+import com.mysema.query.jpa.impl.JPAQuery;
+import org.yougi.entity.QUserSession;
 import org.yougi.entity.UserAccount;
 import org.yougi.entity.UserSession;
 
@@ -66,6 +68,13 @@ public class UserSessionBean extends AbstractBean<UserSession> {
         return em.createQuery("select us from UserSession us where us.userAccount = :userAccount order by us.start desc", UserSession.class)
                  .setParameter("userAccount", userAccount)
                  .getResultList();
+    }
+
+    public List<UserSession> findActiveSessions() {
+        JPAQuery query = new JPAQuery(em);
+        QUserSession us = QUserSession.userSession;
+
+        return query.from(us).where(us.userAccount.isNotNull(), us.end.isNull()).list(us);
     }
 
     public void cleanFinishedAnonimousSessions() {
