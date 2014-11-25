@@ -72,16 +72,6 @@ public class UserAccountTest {
     }
 
     @Test
-    public void testSetWebsite() throws Exception {
-    	user.setWebsite("http://teste.org");
-    	Assert.assertEquals("teste.org", user.getWebsite());
-    	user.setWebsite("https://teste.org");
-    	Assert.assertEquals("teste.org", user.getWebsite());
-    	user.setWebsite("teste.org");
-    	Assert.assertEquals("teste.org", user.getWebsite());
-    }
-
-    @Test
     public void testSetTwitter() throws Exception {
     	user.setTwitter(null);
     	Assert.assertNull(user.getTwitter());
