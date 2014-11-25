@@ -275,16 +275,16 @@ public class EventMBean {
         if (id != null && !id.isEmpty()) {
             this.event = eventBean.find(id);
 
-            if(this.event.getParent() != null) {
-                this.selectedParent = this.event.getParent().getId();
-            }
-
-            UserAccount person = userAccountBean.findByUsername(username);
-
-            this.attendee = attendeeBean.find(this.event, person);
-
-            this.numberPeopleAttending = attendeeBean.findNumberPeopleAttending(this.event);
-            this.numberPeopleAttended = attendeeBean.findNumberPeopleAttended(this.event);
+//            if(this.event.getParent() != null) {
+//                this.selectedParent = this.event.getParent().getId();
+//            }
+//
+//            UserAccount person = userAccountBean.findByUsername(username);
+//
+//            this.attendee = attendeeBean.find(this.event, person);
+//
+//            this.numberPeopleAttending = attendeeBean.findNumberPeopleAttending(this.event);
+//            this.numberPeopleAttended = attendeeBean.findNumberPeopleAttended(this.event);
         } else {
             this.event = new Event();
         }
