@@ -20,8 +20,19 @@
  * */
 package org.yougi.event.web.model;
 
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.yougi.business.UserAccountBean;
+import org.yougi.entity.UserAccount;
+import org.yougi.event.business.AttendeeBean;
+import org.yougi.event.business.EventBean;
+import org.yougi.event.entity.Attendee;
 import org.yougi.event.entity.Event;
 
 /**
@@ -29,37 +40,100 @@ import org.yougi.event.entity.Event;
  */
 public class EventMBeanTest {
 
-    private EventMBean eventMBean = new EventMBean();
-    
+    @Mock
+    private EventBean eventBean;
+    @Mock
+    private UserAccountBean userAccountBean;
+    @Mock
+    private AttendeeBean attendeeBean;
+
+    @InjectMocks
+    private EventMBean eventMBean;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
-    public void testLoadWithNullIdFillingEvent() throws Exception {
+    public void testLoadWithNullIdInstantiatingNewEvent() throws Exception {
         eventMBean.setEvent(null);
         eventMBean.setId(null);
-        
+
         eventMBean.load();
-        
+
         Assert.assertNotNull(eventMBean.getEvent());
     }
-    
+
     @Test
-    public void testLoadWithEmptyIdFillingEvent() throws Exception {
+    public void testLoadWithEmptyIdInstantiatingNewEvent() throws Exception {
         eventMBean.setEvent(null);
         eventMBean.setId("");
-        
+
         eventMBean.load();
-        
+
         Assert.assertNotNull(eventMBean.getEvent());
+    }
+
+    @Test
+    public void testLoadWithFilledIdKeepingOldEvent() throws Exception {
+        Event event = createDataToLoadTest();
+
+        eventMBean.load();
+
+        Assert.assertEquals(event, eventMBean.getEvent());
+    }
+
+    @Test
+    public void testLoadWithFilledIdSettingAttendee() throws Exception {
+        createDataToLoadTest();
+
+        eventMBean.load();
+
+        Assert.assertTrue(eventMBean.getIsAttending());
     }
     
     @Test
-    public void testLoadWithFilledIdKeepingOldEvent() throws Exception {
-        Event event = new Event("1");
-        eventMBean.setEvent(event);
-        eventMBean.setId("1");
+    public void testLoadWithFilledIdSettingAttendingNumber() throws Exception {
+        createDataToLoadTest();
         
         eventMBean.load();
         
-        Assert.assertEquals(event, eventMBean.getEvent());
+        Assert.assertEquals(new Long(123), eventMBean.getNumberPeopleAttending());
     }
-    
+
+    @Test
+    public void testLoadWithFilledIdSettingAttendedNumber() throws Exception {
+        createDataToLoadTest();
+
+        eventMBean.load();
+
+        Assert.assertEquals(new Long(658), eventMBean.getNumberPeopleAttended());
+    }
+
+    @Test
+    public void testLoadWithFilledIdSettingSelectedParentWithIdOfEventsParent() throws Exception {
+        String parentsId = "6";
+        Event parentEvent = new Event(parentsId);
+        Event event = createDataToLoadTest();
+        event.setParent(parentEvent);
+
+        eventMBean.load();
+
+        Assert.assertEquals(parentsId, eventMBean.getSelectedParent());
+    }
+
+    private Event createDataToLoadTest() {
+        eventMBean.setId("1");
+        Event event = new Event("1");
+        UserAccount userAccount = new UserAccount("52");
+        Attendee attendee = new Attendee("32");
+        when(eventBean.find("1")).thenReturn(event);
+        when(userAccountBean.findByUsername(null)).thenReturn(userAccount);
+        when(attendeeBean.find(event, userAccount)).thenReturn(attendee);
+        when(attendeeBean.findNumberPeopleAttending(event)).thenReturn(new Long(123));
+        when(attendeeBean.findNumberPeopleAttended(event)).thenReturn(new Long(658));
+        return event;
+    }
+
 }
