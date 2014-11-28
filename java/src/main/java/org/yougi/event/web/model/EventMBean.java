@@ -288,7 +288,6 @@ public class EventMBean {
         } else {
             this.event = new Event();
         }
-        int i = 10/0;
     }
 
     public String save() {
