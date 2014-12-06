@@ -20,7 +20,7 @@
  * */
 package org.yougi.event.web.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -95,13 +95,13 @@ public class EventMBeanTest {
 
         Assert.assertTrue(eventMBean.getIsAttending());
     }
-    
+
     @Test
     public void testLoadWithFilledIdSettingAttendingNumber() throws Exception {
         createDataToLoadTest();
-        
+
         eventMBean.load();
-        
+
         Assert.assertEquals(new Long(123), eventMBean.getNumberPeopleAttending());
     }
 
@@ -125,42 +125,42 @@ public class EventMBeanTest {
 
         Assert.assertEquals(parentsId, eventMBean.getSelectedParent());
     }
-    
+
     @Test
     public void testSaveWithSuccessReturnWithNullParent() throws Exception {
         String mappingReturn = eventMBean.save();
-        
+
         assertEquals("events?faces-redirect=true", mappingReturn);
     }
-    
+
     @Test
     public void testSaveWithSuccessReturnWithEmptyParent() throws Exception {
         eventMBean.setSelectedParent("");
-        
+
         String mappingReturn = eventMBean.save();
-        
+
         assertEquals("events?faces-redirect=true", mappingReturn);
     }
-    
+
     @Test
     public void testSaveInstantiatingNewEventWithSettedParent() throws Exception {
         String parentsId = "6";
         Event event = EventBuilder.get().build();
         eventMBean.setSelectedParent(parentsId);
         eventMBean.setEvent(event);
-        
+
         eventMBean.save();
-        
+
         assertEquals(EventBuilder.get().id(parentsId).build(), event.getParent());
     }
-    
+
     @Test
     public void testSavePersistingEntity() throws Exception {
         Event event = EventBuilder.get().id("51").build();
         eventMBean.setEvent(event);
-        
+
         eventMBean.save();
-        
+
         verify(eventBean).save(event);
     }
 
@@ -176,5 +176,5 @@ public class EventMBeanTest {
         when(attendeeBean.findNumberPeopleAttended(event)).thenReturn(new Long(658));
         return event;
     }
-    
+
 }
