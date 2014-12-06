@@ -20,6 +20,8 @@
  * */
 package org.yougi.event.web.model;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Assert;
@@ -30,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.UserAccount;
+import org.yougi.entity.builder.EventBuilder;
 import org.yougi.event.business.AttendeeBean;
 import org.yougi.event.business.EventBean;
 import org.yougi.event.entity.Attendee;
@@ -114,13 +117,51 @@ public class EventMBeanTest {
     @Test
     public void testLoadWithFilledIdSettingSelectedParentWithIdOfEventsParent() throws Exception {
         String parentsId = "6";
-        Event parentEvent = new Event(parentsId);
+        Event parentEvent = EventBuilder.get().id(parentsId).build();
         Event event = createDataToLoadTest();
         event.setParent(parentEvent);
 
         eventMBean.load();
 
         Assert.assertEquals(parentsId, eventMBean.getSelectedParent());
+    }
+    
+    @Test
+    public void testSaveWithSuccessReturnWithNullParent() throws Exception {
+        String mappingReturn = eventMBean.save();
+        
+        assertEquals("events?faces-redirect=true", mappingReturn);
+    }
+    
+    @Test
+    public void testSaveWithSuccessReturnWithEmptyParent() throws Exception {
+        eventMBean.setSelectedParent("");
+        
+        String mappingReturn = eventMBean.save();
+        
+        assertEquals("events?faces-redirect=true", mappingReturn);
+    }
+    
+    @Test
+    public void testSaveInstantiatingNewEventWithSettedParent() throws Exception {
+        String parentsId = "6";
+        Event event = EventBuilder.get().build();
+        eventMBean.setSelectedParent(parentsId);
+        eventMBean.setEvent(event);
+        
+        eventMBean.save();
+        
+        assertEquals(EventBuilder.get().id(parentsId).build(), event.getParent());
+    }
+    
+    @Test
+    public void testSavePersistingEntity() throws Exception {
+        Event event = EventBuilder.get().id("51").build();
+        eventMBean.setEvent(event);
+        
+        eventMBean.save();
+        
+        verify(eventBean).save(event);
     }
 
     private Event createDataToLoadTest() {
@@ -135,5 +176,5 @@ public class EventMBeanTest {
         when(attendeeBean.findNumberPeopleAttended(event)).thenReturn(new Long(658));
         return event;
     }
-
+    
 }
