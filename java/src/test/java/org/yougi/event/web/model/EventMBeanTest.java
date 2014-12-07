@@ -20,7 +20,7 @@
  * */
 package org.yougi.event.web.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -162,6 +162,24 @@ public class EventMBeanTest {
         eventMBean.save();
 
         verify(eventBean).save(event);
+    }
+    
+    @Test
+    public void testRemoveWithSuccessReturn() throws Exception {
+        eventMBean.setEvent(EventBuilder.get().build());
+        
+        String successReturn = eventMBean.remove();
+        
+        assertEquals("events?faces-redirect=true", successReturn);
+    }
+    
+    @Test
+    public void testRemoveCallingRemoveOnBean() throws Exception {
+        eventMBean.setEvent(EventBuilder.get().id("1").build());
+        
+        eventMBean.remove();
+        
+        verify(eventBean).remove("1");
     }
 
     private Event createDataToLoadTest() {
