@@ -32,7 +32,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.yougi.business.UserAccountBean;
 import org.yougi.entity.UserAccount;
-import org.yougi.entity.builder.EventBuilder;
 import org.yougi.event.business.AttendeeBean;
 import org.yougi.event.business.EventBean;
 import org.yougi.event.entity.Attendee;
@@ -117,7 +116,8 @@ public class EventMBeanTest {
     @Test
     public void testLoadWithFilledIdSettingSelectedParentWithIdOfEventsParent() throws Exception {
         String parentsId = "6";
-        Event parentEvent = EventBuilder.get().id(parentsId).build();
+        Event parentEvent = new Event(); 
+        parentEvent.setId(parentsId);
         Event event = createDataToLoadTest();
         event.setParent(parentEvent);
 
@@ -145,18 +145,21 @@ public class EventMBeanTest {
     @Test
     public void testSaveInstantiatingNewEventWithSettedParent() throws Exception {
         String parentsId = "6";
-        Event event = EventBuilder.get().build();
+        Event event = new Event();
         eventMBean.setSelectedParent(parentsId);
         eventMBean.setEvent(event);
 
         eventMBean.save();
 
-        assertEquals(EventBuilder.get().id(parentsId).build(), event.getParent());
+        Event parentEvent = new Event();
+        parentEvent.setId(parentsId);
+        assertEquals(parentEvent, event.getParent());
     }
 
     @Test
     public void testSavePersistingEntity() throws Exception {
-        Event event = EventBuilder.get().id("51").build();
+        Event event = new Event();
+        event.setId("1");
         eventMBean.setEvent(event);
 
         eventMBean.save();
@@ -166,7 +169,7 @@ public class EventMBeanTest {
     
     @Test
     public void testRemoveWithSuccessReturn() throws Exception {
-        eventMBean.setEvent(EventBuilder.get().build());
+        eventMBean.setEvent(new Event());
         
         String successReturn = eventMBean.remove();
         
@@ -175,7 +178,8 @@ public class EventMBeanTest {
     
     @Test
     public void testRemoveCallingRemoveOnBean() throws Exception {
-        eventMBean.setEvent(EventBuilder.get().id("1").build());
+        Event event = new Event("1");
+        eventMBean.setEvent(event);
         
         eventMBean.remove();
         

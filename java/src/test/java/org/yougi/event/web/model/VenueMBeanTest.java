@@ -32,10 +32,6 @@ import org.mockito.MockitoAnnotations;
 import org.yougi.entity.City;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
-import org.yougi.entity.builder.CityBuilder;
-import org.yougi.entity.builder.CountryBuilder;
-import org.yougi.entity.builder.ProvinceBuilder;
-import org.yougi.entity.builder.VenueBuilder;
 import org.yougi.event.business.VenueBean;
 import org.yougi.event.entity.Venue;
 import org.yougi.web.model.LocationMBean;
@@ -68,7 +64,7 @@ public class VenueMBeanTest {
     
     @Test
     public void testSaveCallingSaveOnBean() throws Exception {
-        Venue venue = VenueBuilder.get().build();
+        Venue venue = new Venue();
         venueMBean.setVenue(venue);
         
         venueMBean.save();
@@ -78,9 +74,9 @@ public class VenueMBeanTest {
     
     @Test
     public void testSaveSettingCountryFromLocationMBeanOnSavedVenue() throws Exception {
-        Venue venue = VenueBuilder.get().build();
+        Venue venue = new Venue();
         venueMBean.setVenue(venue);
-        Country country = CountryBuilder.get().build();
+        Country country = new Country();
         when(locationMBean.getCountry()).thenReturn(country);
         
         venueMBean.save();
@@ -90,9 +86,9 @@ public class VenueMBeanTest {
     
     @Test
     public void testSaveSettingProvinceFromLocationMBeanOnSavedVenue() throws Exception {
-        Venue venue = VenueBuilder.get().build();
+        Venue venue = new Venue();
         venueMBean.setVenue(venue);
-        Province province = ProvinceBuilder.get().build();
+        Province province = new Province();
         when(locationMBean.getProvince()).thenReturn(province);
         
         venueMBean.save();
@@ -102,9 +98,9 @@ public class VenueMBeanTest {
     
     @Test
     public void testSaveSettingCityFromLocationMBeanOnSavedVenue() throws Exception {
-        Venue venue = VenueBuilder.get().build();
+        Venue venue = new Venue();
         venueMBean.setVenue(venue);
-        City city = CityBuilder.get().build();
+        City city = new City();
         when(locationMBean.getCity()).thenReturn(city);
         
         venueMBean.save();
