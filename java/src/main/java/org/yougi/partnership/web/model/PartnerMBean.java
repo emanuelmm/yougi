@@ -149,7 +149,7 @@ public class PartnerMBean implements Serializable {
             usersGroup.removeAll(reps);
             this.candidates = new DualListModel<>(usersGroup, reps);
         } else {
-            this.partner = new Partner();
+            this.partner = new Partner().setAddress(new Address());
 
             AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
             List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);

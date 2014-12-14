@@ -47,7 +47,7 @@
                         <h:outputLabel for="postalCode" value="#{bundle.postalCode}"/>
 
                         <h:inputText id="address" label="#{bundle.address}" size="30" maxlength="255" value="#{partnershipMBean.representative.partner.address}" styleClass="form-control"/>
-                        <h:inputText id="postalCode" label="#{bundle.postalCode}" size="10" maxlength="10" value="#{partnershipMBean.representative.partner.postalCode}" styleClass="form-control"/>
+                        <h:inputText id="postalCode" label="#{bundle.postalCode}" size="10" maxlength="10" value="#{partnershipMBean.representative.partner.address.postalCode}" styleClass="form-control"/>
 
                         <h:outputLabel for="country" value="#{bundle.country}"/>
                         <h:outputLabel for="province" value="#{bundle.province}"/>
