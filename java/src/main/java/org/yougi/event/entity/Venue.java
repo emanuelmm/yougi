@@ -99,24 +99,27 @@ public class Venue implements Serializable, Identified {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public Venue setCountry(Country country) {
         this.country = country;
+        return this;
     }
 
     public Province getProvince() {
         return province;
     }
 
-    public void setProvince(Province province) {
+    public Venue setProvince(Province province) {
         this.province = province;
+        return this;
     }
 
     public City getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public Venue setCity(City city) {
         this.city = city;
+        return this;
     }
 
     public String getLocation() {

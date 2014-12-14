@@ -20,7 +20,8 @@
  * */
 package org.yougi.event.web.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,11 +29,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.yougi.entity.City;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
+import org.yougi.event.business.EventBean;
 import org.yougi.event.business.VenueBean;
+import org.yougi.event.entity.Event;
 import org.yougi.event.entity.Venue;
 import org.yougi.web.model.LocationMBean;
 
@@ -46,6 +50,9 @@ public class VenueMBeanTest {
     
     @Mock
     private VenueBean venueBean;
+    
+    @Mock
+    private EventBean eventBean;
 
     @InjectMocks
     private VenueMBean venueMBean;
@@ -108,4 +115,92 @@ public class VenueMBeanTest {
         assertEquals(city, venue.getCity());
     }
     
+    @Test
+    public void testLoadFillingEventWhenEventIdIsNotNull() throws Exception {
+        Event event = new Event("1");
+        when(eventBean.find(event.getId())).thenReturn(event);
+        venueMBean.setEventId(event.getId());
+        
+        venueMBean.load();
+        
+        assertEquals(event, venueMBean.getEvent());
+    }
+
+    @Test
+    public void testLoadFillingVenueWhenVenueIdIsNotNull() throws Exception {
+        Venue venue = new Venue("1");
+        when(venueBean.find(venue.getId())).thenReturn(venue);
+        venueMBean.setId(venue.getId());
+        
+        venueMBean.load();
+        
+        assertEquals(venue, venueMBean.getVenue());
+    }
+    
+    @Test
+    public void testLoadCallingInitializeOnLocationMBeanWhenVenueIdIsNotNull() throws Exception {
+        venueMBean.setId("1");
+        when(venueBean.find("1")).thenReturn(new Venue("1").setCountry(new Country()));
+        
+        venueMBean.load();
+        
+        verify(locationMBean).initialize();
+    }
+    
+    @Test
+    public void testLoadSelectingCountryOnLocationMBeanWithAcronymOfVenuesCountry() throws Exception {
+        String acronym = "acro";
+        Country country = new Country().setAcronym(acronym);
+        Venue venue = new Venue("1").setCountry(country);
+        when(venueBean.find(venue.getId())).thenReturn(venue);
+        venueMBean.setId(venue.getId());
+        
+        venueMBean.load();
+        
+        verify(locationMBean).setSelectedCountry(acronym);
+    }
+    
+    @Test
+    public void testLoadSelectingProvinceOnLocationMBeanWithProvinceIdOfVenuesProvince() throws Exception {
+        String provinceId = "48";
+        Province province = new Province(provinceId);
+        Venue venue = new Venue("1").setProvince(province);
+        when(venueBean.find(venue.getId())).thenReturn(venue);
+        venueMBean.setId(venue.getId());
+        
+        venueMBean.load();
+        
+        verify(locationMBean).setSelectedProvince(provinceId);
+    }
+    
+    @Test
+    public void testLoadSelectingCityOnLocationMBeanWithCityIdOfVenuesCity() throws Exception {
+        String id = "48";
+        City city = new City(id);
+        Venue venue = new Venue("1").setCity(city);
+        when(venueBean.find(venue.getId())).thenReturn(venue);
+        venueMBean.setId(venue.getId());
+        
+        venueMBean.load();
+        
+        verify(locationMBean).setSelectedCity(id);
+    }
+    
+    @Test
+    public void testLoadNotSearchingForAnEventWithEmptyId() throws Exception {
+        venueMBean.setEventId("");
+        
+        venueMBean.load();
+        
+        verify(eventBean, never()).find(Mockito.anyString());
+    }
+    
+    @Test
+    public void testLoadNotSearchingForAnVenueWithEmptyId() throws Exception {
+        venueMBean.setId("");
+        
+        venueMBean.load();
+        
+        verify(venueBean, never()).find(Mockito.anyString());
+    }
 }
