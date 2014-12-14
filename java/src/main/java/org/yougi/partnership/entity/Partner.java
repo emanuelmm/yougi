@@ -104,8 +104,9 @@ public class Partner implements Serializable, Identified {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public Partner setAddress(Address address) {
         this.address = address;
+        return this;
     }
 
     @Override
