@@ -33,6 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.primefaces.model.DualListModel;
 import org.yougi.business.AccessGroupBean;
 import org.yougi.business.UserGroupBean;
 import org.yougi.entity.AccessGroup;
@@ -102,7 +103,7 @@ public class PartnerMBeanTest {
         assertNotNull(partnerMBean.getPartner());
         assertNotNull(partnerMBean.getPartner().getAddress());
     }
-    
+
     @Test
     public void testLoadWithEmptyIdEvaluatingCadidatesSource() throws Exception {
         partnerMBean.setId("");
@@ -115,7 +116,7 @@ public class PartnerMBeanTest {
 
         assertSame(usersGroup, partnerMBean.getCandidates().getSource());
     }
-    
+
     @Test
     public void testLoadWithEmptyIdEvaluatingCadidatesTarget() throws Exception {
         partnerMBean.setId("");
@@ -209,7 +210,7 @@ public class PartnerMBeanTest {
 
         assertEquals(representativePersons, partnerMBean.getCandidates().getTarget());
     }
-    
+
     @Test
     public void testLoadWithFilledIdRemovingRepresentativePersonsFromUsersGroups() throws Exception {
         partnerMBean.setId("248");
@@ -233,5 +234,66 @@ public class PartnerMBeanTest {
         assertEquals(1, partnerMBean.getCandidates().getTarget().size());
         assertTrue(partnerMBean.getCandidates().getSource().isEmpty());
     }
+
+    @Test
+    public void testSaveSettingAddressCountryOfPartnerWithLocationMBeanCountry() throws Exception {
+        Country country = new Country("Brasil");
+        when(locationMBean.getCountry()).thenReturn(country);
+        partnerMBean.setPartner(new Partner().setAddress(new Address()));
+        partnerMBean.setCandidates(new DualListModel<UserAccount>());
+
+        partnerMBean.save();
+
+        assertEquals(country, partnerMBean.getPartner().getAddress().getCountry());
+    }
+
+    @Test
+    public void testSaveSettingAddressProvinceOfPartnerWithLocationMBeanProvince() throws Exception {
+        Province province = new Province("Goias");
+        when(locationMBean.getProvince()).thenReturn(province);
+        partnerMBean.setPartner(new Partner().setAddress(new Address()));
+        partnerMBean.setCandidates(new DualListModel<UserAccount>());
+
+        partnerMBean.save();
+
+        assertEquals(province, partnerMBean.getPartner().getAddress().getProvince());
+    }
+
+    @Test
+    public void testSaveSettingAddressCityOfPartnerWithLocationMBeanCity() throws Exception {
+        City city = new City();
+        when(locationMBean.getCity()).thenReturn(city);
+        partnerMBean.setPartner(new Partner().setAddress(new Address()));
+        partnerMBean.setCandidates(new DualListModel<UserAccount>());
+
+        partnerMBean.save();
+
+        assertEquals(city, partnerMBean.getPartner().getAddress().getCity());
+    }
+
+    @Test
+    public void testSaveCallingSaveMethodPassingParnerWithACopyOfSelectedCandidates() throws Exception {
+        Partner partner = new Partner("1");
+        List<UserAccount> target = new ArrayList<UserAccount>();
+        List<UserAccount> looksJustLikeTarget = new ArrayList<UserAccount>();
+        target.add(new UserAccount("248"));
+        looksJustLikeTarget.add(new UserAccount("248"));
+        partnerMBean.setCandidates(new DualListModel<UserAccount>(new ArrayList<UserAccount>(),
+                target));
+        partnerMBean.setPartner(partner);
+
+        partnerMBean.save();
+
+        verify(representativeBean).save(partner, looksJustLikeTarget);
+    }
     
+    @Test
+    public void testSaveWithSuccessReturn() throws Exception {
+        partnerMBean.setCandidates(new DualListModel<UserAccount>(new ArrayList<UserAccount>(),
+                new ArrayList<UserAccount>()));
+        
+        String successReturn = partnerMBean.save();
+        
+        assertEquals("partners?faces-redirect=true", successReturn);
+    }
 }
