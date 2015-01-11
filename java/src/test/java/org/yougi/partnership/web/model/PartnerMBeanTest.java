@@ -23,16 +23,24 @@ package org.yougi.partnership.web.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.yougi.business.AccessGroupBean;
 import org.yougi.business.UserGroupBean;
+import org.yougi.entity.Address;
+import org.yougi.entity.City;
+import org.yougi.entity.Country;
+import org.yougi.entity.Province;
 import org.yougi.partnership.business.PartnerBean;
+import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
+import org.yougi.web.model.LocationMBean;
 
 /**
  * @author Ruither 'delki8' Borba - https://github.com/delki8
@@ -47,6 +55,12 @@ public class PartnerMBeanTest {
     
     @Mock
     private PartnerBean partnerBean;
+    
+    @Mock
+    private LocationMBean locationMBean;
+    
+    @Mock
+    private RepresentativeBean representativeBean;
 
     @InjectMocks
     private PartnerMBean partnerMBean;
@@ -83,6 +97,50 @@ public class PartnerMBeanTest {
         
         assertNotNull(partnerMBean.getPartner());
         assertNotNull(partnerMBean.getPartner().getAddress());
+    }
+    
+    @Test
+    public void testLoadWithFilledId() throws Exception {
+        partnerMBean.setId("248");
+        Partner partner = new Partner("248").setAddress(new Address());
+        when(partnerBean.find("248")).thenReturn(partner);
+        
+        partnerMBean.load();
+        
+        assertEquals(partner, partnerMBean.getPartner());
+    }
+    
+    @Test
+    public void testLoadWithFilledIdSelectingCountryOnLocationMBean() throws Exception {
+        partnerMBean.setId("248");
+        Country country = new Country("Brasil");
+        when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setCountry(country)));
+        
+        partnerMBean.load();
+        
+        Mockito.verify(locationMBean).setSelectedCountry(country.getAcronym());
+    }
+    
+    @Test
+    public void testLoadWithFilledIdSelectingProvinceOnLocationMBean() throws Exception {
+        partnerMBean.setId("248");
+        Province province = new Province("Goias");
+        when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setProvince(province)));
+        
+        partnerMBean.load();
+        
+        Mockito.verify(locationMBean).setSelectedProvince(province.getId());
+    }
+    
+    @Test
+    public void testLoadWithFilledIdSelectingCityOnLocationMBean() throws Exception {
+        partnerMBean.setId("248");
+        City city = new City("Goiania");
+        when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setCity(city)));
+        
+        partnerMBean.load();
+        
+        Mockito.verify(locationMBean).setSelectedCity(city.getId());
     }
     
 }
