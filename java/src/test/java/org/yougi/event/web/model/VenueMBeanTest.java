@@ -20,10 +20,14 @@
  * */
 package org.yougi.event.web.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +39,11 @@ import org.yougi.entity.City;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
 import org.yougi.event.business.EventBean;
+import org.yougi.event.business.EventVenueBean;
+import org.yougi.event.business.RoomBean;
 import org.yougi.event.business.VenueBean;
 import org.yougi.event.entity.Event;
+import org.yougi.event.entity.Room;
 import org.yougi.event.entity.Venue;
 import org.yougi.web.model.LocationMBean;
 
@@ -52,7 +59,13 @@ public class VenueMBeanTest {
     private VenueBean venueBean;
     
     @Mock
+    private RoomBean roomBean;
+    
+    @Mock
     private EventBean eventBean;
+    
+    @Mock
+    private EventVenueBean eventVenueBean;
 
     @InjectMocks
     private VenueMBean venueMBean;
@@ -202,5 +215,45 @@ public class VenueMBeanTest {
         venueMBean.load();
         
         verify(venueBean, never()).find(Mockito.anyString());
+    }
+    
+    @Test
+    public void testGetRooms() throws Exception {
+        Venue venue = new Venue("248");
+        List<Room> rooms = new ArrayList<Room>();
+        when(roomBean.findRooms(venue)).thenReturn(rooms);
+        venueMBean.setVenue(venue);
+        
+        venueMBean.getRooms();
+        List<Room> roomsOnBean = venueMBean.getRooms();
+        
+        assertSame(rooms, roomsOnBean);
+        verify(roomBean).findRooms(Mockito.any(Venue.class));
+    }
+    
+    @Test
+    public void testGetVenues() throws Exception {
+        List<Venue> venues = new ArrayList<Venue>();
+        when(venueBean.findVenues()).thenReturn(venues);
+        
+        venueMBean.getVenues();
+        List<Venue> venuesOnBean = venueMBean.getVenues();
+        
+        assertSame(venues, venuesOnBean);
+        verify(venueBean).findVenues();
+    }
+    
+    @Test
+    public void testGetEvents() throws Exception {
+        Venue venue = new Venue("248");
+        List<Event> events = new ArrayList<Event>();
+        when(eventVenueBean.findEventsVenue(venue)).thenReturn(events);
+        venueMBean.setVenue(venue);
+        
+        venueMBean.getEvents();
+        List<Event> eventsOnBean = venueMBean.getEvents();
+        
+        assertSame(events, eventsOnBean);
+        verify(eventVenueBean).findEventsVenue(Mockito.any(Venue.class));
     }
 }

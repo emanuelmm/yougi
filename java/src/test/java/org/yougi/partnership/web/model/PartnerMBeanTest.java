@@ -21,6 +21,7 @@
 package org.yougi.partnership.web.model;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -295,5 +296,26 @@ public class PartnerMBeanTest {
         String successReturn = partnerMBean.save();
         
         assertEquals("partners?faces-redirect=true", successReturn);
+    }
+    
+    @Test
+    public void testGetPartnersWithNullPartnersOnBean() throws Exception {
+        List<Partner> partners = new ArrayList<Partner>();
+        when(partnerBean.findPartners()).thenReturn(partners);
+        
+        List<Partner> partnersOnBean = partnerMBean.getPartners();
+        
+        assertSame(partners, partnersOnBean);
+    }
+    
+    @Test
+    public void testGetPartnersWithFilledPartnersOnBean() throws Exception {
+        List<Partner> partnersOne = new ArrayList<Partner>();
+        when(partnerBean.findPartners()).thenReturn(partnersOne);
+        
+        partnerMBean.getPartners();
+        partnerMBean.getPartners();
+        
+        verify(partnerBean, times(1)).findPartners();
     }
 }
