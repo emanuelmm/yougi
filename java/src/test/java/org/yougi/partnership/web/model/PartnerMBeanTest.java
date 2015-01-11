@@ -20,9 +20,7 @@
  * */
 package org.yougi.partnership.web.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -104,6 +102,35 @@ public class PartnerMBeanTest {
         assertNotNull(partnerMBean.getPartner());
         assertNotNull(partnerMBean.getPartner().getAddress());
     }
+    
+    @Test
+    public void testLoadWithEmptyIdEvaluatingCadidatesSource() throws Exception {
+        partnerMBean.setId("");
+        AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
+        when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
+        List<UserAccount> usersGroup = new ArrayList<UserAccount>();
+        when(userGroupBean.findUsersGroup(accessGroup)).thenReturn(usersGroup);
+
+        partnerMBean.load();
+
+        assertSame(usersGroup, partnerMBean.getCandidates().getSource());
+    }
+    
+    @Test
+    public void testLoadWithEmptyIdEvaluatingCadidatesTarget() throws Exception {
+        partnerMBean.setId("");
+        AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
+        when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
+        List<UserAccount> usersGroup = new ArrayList<UserAccount>();
+        when(userGroupBean.findUsersGroup(accessGroup)).thenReturn(usersGroup);
+
+        List<UserAccount> representativePersons = new ArrayList<UserAccount>();
+        representativePersons.add(new UserAccount("167"));
+
+        partnerMBean.load();
+
+        assertTrue(partnerMBean.getCandidates().getTarget().isEmpty());
+    }
 
     @Test
     public void testLoadWithFilledId() throws Exception {
@@ -151,6 +178,8 @@ public class PartnerMBeanTest {
 
     @Test
     public void testLoadWithFilledIdEvaluatingCandidatesSource() throws Exception {
+        partnerMBean.setId("248");
+        when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address()));
         AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
         when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
         List<UserAccount> usersGroup = new ArrayList<UserAccount>();
@@ -180,5 +209,29 @@ public class PartnerMBeanTest {
 
         assertEquals(representativePersons, partnerMBean.getCandidates().getTarget());
     }
+    
+    @Test
+    public void testLoadWithFilledIdRemovingRepresentativePersonsFromUsersGroups() throws Exception {
+        partnerMBean.setId("248");
+        Partner partner = new Partner("248").setAddress(new Address());
+        when(partnerBean.find("248")).thenReturn(partner);
 
+        UserAccount userAccount = new UserAccount("167");
+        AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
+        when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
+        List<UserAccount> usersGroup = new ArrayList<UserAccount>();
+        when(userGroupBean.findUsersGroup(accessGroup)).thenReturn(usersGroup);
+        usersGroup.add(userAccount);
+
+        List<UserAccount> representativePersons = new ArrayList<UserAccount>();
+        representativePersons.add(userAccount);
+        when(representativeBean.findRepresentativePersons(partner)).thenReturn(representativePersons);
+
+        partnerMBean.load();
+
+        assertEquals(userAccount, partnerMBean.getCandidates().getTarget().get(0));
+        assertEquals(1, partnerMBean.getCandidates().getTarget().size());
+        assertTrue(partnerMBean.getCandidates().getSource().isEmpty());
+    }
+    
 }
