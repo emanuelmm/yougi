@@ -21,6 +21,7 @@
 package org.yougi.partnership.web.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -28,6 +29,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.yougi.business.AccessGroupBean;
+import org.yougi.business.UserGroupBean;
 import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.entity.Partner;
 
@@ -35,6 +38,12 @@ import org.yougi.partnership.entity.Partner;
  * @author Ruither 'delki8' Borba - https://github.com/delki8
  */
 public class PartnerMBeanTest {
+    
+    @Mock
+    private UserGroupBean userGroupBean;
+    
+    @Mock
+    private AccessGroupBean accessGroupBean;
     
     @Mock
     private PartnerBean partnerBean;
@@ -64,6 +73,16 @@ public class PartnerMBeanTest {
         partnerMBean.remove();
         
         verify(partnerBean).remove(partnersId);
+    }
+    
+    @Test
+    public void testLoadWithNullIdInstantiatingNewPartnerWithAddress() throws Exception {
+        partnerMBean.setId(null);
+        
+        partnerMBean.load();
+        
+        assertNotNull(partnerMBean.getPartner());
+        assertNotNull(partnerMBean.getPartner().getAddress());
     }
     
 }
