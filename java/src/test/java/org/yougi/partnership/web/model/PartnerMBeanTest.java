@@ -22,8 +22,12 @@ package org.yougi.partnership.web.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,10 +37,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.yougi.business.AccessGroupBean;
 import org.yougi.business.UserGroupBean;
+import org.yougi.entity.AccessGroup;
 import org.yougi.entity.Address;
 import org.yougi.entity.City;
 import org.yougi.entity.Country;
 import org.yougi.entity.Province;
+import org.yougi.entity.UserAccount;
 import org.yougi.partnership.business.PartnerBean;
 import org.yougi.partnership.business.RepresentativeBean;
 import org.yougi.partnership.entity.Partner;
@@ -46,101 +52,133 @@ import org.yougi.web.model.LocationMBean;
  * @author Ruither 'delki8' Borba - https://github.com/delki8
  */
 public class PartnerMBeanTest {
-    
+
     @Mock
     private UserGroupBean userGroupBean;
-    
+
     @Mock
     private AccessGroupBean accessGroupBean;
-    
+
     @Mock
     private PartnerBean partnerBean;
-    
+
     @Mock
     private LocationMBean locationMBean;
-    
+
     @Mock
     private RepresentativeBean representativeBean;
 
     @InjectMocks
     private PartnerMBean partnerMBean;
-    
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-    
+
     @Test
     public void testRemoveWithSuccessReturn() throws Exception {
         partnerMBean.setPartner(new Partner());
-        
+
         String successReturn = partnerMBean.remove();
-        
+
         assertEquals("partners?faces-redirect=true", successReturn);
     }
-    
+
     @Test
     public void testRemoveCallignRemoveOnBeanPassingPartnersId() throws Exception {
         String partnersId = "1";
         partnerMBean.setPartner(new Partner(partnersId));
-        
+
         partnerMBean.remove();
-        
+
         verify(partnerBean).remove(partnersId);
     }
-    
+
     @Test
     public void testLoadWithNullIdInstantiatingNewPartnerWithAddress() throws Exception {
         partnerMBean.setId(null);
-        
+
         partnerMBean.load();
-        
+
         assertNotNull(partnerMBean.getPartner());
         assertNotNull(partnerMBean.getPartner().getAddress());
     }
-    
+
     @Test
     public void testLoadWithFilledId() throws Exception {
         partnerMBean.setId("248");
         Partner partner = new Partner("248").setAddress(new Address());
         when(partnerBean.find("248")).thenReturn(partner);
-        
+
         partnerMBean.load();
-        
+
         assertEquals(partner, partnerMBean.getPartner());
     }
-    
+
     @Test
     public void testLoadWithFilledIdSelectingCountryOnLocationMBean() throws Exception {
         partnerMBean.setId("248");
         Country country = new Country("Brasil");
         when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setCountry(country)));
-        
+
         partnerMBean.load();
-        
+
         Mockito.verify(locationMBean).setSelectedCountry(country.getAcronym());
     }
-    
+
     @Test
     public void testLoadWithFilledIdSelectingProvinceOnLocationMBean() throws Exception {
         partnerMBean.setId("248");
         Province province = new Province("Goias");
         when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setProvince(province)));
-        
+
         partnerMBean.load();
-        
+
         Mockito.verify(locationMBean).setSelectedProvince(province.getId());
     }
-    
+
     @Test
     public void testLoadWithFilledIdSelectingCityOnLocationMBean() throws Exception {
         partnerMBean.setId("248");
         City city = new City("Goiania");
         when(partnerBean.find("248")).thenReturn(new Partner("248").setAddress(new Address().setCity(city)));
-        
+
         partnerMBean.load();
-        
+
         Mockito.verify(locationMBean).setSelectedCity(city.getId());
     }
-    
+
+    @Test
+    public void testLoadWithFilledIdEvaluatingCandidatesSource() throws Exception {
+        AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
+        when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
+        List<UserAccount> usersGroup = new ArrayList<UserAccount>();
+        when(userGroupBean.findUsersGroup(accessGroup)).thenReturn(usersGroup);
+
+        partnerMBean.load();
+
+        assertSame(usersGroup, partnerMBean.getCandidates().getSource());
+    }
+
+    @Test
+    public void testLoadWithFilledIdEvaluatingCandidatesTarget() throws Exception {
+        partnerMBean.setId("248");
+        Partner partner = new Partner("248").setAddress(new Address());
+        when(partnerBean.find("248")).thenReturn(partner);
+
+        AccessGroup accessGroup = new AccessGroup("partners", "parceiros");
+        when(accessGroupBean.findAccessGroupByName("partners")).thenReturn(accessGroup);
+        List<UserAccount> usersGroup = new ArrayList<UserAccount>();
+        when(userGroupBean.findUsersGroup(accessGroup)).thenReturn(usersGroup);
+
+        List<UserAccount> representativePersons = new ArrayList<UserAccount>();
+        representativePersons.add(new UserAccount("167"));
+        when(representativeBean.findRepresentativePersons(partner)).thenReturn(representativePersons);
+
+        partnerMBean.load();
+
+        assertEquals(representativePersons, partnerMBean.getCandidates().getTarget());
+    }
+
 }
