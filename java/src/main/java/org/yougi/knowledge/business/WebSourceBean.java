@@ -85,7 +85,7 @@ public class WebSourceBean extends AbstractBean<WebSource> {
 
         QUserAccount userAccount = QUserAccount.userAccount;
         QWebSource webSource = QWebSource.webSource;
-        List<UserAccount> userAccounts = queryProvider.from(webSource).list(userAccount);
+        List<UserAccount> userAccounts = queryProvider.from(webSource).list(webSource.provider);
 
         JPAQuery query = new JPAQuery(em);
         return query.from(userAccount).where(userAccount.deactivated.isFalse(),
