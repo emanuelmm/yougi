@@ -24,6 +24,7 @@ import org.yougi.entity.Identified;
 import org.yougi.entity.UserAccount;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -69,6 +70,12 @@ public class Attendee implements Serializable, Identified {
 
     @Column(name="certificate_code")
     private String certificateCode;
+
+    public Attendee() {}
+    
+    public Attendee(String id) {
+        this.id = id;
+    }
 
     @Override
     public String getId() {
