@@ -75,8 +75,9 @@ public class Venue implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public Venue setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {

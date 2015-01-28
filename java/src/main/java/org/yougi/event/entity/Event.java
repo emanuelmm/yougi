@@ -87,8 +87,9 @@ public class Event implements Serializable, Identified, PublicContent {
     }
 
     @Override
-    public void setId(String id) {
+    public Event setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {

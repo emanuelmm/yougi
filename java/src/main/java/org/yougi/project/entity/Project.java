@@ -49,8 +49,9 @@ public class Project implements Serializable, Identified {
 	}
 
 	@Override
-	public void setId(String id) {
+	public Project setId(String id) {
 		this.id = id;
+        return this;
 	}
 
 	public String getName() {

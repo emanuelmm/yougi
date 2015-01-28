@@ -28,5 +28,5 @@ package org.yougi.entity;
  */
 public interface Identified {
     public String getId();
-    public void setId(String id);
+    public Object setId(String id);
 }

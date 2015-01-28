@@ -99,8 +99,9 @@ public class MessageHistory implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public MessageHistory setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getSubject() {

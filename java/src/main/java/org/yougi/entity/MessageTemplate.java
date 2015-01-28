@@ -74,32 +74,36 @@ public class MessageTemplate implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public MessageTemplate setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public MessageTemplate setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public MessageTemplate setBody(String body) {
         this.body = body;
+        return this;
     }
 
     public EmailMessageFormat getFormat() {
         return format;
     }
 
-    public void setFormat(EmailMessageFormat format) {
+    public MessageTemplate setFormat(EmailMessageFormat format) {
         this.format = format;
+        return this;
     }
 
     public String getTruncatedBody() {
@@ -110,8 +114,9 @@ public class MessageTemplate implements Serializable, Identified {
         }
     }
 
-    public void setVariable(String variable, Object value) {
+    public MessageTemplate setVariable(String variable, Object value) {
         this.variablesValues.put(variable, value);
+        return this;
     }
 
     public EmailMessage buildEmailMessage() {

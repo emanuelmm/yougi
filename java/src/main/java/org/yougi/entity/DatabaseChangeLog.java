@@ -68,8 +68,9 @@ public class DatabaseChangeLog implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public DatabaseChangeLog setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getAuthor() {

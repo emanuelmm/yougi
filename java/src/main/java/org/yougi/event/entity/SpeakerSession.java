@@ -52,8 +52,9 @@ public class SpeakerSession implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public SpeakerSession setId(String id) {
         this.id = id;
+        return this;
     }
 
     public Speaker getSpeaker() {

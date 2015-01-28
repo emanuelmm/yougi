@@ -50,16 +50,18 @@ public class Address {
         return address;
     }
 
-    public void setAddress(String address) {
+    public Address setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public City getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public Address setCity(City city) {
         this.city = city;
+        return this;
     }
 
     public Province getProvince() {

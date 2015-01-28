@@ -52,8 +52,9 @@ public class Room implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public Room setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {

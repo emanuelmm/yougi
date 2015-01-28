@@ -57,32 +57,36 @@ public class AccessGroup implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public AccessGroup setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public AccessGroup setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public AccessGroup setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Boolean getUserDefault() {
         return userDefault;
     }
 
-    public void setUserDefault(Boolean userDefault) {
+    public AccessGroup setUserDefault(Boolean userDefault) {
         this.userDefault = userDefault;
+        return this;
     }
 
     public boolean getDefault() {

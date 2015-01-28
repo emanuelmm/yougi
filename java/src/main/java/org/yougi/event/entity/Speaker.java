@@ -65,8 +65,9 @@ public class Speaker implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public Speaker setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getFullName() {
