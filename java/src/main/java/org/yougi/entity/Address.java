@@ -55,8 +55,9 @@ public class Address {
         return address;
     }
 
-    public void setAddress(String address) {
+    public Address setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public City getCity() {

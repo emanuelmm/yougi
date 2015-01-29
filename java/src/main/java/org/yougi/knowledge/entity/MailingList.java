@@ -62,8 +62,9 @@ public class MailingList implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public MailingList setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {

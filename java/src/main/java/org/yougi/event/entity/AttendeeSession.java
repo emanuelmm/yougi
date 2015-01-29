@@ -57,8 +57,9 @@ public class AttendeeSession implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public AttendeeSession setId(String id) {
         this.id = id;
+        return this;
     }
 
     public Attendee getAttendee() {

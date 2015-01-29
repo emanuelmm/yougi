@@ -58,8 +58,9 @@ public class Track implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public Track setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getColor() {

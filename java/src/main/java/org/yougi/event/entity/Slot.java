@@ -68,8 +68,9 @@ public class Slot implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public Slot setId(String id) {
         this.id = id;
+        return this;
     }
 
     public Event getEvent() {

@@ -71,8 +71,9 @@ public class MailingListMessage implements Serializable, Cloneable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public MailingListMessage setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getSubject() {

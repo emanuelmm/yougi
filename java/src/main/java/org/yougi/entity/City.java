@@ -78,8 +78,9 @@ public class City implements Serializable, Identified {
     }
 
     @Override
-    public void setId(String id) {
+    public City setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
