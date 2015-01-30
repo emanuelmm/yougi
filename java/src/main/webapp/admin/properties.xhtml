@@ -73,7 +73,9 @@
                                         <h:outputLabel for="language" value="#{bundle.language}" styleClass="control-label"/>
                                         <h:selectOneMenu id="language" label="#{bundle.language}" value="#{applicationPropertiesMBean.applicationProperties['language']}" styleClass="form-control">
                                             <f:selectItem itemLabel="#{bundle.select}" itemValue="" />
-                                            <f:selectItems value="#{applicationPropertiesMBean.languages}" var="lang" itemLabel="#{lang.name}" itemValue="#{lang.acronym}"/>
+                                            <f:selectItem itemLabel="#{bundle.english}" itemValue="ENGLISH"/>
+                                            <f:selectItem itemLabel="#{bundle.french}" itemValue="FRANCAIS"/>
+                                            <f:selectItem itemLabel="#{bundle.portuguese}" itemValue="PORTUGUESE"/>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>

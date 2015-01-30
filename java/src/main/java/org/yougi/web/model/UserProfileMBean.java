@@ -20,12 +20,14 @@
  * */
 package org.yougi.web.model;
 
+import org.yougi.annotation.UserName;
 import org.yougi.business.ApplicationPropertyBean;
-import org.yougi.business.LanguageBean;
 import org.yougi.business.TimezoneBean;
 import org.yougi.business.UserAccountBean;
-import org.yougi.entity.*;
-import org.yougi.annotation.UserName;
+import org.yougi.entity.ApplicationProperty;
+import org.yougi.entity.Language;
+import org.yougi.entity.Timezone;
+import org.yougi.entity.UserAccount;
 import org.yougi.reference.Properties;
 import org.yougi.util.StringUtils;
 
@@ -37,7 +39,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -47,9 +48,6 @@ import java.util.Locale;
 public class UserProfileMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @EJB
-    private LanguageBean languageBean;
 
     @EJB
     private TimezoneBean timezoneBean;
@@ -72,22 +70,21 @@ public class UserProfileMBean implements Serializable {
     private String timezone;
 
     public UserProfileMBean() {
-        this.language = new Language();
+        this.language = Language.getDefaultLanguage();
     }
 
     public String getLanguage() {
         if (this.language != null) {
             return this.language.getAcronym();
         } else {
-            this.language = new Language();
+            this.language = Language.getDefaultLanguage();
             return this.language.getAcronym();
         }
     }
 
-    public String changeLanguage(String acronym) {
-        this.language = languageBean.findLanguage(acronym);
-        Locale locale = new Locale(language.getAcronym());
-        context.getViewRoot().setLocale(locale);
+    public String changeLanguage(Language language) {
+        this.language = language;
+        context.getViewRoot().setLocale(this.language.getLocale());
         return "index?faces-redirect=true";
     }
 

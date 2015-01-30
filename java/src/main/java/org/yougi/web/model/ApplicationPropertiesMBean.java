@@ -21,11 +21,9 @@
 package org.yougi.web.model;
 
 import org.yougi.business.ApplicationPropertyBean;
-import org.yougi.business.LanguageBean;
 import org.yougi.business.TimezoneBean;
-import org.yougi.entity.Language;
-import org.yougi.reference.Properties;
 import org.yougi.entity.Timezone;
+import org.yougi.reference.Properties;
 import org.yougi.util.ResourceBundleHelper;
 import org.yougi.util.StringUtils;
 
@@ -56,9 +54,6 @@ public class ApplicationPropertiesMBean implements Serializable {
     @EJB
     private TimezoneBean timezoneBean;
 
-    @EJB
-    private LanguageBean languageBean;
-
     @Inject
     private FacesContext context;
 
@@ -69,7 +64,6 @@ public class ApplicationPropertiesMBean implements Serializable {
     private Boolean sendEmails;
     private Boolean receiveEmails;
     private Boolean captchaEnabled;
-    private List<Language> languages;
     private List<Timezone> timezones;
 
     public Map<String, String> getApplicationProperties() {
@@ -109,13 +103,6 @@ public class ApplicationPropertiesMBean implements Serializable {
             this.timezones = timezoneBean.findTimezones();
         }
         return this.timezones;
-    }
-
-    public List<Language> getLanguages() {
-        if (this.languages == null) {
-            this.languages = languageBean.findLanguages();
-        }
-        return this.languages;
     }
 
     @PostConstruct

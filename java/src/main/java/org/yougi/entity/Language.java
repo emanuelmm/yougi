@@ -20,84 +20,29 @@
  * */
 package org.yougi.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Locale;
 
-@Entity
-@Table(name = "language")
-public class Language implements Serializable {
+public enum Language {
 
-    private static final long serialVersionUID = 1L;
+    ENGLISH("en"),
+    FRANCAIS("fr"),
+    PORTUGUES("pt");
 
-    public static final String DEFAULT_LANGUAGE = "en";
-
-    @Id
-    @Column(name = "acronym", nullable = false)
     private String acronym;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    public Language() {
-        this.acronym = DEFAULT_LANGUAGE;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAcronym() {
-        return acronym;
-    }
-
-    public void setAcronym(String acronym) {
+    Language(String acronym) {
         this.acronym = acronym;
     }
 
+    public String getAcronym() {
+        return this.acronym;
+    }
+
+    public static Language getDefaultLanguage() {
+        return ENGLISH;
+    }
+
     public Locale getLocale() {
-        return new Locale(this.getAcronym());
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((acronym == null) ? 0 : acronym.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Language)) {
-            return false;
-        }
-        Language other = (Language) obj;
-        if (acronym == null) {
-            if (other.acronym != null) {
-                return false;
-            }
-        } else if (!acronym.equals(other.acronym)) {
-            return false;
-        }
-        return true;
+        return new Locale(this.acronym);
     }
 }
