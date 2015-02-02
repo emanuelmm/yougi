@@ -70,7 +70,7 @@ public class UserNameProducer implements Serializable {
         return userAccount == null ? "" : userAccount.getFirstName();
     }
 
-    private void loadUserAccount() {
+    private UserAccount loadUserAccount() {
         if(userAccount == null) {
             String userName = httpServletRequest.getRemoteUser();
             userAccount = userAccountBean.findByUsername(userName);
@@ -82,5 +82,6 @@ public class UserNameProducer implements Serializable {
                 userSessionBean.cleanFinishedAnonimousSessions();
             }
         }
+        return userAccount;
     }
 }

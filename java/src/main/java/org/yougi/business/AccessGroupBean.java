@@ -138,7 +138,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
         throw new BusinessLogicException("Please use the save method that accepts the list of members by parameter");
     }
 
-    public void save(AccessGroup accessGroup, List<UserAccount> members) {
+    public AccessGroup save(AccessGroup accessGroup, List<UserAccount> members) {
         if(accessGroup.getUserDefault()) {
             AccessGroup defaultGroup = findDefaultAccessGroup();
             defaultGroup.setUserDefault(false);
@@ -156,7 +156,7 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
                 em.persist(accessGroup);
             }
         } else {
-            em.merge(accessGroup);
+            accessGroup = em.merge(accessGroup);
         }
 
         if(members != null) {
@@ -168,5 +168,6 @@ public class AccessGroupBean extends AbstractBean<AccessGroup> {
             }
             userGroupBean.update(accessGroup, usersGroup);
         }
+        return accessGroup;
     }
 }

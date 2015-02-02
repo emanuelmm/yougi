@@ -120,21 +120,23 @@ public class ApplicationPropertyBean {
         }
     }
 
-    private void create(Map<String, String> properties) {
+    private ApplicationProperty create(Map<String, String> properties) {
         Set<Map.Entry<String, String>> props = properties.entrySet();
         Iterator<Map.Entry<String, String>> iProps = props.iterator();
-        ApplicationProperty appProp;
+        ApplicationProperty appProp = null;
         Map.Entry<String, String> entry;
         while(iProps.hasNext()) {
             entry = iProps.next();
             appProp = new ApplicationProperty(entry.getKey(), entry.getValue());
             em.persist(appProp);
         }
+        return appProp;
     }
 
-    private void create(String key, String value) {
+    private ApplicationProperty create(String key, String value) {
         ApplicationProperty appProp = new ApplicationProperty(key, value);
         em.persist(appProp);
+        return appProp;
     }
 
     private void remove(String key) {
