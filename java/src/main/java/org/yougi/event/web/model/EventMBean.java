@@ -20,26 +20,39 @@
  * */
 package org.yougi.event.web.model;
 
-import org.primefaces.model.chart.PieChartModel;
-import org.yougi.business.UserAccountBean;
-import org.yougi.entity.UserAccount;
-import org.yougi.event.business.*;
-import org.yougi.event.entity.*;
-import org.yougi.util.DateTimeUtils;
-import org.yougi.util.ResourceBundleHelper;
-import org.yougi.util.WebTextUtils;
-import org.yougi.annotation.ManagedProperty;
-import org.yougi.annotation.UserName;
-import org.yougi.web.model.UserProfileMBean;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
+
+import org.primefaces.model.chart.PieChartModel;
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.annotation.UserName;
+import org.yougi.business.UserAccountBean;
+import org.yougi.entity.UserAccount;
+import org.yougi.event.business.AttendeeBean;
+import org.yougi.event.business.EventBean;
+import org.yougi.event.business.EventVenueBean;
+import org.yougi.event.business.SessionBean;
+import org.yougi.event.business.SpeakerBean;
+import org.yougi.event.business.SponsorshipEventBean;
+import org.yougi.event.business.TrackBean;
+import org.yougi.event.entity.Attendee;
+import org.yougi.event.entity.Event;
+import org.yougi.event.entity.SessionEvent;
+import org.yougi.event.entity.Speaker;
+import org.yougi.event.entity.SponsorshipEvent;
+import org.yougi.event.entity.Track;
+import org.yougi.event.entity.Venue;
+import org.yougi.util.DateTimeUtils;
+import org.yougi.util.ResourceBundleHelper;
+import org.yougi.util.WebTextUtils;
+import org.yougi.web.model.UserProfileMBean;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
