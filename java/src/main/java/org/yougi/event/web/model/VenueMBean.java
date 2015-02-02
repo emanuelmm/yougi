@@ -20,21 +20,26 @@
  * */
 package org.yougi.event.web.model;
 
-import org.yougi.event.business.*;
-import org.yougi.event.entity.Event;
-import org.yougi.event.entity.Room;
-import org.yougi.event.entity.SessionEvent;
-import org.yougi.event.entity.Venue;
-import org.yougi.annotation.ManagedProperty;
-import org.yougi.web.model.LocationMBean;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.List;
+
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.event.business.EventBean;
+import org.yougi.event.business.EventVenueBean;
+import org.yougi.event.business.RoomBean;
+import org.yougi.event.business.SessionBean;
+import org.yougi.event.business.VenueBean;
+import org.yougi.event.entity.Event;
+import org.yougi.event.entity.Room;
+import org.yougi.event.entity.SessionEvent;
+import org.yougi.event.entity.Venue;
+import org.yougi.web.model.LocationMBean;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com

@@ -38,7 +38,7 @@
                                 <dt>#{bundle.website}</dt>
                                 <dd><h:outputLink value="#{partnerMBean.partner.url}" target="_blank">#{partnerMBean.partner.url}</h:outputLink></dd>
                                 <dt>#{bundle.address}</dt>
-                                <dd>#{partnerMBean.partner.address}, #{partnerMBean.partner.postalCode}, #{partnerMBean.partner.city} - #{partnerMBean.partner.province}, #{partnerMBean.partner.country}</dd>
+                                <dd>#{partnerMBean.partner.address}, #{partnerMBean.partner.address.postalCode}, #{partnerMBean.partner.address.city} - #{partnerMBean.partner.address.province}, #{partnerMBean.partner.address.country}</dd>
                                 <dt>#{bundle.description}</dt>
                                 <dd>#{partnerMBean.partner.description}</dd>
                             </dl>

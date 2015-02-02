@@ -20,6 +20,8 @@
  * */
 package org.yougi.event.web.model;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Assert;
@@ -92,13 +94,13 @@ public class EventMBeanTest {
 
         Assert.assertTrue(eventMBean.getIsAttending());
     }
-    
+
     @Test
     public void testLoadWithFilledIdSettingAttendingNumber() throws Exception {
         createDataToLoadTest();
-        
+
         eventMBean.load();
-        
+
         Assert.assertEquals(new Long(123), eventMBean.getNumberPeopleAttending());
     }
 
@@ -114,13 +116,74 @@ public class EventMBeanTest {
     @Test
     public void testLoadWithFilledIdSettingSelectedParentWithIdOfEventsParent() throws Exception {
         String parentsId = "6";
-        Event parentEvent = new Event(parentsId);
+        Event parentEvent = new Event(); 
+        parentEvent.setId(parentsId);
         Event event = createDataToLoadTest();
         event.setParent(parentEvent);
 
         eventMBean.load();
 
         Assert.assertEquals(parentsId, eventMBean.getSelectedParent());
+    }
+
+    @Test
+    public void testSaveWithSuccessReturnWithNullParent() throws Exception {
+        String mappingReturn = eventMBean.save();
+
+        assertEquals("events?faces-redirect=true", mappingReturn);
+    }
+
+    @Test
+    public void testSaveWithSuccessReturnWithEmptyParent() throws Exception {
+        eventMBean.setSelectedParent("");
+
+        String mappingReturn = eventMBean.save();
+
+        assertEquals("events?faces-redirect=true", mappingReturn);
+    }
+
+    @Test
+    public void testSaveInstantiatingNewEventWithSettedParent() throws Exception {
+        String parentsId = "6";
+        Event event = new Event();
+        eventMBean.setSelectedParent(parentsId);
+        eventMBean.setEvent(event);
+
+        eventMBean.save();
+
+        Event parentEvent = new Event();
+        parentEvent.setId(parentsId);
+        assertEquals(parentEvent, event.getParent());
+    }
+
+    @Test
+    public void testSavePersistingEntity() throws Exception {
+        Event event = new Event();
+        event.setId("1");
+        eventMBean.setEvent(event);
+
+        eventMBean.save();
+
+        verify(eventBean).save(event);
+    }
+    
+    @Test
+    public void testRemoveWithSuccessReturn() throws Exception {
+        eventMBean.setEvent(new Event());
+        
+        String successReturn = eventMBean.remove();
+        
+        assertEquals("events?faces-redirect=true", successReturn);
+    }
+    
+    @Test
+    public void testRemoveCallingRemoveOnBean() throws Exception {
+        Event event = new Event("1");
+        eventMBean.setEvent(event);
+        
+        eventMBean.remove();
+        
+        verify(eventBean).remove("1");
     }
 
     private Event createDataToLoadTest() {

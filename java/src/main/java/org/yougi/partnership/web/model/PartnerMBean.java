@@ -20,25 +20,31 @@
  * */
 package org.yougi.partnership.web.model;
 
-import org.primefaces.model.DualListModel;
-import org.yougi.business.AccessGroupBean;
-import org.yougi.business.UserGroupBean;
-import org.yougi.entity.*;
-import org.yougi.partnership.business.PartnerBean;
-import org.yougi.partnership.business.RepresentativeBean;
-import org.yougi.partnership.entity.Partner;
-import org.yougi.partnership.entity.Representative;
-import org.yougi.annotation.ManagedProperty;
-import org.yougi.web.model.LocationMBean;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.primefaces.model.DualListModel;
+import org.yougi.annotation.ManagedProperty;
+import org.yougi.business.AccessGroupBean;
+import org.yougi.business.UserGroupBean;
+import org.yougi.entity.AccessGroup;
+import org.yougi.entity.Address;
+import org.yougi.entity.City;
+import org.yougi.entity.Country;
+import org.yougi.entity.Province;
+import org.yougi.entity.UserAccount;
+import org.yougi.partnership.business.PartnerBean;
+import org.yougi.partnership.business.RepresentativeBean;
+import org.yougi.partnership.entity.Partner;
+import org.yougi.partnership.entity.Representative;
+import org.yougi.web.model.LocationMBean;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -124,6 +130,9 @@ public class PartnerMBean implements Serializable {
 
     @PostConstruct
     public void load() {
+        List<UserAccount> reps = new ArrayList<>();
+        AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
+        List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
 
         if (this.id != null && !this.id.isEmpty()) {
             this.partner = partnerBean.find(id);
@@ -142,20 +151,12 @@ public class PartnerMBean implements Serializable {
                 locationMBean.setSelectedCity(this.partner.getAddress().getCity().getId());
             }
 
-            AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
-            List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
-            List<UserAccount> reps = new ArrayList<>();
             reps.addAll(representativeBean.findRepresentativePersons(this.partner));
             usersGroup.removeAll(reps);
-            this.candidates = new DualListModel<>(usersGroup, reps);
         } else {
-            this.partner = new Partner();
-
-            AccessGroup accessGroup = accessGroupBean.findAccessGroupByName("partners");
-            List<UserAccount> usersGroup = userGroupBean.findUsersGroup(accessGroup);
-            List<UserAccount> reps = new ArrayList<>();
-            this.candidates = new DualListModel<>(usersGroup, reps);
+            this.partner = new Partner().setAddress(new Address());
         }
+        this.candidates = new DualListModel<>(usersGroup, reps);
     }
 
     public String save() {
@@ -176,10 +177,8 @@ public class PartnerMBean implements Serializable {
 
         List<UserAccount> reps = new ArrayList<>();
         List<UserAccount> selectedCandidates = this.candidates.getTarget();
-        UserAccount userAccount;
-        for(int i = 0;i < selectedCandidates.size();i++) {
-            userAccount = new UserAccount(((UserAccount)selectedCandidates.get(i)).getId());
-            reps.add(userAccount);
+        for (UserAccount selectedCandidate : selectedCandidates) {
+            reps.add(new UserAccount(selectedCandidate.getId()));
         }
 
         representativeBean.save(this.partner, reps);

@@ -20,7 +20,12 @@
  * */
 package org.yougi.entity;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Hildeberto Mendonca - http://www.hildeberto.com
@@ -68,16 +73,18 @@ public class Address {
         return province;
     }
 
-    public void setProvince(Province province) {
+    public Address setProvince(Province province) {
         this.province = province;
+        return this;
     }
 
     public Country getCountry() {
         return country;
     }
 
-    public void setCountry(Country country) {
+    public Address setCountry(Country country) {
         this.country = country;
+        return this;
     }
 
     public String getPostalCode() {
