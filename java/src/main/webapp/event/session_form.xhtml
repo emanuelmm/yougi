@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- Yougi is a web application conceived to manage user groups or
+ * communities focused on a certain domain of knowledge, whose members are
+ * constantly sharing information and participating in social and educational
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
+ *
+ * This application is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This application is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * There is a full copy of the GNU Lesser General Public License along with
+ * this library. Look for the file license.txt at the root level. If you do not
+ * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA.
+ * -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="../layout.xhtml">
+            <ui:define name="title">#{bundle.session}</ui:define>
+            <ui:define name="content">
+                <div class="page-header">
+                    <h1>#{bundle.session}</h1>
+                </div>
+                <h:form id="sessionForm">
+                    <h:messages globalOnly="true" styleClass="alertMessage" infoClass="infoMessage" errorClass="errorMessage"/>
+                    <div class="row">
+                    	<div class="col-md-4">
+                    		<div class="panel-group">
+                    			<h:outputText value="#{bundle.event}"/>
+                    		</div>
+                    		<div class="panel-group">
+                    			<h:outputText value="#{sessionMBean.session.event}"/>
+                            	<h:inputHidden id="event" value="#{sessionMBean.selectedEvent}"/>
+                    		</div>
+                    		<div class="panel-group">
+                    			<h:outputLabel for="name" value="#{bundle.name}"/>
+                            	<h:inputText id="name" label="#{bundle.name}" value="#{sessionMBean.session.name}" size="60" maxlength="255" required="true" styleClass="form-control"/>
+                    		</div>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-2">
+                    		<h:outputLabel for="track" value="#{bundle.track}"/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<h:outputLabel for="experienceLevel" value="#{bundle.level}"/>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-2">
+                    		<h:selectOneMenu id="track" label="#{bundle.track}" value="#{sessionMBean.selectedTrack}" styleClass="form-control">
+                            	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
+                            	<f:selectItems value="#{sessionMBean.tracks}" var="track" itemLabel="#{track.name}" itemValue="#{track.id}"/>
+                            </h:selectOneMenu>
+                    	</div>
+                    	<div class="col-md-2">
+                    		<h:selectOneMenu id="experienceLevel" label="#{bundle.level}" value="#{sessionMBean.session.experienceLevel}" styleClass="form-control">
+                            	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
+                            	<f:selectItem itemLabel="#{bundle.advanced}" itemValue="ADVANCED" />
+                            	<f:selectItem itemLabel="#{bundle.intermediate}" itemValue="INTERMEDIATE" />
+                            	<f:selectItem itemLabel="#{bundle.introductory}" itemValue="INTRODUCTORY" />
+                            </h:selectOneMenu>
+                    	</div>
+                    	<h:message for="track" errorClass="errorMessage"/>
+                        <h:message for="experienceLevel" errorClass="errorMessage"/>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-4">
+                    		<div class="panel-group">
+                    			<h:outputLabel for="topics" value="#{bundle.topics}"/>
+                            	<h:inputText id="topics" label="#{bundle.topics}" value="#{sessionMBean.session.topics}" size="60" maxlength="255" styleClass="form-control"/>
+                            	<h:message for="topics" errorClass="errorMessage"/>
+                    		</div>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-2">
+                    		<h:outputLabel for="startDate" value="#{bundle.start}"/>
+                            <h:outputText/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<h:outputLabel for="endDate" value="#{bundle.end}"/>
+                            <h:outputText/>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-1">
+                    		<p:calendar id="startDate" label="#{bundle.startDate}" value="#{sessionMBean.session.startDate}" pattern="#{bundle.formatDate}" required="true" size="10" timeZone="#{userProfileMBean.timeZone}"/>
+                    		<h:outputText value="#{bundle.formatDateLabel}" styleClass="fieldFormat"/>
+                    		<h:message for="startDate" errorClass="errorMessage"/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<p:calendar id="startTime" label="#{bundle.startHour}" value="#{sessionMBean.session.startTime}" pattern="#{bundle.formatTime}" size="5" timeOnly="true" required="true"/>
+                    		<h:outputText value="#{bundle.formatTimeLabel}" styleClass="fieldFormat"/>
+                    		<h:message for="startTime" errorClass="errorMessage"/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<p:calendar id="endDate" label="#{bundle.endDate}" value="#{sessionMBean.session.endDate}" pattern="#{bundle.formatDate}" required="true" size="10" timeZone="#{userProfileMBean.timeZone}"/>
+                    		<h:outputText value="#{bundle.formatDateLabel}" styleClass="fieldFormat"/>
+                    		<h:message for="endDate" errorClass="errorMessage"/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<p:calendar id="endTime" label="#{bundle.endHour}" value="#{sessionMBean.session.endTime}" pattern="#{bundle.formatTime}" size="5" timeOnly="true" required="true"/>
+                    		<h:outputText value="#{bundle.formatTimeLabel}" styleClass="fieldFormat"/>
+                    		<h:message for="endTime" errorClass="errorMessage"/>
+                    	</div>
+
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-2">
+                    		<h:outputLabel for="venue" value="#{bundle.venue}"/>
+                    	</div>
+                    	<div class="col-md-1">
+                    		<h:outputLabel for="room" value="#{bundle.room}"/>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-2">
+                    		 <h:selectOneMenu id="venue" label="#{bundle.venue}" value="#{venueSelectionMBean.selectedVenue}" styleClass="form-control">
+                             	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
+                             	<f:selectItems value="#{venueSelectionMBean.venues}" var="venue" itemLabel="#{venue.name}" itemValue="#{venue.id}"/>
+                             	<f:ajax render="room"/>
+                             </h:selectOneMenu>
+                    	</div>
+                    	<div class="col-md-2">
+                    		 <h:selectOneMenu id="room" label="#{bundle.room}" value="#{venueSelectionMBean.selectedRoom}" styleClass="form-control">
+                             	<f:selectItem itemLabel="#{bundle.select}" itemValue="" />
+                             	<f:selectItems value="#{venueSelectionMBean.rooms}" var="room" itemLabel="#{room.name}" itemValue="#{room.id}"/>
+                             </h:selectOneMenu>
+                    	</div>
+                    	<h:message for="venue" errorClass="errorMessage"/>
+                        <h:message for="room" errorClass="errorMessage"/>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-4">
+                    		<div class="panel-group">
+                    			<h:outputLabel for="description" value="#{bundle.description}"/>
+                            	<h:inputTextarea id="description" value="#{sessionMBean.session.description}" label="#{bundle.description}" rows="4" cols="60" styleClass="form-control"/>
+                            	<h:message for="description" errorClass="errorMessage"/>
+                    		</div>
+                    	</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-md-4">
+                    		<div class="panel-group">
+                    			<h:outputLabel for="detailedDescription" value="#{bundle.detailedDescription}"/>
+                            	<h:inputTextarea id="detailedDescription" value="#{sessionMBean.session.detailedDescription}" label="#{bundle.detailedDescription}" rows="6" cols="60" styleClass="form-control"/>
+                            	<h:message for="detailedDescription" errorClass="errorMessage"/>
+                    		</div>
+                    	</div>
+                    </div>   
+                                 	
+                    <div class="row">
+                    	<div class="col-md-2">
+                        	<h:commandButton value="#{bundle.save}" action="#{sessionMBean.save}" styleClass="btn btn-primary">
+                            	<f:param name="eventId" value="#{param.eventId}"/>
+                            	<f:param name="id" value="#{sessionMBean.session.id}"/>
+                        	</h:commandButton>
+                        	<h:commandButton value="#{bundle.remove}" action="#{sessionMBean.remove}" styleClass="btn btn-warning" rendered="#{! empty sessionMBean.id}" onclick="return confirmAction('#{bundle.warnCode0005}');">
+                            	<f:param name="eventId" value="#{param.eventId}"/>
+                            	<f:param name="id" value="#{sessionMBean.session.id}"/>
+                        	</h:commandButton>
+                        	<h:button value="#{bundle.cancel}" outcome="event" styleClass="btn btn-default">
+                            	<f:param name="id" value="#{param.eventId}"/>
+                            	<f:param name="tab" value="2"/>
+                        	</h:button>
+                    	</div>
+                    </div> 
+                   
+                    <h:inputHidden id="id" value="#{sessionMBean.session.id}"/>
+                    <p/>
+                </h:form>
+            </ui:define>
+            <ui:define name="jquery"></ui:define>
+        </ui:composition>
+    </body>
+</html>

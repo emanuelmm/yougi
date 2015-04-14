@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- Yougi is a web application conceived to manage user groups or
+ * communities focused on a certain domain of knowledge, whose members are
+ * constantly sharing information and participating in social and educational
+ * events. Copyright (C) 2011 Hildeberto Mendonça.
+ *
+ * This application is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This application is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * There is a full copy of the GNU Lesser General Public License along with
+ * this library. Look for the file license.txt at the root level. If you do not
+ * find it, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA.
+ * -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition template="../layout.xhtml">
+            <ui:define name="title">#{bundle.sessions}</ui:define>
+            <ui:define name="content">
+                <div class="page-header">
+                    <h1>#{bundle.sessions}</h1>
+                </div>
+
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#active" data-toggle="tab">#{bundle.active}</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="active">
+                        <h:dataTable value="#{userSessionMBean.userSessions}" var="userSession" styleClass="table table-striped">
+                            <h:column>
+                                <f:facet name="header"><h:outputText value="#{bundle.member}"/></f:facet>
+                                <h:link outcome="user" value="#{userSession.userAccount}">
+                                    <f:param name="id" value="#{userSession.userAccount.id}"/>
+                                </h:link>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header"><h:outputText value="#{bundle.start}"/></f:facet>
+                                <h:outputText value="#{userSession.start}">
+                                    <f:convertDateTime pattern="#{bundle.formatDateAndTime}" timeZone="#{userProfileMBean.timeZone}"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header"><h:outputText value="#{bundle.duration}"/></f:facet>
+                                <h:outputText value="#{userSession.duration}">
+                                    <f:convertDateTime pattern="HH:mm" timeZone="#{userProfileMBean.timeZone}"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <h:graphicImage url="/images/online.png" width="20"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
